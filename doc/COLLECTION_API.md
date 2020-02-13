@@ -27,3 +27,13 @@ LinkedLists extend several superclasses (a total of 4 levels):
 - AbstractCollection - has iterators and size methods
 - Object - everything is an object
 
+It makes sense to have utility classes instead of adding that functionality to the collection types 
+themselves because it allows you to use generalized methods that work for all implementations of the
+parent class. It also enables you to order the class structure with specific methods for different
+implementations.
+
+There are overlapping methods such as Collections.addAll and using addAll from a collection object
+(such as a linkedList). The guidance for this topic is just looking at the java doc since it gives 
+information for how to implement methods.
+
+
