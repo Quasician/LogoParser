@@ -1,5 +1,11 @@
 ## SLOGO APIS
 
+Thomas Chemmanoor tpc14
+Himanshu Jain hkj4
+Sanna Symer sas182
+Michelle Tai mrt36
+
+
 Front end
 * Need to have a class that handles the view/visualization,
 knows all the components 

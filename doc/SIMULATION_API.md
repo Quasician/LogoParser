@@ -1,5 +1,10 @@
 ## API
 
+Thomas Chemmanoor tpc14
+Himanshu Jain hkj4
+Sanna Symer sas182
+Michelle Tai mrt36
+
 Should not be part of the API: private methods
 
 Should be part of the API:

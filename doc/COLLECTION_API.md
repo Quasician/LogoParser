@@ -1,5 +1,10 @@
 ## Collections
 
+Thomas Chemmanoor tpc14
+Himanshu Jain hkj4
+Sanna Symer sas182
+Michelle Tai mrt36
+
 Collections are easy to use.
 
 Mistakes are easy to avoid when you read the documentation along with using the code.

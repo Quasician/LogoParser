@@ -1,5 +1,10 @@
 ##SLOGO
 
+Thomas Chemmanoor tpc14
+Himanshu Jain hkj4
+Sanna Symer sas182
+Michelle Tai mrt36
+
 1. When does parsing need to take place and what does it need 
 to start properly?
 
