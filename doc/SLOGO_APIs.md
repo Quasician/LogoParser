@@ -42,6 +42,9 @@ Turtle
 
 Commands 
 - maybe use inheritance hierarchy 
+- how should we deal with commands
+- need to have a map of string to command object
+- have a method that carries out the command
 
 Variable
 - are they all treated as strings?
@@ -55,6 +58,8 @@ Main
 Command Parser
 
 Error checking
+- stores a list of valid commands
+- has a method to display an error 
 
 Value transfer class
 
@@ -83,3 +88,27 @@ Variable history
 
 Command history sidebar
 
+### Use Cases
+
+1. The command line in the visualization will send the command 'fd 50' as a String
+to the command parser in the controller. 
+
+The command parser first checks 
+if the command is valid, and then translates the string into a Command object. 
+
+The command then is put into the command history. 
+
+After this, the command is run by the command parser. The command 
+will update the location of the turtle, moving it forward 50 pixels.
+
+2. '50 fd' is passed as a string to the command parser. The command
+parser checks for errors and sees that this is not a valid command.
+
+The error checking class will then display an error showing that
+the input command is invalid.
+
+3. Split up the line into an array using space as a delimiter. 
+
+4. Click a button on the view - a color palette will come up. The user
+selects a color, and this color is passed to the turtle grid, which
+will update its background color. 
