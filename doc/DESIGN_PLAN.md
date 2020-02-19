@@ -105,6 +105,7 @@ public void doCommand();
 ```
 
 ### Picture of how components are related:
+![](componentRelations.PNG "How Components Are Related")
 
 ### Describe different implementations:
 
