@@ -1,3 +1,8 @@
+#### Names
+    Himanshu Jain (hkj4)
+    Sanna Symer (sas182)
+    Michelle Tai (mrt36)
+    Thomas Chemmanoor (tpc14)
 
 ## Introduction
 
@@ -121,6 +126,8 @@ The program would be designed like the other IDEs like Rstudio and the demo give
 Some erroneous situations that are reported to the user are bad input data, such running something that is not a command or doesn’t follow the command syntax. This will be reported to the user directly, much like how the actual Logo program displays a red message to the user and doesn’t run anything. We considered whether or not an “empty” command line that is run should count as an error or not, but we decided that it shouldn’t and instead just not do anything. We could easily add an error message if needed, but seeing that the actual Logo doesn’t respond to empty command input, we chose to model our design and decision after that too. In addition, if the user inputs a command in a different language than is currently selected, it will be treated as an invalid command and the user will get an alert.
 
 ### Pictures:
+
+![](GUI_parser.png "GUI parser")
 
 
 ## Design Details
