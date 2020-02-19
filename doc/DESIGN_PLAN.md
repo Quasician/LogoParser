@@ -127,7 +127,7 @@ Some erroneous situations that are reported to the user are bad input data, such
 
 ### Pictures:
 
-![](GUI_parser.png "GUI parser")
+![](GUI_parser.PNG "GUI parser")
 
 
 ## Design Details
