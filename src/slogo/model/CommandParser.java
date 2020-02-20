@@ -3,7 +3,9 @@ package slogo.model;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -16,6 +18,8 @@ public class CommandParser {
   // note, it is a list because order matters (some patterns may be more generic)
   private List<Entry<String, Pattern>> mySymbols;
 
+  private Map<String, Command> stringToCommand;
+
 
   /**
    * Create an empty parser
@@ -23,6 +27,21 @@ public class CommandParser {
   public CommandParser () {
     mySymbols = new ArrayList<>();
   }
+
+  /**
+   * Initializes and adds values to the map, mapping strings in mySymbols
+   * to Command objects
+   */
+  public void makeMap() {
+    stringToCommand = new HashMap<>();
+    for (Entry<String, Pattern> entry : mySymbols) {
+      String string = entry.getKey();
+
+      //put this string in the map, with the command object as the value
+      //how do you do this?
+    }
+  }
+
 
   /**
    * Adds the given resource file to this language's recognized types
