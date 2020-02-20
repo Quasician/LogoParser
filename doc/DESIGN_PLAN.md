@@ -19,5 +19,5 @@ The user selects the pen option. Then, a color palette comes up, showing
 a grid of the possible color choices. The user selects a color. This color
 gets passed to the drawing class, updating the current color of the pen line.
 
-3.
+
 
