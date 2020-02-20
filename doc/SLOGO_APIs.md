@@ -71,13 +71,9 @@ Variables
 
 ### View
 Buttons in the visualization
-
 Visualizer
-
 Turtle grid (where the turtle can go)
-
 Command line
-
 Tool bar
 
 Color palette 
