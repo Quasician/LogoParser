@@ -41,12 +41,7 @@ public class CommandParser {
       //how do you do this?
     }
   }
-//
-//  public Command stringToCommand(String commandName) {
-//    return new Command(commandName);
-//  }
 
-  //here is a change I don't want
 
   /**
    * Adds the given resource file to this language's recognized types
