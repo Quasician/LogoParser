@@ -20,6 +20,6 @@ public class Main extends Application {
         System.out.println("Hello world");
         CommandParser parser = new CommandParser();
         parser.addPatterns("English");
-        System.out.println(parser.getSymbol("csg"));
+        parser.parseText("fd fd 50");
     }
 }

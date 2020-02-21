@@ -13,7 +13,7 @@ public class CommandStack
         valueStack = new Stack<Integer>();
     }
 
-    public String popCommandStack(String command)
+    public String popCommandStack()
     {
         return commandStack.pop();
     }

@@ -64,6 +64,48 @@ public class CommandParser {
     return regex.matcher(text).matches();
   }
 
+
+  public void parseText(String commandLine)
+  {
+    CommandStack commandStack = new CommandStack();
+    String[] lineValues = commandLine.split(" ");
+    fillCommandStack(lineValues,commandStack);
+    printStack(commandStack);
+  }
+
+  // currently only pushes commands and constants ot their respective stacks (not variables)
+  private void fillCommandStack(String[] lineValues, CommandStack commandStack)
+  {
+    Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
+    Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
+    for(String s: lineValues)
+    {
+      if (match(s, constantPattern))
+      {
+        commandStack.pushOntoValueStack(Integer.parseInt(s));
+        continue;
+      }
+      String command = getSymbol(s);
+      if(match(s, commandPattern) && !command.equals("NO MATCH!") )
+      {
+        commandStack.pushOntoCommandStack(command);
+      }
+    }
+  }
+
+  // Prints entire stack until command stack (not the value stack) is empty
+  private void printStack(CommandStack commandStack)
+  {
+    while(!commandStack.isCommandStackEmpty())
+    {
+      System.out.print("\n" + commandStack.popCommandStack()+ " ");
+      if(!commandStack.isValueStackEmpty())
+      {
+        System.out.print(commandStack.popValueStack());
+      }
+    }
+  }
+
   // Alert method that shows error inside of a pop up box
   private void showError(String mes)
   {
