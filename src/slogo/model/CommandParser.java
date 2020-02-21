@@ -1,5 +1,6 @@
 package slogo.model;
 
+import java.lang.reflect.Constructor;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +15,9 @@ public class CommandParser {
 
   // where to find resources specifically for this class
   private static final String RESOURCES_PACKAGE = CommandParser.class.getPackageName() + ".resources.languages.";
+
+  private static final String THIS_PACKAGE = CommandParser.class.getPackageName() + ".";
+
   // "types" and the regular expression patterns that recognize those types
   // note, it is a list because order matters (some patterns may be more generic)
   private List<Entry<String, Pattern>> mySymbols;
@@ -30,15 +34,32 @@ public class CommandParser {
 
   /**
    * Initializes and adds values to the map, mapping strings in mySymbols
-   * to Command objects
+   * to Command objects.
+   *
+   * Note: every Command implementation should have a basic constructor that
+   * just takes in a string
    */
   public void makeMap() {
     stringToCommand = new HashMap<>();
     for (Entry<String, Pattern> entry : mySymbols) {
       String string = entry.getKey();
+      System.out.println(string);
+      Command command;
 
-      //put this string in the map, with the command object as the value
-      //how do you do this?
+      Constructor[] constructors = null;
+      try {
+        constructors = Class.forName(THIS_PACKAGE + string).getConstructors();
+      } catch (ClassNotFoundException e) {
+        constructors = null;
+        //throw an exception
+      }
+
+      try {
+        command = (Command) constructors[0].newInstance(string);
+      } catch (Exception e) {
+        command = null;
+      }
+      stringToCommand.put(string, command);
     }
   }
 
@@ -77,19 +98,24 @@ public class CommandParser {
   }
 
   //testing
-//  public static void main(String[] args) {
-//    CommandParser c = new CommandParser();
-//
-//    String english = "English";
-//    String chinese = "Chinese";
-//
-//    String forward = "forward";
-//    String chineseCommand = "nizhengqie";
-//
-//    c.addPatterns(english);
-//    c.addPatterns(chinese);
+  public static void main(String[] args) {
+    CommandParser c = new CommandParser();
+
+    String english = "English";
+    String chinese = "Chinese";
+
+    String forward = "forward";
+    String chineseCommand = "nizhengqie";
+
+    c.addPatterns(english);
+    c.addPatterns(chinese);
 //    System.out.println(c.getSymbol(forward));
 //    System.out.println(c.getSymbol(chineseCommand));
-//  }
+
+    c.makeMap();
+
+    forward = "Forward";
+    
+  }
 
 }
