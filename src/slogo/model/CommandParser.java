@@ -1,6 +1,8 @@
 package slogo.model;
 
 import javafx.scene.control.Alert;
+import slogo.model.Commands.Command;
+import slogo.model.Commands.CommandFactory;
 
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
@@ -64,7 +66,7 @@ public class CommandParser {
     return regex.matcher(text).matches();
   }
 
-
+  // parses a line of text (currently only parses 1 line of text), fills the command stack, prints the command stack
   public void parseText(String commandLine)
   {
     CommandStack commandStack = new CommandStack();
@@ -98,11 +100,20 @@ public class CommandParser {
   {
     while(!commandStack.isCommandStackEmpty())
     {
-      System.out.print("\n" + commandStack.popCommandStack()+ " ");
+      String command = commandStack.popCommandStack();
+      System.out.print("\n" + command+ " ");
       if(!commandStack.isValueStackEmpty())
       {
-        System.out.print(commandStack.popValueStack());
+        Command commandObject = CommandFactory.getCommandInstance("slogo.model.Commands."+command + "Command");
+        for(int i = 0; i<commandObject.getParamNumber();i++)
+        {
+          // needs a try catch in case there is not enough params on the value stack -> could also change the if statement to circumvent this
+          commandObject.getParamList()[i] = commandStack.popValueStack();
+          System.out.print(commandObject.getParamList()[i]);
+        }
+        commandObject.doCommand();
       }
+
     }
   }
 
