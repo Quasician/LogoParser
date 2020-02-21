@@ -19,10 +19,9 @@ public class CommandParser {
   /**
    * Create an empty parser
    */
-  public CommandParser (String languageFile) {
+  public CommandParser () {
 
     mySymbols = new ArrayList<>();
-    addPatterns(languageFile);
   }
 
   /**
@@ -54,7 +53,7 @@ public class CommandParser {
       }
     }
     // FIXME: perhaps throw an exception instead
-    showError(ERROR + " Cannot Understand "+ text);
+    showError(ERROR + " Cannot understand the command "+ text);
     return ERROR;
   }
 

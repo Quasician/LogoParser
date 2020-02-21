@@ -18,7 +18,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         System.out.println("Hello world");
-        CommandParser parser = new CommandParser("Enhglish");
+        CommandParser parser = new CommandParser();
+        parser.addPatterns("English");
         System.out.println(parser.getSymbol("csg"));
     }
 }
