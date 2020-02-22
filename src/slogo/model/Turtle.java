@@ -5,10 +5,15 @@ public class Turtle {
   private static final int DEGREE_LOWER_BOUND = 0;
   private static final int DEGREE_UPPER_BOUND = 360;
   private int x, y, distanceTravelled, degree;
-  private boolean isPenDown;
+  private boolean isPenDown, isVisible;
 
   public Turtle() {
     isPenDown = true;
+    isVisible = true;
+  }
+
+  public boolean isVisible() {
+    return isVisible;
   }
 
   public int getX() {
@@ -57,6 +62,14 @@ public class Turtle {
 
   public boolean penDown() {
     return isPenDown = true;
+  }
+
+  public void show() {
+    isVisible = true;
+  }
+
+  public void hide() {
+    isVisible = false;
   }
 
 }

@@ -11,8 +11,8 @@ public class SetXY extends TurtleCommand {
 
   @Override
   public void doCommand() {
-    x = values[0];
-    y = values[1];
+    y = values[0];
+    x = values[1];
 
     commandStack.pushOntoValueStack((int)distanceFormula(turtle.getX(), turtle.getY(), x, y));
     moveTurtleTo(x, y);

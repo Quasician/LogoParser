@@ -14,8 +14,12 @@ public abstract class TurtleCommand extends Command {
     super(params, name);
   }
 
-  protected double angleToRadians(int angle) {
+  protected double degreesToRadians(int angle) {
     return angle * Math.PI / 180;
+  }
+
+  protected double radiansToDegrees(double angle) {
+    return 180 * angle / Math.PI;
   }
 
   protected void moveTurtleTo(int x, int y) {
@@ -69,8 +73,8 @@ public abstract class TurtleCommand extends Command {
     int xMultiplier = directionMultiplier * getXMultiplier(angle);
     int yMultiplier = directionMultiplier * getYMultiplier(angle);
 
-    double angleToRadians = angleToRadians(angle);
-    double rightAngle = angleToRadians(facingRight);
+    double angleToRadians = degreesToRadians(angle);
+    double rightAngle = degreesToRadians(facingRight);
 
     int newX = turtle.getX() + xMultiplier * (int) (distance * Math.sin(angleToRadians));
     int newY = turtle.getY() + yMultiplier * (int) (distance * Math.sin(rightAngle - angleToRadians));
