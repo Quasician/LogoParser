@@ -8,6 +8,8 @@ public class ShowTurtle extends TurtleCommand {
 
   @Override
   public void doCommand() {
+    turtle.show();
 
+    commandStack.pushOntoValueStack(1);
   }
 }

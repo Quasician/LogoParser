@@ -19,13 +19,24 @@ public class SetTowards extends TurtleCommand {
     y = values[0];
     x = values[1];
 
-   // double distance = distanceFormula(turtle.getX(), turtle.getY(), x, y);
-    double angle = Math.atan((double)(turtle.getX() - x)/(turtle.getY() - y));
-    int roundedAngle = (int)radiansToDegrees(angle);
-    System.out.println("Old angle " + turtle.getDegree());
-    int newAngle = turtle.getDegree() - roundedAngle;
-    commandStack.pushOntoValueStack(roundedAngle);
-    System.out.println("New angle " + newAngle);
+    double angle = Math.atan((double)(turtle.getX() - x) / (turtle.getY() - y));
+
+    int angleInDegrees = (int)radiansToDegrees(angle);
+    System.out.println("\nAngle in degrees " + angleInDegrees);
+    angleInDegrees = calculateAngle(angleInDegrees, x, y);
+
+    System.out.println("\nAngle in degrees " + angleInDegrees);
+
+    int angleDifference = turtle.getDegree() - angleInDegrees;
+    if (Math.abs(angleInDegrees) > turtle.getDegree()) {
+      angleDifference *= -1;
+    }
+
+    System.out.println("Calculated angle " + angleInDegrees);
+
+    turtle.setDegree(angleInDegrees);
+    commandStack.pushOntoValueStack(angleDifference);
+    System.out.println("Angle difference " + angleDifference);
   }
 
 
