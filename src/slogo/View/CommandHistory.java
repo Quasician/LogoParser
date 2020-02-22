@@ -23,7 +23,7 @@ public class CommandHistory {
         //run the command in the box of the runButton using the backend
         //doCommand(cellForWindow.getAccessibleText());
     }
-    
+
     private void makeBox(String command){
         newCommand= new HBox(BoxSpacing);
         commandEntered=new Label(command);
