@@ -2,6 +2,7 @@ package slogo.model;
 
 import java.util.HashMap;
 
+// Class maps all instructions to their operation type so we can split our commands folder into subdirectories to make it cleaner
 public class CommandTypeHashMap {
     private HashMap<String,String> commandTypeMap;
     public CommandTypeHashMap()
