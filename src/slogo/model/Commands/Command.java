@@ -5,6 +5,7 @@ import slogo.model.Turtle;
 
 import java.util.ArrayList;
 
+//merge
 public abstract class Command {
     protected int params;
     protected Turtle turtle;

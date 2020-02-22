@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 
 import java.lang.reflect.InvocationTargetException;
 
+//merge
 public class CommandFactory {
 
     public static Command getCommandInstance(String commandClass) {

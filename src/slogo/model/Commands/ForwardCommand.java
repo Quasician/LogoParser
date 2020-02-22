@@ -4,7 +4,7 @@ package slogo.model.Commands;
 import slogo.model.CommandStack;
 
 import java.util.ArrayList;
-
+//merge
 public class ForwardCommand extends Command {
     public ForwardCommand()
     {
