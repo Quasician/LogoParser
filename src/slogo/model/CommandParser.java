@@ -141,18 +141,21 @@ public class CommandParser {
       System.out.print("\n" + command + " ");
       if(!commandStack.isValueStackEmpty())
       {
-        Command commandObject = CommandFactory.getCommandInstance("slogo.model.Commands."+command + "Command");
+        Command commandObject = CommandFactory.getCommandInstance("slogo.model.Commands."+command);
         commandObject.setCommandStack(commandStack);
         commandObject.setTurtle(turtle);
+        //System.out.println("Param number" + commandObject.getParamNumber());
         for(int i = 0; i<commandObject.getParamNumber();i++)
         {
           // needs a try catch in case there is not enough params on the value stack -> could also change the if statement to circumvent this
           commandObject.getParamList()[i] = commandStack.popValueStack();
-          System.out.print(commandObject.getParamList()[i]);
+          //System.out.println(commandObject.getParamList()[i]);
         }
         commandObject.doCommand();
+
       }
     }
+    System.out.println(commandStack.popValueStack());
   }
 
 // testing

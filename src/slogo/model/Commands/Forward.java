@@ -6,16 +6,16 @@ import slogo.model.Turtle;
 
 import java.util.ArrayList;
 //merge
-public class ForwardCommand extends Command {
+public class Forward extends Command {
     private int distance;
     private String name;
 
-    public ForwardCommand(String name)
+    public Forward(String name)
     {
         super(1, name);
     }
 
-    public ForwardCommand(String name, Turtle turtle, int distance) {
+    public Forward(String name, Turtle turtle, int distance) {
         super(1, name);
         this.name = name;
         this.turtle = turtle;
