@@ -23,5 +23,7 @@ public class Main extends Application {
         commandParser.addPatterns("English");
         commandParser.parseText("fd 50");
         System.out.println("Hello world");
+       // commandParser.parseText("difference difference 5 5 5");
+        //System.out.println("Hello world");
     }
 }

@@ -1,40 +1,61 @@
 package slogo.model.Commands;
 
 
+import slogo.model.CommandStack;
+import slogo.model.Turtle;
+
+import java.util.ArrayList;
 //merge
-public class Forward extends TurtleCommand {
+public class Forward extends Command {
+    private int distance;
+    private String name;
 
-  private int distance;
+    public Forward(String name)
+    {
+        super(1, name);
+    }
 
-  public Forward(String name) {
-    super(1, name);
-  }
+    public Forward(String name, Turtle turtle, int distance) {
+        super(1, name);
+        this.name = name;
+        this.turtle = turtle;
+        this.distance = distance;
+    }
 
-  @Override
-  public void doCommand() {
-    //System.out.println("\nDID FORWARD COMMAND by "+values[0]);
-    commandStack.pushOntoValueStack(values[0]);
-    distance = values[0];
+    private double angleToRadians(int angle) {
+        return angle * Math.PI / 180;
+    }
 
-    int angle = getAdjustedAngle(turtle.getDegree());
 
-    //have to fix these angles
-    int xMultiplier = getXMultiplier(angle);
-    int yMultiplier = getYMultiplier(angle);
+    @Override
+    public void doCommand() {
+        //System.out.println("\nDID FORWARD COMMAND by "+values[0]);
+        commandStack.pushOntoValueStack(values[0]);
+        distance = values[0];
 
-    double angleToRadians = angleToRadians(angle);
-    double rightAngle = angleToRadians(facingRight);
-    int toAddX = (int) (distance * Math.sin(angleToRadians));
-    int toAddY = (int) (distance * Math.sin(rightAngle - angleToRadians));
+        int angle = turtle.getDegree();
+        if (angle > 180)
+            angle = 360 - angle;
 
-    int newX = turtle.getX() + xMultiplier * toAddX;
-    int newY = turtle.getY() + yMultiplier * toAddY;
+        double angleToRadians = angleToRadians(angle);
+        double rightAngle = angleToRadians(90);
+        int newX = turtle.getX();
+        int newY = turtle.getY();
 
-    System.out.println("\nTurtle Position: X: " + newX + " Y: " + newY);
+        newX += (int) (distance * Math.sin(angleToRadians));
+        newY += (int) (distance * Math.sin(rightAngle - angleToRadians));
 
-    moveTurtleTo(newX, newY);
-  }
+        System.out.println("\nTurtle Position: X: "+newX + " Y: "+ newY);
+
+
+        turtle.setX(newX);
+        turtle.setY(newY);
+    }
 }
+
+//  public Turtle getTurtle() {
+//    return turtle;
+//  }
 
 //  public static void main(String[] args) {
 //    ForwardCommand c = new ForwardCommand("hi", new Turtle(), 50);
