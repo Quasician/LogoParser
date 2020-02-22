@@ -1,13 +1,15 @@
 package slogo.model.Commands.MathCommands;
 
 import slogo.model.Commands.MathCommands.MathCommand;
+import slogo.model.TreeNode;
 
 public class Difference extends MathCommand {
     public Difference(String name) {
         super(2, name);
     }
     @Override
-    public void doCommand() {
-        commandStack.pushOntoValueStack(values[0]-values[1]);
+    public void doCommand(TreeNode commandNode) {
+        commandNode.setData(Double.parseDouble(getParamList().get(0))-Double.parseDouble(getParamList().get(1))+"");
+        System.out.println("Result of Difference: "+ commandNode.getData());
     }
 }

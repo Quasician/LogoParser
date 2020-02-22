@@ -4,14 +4,10 @@ import java.util.HashMap;
 
 // Class maps all instructions to their operation type so we can split our commands folder into subdirectories to make it cleaner
 public class CommandTypeHashMap {
-    private HashMap<String,String> commandTypeMap;
-    public CommandTypeHashMap()
+    private static HashMap<String,String> commandTypeMap;
+    private static void addCommands()
     {
         commandTypeMap = new HashMap<>();
-        addCommands();
-    }
-    private void addCommands()
-    {
         addTurtleCommands();
         addTurtleQueries();
         addMathCommands();
@@ -21,7 +17,7 @@ public class CommandTypeHashMap {
         addMultipleTurtleCommands();
     }
 
-    private void addTurtleCommands()
+    private static void addTurtleCommands()
     {
         String s = "TurtleCommands";
         commandTypeMap.putIfAbsent("Forward",s);
@@ -39,7 +35,7 @@ public class CommandTypeHashMap {
         commandTypeMap.putIfAbsent("ClearScreen",s);
     }
 
-    private void addTurtleQueries()
+    private static void  addTurtleQueries()
     {
         String s = "TurtleQueries";
         commandTypeMap.putIfAbsent("XCoordinate",s);
@@ -49,7 +45,7 @@ public class CommandTypeHashMap {
         commandTypeMap.putIfAbsent("IsShowing",s);
     }
 
-    private void addMathCommands()
+    private static void addMathCommands()
     {
         String s = "MathCommands";
         commandTypeMap.putIfAbsent("Sum",s);
@@ -69,7 +65,7 @@ public class CommandTypeHashMap {
     }
 
 
-    private void addBooleanCommands()
+    private static void addBooleanCommands()
     {
         String s = "BooleanCommands";
         commandTypeMap.putIfAbsent("LessThan",s);
@@ -81,7 +77,7 @@ public class CommandTypeHashMap {
         commandTypeMap.putIfAbsent("Not",s);
     }
 
-    private void addVCUCommands()
+    private static void addVCUCommands()
     {
         String s = "VCUCommands";
         commandTypeMap.putIfAbsent("MakeVariable",s);
@@ -93,7 +89,7 @@ public class CommandTypeHashMap {
         commandTypeMap.putIfAbsent("MakeUserInstruction",s);
     }
 
-    private void addDisplayCommands()
+    private static void addDisplayCommands()
     {
         String s = "DisplayCommands";
         commandTypeMap.putIfAbsent("SetBackground",s);
@@ -107,7 +103,7 @@ public class CommandTypeHashMap {
         commandTypeMap.putIfAbsent("ClearStamps",s);
     }
 
-    private void addMultipleTurtleCommands()
+    private static void addMultipleTurtleCommands()
     {
         String s = "MultipleTurtleCommands";
         commandTypeMap.putIfAbsent("ID",s);
@@ -116,8 +112,9 @@ public class CommandTypeHashMap {
         commandTypeMap.putIfAbsent("Ask",s);
         commandTypeMap.putIfAbsent("AskWith",s);
     }
-    public String getCommandType(String s)
+    public static String getCommandType(String s)
     {
+        addCommands();
         return commandTypeMap.get(s);
     }
 }

@@ -1,6 +1,8 @@
 package slogo.model.Commands.TurtleCommands;
 
 
+import slogo.model.TreeNode;
+
 //merge
 public class Forward extends TurtleCommand {
 
@@ -11,10 +13,12 @@ public class Forward extends TurtleCommand {
   }
 
   @Override
-  public void doCommand() {
+  public void doCommand(TreeNode commandNode) {
     //System.out.println("\nDID FORWARD COMMAND by "+values[0]);
-    commandStack.pushOntoValueStack(values[0]);
-    distance = values[0];
+//    commandStack.pushOntoValueStack(values[0]);
+    distance = Double.parseDouble(getParamList().get(0));
+    commandNode.setData(getParamList().get(0));
+    System.out.println("Result of Forward: "+commandNode.getData());
 
     int angle = turtle.getDegree();
     angle = getAdjustedAngle(angle);

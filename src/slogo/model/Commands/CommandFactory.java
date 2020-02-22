@@ -15,10 +15,11 @@ public class CommandFactory implements CommandFactoryInterface{
     }
 
     @Override
-    public Command createCommand(String commandClass, List params) {
+    public Command createCommand(String commandClass) {
+        System.out.println("YEET");
         try{
-            Command command = (Command) Class.forName(commandClass).getConstructors()[0].newInstance(commandClass);
-            command.setParams(params);
+            return (Command) Class.forName(commandClass).getConstructors()[0].newInstance(commandClass);
+            //command.setParams(params);
         }catch(ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e)
         {
             //printStackTrace();
