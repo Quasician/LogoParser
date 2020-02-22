@@ -6,12 +6,12 @@ import java.util.Stack;
 public class CommandStack
 {
     Stack<String> commandStack;
-    Stack<Integer> valueStack;
+    Stack<Double> valueStack;
 
     public CommandStack()
     {
         commandStack = new Stack<String>();
-        valueStack = new Stack<Integer>();
+        valueStack = new Stack<Double>();
     }
 
     public String popCommandStack()
@@ -19,7 +19,7 @@ public class CommandStack
         return commandStack.pop();
     }
 
-    public int popValueStack()
+    public double popValueStack()
     {
         return valueStack.pop();
     }
@@ -29,7 +29,7 @@ public class CommandStack
         commandStack.push(command);
     }
 
-    public void pushOntoValueStack(int value)
+    public void pushOntoValueStack(double value)
     {
         valueStack.push(value);
     }

@@ -27,12 +27,14 @@ public class CommandParser {
 
   private Map<String, Command> stringToCommand;
   private Turtle turtle;
+  private CommandTypeHashMap commandTypeHashMap;
 
   /**
    * Create an empty parser
    */
   public CommandParser (Turtle turtle) {
     mySymbols = new ArrayList<>();
+    commandTypeHashMap = new CommandTypeHashMap();
     this.turtle = turtle;
   }
 
@@ -141,7 +143,8 @@ public class CommandParser {
       System.out.print("\n" + command + " ");
       if(!commandStack.isValueStackEmpty())
       {
-        Command commandObject = CommandFactory.getCommandInstance("slogo.model.Commands."+command);
+        //System.out.println("slogo.model.Commands."+commandTypeHashMap.getCommandType(command)+"."+command);
+        Command commandObject = CommandFactory.getCommandInstance("slogo.model.Commands."+commandTypeHashMap.getCommandType(command)+"."+command);
         commandObject.setCommandStack(commandStack);
         commandObject.setTurtle(turtle);
         //System.out.println("Param number" + commandObject.getParamNumber());

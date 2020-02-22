@@ -4,7 +4,7 @@ package slogo.model.Commands.TurtleCommands;
 //merge
 public class Forward extends TurtleCommand {
 
-  private int distance;
+  private double distance;
 
   public Forward(String name) {
     super(1, name);

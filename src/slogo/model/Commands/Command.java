@@ -11,14 +11,14 @@ public abstract class Command {
   protected int params;
   protected Turtle turtle;
   protected String name;
-  protected int[] values;
+  protected double[] values;
 
   protected CommandStack commandStack;
 
   public Command(int params, String name) {
     this.name = name;
     this.params = params;
-    values = new int[params];
+    values = new double[params];
   }
 
   public abstract void doCommand();
@@ -27,7 +27,7 @@ public abstract class Command {
     return params;
   }
 
-  public int[] getParamList() {
+  public double[] getParamList() {
     return values;
   }
 
