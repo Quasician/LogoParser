@@ -7,6 +7,8 @@ public abstract class TurtleCommand extends Command {
   protected int facingUp = 360;
   protected int facingLeft = 270;
   protected int facingDown = 180;
+  protected int forward = 1;
+  protected int backward = -1;
 
   public TurtleCommand(int params, String name) {
     super(params, name);
@@ -60,6 +62,21 @@ public abstract class TurtleCommand extends Command {
       return -1;
     else
       return 1;
+  }
+
+  protected void moveTurtle(int directionMultiplier, int distance) {
+    int angle = getAdjustedAngle(turtle.getDegree());
+    int xMultiplier = directionMultiplier * getXMultiplier(angle);
+    int yMultiplier = directionMultiplier * getYMultiplier(angle);
+
+    double angleToRadians = angleToRadians(angle);
+    double rightAngle = angleToRadians(facingRight);
+
+    int newX = turtle.getX() + xMultiplier * (int) (distance * Math.sin(angleToRadians));
+    int newY = turtle.getY() + yMultiplier * (int) (distance * Math.sin(rightAngle - angleToRadians));
+
+    turtle.setX(newX);
+    turtle.setY(newY);
   }
 
 }
