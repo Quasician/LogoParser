@@ -5,52 +5,37 @@ import slogo.model.CommandStack;
 import slogo.model.Turtle;
 
 import java.util.ArrayList;
+
 //merge
-public class Forward extends Command {
-    private int distance;
-    private String name;
+public class Forward extends TurtleCommand {
 
-    public Forward(String name)
-    {
-        super(1, name);
-    }
+  private int distance;
 
-    public Forward(String name, Turtle turtle, int distance) {
-        super(1, name);
-        this.name = name;
-        this.turtle = turtle;
-        this.distance = distance;
-    }
+  public Forward(String name) {
+    super(1, name);
+  }
 
-    private double angleToRadians(int angle) {
-        return angle * Math.PI / 180;
-    }
+  @Override
+  public void doCommand() {
+    //System.out.println("\nDID FORWARD COMMAND by "+values[0]);
+    commandStack.pushOntoValueStack(values[0]);
+    distance = values[0];
 
+    int angle = turtle.getDegree();
+    angle = getAdjustedAngle(angle);
+    int xMultiplier = getXMultiplier(angle);
+    int yMultiplier = getYMultiplier(angle);
 
-    @Override
-    public void doCommand() {
-        //System.out.println("\nDID FORWARD COMMAND by "+values[0]);
-        commandStack.pushOntoValueStack(values[0]);
-        distance = values[0];
+    double angleToRadians = angleToRadians(angle);
+    double rightAngle = angleToRadians(facingRight);
+    int newX = turtle.getX() + xMultiplier * (int) (distance * Math.sin(angleToRadians));
+    int newY = turtle.getY() + yMultiplier * (int) (distance * Math.sin(rightAngle - angleToRadians));
 
-        int angle = turtle.getDegree();
-        if (angle > 180)
-            angle = 360 - angle;
+    System.out.println("\nTurtle Position: X: " + newX + " Y: " + newY);
 
-        double angleToRadians = angleToRadians(angle);
-        double rightAngle = angleToRadians(90);
-        int newX = turtle.getX();
-        int newY = turtle.getY();
-
-        newX += (int) (distance * Math.sin(angleToRadians));
-        newY += (int) (distance * Math.sin(rightAngle - angleToRadians));
-
-        System.out.println("\nTurtle Position: X: "+newX + " Y: "+ newY);
-
-
-        turtle.setX(newX);
-        turtle.setY(newY);
-    }
+    turtle.setX(newX);
+    turtle.setY(newY);
+  }
 }
 
 //  public Turtle getTurtle() {
