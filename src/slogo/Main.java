@@ -21,7 +21,7 @@ public class Main extends Application {
         Turtle turtle = new Turtle();
         CommandParser commandParser = new CommandParser(turtle);
         commandParser.addPatterns("English");
-        commandParser.parseText("fd 50");
+        commandParser.parseText("seth 380");
         System.out.println("Hello world");
        // commandParser.parseText("difference difference 5 5 5");
         //System.out.println("Hello world");

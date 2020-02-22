@@ -2,6 +2,8 @@ package slogo.model;
 
 public class Turtle {
 
+  private static final int DEGREE_LOWER_BOUND = 0;
+  private static final int DEGREE_UPPER_BOUND = 360;
   private int x, y, distanceTravelled, degree;
   private boolean isPenDown;
 
@@ -34,7 +36,14 @@ public class Turtle {
     return this.y = y;
   }
 
+  /**
+   *
+   * @param degree must be between 0 and 359, inclusive
+   * @return
+   */
   public int setDegree(int degree) {
+    if (degree < DEGREE_LOWER_BOUND || degree > DEGREE_UPPER_BOUND)
+      throw new ArithmeticException("Degree not in valid range");
     return this.degree = degree;
   }
 
