@@ -9,10 +9,14 @@ import java.util.ArrayList;
 public abstract class Command {
     protected int params;
     protected Turtle turtle;
+    protected String name;
     protected int[] values;
+
     protected CommandStack commandStack;
-    public Command(int params)
+
+    public Command(int params, String name)
     {
+        this.name = name;
         this.params = params;
         values = new int[params];
     }
@@ -34,5 +38,4 @@ public abstract class Command {
     {
         this.turtle = turtle;
     }
-
 }

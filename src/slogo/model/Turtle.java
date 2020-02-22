@@ -9,16 +9,16 @@ public class Turtle {
     isPenDown = true;
   }
 
-  protected int getX() {
+  public int getX() {
     return x;
   }
 
-  protected int getY() {
+  public int getY() {
     return y;
   }
 
   // returns an int from 0 to 359
-  protected int getDegree() {
+  public int getDegree() {
     return degree;
   }
 
@@ -26,27 +26,27 @@ public class Turtle {
     return distanceTravelled;
   }
 
-  protected int setX(int x) {
+  public  int setX(int x) {
     return this.x = x;
   }
 
-  protected int setY(int y) {
+  public int setY(int y) {
     return this.y = y;
   }
 
-  protected int setDegree(int degree) {
+  public int setDegree(int degree) {
     return this.degree = degree;
   }
 
-  protected int setDistance(int distance) {
+  public int setDistance(int distance) {
     return this.distanceTravelled = distance;
   }
 
-  protected boolean penUp() {
+  public boolean penUp() {
     return isPenDown = false;
   }
 
-  protected boolean penDown() {
+  public boolean penDown() {
     return isPenDown = true;
   }
 
