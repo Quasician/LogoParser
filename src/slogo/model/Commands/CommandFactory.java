@@ -9,18 +9,13 @@ public class CommandFactory {
 
     public static Command getCommandInstance(String commandClass) {
         try{
-            return (Command) Class.forName(commandClass).getDeclaredConstructor().newInstance();
-        }catch(ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
+            return (Command) Class.forName(commandClass).getConstructors()[0].newInstance(commandClass);
+        }catch(ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e)
         {
             //printStackTrace();
             showError("Class doesn't exist");
         }
-        return new Command(0) {
-            @Override
-            public void doCommand() {
-                //Dummy command
-            }
-        };
+        return null;
     }
 
     private static void showError(String mes)

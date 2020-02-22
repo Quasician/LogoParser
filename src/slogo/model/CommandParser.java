@@ -1,5 +1,8 @@
 package slogo.model;
 
+import slogo.model.Commands.Command;
+import slogo.model.Commands.CommandFactory;
+
 import java.lang.reflect.Constructor;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -23,13 +26,14 @@ public class CommandParser {
   private List<Entry<String, Pattern>> mySymbols;
 
   private Map<String, Command> stringToCommand;
-
+  private Turtle turtle;
 
   /**
    * Create an empty parser
    */
-  public CommandParser () {
+  public CommandParser (Turtle turtle) {
     mySymbols = new ArrayList<>();
+    this.turtle = turtle;
   }
 
   /**
@@ -83,6 +87,7 @@ public class CommandParser {
     final String ERROR = "NO MATCH";
     for (Entry<String, Pattern> e : mySymbols) {
       if (match(text, e.getValue())) {
+        System.out.println(e.getValue());
         return e.getKey();
       }
     }
@@ -96,19 +101,49 @@ public class CommandParser {
     // THIS IS THE IMPORTANT LINE
     return regex.matcher(text).matches();
   }
-  
-    // Prints entire stack until command stack (not the value stack) is empty
-  //DUMMY COMMENT
+
+
+  public void parseText(String commandLine)
+  {
+    CommandStack commandStack = new CommandStack();
+    String[] lineValues = commandLine.split(" ");
+    fillCommandStack(lineValues,commandStack);
+    printStack(commandStack);
+  }
+
+  // currently only pushes commands and constants ot their respective stacks (not variables)
+  private void fillCommandStack(String[] lineValues, CommandStack commandStack)
+  {
+    Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
+    Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
+    for(String s: lineValues)
+    {
+      if (match(s, constantPattern))
+      {
+        commandStack.pushOntoValueStack(Integer.parseInt(s));
+        continue;
+      }
+      String command = getSymbol(s);
+      if(match(s, commandPattern) && !command.equals("NO MATCH!") )
+      {
+        commandStack.pushOntoCommandStack(command);
+      }
+    }
+  }
+
+
+  // Prints entire stack until command stack (not the value stack) is empty
   private void printStack(CommandStack commandStack)
   {
     while(!commandStack.isCommandStackEmpty())
     {
       String command = commandStack.popCommandStack();
-      System.out.print("\n" + command+ " ");
+      System.out.print("\n" + command + " ");
       if(!commandStack.isValueStackEmpty())
       {
         Command commandObject = CommandFactory.getCommandInstance("slogo.model.Commands."+command + "Command");
         commandObject.setCommandStack(commandStack);
+        commandObject.setTurtle(turtle);
         for(int i = 0; i<commandObject.getParamNumber();i++)
         {
           // needs a try catch in case there is not enough params on the value stack -> could also change the if statement to circumvent this
@@ -120,25 +155,25 @@ public class CommandParser {
     }
   }
 
-  //testing
-  public static void main(String[] args) {
-    CommandParser c = new CommandParser();
-
-    String english = "English";
-    String chinese = "Chinese";
-    
-    String forward = "forward";
-    String chineseCommand = "nizhengqie";
-
-    c.addPatterns(english);
-    c.addPatterns(chinese);
-//    System.out.println(c.getSymbol(forward));
-//    System.out.println(c.getSymbol(chineseCommand));
-
-    c.makeMap();
-
-    forward = "Forward";
-
-  }
+// testing
+//  public static void main(String[] args) {
+//    CommandParser c = new CommandParser();
+//
+//    String english = "English";
+//    String chinese = "Chinese";
+//
+//    String forward = "forward";
+//    String chineseCommand = "nizhengqie";
+//
+//    c.addPatterns(english);
+//    c.addPatterns(chinese);
+////    System.out.println(c.getSymbol(forward));
+////    System.out.println(c.getSymbol(chineseCommand));
+//
+//    c.makeMap();
+//
+//    forward = "Forward";
+//
+//  }
 
 }
