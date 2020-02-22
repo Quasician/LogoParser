@@ -1,10 +1,5 @@
-package slogo.model.Commands;
+package slogo.model.Commands.TurtleCommands;
 
-
-import slogo.model.CommandStack;
-import slogo.model.Turtle;
-
-import java.util.ArrayList;
 
 //merge
 public class Forward extends TurtleCommand {

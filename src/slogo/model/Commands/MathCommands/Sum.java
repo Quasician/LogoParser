@@ -1,4 +1,6 @@
-package slogo.model.Commands;
+package slogo.model.Commands.MathCommands;
+
+import slogo.model.Commands.MathCommands.MathCommand;
 
 public class Sum extends MathCommand {
     public Sum(String name) {

@@ -1,6 +1,8 @@
-package slogo.model.Commands;
+package slogo.model.Commands.MathCommands;
 
-public class Pi extends MathCommand{
+import slogo.model.Commands.MathCommands.MathCommand;
+
+public class Pi extends MathCommand {
     public Pi(String name) {
         super(1, name);
     }

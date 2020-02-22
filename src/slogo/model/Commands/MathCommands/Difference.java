@@ -1,6 +1,8 @@
-package slogo.model.Commands;
+package slogo.model.Commands.MathCommands;
 
-public class Difference extends MathCommand{
+import slogo.model.Commands.MathCommands.MathCommand;
+
+public class Difference extends MathCommand {
     public Difference(String name) {
         super(2, name);
     }

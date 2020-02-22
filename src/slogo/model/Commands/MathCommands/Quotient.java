@@ -1,4 +1,6 @@
-package slogo.model.Commands;
+package slogo.model.Commands.MathCommands;
+
+import slogo.model.Commands.MathCommands.MathCommand;
 
 public class Quotient extends MathCommand {
     public Quotient(String name) {

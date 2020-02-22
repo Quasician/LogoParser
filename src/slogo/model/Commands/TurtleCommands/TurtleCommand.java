@@ -1,5 +1,6 @@
-package slogo.model.Commands;
+package slogo.model.Commands.TurtleCommands;
 
+import slogo.model.Commands.Command;
 import slogo.model.Turtle;
 
 public abstract class TurtleCommand extends Command {

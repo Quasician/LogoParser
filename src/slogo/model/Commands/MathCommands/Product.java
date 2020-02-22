@@ -1,6 +1,8 @@
-package slogo.model.Commands;
+package slogo.model.Commands.MathCommands;
 
-public class Product extends MathCommand{
+import slogo.model.Commands.MathCommands.MathCommand;
+
+public class Product extends MathCommand {
     public Product(String name) {
         super(2, name);
     }
