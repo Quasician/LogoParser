@@ -79,4 +79,22 @@ public abstract class TurtleCommand extends Command {
     turtle.setY(newY);
   }
 
+  protected void rotateTurtle(int direction, int degrees) {
+    int currentDegrees = turtle.getDegree();
+
+    int newDegrees = 0;
+    if (direction == 1)
+      newDegrees = (currentDegrees + degrees) % 360;
+    else {
+      newDegrees = currentDegrees - degrees;
+      if (newDegrees < 0) {
+        newDegrees = -newDegrees;
+        newDegrees = newDegrees % 360;
+        newDegrees = 360 - newDegrees;
+      }
+    }
+
+    turtle.setDegree(newDegrees);
+  }
+
 }

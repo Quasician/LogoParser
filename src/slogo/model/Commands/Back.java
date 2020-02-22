@@ -12,7 +12,7 @@ public class Back extends TurtleCommand {
   public void doCommand() {
     commandStack.pushOntoValueStack(values[0]);
     distance = values[0];
-    
+
     moveTurtle(backward, distance);
   }
 }
