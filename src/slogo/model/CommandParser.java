@@ -141,7 +141,7 @@ public class CommandParser {
       System.out.print("\n" + command + " ");
       if(!commandStack.isValueStackEmpty())
       {
-        Command commandObject = CommandFactory.getCommandInstance("slogo.model.Commands."+command + "Command");
+        Command commandObject = CommandFactory.getCommandInstance("slogo.model.Commands."+command);
         commandObject.setCommandStack(commandStack);
         commandObject.setTurtle(turtle);
         for(int i = 0; i<commandObject.getParamNumber();i++)
