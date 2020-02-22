@@ -105,6 +105,7 @@ public class CommandParser {
       if(!commandStack.isValueStackEmpty())
       {
         Command commandObject = CommandFactory.getCommandInstance("slogo.model.Commands."+command + "Command");
+        commandObject.setCommandStack(commandStack);
         for(int i = 0; i<commandObject.getParamNumber();i++)
         {
           // needs a try catch in case there is not enough params on the value stack -> could also change the if statement to circumvent this
