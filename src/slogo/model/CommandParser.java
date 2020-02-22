@@ -115,7 +115,7 @@ public class CommandParser {
     c.makeMap();
 
     forward = "Forward";
-    
+
   }
 
 }
