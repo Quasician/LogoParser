@@ -18,10 +18,6 @@ public abstract class TurtleCommand extends Command {
     return angle * Math.PI / 180;
   }
 
-  protected double radiansToDegrees(double angle) {
-    return 180 * angle / Math.PI;
-  }
-
   protected void moveTurtleTo(int x, int y) {
     turtle.setX(x);
     turtle.setY(y);
@@ -106,47 +102,6 @@ public abstract class TurtleCommand extends Command {
 
   protected double distanceFormula(int x1, int y1, int x2, int y2) {
     return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-  }
-
-  protected boolean pointToUpperRight(int x, int y) {
-    return x >= turtle.getX() && y >= turtle.getY();
-  }
-
-  protected boolean pointToLowerRight(int x, int y) {
-    return x >= turtle.getX() && y <= turtle.getY();
-  }
-
-  protected boolean pointToUpperLeft(int x, int y) {
-    return x <= turtle.getX() && y >= turtle.getY();
-  }
-
-  protected boolean pointToLowerLeft(int x, int y) {
-    return x <= turtle.getX() && y <= turtle.getY();
-  }
-
-  protected boolean pointToRight(int x, int y) {
-    return turtle.getX() > x && turtle.getY() == y;
-  }
-
-  protected boolean pointToLeft(int x, int y) {
-    return turtle.getX() < x && turtle.getY() == y;
-  }
-
-  protected int calculateAngle(int angle, int x, int y) {
-    if (pointToLeft(x, y)) {
-      angle = facingLeft;
-    } else if (pointToRight(x, y)) {
-      angle = facingRight;
-    } else if (pointToUpperRight(x, y)) {
-      //do nothing
-    } else if (pointToLowerRight(x, y)) {
-      angle = -angle + facingRight;
-    } else if (pointToLowerLeft(x, y)) {
-      angle += facingDown;
-    } else if (pointToUpperLeft(x, y)) {
-      angle = -angle + facingLeft;
-    }
-    return angle;
   }
 
 }

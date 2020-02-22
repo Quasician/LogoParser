@@ -22,8 +22,8 @@ public class Main extends Application {
         CommandParser commandParser = new CommandParser(turtle);
         commandParser.addPatterns("English");
 
-        turtle.setDegree(0);
-        commandParser.parseText("towards 5 0");
+        turtle.setDegree(45);
+        commandParser.parseText("towards -5 0");
       //  System.out.println("Hello world");
        // commandParser.parseText("difference difference 5 5 5");
         //System.out.println("Hello world");

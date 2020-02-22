@@ -10,7 +10,7 @@ public class Home extends TurtleCommand {
   public void doCommand() {
     int distanceTravelled = (int)distanceFormula(turtle.getX(), turtle.getY(), 0, 0);
     commandStack.pushOntoValueStack(distanceTravelled);
-    
+
     moveTurtleTo(0, 0);
   }
 }
