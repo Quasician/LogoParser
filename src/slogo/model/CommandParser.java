@@ -96,6 +96,29 @@ public class CommandParser {
     // THIS IS THE IMPORTANT LINE
     return regex.matcher(text).matches();
   }
+  
+    // Prints entire stack until command stack (not the value stack) is empty
+  //DUMMY COMMENT
+  private void printStack(CommandStack commandStack)
+  {
+    while(!commandStack.isCommandStackEmpty())
+    {
+      String command = commandStack.popCommandStack();
+      System.out.print("\n" + command+ " ");
+      if(!commandStack.isValueStackEmpty())
+      {
+        Command commandObject = CommandFactory.getCommandInstance("slogo.model.Commands."+command + "Command");
+        commandObject.setCommandStack(commandStack);
+        for(int i = 0; i<commandObject.getParamNumber();i++)
+        {
+          // needs a try catch in case there is not enough params on the value stack -> could also change the if statement to circumvent this
+          commandObject.getParamList()[i] = commandStack.popValueStack();
+          System.out.print(commandObject.getParamList()[i]);
+        }
+        commandObject.doCommand();
+      }
+    }
+  }
 
   //testing
   public static void main(String[] args) {
@@ -103,7 +126,7 @@ public class CommandParser {
 
     String english = "English";
     String chinese = "Chinese";
-
+    
     String forward = "forward";
     String chineseCommand = "nizhengqie";
 
