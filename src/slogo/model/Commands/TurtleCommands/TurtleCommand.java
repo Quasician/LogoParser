@@ -1,5 +1,6 @@
-package slogo.model.Commands;
+package slogo.model.Commands.TurtleCommands;
 
+import slogo.model.Commands.Command;
 import slogo.model.Turtle;
 
 public abstract class TurtleCommand extends Command {
@@ -8,8 +9,8 @@ public abstract class TurtleCommand extends Command {
   protected int facingLeft = 270;
   protected int facingDown = 180;
 
-  public TurtleCommand(int params, String name) {
-    super(params, name);
+  public TurtleCommand(String name) {
+    super(name);
   }
 
   protected double angleToRadians(int angle) {

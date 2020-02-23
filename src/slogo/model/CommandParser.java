@@ -2,12 +2,11 @@ package slogo.model;
 
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactory;
+import slogo.model.Commands.CommandFactoryInterface;
 
-import java.lang.reflect.Constructor;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -27,12 +26,16 @@ public class CommandParser {
 
   private Map<String, Command> stringToCommand;
   private Turtle turtle;
+  private CommandFactoryInterface commandFactory;
+  private CommandTreeExecutor treeExec;
+  private CommandTreeConstructor treeMaker;
 
   /**
    * Create an empty parser
    */
   public CommandParser (Turtle turtle) {
     mySymbols = new ArrayList<>();
+    commandFactory = new CommandFactory();
     this.turtle = turtle;
   }
 
@@ -43,29 +46,29 @@ public class CommandParser {
    * Note: every Command implementation should have a basic constructor that
    * just takes in a string
    */
-  public void makeMap() {
-    stringToCommand = new HashMap<>();
-    for (Entry<String, Pattern> entry : mySymbols) {
-      String string = entry.getKey();
-      System.out.println(string);
-      Command command;
-
-      Constructor[] constructors = null;
-      try {
-        constructors = Class.forName(THIS_PACKAGE + string).getConstructors();
-      } catch (ClassNotFoundException e) {
-        constructors = null;
-        //throw an exception
-      }
-
-      try {
-        command = (Command) constructors[0].newInstance(string);
-      } catch (Exception e) {
-        command = null;
-      }
-      stringToCommand.put(string, command);
-    }
-  }
+//  public void makeMap() {
+//    stringToCommand = new HashMap<>();
+//    for (Entry<String, Pattern> entry : mySymbols) {
+//      String string = entry.getKey();
+//      System.out.println(string);
+//      Command command;
+//
+//      Constructor[] constructors = null;
+//      try {
+//        constructors = Class.forName(THIS_PACKAGE + string).getConstructors();
+//      } catch (ClassNotFoundException e) {
+//        constructors = null;
+//        //throw an exception
+//      }
+//
+//      try {
+//        command = (Command) constructors[0].newInstance(string);
+//      } catch (Exception e) {
+//        command = null;
+//      }
+//      stringToCommand.put(string, command);
+//    }
+//  }
 
   /**
    * Adds the given resource file to this language's recognized types
@@ -87,7 +90,7 @@ public class CommandParser {
     final String ERROR = "NO MATCH";
     for (Entry<String, Pattern> e : mySymbols) {
       if (match(text, e.getValue())) {
-        System.out.println(e.getValue());
+        System.out.println(e.getKey());
         return e.getKey();
       }
     }
@@ -105,58 +108,83 @@ public class CommandParser {
 
   public void parseText(String commandLine)
   {
-    CommandStack commandStack = new CommandStack();
-    String[] lineValues = commandLine.split(" ");
-    fillCommandStack(lineValues,commandStack);
-    printStack(commandStack);
-  }
-
-  // currently only pushes commands and constants ot their respective stacks (not variables)
-  private void fillCommandStack(String[] lineValues, CommandStack commandStack)
-  {
     Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
     Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
-    for(String s: lineValues)
+
+    CommandStack commandStack = new CommandStack();
+    String[] lineValues = commandLine.split(" ");
+    for(int i =0; i<lineValues.length;i++)
     {
-      if (match(s, constantPattern))
+      if(match(lineValues[i],commandPattern))
       {
-        commandStack.pushOntoValueStack(Integer.parseInt(s));
-        continue;
-      }
-      String command = getSymbol(s);
-      if(match(s, commandPattern) && !command.equals("NO MATCH!") )
-      {
-        commandStack.pushOntoCommandStack(command);
+        lineValues[i] = getSymbol(lineValues[i]);
+        System.out.println("ELEMENT:" + lineValues[i]);
       }
     }
+    String translatedCommands = String.join(" ", lineValues);
+    System.out.println("TRANSLATED: " +translatedCommands);
+    makeCommandTree(translatedCommands);
+//    fillCommandStack(lineValues,commandStack);
+//    printStack(commandStack);
   }
+
+  private void makeCommandTree(String commands)
+  {
+    treeMaker = new CommandTreeConstructor(commands);
+    ArrayList <TreeNode> head = (ArrayList) treeMaker.buildTrees(commands);
+    treeExec = new CommandTreeExecutor(commandFactory, turtle);
+    treeExec.executeTrees(head);
+  }
+
+
+
+//  // currently only pushes commands and constants ot their respective stacks (not variables)
+//  private void fillCommandStack(String[] lineValues, CommandStack commandStack)
+//  {
+//    Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
+//    Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
+//    for(String s: lineValues)
+//    {
+//      if (match(s, constantPattern))
+//      {
+//        commandStack.pushOntoValueStack(Integer.parseInt(s));
+//        continue;
+//      }
+//      String command = getSymbol(s);
+//      if(match(s, commandPattern) && !command.equals("NO MATCH!") )
+//      {
+//        commandStack.pushOntoCommandStack(command);
+//      }
+//    }
+//  }
 
 
   // Prints entire stack until command stack (not the value stack) is empty
-  private void printStack(CommandStack commandStack)
-  {
-    while(!commandStack.isCommandStackEmpty())
-    {
-      String command = commandStack.popCommandStack();
-      System.out.print("\n" + command + " ");
-      if(!commandStack.isValueStackEmpty())
-      {
-        Command commandObject = CommandFactory.getCommandInstance("slogo.model.Commands."+command);
-        commandObject.setCommandStack(commandStack);
-        commandObject.setTurtle(turtle);
-        //System.out.println("Param number" + commandObject.getParamNumber());
-        for(int i = 0; i<commandObject.getParamNumber();i++)
-        {
-          // needs a try catch in case there is not enough params on the value stack -> could also change the if statement to circumvent this
-          commandObject.getParamList()[i] = commandStack.popValueStack();
-          //System.out.println(commandObject.getParamList()[i]);
-        }
-        commandObject.doCommand();
-
-      }
-    }
-    System.out.println(commandStack.popValueStack());
-  }
+//  private void printStack(CommandStack commandStack)
+//  {
+//    while(!commandStack.isCommandStackEmpty())
+//    {
+//      String command = commandStack.popCommandStack();
+//      System.out.print("\n" + command + " ");
+//      if(!commandStack.isValueStackEmpty())
+//      {
+//        //System.out.println("slogo.model.Commands."+commandTypeHashMap.getCommandType(command)+"."+command);
+//        Command commandObject = CommandFactory.getCommandInstance("slogo.model.Commands."+commandTypeHashMap.getCommandType(command)+"."+command);
+//        commandObject.setCommandStack(commandStack);
+//        commandObject.setTurtle(turtle);
+//        //System.out.println("Param number" + commandObject.getParamNumber());
+//        for(int i = 0; i<commandObject.getParamNumber();i++)
+//        {
+//          // needs a try catch in case there is not enough params on the value stack -> could also change the if statement to circumvent this
+//          commandObject.getParamList()[i] = commandStack.popValueStack();
+//          //System.out.println(commandObject.getParamList()[i]);
+//        }
+//        commandObject.doCommand();
+//
+//      }
+//    }
+//    System.out.println(commandStack.popValueStack());
+//  }
 
 // testing
 //  public static void main(String[] args) {
