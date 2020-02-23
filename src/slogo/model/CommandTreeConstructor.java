@@ -13,7 +13,7 @@ public class CommandTreeConstructor {
 
     private Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
     private Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
-
+    private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
 
     public CommandTreeConstructor(String commands)
     {}
@@ -64,7 +64,7 @@ public class CommandTreeConstructor {
             return handleCommands(buildingNode, commandNode, currentCommand);
         }
         // needs to also check for variables (use or statement
-        else if(match(currentCommand, constantPattern)){
+        else if(match(currentCommand, constantPattern)|| match(currentCommand, variablePattern )){
             buildingNode.addChild(new TreeNode(currentCommand));
             return commandNode;
         }

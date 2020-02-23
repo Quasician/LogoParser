@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class CommandTreeExecutor {
     private Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
     private Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
+    private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
     private CommandFactoryInterface commandFactory;
     private Turtle turtle;
 
@@ -35,6 +36,12 @@ public class CommandTreeExecutor {
         if(match(element.getData(),commandPattern)){
             ArrayList<TreeNode> children = element.getChildren();
             ArrayList<String> parameters = new ArrayList<>();
+            // will also need to check for to commands
+            if(element.getData().equals("MakeVariable"))
+            {
+                parameters.add(children.get(0).getData());
+                children.remove(0);
+            }
             for(TreeNode child: children) {
                 executeSubTree(child);
                 parameters.add(child.getData());
@@ -50,6 +57,10 @@ public class CommandTreeExecutor {
             commandObject.setTurtle(turtle);
             commandObject.doCommand(element);
             //nd.setData(replacementValue);
+        }
+        else if (match(element.getData(),variablePattern))
+        {
+            element.setData(VariableHashMap.getVarValue(element.getData()));
         }
         // for variables later on
 //        if(type.equals(VARIABLE_KEY)){
