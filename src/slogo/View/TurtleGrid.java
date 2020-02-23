@@ -2,6 +2,7 @@ package slogo.View;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
@@ -12,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import slogo.Main;
 import slogo.model.Turtle;
 
 /**
@@ -31,7 +33,8 @@ public class TurtleGrid {
   private Drawing myDrawer;
   private Pane myPane; //to change background of grid, change the background of the pane
   private Canvas myCanvas;
-  private static final int DEFAULT_CANVAS_SIZE = 500;
+  private static final int DEFAULT_CANVAS_WIDTH = 800;
+  private static final int DEFAULT_CANVAS_HEIGHT = 500;
   private StackPane retGrid;
   private double centerX;
   private double centerY;
@@ -46,7 +49,7 @@ public class TurtleGrid {
   public TurtleGrid(int canvasWidth, int canvasHeight, Drawing draw, Turtle viewTurtle){
     myDrawer = draw;
     this.viewTurtle = viewTurtle;
-    turtleImageView = new ImageView(new Image("turtle.png"));
+    turtleImageView = new ImageView(new Image(Main.myResources.getString("TurtleImage")));
     turtleImageView.setX(viewTurtle.getX());
     turtleImageView.setY(viewTurtle.getY());
     turtleImageView.setFitHeight(40);
@@ -64,12 +67,13 @@ public class TurtleGrid {
     setBackground(Color.LINEN);
     myCanvas = new Canvas(myCanvasWidth, myCanvasHeight);
     retGrid = new StackPane();
+    retGrid.setPadding(new Insets(20));
     retGrid.getChildren().addAll(myCanvas, myPane);
     retGrid.getChildren().add(turtleImageView);
   }
 
-  public TurtleGrid(Drawing draw, Turtle viewTurtle){
-    this(DEFAULT_CANVAS_SIZE, DEFAULT_CANVAS_SIZE, draw, viewTurtle);
+  public TurtleGrid(Turtle turtle, Drawing draw){
+    this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, draw, turtle);
   }
 
   private void addListeners() {
