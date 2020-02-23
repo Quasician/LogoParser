@@ -66,14 +66,6 @@ public class Main extends Application {
         //ObjectProperty<Turtle> viewTurtleProp = new SimpleObjectProperty<>(viewTurtle, "viewTurtle");
         // viewTurtleProp.bind(modelTurtleProp);
 
-        modelTurtle.setX(20);
-        System.out.println("Turtle x " + viewTurtle.getX());
-
-        modelTurtle.setY(30);
-        System.out.println("Turtle y " + viewTurtle.getY());
-
-        modelTurtle.setDegree(49.9);
-        System.out.println("Turtle degree " + viewTurtle.getDegree());
 
         CommandParser commandParser = new CommandParser(modelTurtle);
         commandParser.addPatterns("English");
@@ -92,6 +84,15 @@ public class Main extends Application {
 //        commandParser.parseText("atan product random quotient remainder product log 3.4 2 2 0.19 pi");
 
       Visualizer vis = new Visualizer(primaryStage, viewTurtle);
+
+        modelTurtle.setX(200);
+        System.out.println("Turtle x " + viewTurtle.getX());
+
+        modelTurtle.setY(300);
+        System.out.println("Turtle y " + viewTurtle.getY());
+
+        modelTurtle.setDegree(49.9);
+        System.out.println("Turtle degree " + viewTurtle.getDegree());
     }
 
     private void printVariables()
