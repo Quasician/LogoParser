@@ -10,6 +10,7 @@ public abstract class Command {
   protected Turtle turtle;
   protected String name;
   protected ArrayList<String> values;
+  protected boolean clearScreenCalled;
 
   public Command(String name) {
     this.name = name;

@@ -1,8 +1,9 @@
-package slogo.model.Commands.TurtleCommands;
+package slogo.model.Commands.TurtleQueries;
 
+import slogo.model.Commands.TurtleCommands.TurtleCommand;
 import slogo.model.TreeNode;
 
-public class Heading extends TurtleCommand {
+public class Heading extends TurtleQuery {
 
   public Heading(String name) {
     super(name);

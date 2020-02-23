@@ -2,36 +2,35 @@ package slogo.model;
 
 import java.util.ArrayList;
 
-public class TreeNode implements Node{
-    private String data;
-    private ArrayList<TreeNode> children;
+public class TreeNode implements Node {
 
-    public TreeNode()
-    {
-        children = new ArrayList<>();
-    }
+  private String data;
+  private ArrayList<TreeNode> children;
 
-    public TreeNode(String data)
-    {
-        this.data = data;
-        children = new ArrayList<>();
-    }
+  public TreeNode() {
+    children = new ArrayList<>();
+  }
 
-    public String getData() {
-        return data;
-    }
+  public TreeNode(String data) {
+    this.data = data;
+    children = new ArrayList<>();
+  }
 
-    public ArrayList<TreeNode> getChildren() {
-        return children;
-    }
+  public String getData() {
+    return data;
+  }
 
-    @Override
-    public void addChild(Node child) {
-        children.add((TreeNode)child);
-    }
+  public ArrayList<TreeNode> getChildren() {
+    return children;
+  }
 
-    @Override
-    public void setData(String data) {
-        this.data = data;
-    }
+  @Override
+  public void addChild(Node child) {
+    children.add((TreeNode) child);
+  }
+
+  @Override
+  public void setData(String data) {
+    this.data = data;
+  }
 }
