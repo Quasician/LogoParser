@@ -25,7 +25,7 @@ public class Toolbar {
     private static final String STYLE_COLOR ="lightgray";
     private static final int PADDING = 20;
 
-    public Toolbar(){
+    public Toolbar(Drawing drawer){
         backgroundColor= CustomButton.pickColor(BUTTON_BACKGROUND);
         backgroundColor.setOnAction(e->changeProperties.changeBackground(backgroundColor.getValue()));
         penColor= CustomButton.pickColor(BUTTON_PEN);

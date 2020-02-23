@@ -8,13 +8,13 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Turtle {
 
-  private static final int DEGREE_LOWER_BOUND = 0;
-  private static final int DEGREE_UPPER_BOUND = 360;
+  private static final double DEGREE_LOWER_BOUND = 0;
+  private static final double DEGREE_UPPER_BOUND = 360;
   //private int x, y, distanceTravelled, degree;
   //private boolean isPenDown, isVisible;
 
-  private DoubleProperty xPosition = new SimpleDoubleProperty();
-  private DoubleProperty yPosition = new SimpleDoubleProperty();
+  private DoubleProperty x = new SimpleDoubleProperty();
+  private DoubleProperty y = new SimpleDoubleProperty();
   private DoubleProperty distance = new SimpleDoubleProperty();
   private DoubleProperty angleFacing = new SimpleDoubleProperty();
   private BooleanProperty isPenDown = new SimpleBooleanProperty();
@@ -36,60 +36,59 @@ public class Turtle {
     return isPenDown.get();
   }
 
-  public int getX() {
-    return x;
+  public double getX() {
+    return x.get();
   }
 
-  public int getY() {
-    return y;
+  public double getY() {
+    return y.get();
   }
 
   // returns an int from 0 to 359
-  public int getDegree() {
-    return degree;
+  public double getDegree() {
+    return angleFacing.get();
   }
 
-  protected int getDistanceTravelled() {
-    return distanceTravelled;
+  protected double getDistance() {
+    return distance.get();
   }
 
-  public int setX(int x) {
-    return this.x = x;
+  public void setX(double newX) {
+    x.set(newX);
   }
 
-  public int setY(int y) {
-    return this.y = y;
+  public void setY(double newY) {
+    y.set(newY);
   }
 
   /**
    *
    * @param degree must be between 0 and 359, inclusive
-   * @return
    */
-  public int setDegree(int degree) {
-    if (degree < DEGREE_LOWER_BOUND || degree > DEGREE_UPPER_BOUND)
+  public void setDegree(double degree) {
+    if (degree < DEGREE_LOWER_BOUND || degree >= DEGREE_UPPER_BOUND)
       throw new ArithmeticException("Degree not in valid range");
-    return this.degree = degree;
+    angleFacing.set(degree);
   }
 
-  public int setDistance(int distance) {
-    return this.distanceTravelled = distance;
+  public void setDistance(double distance) {
+     this.distance.set(distance);
   }
 
-  public boolean penUp() {
-    return isPenDown = false;
+  public void penUp() {
+    isPenDown.set(false);
   }
 
-  public boolean penDown() {
-    return isPenDown = true;
+  public void penDown() {
+    isPenDown.set(true);
   }
 
   public void show() {
-    isVisible = true;
+    isShowing.set(true);
   }
 
   public void hide() {
-    isVisible = false;
+    isShowing.set(false);
   }
 
 }
