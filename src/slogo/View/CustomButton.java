@@ -20,7 +20,11 @@ public class CustomButton extends Button{
         return cp;
     }
     public void setImage(CustomButton button, String image){
-        Image img = new Image(getClass().getResourceAsStream(image));
-        button.setGraphic(new ImageView(image));
+        Image img = new Image(image);
+        ImageView buttonImage= new ImageView(img);
+        buttonImage.setFitHeight(10);
+        buttonImage.setFitWidth(10);
+        button.setGraphic(buttonImage);
+
     }
 }
