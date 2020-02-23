@@ -9,6 +9,7 @@ import slogo.model.Command;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class CommandHistory {
@@ -20,14 +21,14 @@ public class CommandHistory {
     private static final String imgValue= "Play.png";
     private static final int spacing=10;
     private static final int BoxSpacing=5;
-    private LinkedHashMap<String,Command> Values;
+    private ArrayList<String> Values;
     private static final String style = "-fx-background-color: rgba(255, 255, 255, 0.5);";
 
     public CommandHistory(){
         runButton=new CustomButton();
         runButton.setMaxHeight(BoxSpacing);
         runButton.setMaxWidth(spacing);
-        Values= new LinkedHashMap<>();
+        Values= new ArrayList<>();
         historyWindow=new VBox(spacing);
         historyWindow.setBackground(Background.EMPTY);
         historyWindow.setStyle(style);
@@ -39,8 +40,8 @@ public class CommandHistory {
         //doCommand(Values.get(cellForWindow.getAccessibleText()));
     }
 
-    private void makeBox(Command command, String StringRepresentation){
-        Values.put(StringRepresentation, command);
+    private void makeBox(String StringRepresentation){
+        Values.add(StringRepresentation);
         newCommand= new HBox(BoxSpacing);
         commandEntered=new Label(StringRepresentation);
         commandEntered.setTextFill(textColor);
