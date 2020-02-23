@@ -46,6 +46,7 @@ public class Visualizer {
     this.viewTurtle = viewTurtle;
     Drawing drawer = new Drawing();
     TurtleGrid grid = new TurtleGrid(this.viewTurtle, drawer);
+
     Toolbar tool = new Toolbar(drawer, grid);
 
     bp = new BorderPane();
