@@ -1,33 +1,26 @@
 package slogo.model.Commands;
 
 import slogo.model.CommandStack;
+import slogo.model.TreeNode;
 import slogo.model.Turtle;
-
 import java.util.ArrayList;
+import java.util.List;
 
-//merge
 public abstract class Command {
 
-  protected int params;
   protected Turtle turtle;
   protected String name;
-  protected int[] values;
+  protected ArrayList<String> values;
 
   protected CommandStack commandStack;
 
-  public Command(int params, String name) {
+  public Command(String name) {
     this.name = name;
-    this.params = params;
-    values = new int[params];
   }
 
-  public abstract void doCommand();
+  public abstract void doCommand(TreeNode commandNode);
 
-  public int getParamNumber() {
-    return params;
-  }
-
-  public int[] getParamList() {
+  public List<String> getParamList() {
     return values;
   }
 
@@ -37,5 +30,13 @@ public abstract class Command {
 
   public void setTurtle(Turtle turtle) {
     this.turtle = turtle;
+  }
+
+  public void setParams(List<String> params) {
+    values = (ArrayList)params;
+  }
+
+  protected String string(int value) {
+    return value + "";
   }
 }

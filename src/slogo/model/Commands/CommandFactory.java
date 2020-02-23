@@ -3,25 +3,28 @@ package slogo.model.Commands;
 import javafx.scene.control.Alert;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 //merge
-public class CommandFactory {
+public class CommandFactory implements CommandFactoryInterface{
+    private static void showError(String mes)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(mes);
+        alert.showAndWait();
+    }
 
-    public static Command getCommandInstance(String commandClass) {
+    @Override
+    public Command createCommand(String commandClass) {
+        System.out.println("YEET");
         try{
             return (Command) Class.forName(commandClass).getConstructors()[0].newInstance(commandClass);
+            //command.setParams(params);
         }catch(ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException e)
         {
             //printStackTrace();
             showError("Class doesn't exist");
         }
         return null;
-    }
-
-    private static void showError(String mes)
-    {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(mes);
-        alert.showAndWait();
     }
 }
