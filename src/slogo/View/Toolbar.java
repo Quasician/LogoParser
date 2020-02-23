@@ -25,9 +25,9 @@ public class Toolbar {
     private static final String STYLE_COLOR ="lightgray";
     private static final int PADDING = 20;
 
-    public Toolbar(Drawing drawer){
+    public Toolbar(Drawing drawer, TurtleGrid grid){
         backgroundColor= CustomButton.pickColor(BUTTON_BACKGROUND);
-        backgroundColor.setOnAction(e->changeProperties.changeBackground(backgroundColor.getValue()));
+        backgroundColor.setOnAction(e->grid.setBackground(backgroundColor.getValue()));
         penColor= CustomButton.pickColor(BUTTON_PEN);
         penColor.setOnAction(e->changeProperties.changePen(penColor.getValue()));
         changeProperties=new Drawing();
