@@ -3,9 +3,9 @@ package slogo.model.Commands.BooleanCommands;
 import slogo.model.Commands.BooleanCommands.BooleanCommand;
 import slogo.model.TreeNode;
 
-public class Less extends BooleanCommand {
+public class LessThan extends BooleanCommand {
 
-  public Less(String name) {
+  public LessThan(String name) {
     super(name);
   }
 

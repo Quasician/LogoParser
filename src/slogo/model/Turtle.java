@@ -16,6 +16,10 @@ public class Turtle {
     return isVisible;
   }
 
+  public boolean isPenDown() {
+    return isPenDown;
+  }
+
   public int getX() {
     return x;
   }
