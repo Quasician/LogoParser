@@ -4,6 +4,11 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import slogo.model.CommandParser;
 import slogo.model.Turtle;
+import slogo.model.VariableHashMap;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Feel free to completely change this code or delete it entirely. 
@@ -29,7 +34,24 @@ public class Main extends Application {
         commandParser.addPatterns("English");
         //Error if you put .decimal instead of 0.decimal -> 0.3 vs .3
 //        commandParser.parseText("fd sum 10 sum 10 sum 10 sum 20 20");
-//        commandParser.parseText("sum 10 sum 20 20");
-        commandParser.parseText("atan product random quotient remainder product log 3.4 2 2 0.19 pi");
+//          commandParser.parseText("sum 10 sum 20 20");
+//          printVariables();
+        commandParser.parseText("make :v sum 23 3");
+        commandParser.parseText("sum :v 14");
+//        commandParser.parseText("atan product random quotient remainder product log 3.4 2 2 0.19 pi");
+    }
+
+    private void printVariables()
+    {
+        Iterator it = VariableHashMap.getAllVariables().iterator();
+        System.out.println("\nTHESE ARE THE CURRENT VARIABLES: ");
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry)it.next(); //current entry in a loop
+            System.out.println(entry.getKey() + " = " + entry.getValue());
+        }
+//        for(Map.Entry e :vars)
+//        {
+//            System.out.println(e.getKey() + " = " + e.getValue());
+//        }
     }
 }

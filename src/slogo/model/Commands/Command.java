@@ -1,6 +1,5 @@
 package slogo.model.Commands;
 
-import slogo.model.CommandStack;
 import slogo.model.TreeNode;
 import slogo.model.Turtle;
 import java.util.ArrayList;
@@ -12,8 +11,6 @@ public abstract class Command {
   protected String name;
   protected ArrayList<String> values;
 
-  protected CommandStack commandStack;
-
   public Command(String name) {
     this.name = name;
   }
@@ -22,10 +19,6 @@ public abstract class Command {
 
   public List<String> getParamList() {
     return values;
-  }
-
-  public void setCommandStack(CommandStack commandStack) {
-    this.commandStack = commandStack;
   }
 
   public void setTurtle(Turtle turtle) {
