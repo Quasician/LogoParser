@@ -17,6 +17,14 @@ public class Main extends Application {
     /**
      * Start of the program.
      */
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setResizable(false);
+        primaryStage.setTitle(TITLE);
+        Visualiser logo = new Visualiser();
+        primaryStage.setScene(logo.Screen());
+        primaryStage.show();
+    }
     public static void main (String[] args) {
         launch(args);
     }
