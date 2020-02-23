@@ -19,7 +19,7 @@ import slogo.Main;
 
 public class CommandHistory {
     private static VBox historyWindow;
-    private static final Color textColor= Color.BLACK;
+    private static final Color textColor= Color.WHITE;
     private HBox newCommand;
     private CustomButton runButton;
     private Label commandEntered;
@@ -35,7 +35,7 @@ public class CommandHistory {
         historyWindow=new VBox(5);
         historyWindow.setBackground(Background.EMPTY);
         historyWindow.setStyle(style);
-        historyWindow.setPrefHeight(300.0);
+        historyWindow.setPrefHeight(310.0);
         historyWindow.setPrefWidth(300.0);
         historyWindow.setMargin(historyWindow,new Insets(10,5,10,0));
     }

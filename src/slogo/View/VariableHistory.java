@@ -22,7 +22,7 @@ public class VariableHistory {
     public VariableHistory(){
         Variables=new HashMap<>();
         variablesHolder= new VBox(spacing);
-        variablesHolder.setPrefHeight(300.0);
+        variablesHolder.setPrefHeight(310.0);
         variablesHolder.setPrefWidth(300.0);
         variablesHolder.setMargin(variablesHolder,new Insets(10,5,10,0));
         variable = new Label();
