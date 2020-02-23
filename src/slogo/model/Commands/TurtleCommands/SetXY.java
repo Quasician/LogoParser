@@ -3,8 +3,8 @@ package slogo.model.Commands.TurtleCommands;
 import slogo.model.TreeNode;
 
 public class SetXY extends TurtleCommand {
-  private int x;
-  private int y;
+  private double x;
+  private double y;
 
   public SetXY(String name) {
     super(name);
@@ -12,10 +12,10 @@ public class SetXY extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    x = (int)Double.parseDouble(getParamList().get(0));
-    y = (int)Double.parseDouble(getParamList().get(1));
+    x = Double.parseDouble(getParamList().get(0));
+    y = Double.parseDouble(getParamList().get(1));
 
-    int distance = (int)distanceFormula(turtle.getX(), turtle.getY(), x, y);
+    double distance = distanceFormula(turtle.getX(), turtle.getY(), x, y);
     moveTurtleTo(x, y);
 
     commandNode.setData("" + distance);

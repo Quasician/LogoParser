@@ -10,7 +10,7 @@ public class Home extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    int distanceTravelled = (int)distanceFormula(turtle.getX(), turtle.getY(), 0, 0);
+    double distanceTravelled = distanceFormula(turtle.getX(), turtle.getY(), 0, 0);
     moveTurtleTo(0, 0);
     commandNode.setData("" + distanceTravelled);
   }

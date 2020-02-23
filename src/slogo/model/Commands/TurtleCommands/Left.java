@@ -5,7 +5,7 @@ import slogo.model.Turtle;
 
 public class Left extends TurtleCommand {
 
-  private int degrees;
+  private double degrees;
 
   public Left(String name) {
     super(name);
@@ -13,7 +13,7 @@ public class Left extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    degrees = (int)Double.parseDouble(getParamList().get(0));
+    degrees = Double.parseDouble(getParamList().get(0));
     rotateTurtle(-1, degrees);
     commandNode.setData("" + degrees);
   }

@@ -12,7 +12,7 @@ import slogo.model.TreeNode;
  */
 public class Back extends TurtleCommand {
 
-  private int distance;
+  private double distance;
 
   public Back(String name) {
     super(name);
@@ -20,7 +20,7 @@ public class Back extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    distance = (int)Double.parseDouble(getParamList().get(0));
+    distance = Double.parseDouble(getParamList().get(0));
     commandNode.setData(distance + "");
     moveTurtle(backward, distance);
   }

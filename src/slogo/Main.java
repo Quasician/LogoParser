@@ -7,16 +7,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-<<<<<<< HEAD
 import slogo.View.Visualiser;
-=======
 import slogo.View.CommandLine;
 import slogo.View.Drawing;
 import slogo.View.Toolbar;
 import slogo.View.TurtleGrid;
 import slogo.View.ViewButton;
 import slogo.View.Visualizer;
->>>>>>> master
 import slogo.model.CommandParser;
 import slogo.model.Turtle;
 import slogo.model.VariableHashMap;
