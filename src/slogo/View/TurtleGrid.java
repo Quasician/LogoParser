@@ -27,6 +27,8 @@ public class TurtleGrid {
   private Canvas myCanvas;
   private static final int DEFAULT_CANVAS_SIZE = 500;
   private StackPane retGrid;
+  private double centerX;
+  private double centerY;
 //  private static final Paint DEFAULT_BACKGROUND  = Color.
 
   /**
@@ -37,15 +39,17 @@ public class TurtleGrid {
    * @param draw is the drawing class that would control what will be drawn on the canvas
    */
   public TurtleGrid(int canvasWidth, int canvasHeight, Turtle turtle, Drawing draw){
+    myTurtle = turtle;
+    myDrawer = draw;
     myCanvasWidth = canvasWidth;
     myCanvasHeight = canvasHeight;
+    centerX = canvasWidth / 2.0;
+    centerY = canvasHeight / 2.0;
     myPane = new Pane();
     myPane.setMaxWidth(myCanvasWidth);
     myPane.setMaxHeight(myCanvasHeight);
     setBackground();
     myCanvas = new Canvas(myCanvasWidth, myCanvasHeight);
-    myTurtle = turtle;
-    myDrawer = draw;
     retGrid = new StackPane();
     retGrid.getChildren().addAll(myCanvas, myPane);
   }
@@ -58,11 +62,12 @@ public class TurtleGrid {
     return retGrid;
   }
   private void setBackground(){
-    myPane.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+    System.out.println(myDrawer.getBackgroundColor());
+    myPane.setBackground(new Background(new BackgroundFill(myDrawer.getBackgroundColor(), null, null)));
   }
 
   private void updateTurtle(){
-    
+
   }
 
 }
