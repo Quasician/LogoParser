@@ -2,9 +2,10 @@ package slogo;
 
 import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -41,15 +42,6 @@ public class Main extends Application {
         launch(args);
     }
 
-    private void bindTurtles(Turtle model, Turtle view) {
-        view.xProperty().bind(model.xProperty());
-        view.yProperty().bind(model.yProperty());
-        view.distanceProperty().bind(model.distanceProperty());
-        view.angleProperty().bind(model.angleProperty());
-        view.isPenDownProperty().bind(model.isPenDownProperty());
-        view.isShowingProperty().bind(model.isShowingProperty());
-    }
-
     @Override
     public void start(Stage primaryStage) throws Exception {
 //        Double deg = Math.toDegrees(Math.atan2(-1, 0));
@@ -66,14 +58,6 @@ public class Main extends Application {
         //ObjectProperty<Turtle> viewTurtleProp = new SimpleObjectProperty<>(viewTurtle, "viewTurtle");
         // viewTurtleProp.bind(modelTurtleProp);
 
-        modelTurtle.setX(20);
-        System.out.println("Turtle x " + viewTurtle.getX());
-
-        modelTurtle.setY(30);
-        System.out.println("Turtle y " + viewTurtle.getY());
-
-        modelTurtle.setDegree(49.9);
-        System.out.println("Turtle degree " + viewTurtle.getDegree());
 
         CommandParser commandParser = new CommandParser(modelTurtle);
         commandParser.addPatterns("English");
@@ -87,11 +71,27 @@ public class Main extends Application {
 //        commandParser.parseText("fd sum 10 sum 10 sum 10 sum 20 20");
 //          commandParser.parseText("sum 10 sum 20 20");
 //          printVariables();
-        commandParser.parseText("make :v sum 23 3");
-        commandParser.parseText("sum :v 14");
+//        commandParser.parseText("make :v sum 23 3");
+//        commandParser.parseText("sum :v 14");
 //        commandParser.parseText("atan product random quotient remainder product log 3.4 2 2 0.19 pi");
 
-      Visualizer vis = new Visualizer(primaryStage, viewTurtle);
+        StringProperty commandLinetext = new SimpleStringProperty(){};
+        StringProperty parseString = new SimpleStringProperty(){};
+        parseString.bind(commandLinetext);
+        BooleanProperty textUpdate = new SimpleBooleanProperty();
+
+        parseTextOnInput(textUpdate, parseString, commandParser);
+
+        Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate);
+
+//        modelTurtle.setX(-200);
+//        System.out.println("Turtle x " + viewTurtle.getX());
+//
+//        modelTurtle.setY(280);
+//        System.out.println("Turtle y " + viewTurtle.getY());
+//
+//        //modelTurtle.setDegree(49.9);
+//        System.out.println("Turtle degree " + viewTurtle.getDegree());
     }
 
     private void printVariables()
@@ -107,4 +107,24 @@ public class Main extends Application {
 //            System.out.println(e.getKey() + " = " + e.getValue());
 //        }
     }
+
+    private void bindTurtles(Turtle model, Turtle view) {
+        view.xProperty().bind(model.xProperty());
+        view.yProperty().bind(model.yProperty());
+        view.distanceProperty().bind(model.distanceProperty());
+        view.angleProperty().bind(model.angleProperty());
+        view.isPenDownProperty().bind(model.isPenDownProperty());
+        view.isShowingProperty().bind(model.isShowingProperty());
+    }
+    private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText, CommandParser commandParser)
+    {
+        textUpdate.addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue o, Object oldVal, Object newVal) {
+                System.out.println(parseText.getValue());
+                commandParser.parseText(parseText.getValue());
+            }
+        });
+    }
+
 }
