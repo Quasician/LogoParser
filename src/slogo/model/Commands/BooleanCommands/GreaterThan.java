@@ -1,9 +1,9 @@
 package slogo.model.Commands.BooleanCommands;
+
 import slogo.model.TreeNode;
 
-public class LessThan extends BooleanCommand {
-
-  public LessThan(String name) {
+public class GreaterThan extends BooleanCommand {
+  public GreaterThan(String name) {
     super(name);
   }
 
@@ -11,7 +11,7 @@ public class LessThan extends BooleanCommand {
   public void doCommand(TreeNode commandNode) {
     double test1 = Double.parseDouble(getParamList().get(0));
     double test2 = Double.parseDouble(getParamList().get(1));
-    condition = test1 < test2;
+    condition = test1 > test2;
     commandNode.setData(getReturnValue(condition));
   }
 }
