@@ -32,17 +32,6 @@ public class Main extends Application {
     //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
     public static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
 
-    /**
-     * Start of the program.
-     */
-//    @Override
-//    public void start(Stage primaryStage) {
-//        primaryStage.setResizable(false);
-//        primaryStage.setTitle(TITLE);
-//        Visualiser logo = new Visualiser();
-//        primaryStage.setScene(logo.Screen());
-//        primaryStage.show();
-//    }
     public static void main (String[] args) {
         launch(args);
     }
@@ -71,6 +60,8 @@ public class Main extends Application {
         commandParser.parseText("make :v sum 23 3");
         commandParser.parseText("sum :v 14");
 //        commandParser.parseText("atan product random quotient remainder product log 3.4 2 2 0.19 pi");
+
+      Visualizer vis = new Visualizer(primaryStage);
     }
 
     private void printVariables()

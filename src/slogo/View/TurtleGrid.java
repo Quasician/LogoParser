@@ -62,8 +62,8 @@ public class TurtleGrid {
     return retGrid;
   }
   private void setBackground(){
-    System.out.println(myDrawer.getBackgroundColor());
-    myPane.setBackground(new Background(new BackgroundFill(myDrawer.getBackgroundColor(), null, null)));
+//    System.out.println(myDrawer.getBackgroundColor());
+    myPane.setBackground(new Background(new BackgroundFill(Color.LINEN, null, null)));
   }
 
   private void updateTurtle(){
