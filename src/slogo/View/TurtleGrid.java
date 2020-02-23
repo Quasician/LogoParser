@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import slogo.Main;
 import slogo.model.Turtle;
 
 /**
@@ -44,7 +45,7 @@ public class TurtleGrid {
   public TurtleGrid(int canvasWidth, int canvasHeight, Drawing draw, Turtle viewTurtle){
     myDrawer = draw;
     this.viewTurtle = viewTurtle;
-    turtleImageView = new ImageView(new Image("turtle.png"));
+    turtleImageView = new ImageView(new Image(Main.myResources.getString("TurtleImage")));
     turtleImageView.setX(viewTurtle.getX());
     turtleImageView.setY(viewTurtle.getY());
     turtleImageView.setFitHeight(40);

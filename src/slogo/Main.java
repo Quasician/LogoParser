@@ -35,7 +35,7 @@ public class Main extends Application {
     private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
     private static final String TURTLE_PNG = "turtle.png";
     //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
-    private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
+    public static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
 
     public static void main (String[] args) {
         launch(args);
