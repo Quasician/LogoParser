@@ -113,6 +113,7 @@ public class CommandParamNumberHashMap {
     }
     public static int getCommandParamNumber(String s)
     {
+        commandParamNumberMap = new HashMap<>();
         System.out.println("GETTING PARAM NUMBER FOR:" +s);
         addCommands();
         return commandParamNumberMap.get(s);

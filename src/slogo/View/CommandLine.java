@@ -2,6 +2,8 @@ package slogo.View;
 
 
 import java.util.ResourceBundle;
+
+import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
@@ -33,12 +35,14 @@ public class CommandLine{
   private static final int COMMAND_LINE_TEXTAREA_HEIGHT = BUTTON_HEIGHT * 2 + 10;
   private static final int SPACING_VALUE = 10;
   private static final int TEXTAREA_FONTSIZE = 20;
+  private StringProperty commandLineText;
 
   /**
    * Constructor for the command line group, which includes the run and clear button, as well as an area
    * where the user can type in commands to control the turtle.
    */
-  public CommandLine(){
+  public CommandLine(StringProperty commandLineText){
+    this.commandLineText = commandLineText;
     setInputArea();
     setButtons();
     formatCommandLineGroup();
@@ -61,8 +65,8 @@ public class CommandLine{
   private void setButtons(){
     runButton = new ViewButton(myResources.getString("Run"), BUTTON_HEIGHT, BUTTON_WIDTH);
     runButton.setOnAction(e -> {
-      inputText = inputArea.getText();
-      System.out.println(inputText);
+      commandLineText.set(inputArea.getText());
+      //System.out.println(commandLineText);
     });
     clearButton = new ViewButton(myResources.getString("Clear"), BUTTON_HEIGHT, BUTTON_WIDTH);
     clearButton.setOnAction(e -> {

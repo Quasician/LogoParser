@@ -1,6 +1,8 @@
 package slogo.View;
 
 import java.util.ResourceBundle;
+
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -20,28 +22,29 @@ public class Visualizer {
 //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
   public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
 
-  private static int WINDOW_WIDTH = 1400;
-  private static int WINDOW_HEIGHT = 1000;
+  private static int WINDOW_WIDTH = 1200;
+  private static int WINDOW_HEIGHT = 800;
   private Stage myWindow;
   private CommandHistory myCommandHistory;
   private VariableHistory myVariableHistory;
   private BorderPane bp;
+  private Turtle viewTurtle;
 
 
   /**
    * Constructor for the visualizer class
    * @param window
-   */
-  public Visualizer(Stage window, Turtle viewTurtle){
+'   */
+  public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText){
     myWindow = window;
     myCommandHistory = new CommandHistory();
     myVariableHistory = new VariableHistory();
 
 //        ViewButton btn = new ViewButton("hi", 50, 100);
-    CommandLine cmdline = new CommandLine();
+    CommandLine cmdline = new CommandLine(commandLineText);
     this.viewTurtle = viewTurtle;
     Drawing drawer = new Drawing();
-    TurtleGrid grid = new TurtleGrid(drawer, viewTurtle);
+    TurtleGrid grid = new TurtleGrid(this.viewTurtle, drawer);
     Toolbar tool = new Toolbar(drawer, grid);
 
     bp = new BorderPane();
