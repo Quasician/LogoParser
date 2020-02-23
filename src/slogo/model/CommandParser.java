@@ -40,37 +40,6 @@ public class CommandParser {
   }
 
   /**
-   * Initializes and adds values to the map, mapping strings in mySymbols
-   * to Command objects.
-   *
-   * Note: every Command implementation should have a basic constructor that
-   * just takes in a string
-   */
-//  public void makeMap() {
-//    stringToCommand = new HashMap<>();
-//    for (Entry<String, Pattern> entry : mySymbols) {
-//      String string = entry.getKey();
-//      System.out.println(string);
-//      Command command;
-//
-//      Constructor[] constructors = null;
-//      try {
-//        constructors = Class.forName(THIS_PACKAGE + string).getConstructors();
-//      } catch (ClassNotFoundException e) {
-//        constructors = null;
-//        //throw an exception
-//      }
-//
-//      try {
-//        command = (Command) constructors[0].newInstance(string);
-//      } catch (Exception e) {
-//        command = null;
-//      }
-//      stringToCommand.put(string, command);
-//    }
-//  }
-
-  /**
    * Adds the given resource file to this language's recognized types
    */
   public void addPatterns (String syntax) {
@@ -111,7 +80,6 @@ public class CommandParser {
     Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
     Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
 
-    CommandStack commandStack = new CommandStack();
     String[] lineValues = commandLine.split(" ");
     for(int i =0; i<lineValues.length;i++)
     {
@@ -124,8 +92,6 @@ public class CommandParser {
     String translatedCommands = String.join(" ", lineValues);
     System.out.println("TRANSLATED: " +translatedCommands);
     makeCommandTree(translatedCommands);
-//    fillCommandStack(lineValues,commandStack);
-//    printStack(commandStack);
   }
 
   private void makeCommandTree(String commands)
@@ -135,76 +101,5 @@ public class CommandParser {
     treeExec = new CommandTreeExecutor(commandFactory, turtle);
     treeExec.executeTrees(head);
   }
-
-
-
-//  // currently only pushes commands and constants ot their respective stacks (not variables)
-//  private void fillCommandStack(String[] lineValues, CommandStack commandStack)
-//  {
-//    Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
-//    Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
-//    for(String s: lineValues)
-//    {
-//      if (match(s, constantPattern))
-//      {
-//        commandStack.pushOntoValueStack(Integer.parseInt(s));
-//        continue;
-//      }
-//      String command = getSymbol(s);
-//      if(match(s, commandPattern) && !command.equals("NO MATCH!") )
-//      {
-//        commandStack.pushOntoCommandStack(command);
-//      }
-//    }
-//  }
-
-
-  // Prints entire stack until command stack (not the value stack) is empty
-//  private void printStack(CommandStack commandStack)
-//  {
-//    while(!commandStack.isCommandStackEmpty())
-//    {
-//      String command = commandStack.popCommandStack();
-//      System.out.print("\n" + command + " ");
-//      if(!commandStack.isValueStackEmpty())
-//      {
-//        //System.out.println("slogo.model.Commands."+commandTypeHashMap.getCommandType(command)+"."+command);
-//        Command commandObject = CommandFactory.getCommandInstance("slogo.model.Commands."+commandTypeHashMap.getCommandType(command)+"."+command);
-//        commandObject.setCommandStack(commandStack);
-//        commandObject.setTurtle(turtle);
-//        //System.out.println("Param number" + commandObject.getParamNumber());
-//        for(int i = 0; i<commandObject.getParamNumber();i++)
-//        {
-//          // needs a try catch in case there is not enough params on the value stack -> could also change the if statement to circumvent this
-//          commandObject.getParamList()[i] = commandStack.popValueStack();
-//          //System.out.println(commandObject.getParamList()[i]);
-//        }
-//        commandObject.doCommand();
-//
-//      }
-//    }
-//    System.out.println(commandStack.popValueStack());
-//  }
-
-// testing
-//  public static void main(String[] args) {
-//    CommandParser c = new CommandParser();
-//
-//    String english = "English";
-//    String chinese = "Chinese";
-//
-//    String forward = "forward";
-//    String chineseCommand = "nizhengqie";
-//
-//    c.addPatterns(english);
-//    c.addPatterns(chinese);
-////    System.out.println(c.getSymbol(forward));
-////    System.out.println(c.getSymbol(chineseCommand));
-//
-//    c.makeMap();
-//
-//    forward = "Forward";
-//
-//  }
 
 }
