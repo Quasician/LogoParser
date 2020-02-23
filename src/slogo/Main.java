@@ -78,10 +78,11 @@ public class Main extends Application {
         StringProperty commandLinetext = new SimpleStringProperty(){};
         StringProperty parseString = new SimpleStringProperty(){};
         parseString.bind(commandLinetext);
+        BooleanProperty textUpdate = new SimpleBooleanProperty();
 
-        parseTextOnInput(parseString, commandParser);
+        parseTextOnInput(textUpdate, parseString, commandParser);
 
-        Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext);
+        Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate);
 
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
@@ -115,9 +116,9 @@ public class Main extends Application {
         view.isPenDownProperty().bind(model.isPenDownProperty());
         view.isShowingProperty().bind(model.isShowingProperty());
     }
-    private void parseTextOnInput(StringProperty parseText, CommandParser commandParser)
+    private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText, CommandParser commandParser)
     {
-        parseText.addListener(new ChangeListener() {
+        textUpdate.addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue o, Object oldVal, Object newVal) {
                 System.out.println(parseText.getValue());

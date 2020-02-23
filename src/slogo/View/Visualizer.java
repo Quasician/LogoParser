@@ -2,6 +2,7 @@ package slogo.View;
 
 import java.util.ResourceBundle;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -35,13 +36,13 @@ public class Visualizer {
    * Constructor for the visualizer class
    * @param window
 '   */
-  public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText){
+  public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText, BooleanProperty textUpdate){
     myWindow = window;
     myCommandHistory = new CommandHistory();
     myVariableHistory = new VariableHistory();
 
 //        ViewButton btn = new ViewButton("hi", 50, 100);
-    CommandLine cmdline = new CommandLine(commandLineText);
+    CommandLine cmdline = new CommandLine(commandLineText, textUpdate);
     this.viewTurtle = viewTurtle;
     Drawing drawer = new Drawing();
     TurtleGrid grid = new TurtleGrid(this.viewTurtle, drawer);
