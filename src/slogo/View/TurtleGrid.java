@@ -1,5 +1,7 @@
 package slogo.View;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
@@ -50,6 +52,8 @@ public class TurtleGrid {
     turtleImageView.setFitHeight(40);
     turtleImageView.setFitWidth(40);
 
+    addListeners();
+
     myCanvasWidth = canvasWidth;
     myCanvasHeight = canvasHeight;
     centerX = canvasWidth / 2.0;
@@ -66,6 +70,22 @@ public class TurtleGrid {
 
   public TurtleGrid(Drawing draw, Turtle viewTurtle){
     this(DEFAULT_CANVAS_SIZE, DEFAULT_CANVAS_SIZE, draw, viewTurtle);
+  }
+
+  private void addListeners() {
+    viewTurtle.xProperty().addListener(new ChangeListener() {
+      @Override
+      public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        turtleImageView.setX(viewTurtle.getX());
+      }
+    });
+
+    viewTurtle.yProperty().addListener(new ChangeListener() {
+      @Override
+      public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        turtleImageView.setY(viewTurtle.getY());
+      }
+    });
   }
 
   protected Node getTurtleGrid(){
