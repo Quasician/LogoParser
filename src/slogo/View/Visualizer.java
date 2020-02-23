@@ -2,6 +2,9 @@ package slogo.View;
 
 import java.awt.*;
 import java.util.ResourceBundle;
+
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -40,17 +43,18 @@ public class Visualizer {
   private static final String style="-fx-background-color: rgba(0, 0, 0, 0.7);";
 
 
+
   /**
    * Constructor for the visualizer class
    * @param window
-   */
-  public Visualizer(Stage window, Turtle viewTurtle){
+'   */
+  public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText, BooleanProperty textUpdate){
     myWindow = window;
     myCommandHistory = new CommandHistory();
     myVariableHistory = new VariableHistory();
 
 //        ViewButton btn = new ViewButton("hi", 50, 100);
-    CommandLine cmdline = new CommandLine();
+    CommandLine cmdline = new CommandLine(commandLineText, textUpdate);
     this.viewTurtle = viewTurtle;
     Drawing drawer = new Drawing();
     img = new Image(myResources.getString("SlogoLogo"));
