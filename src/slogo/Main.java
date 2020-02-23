@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import slogo.View.Visualiser;
 import slogo.View.CommandLine;
 import slogo.View.Drawing;
 import slogo.View.Toolbar;
