@@ -2,6 +2,9 @@ package slogo;
 
 import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -26,15 +29,25 @@ import java.util.Map;
  * Feel free to completely change this code or delete it entirely. 
  */
 public class Main extends Application {
-    public static final String RESOURCES = "resources";
-    public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
+    private static final String RESOURCES = "resources";
+    private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
     //  public static final String LANGUAGE = "English";
-    public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
+    private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
+    private static final String TURTLE_PNG = "turtle.png";
     //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
     public static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
 
     public static void main (String[] args) {
         launch(args);
+    }
+
+    private void bindTurtles(Turtle model, Turtle view) {
+        view.xProperty().bind(model.xProperty());
+        view.yProperty().bind(model.yProperty());
+        view.distanceProperty().bind(model.distanceProperty());
+        view.angleProperty().bind(model.angleProperty());
+        view.isPenDownProperty().bind(model.isPenDownProperty());
+        view.isShowingProperty().bind(model.isShowingProperty());
     }
 
     @Override
@@ -45,12 +58,28 @@ public class Main extends Application {
 //            deg +=360;
 //        }
 //        System.out.println(deg);
-        Turtle turtle = new Turtle();
-        CommandParser commandParser = new CommandParser(turtle);
+        Turtle modelTurtle = new Turtle();
+        Turtle viewTurtle = new Turtle();
+        bindTurtles(modelTurtle, viewTurtle);
+
+        //ObjectProperty<Turtle> modelTurtleProp = new SimpleObjectProperty<>(modelTurtle, "modelTurtle");
+        //ObjectProperty<Turtle> viewTurtleProp = new SimpleObjectProperty<>(viewTurtle, "viewTurtle");
+        // viewTurtleProp.bind(modelTurtleProp);
+
+        modelTurtle.setX(20);
+        System.out.println("Turtle x " + viewTurtle.getX());
+
+        modelTurtle.setY(30);
+        System.out.println("Turtle y " + viewTurtle.getY());
+
+        modelTurtle.setDegree(49.9);
+        System.out.println("Turtle degree " + viewTurtle.getDegree());
+
+        CommandParser commandParser = new CommandParser(modelTurtle);
         commandParser.addPatterns("English");
 
-        turtle.setDegree(45);
-        commandParser.parseText("towards -5 0");
+//        modelTurtle.setDegree(45);
+//        commandParser.parseText("towards -5 0");
       //  System.out.println("Hello world");
        // commandParser.parseText("difference difference 5 5 5");
         //System.out.println("Hello world");
@@ -62,7 +91,7 @@ public class Main extends Application {
         commandParser.parseText("sum :v 14");
 //        commandParser.parseText("atan product random quotient remainder product log 3.4 2 2 0.19 pi");
 
-      Visualizer vis = new Visualizer(primaryStage);
+      Visualizer vis = new Visualizer(primaryStage, viewTurtle);
     }
 
     private void printVariables()

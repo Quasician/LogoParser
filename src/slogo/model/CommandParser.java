@@ -1,5 +1,10 @@
 package slogo.model;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactory;
 import slogo.model.Commands.CommandFactoryInterface;
@@ -26,6 +31,9 @@ public class CommandParser {
 
   private Map<String, Command> stringToCommand;
   private Turtle turtle;
+
+  private ObjectProperty<Turtle> turtleProperty = new SimpleObjectProperty<Turtle>(this, "turtle");
+
   private CommandFactoryInterface commandFactory;
   private CommandTreeExecutor treeExec;
   private CommandTreeConstructor treeMaker;
