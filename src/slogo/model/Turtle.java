@@ -2,23 +2,34 @@ package slogo.model;
 
 public class Turtle {
 
+  private static final int DEGREE_LOWER_BOUND = 0;
+  private static final int DEGREE_UPPER_BOUND = 360;
   private int x, y, distanceTravelled, degree;
-  private boolean isPenDown;
+  private boolean isPenDown, isVisible;
 
   public Turtle() {
     isPenDown = true;
+    isVisible = true;
   }
 
-  protected int getX() {
+  public boolean isVisible() {
+    return isVisible;
+  }
+
+  public boolean isPenDown() {
+    return isPenDown;
+  }
+
+  public int getX() {
     return x;
   }
 
-  protected int getY() {
+  public int getY() {
     return y;
   }
 
   // returns an int from 0 to 359
-  protected int getDegree() {
+  public int getDegree() {
     return degree;
   }
 
@@ -26,28 +37,43 @@ public class Turtle {
     return distanceTravelled;
   }
 
-  protected int setX(int x) {
+  public  int setX(int x) {
     return this.x = x;
   }
 
-  protected int setY(int y) {
+  public int setY(int y) {
     return this.y = y;
   }
 
-  protected int setDegree(int degree) {
+  /**
+   *
+   * @param degree must be between 0 and 359, inclusive
+   * @return
+   */
+  public int setDegree(int degree) {
+    if (degree < DEGREE_LOWER_BOUND || degree > DEGREE_UPPER_BOUND)
+      throw new ArithmeticException("Degree not in valid range");
     return this.degree = degree;
   }
 
-  protected int setDistance(int distance) {
+  public int setDistance(int distance) {
     return this.distanceTravelled = distance;
   }
 
-  protected boolean penUp() {
+  public boolean penUp() {
     return isPenDown = false;
   }
 
-  protected boolean penDown() {
+  public boolean penDown() {
     return isPenDown = true;
+  }
+
+  public void show() {
+    isVisible = true;
+  }
+
+  public void hide() {
+    isVisible = false;
   }
 
 }

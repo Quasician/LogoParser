@@ -1,10 +1,12 @@
 package slogo.model;
 
-import java.lang.reflect.Constructor;
+import slogo.model.Commands.Command;
+import slogo.model.Commands.CommandFactory;
+import slogo.model.Commands.CommandFactoryInterface;
+
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,44 +25,18 @@ public class CommandParser {
   private List<Entry<String, Pattern>> mySymbols;
 
   private Map<String, Command> stringToCommand;
-
+  private Turtle turtle;
+  private CommandFactoryInterface commandFactory;
+  private CommandTreeExecutor treeExec;
+  private CommandTreeConstructor treeMaker;
 
   /**
    * Create an empty parser
    */
-  public CommandParser () {
+  public CommandParser (Turtle turtle) {
     mySymbols = new ArrayList<>();
-  }
-
-  /**
-   * Initializes and adds values to the map, mapping strings in mySymbols
-   * to Command objects.
-   *
-   * Note: every Command implementation should have a basic constructor that
-   * just takes in a string
-   */
-  public void makeMap() {
-    stringToCommand = new HashMap<>();
-    for (Entry<String, Pattern> entry : mySymbols) {
-      String string = entry.getKey();
-      System.out.println(string);
-      Command command;
-
-      Constructor[] constructors = null;
-      try {
-        constructors = Class.forName(THIS_PACKAGE + string).getConstructors();
-      } catch (ClassNotFoundException e) {
-        constructors = null;
-        //throw an exception
-      }
-
-      try {
-        command = (Command) constructors[0].newInstance(string);
-      } catch (Exception e) {
-        command = null;
-      }
-      stringToCommand.put(string, command);
-    }
+    commandFactory = new CommandFactory();
+    this.turtle = turtle;
   }
 
   /**
@@ -83,6 +59,7 @@ public class CommandParser {
     final String ERROR = "NO MATCH";
     for (Entry<String, Pattern> e : mySymbols) {
       if (match(text, e.getValue())) {
+        System.out.println(e.getKey());
         return e.getKey();
       }
     }
@@ -97,25 +74,32 @@ public class CommandParser {
     return regex.matcher(text).matches();
   }
 
-  //testing
-  public static void main(String[] args) {
-    CommandParser c = new CommandParser();
 
-    String english = "English";
-    String chinese = "Chinese";
+  public void parseText(String commandLine)
+  {
+    Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
+    Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
 
-    String forward = "forward";
-    String chineseCommand = "nizhengqie";
+    String[] lineValues = commandLine.split(" ");
+    for(int i =0; i<lineValues.length;i++)
+    {
+      if(match(lineValues[i],commandPattern))
+      {
+        lineValues[i] = getSymbol(lineValues[i]);
+        System.out.println("ELEMENT:" + lineValues[i]);
+      }
+    }
+    String translatedCommands = String.join(" ", lineValues);
+    System.out.println("TRANSLATED: " +translatedCommands);
+    makeCommandTree(translatedCommands);
+  }
 
-    c.addPatterns(english);
-    c.addPatterns(chinese);
-//    System.out.println(c.getSymbol(forward));
-//    System.out.println(c.getSymbol(chineseCommand));
-
-    c.makeMap();
-
-    forward = "Forward";
-
+  private void makeCommandTree(String commands)
+  {
+    treeMaker = new CommandTreeConstructor(commands);
+    ArrayList <TreeNode> head = (ArrayList) treeMaker.buildTrees(commands);
+    treeExec = new CommandTreeExecutor(commandFactory, turtle);
+    treeExec.executeTrees(head);
   }
 
 }
