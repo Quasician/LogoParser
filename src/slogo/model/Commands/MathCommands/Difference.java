@@ -5,7 +5,7 @@ import slogo.model.TreeNode;
 
 public class Difference extends MathCommand {
     public Difference(String name) {
-        super(2, name);
+        super(name);
     }
     @Override
     public void doCommand(TreeNode commandNode) {

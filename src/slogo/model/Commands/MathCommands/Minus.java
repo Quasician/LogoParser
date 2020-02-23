@@ -5,7 +5,7 @@ import slogo.model.TreeNode;
 
 public class Minus extends MathCommand {
     public Minus(String name) {
-        super(1, name);
+        super(name);
     }
     @Override
     public void doCommand(TreeNode commandNode) {

@@ -59,7 +59,7 @@ public class CommandParamNumberHashMap {
         commandParamNumberMap.putIfAbsent("Tangent",1);
         commandParamNumberMap.putIfAbsent("ArcTangent",1);
         commandParamNumberMap.putIfAbsent("NaturalLog",1);
-        commandParamNumberMap.putIfAbsent("Power",1);
+        commandParamNumberMap.putIfAbsent("Power",2);
         commandParamNumberMap.putIfAbsent("Pi",0);
     }
 

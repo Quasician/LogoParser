@@ -5,11 +5,11 @@ import slogo.model.TreeNode;
 
 public class Random extends MathCommand {
     public Random(String name) {
-        super(1, name);
+        super(name);
     }
     @Override
     public void doCommand(TreeNode commandNode) {
         commandNode.setData(((int)(Math.random() *Double.parseDouble(getParamList().get(0))))+"");
-        System.out.println("Result of Random"+ commandNode.getData());
+        System.out.println("Result of Random: "+ commandNode.getData());
     }
 }

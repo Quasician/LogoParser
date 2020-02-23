@@ -9,7 +9,7 @@ public class Forward extends TurtleCommand {
   private double distance;
 
   public Forward(String name) {
-    super(1, name);
+    super(name);
   }
 
   @Override

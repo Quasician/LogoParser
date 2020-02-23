@@ -6,11 +6,11 @@ import slogo.model.TreeNode;
 
 public class Product extends MathCommand {
     public Product(String name) {
-        super(2, name);
+        super(name);
     }
     @Override
     public void doCommand(TreeNode commandNode) {
        commandNode.setData(Double.parseDouble(getParamList().get(0))*Double.parseDouble(getParamList().get(1))+"");
-       System.out.println("Result of Product"+ commandNode.getData());
+       System.out.println("Result of Product: "+ commandNode.getData());
     }
 }
