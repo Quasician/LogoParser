@@ -35,4 +35,8 @@ public abstract class Command {
   public void setParams(List<String> params) {
     values = (ArrayList)params;
   }
+
+  protected String string(int value) {
+    return value + "";
+  }
 }

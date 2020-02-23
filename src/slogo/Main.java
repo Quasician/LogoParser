@@ -27,6 +27,12 @@ public class Main extends Application {
         Turtle turtle = new Turtle();
         CommandParser commandParser = new CommandParser(turtle);
         commandParser.addPatterns("English");
+
+        turtle.setDegree(45);
+        commandParser.parseText("towards -5 0");
+      //  System.out.println("Hello world");
+       // commandParser.parseText("difference difference 5 5 5");
+        //System.out.println("Hello world");
         //Error if you put .decimal instead of 0.decimal -> 0.3 vs .3
 //        commandParser.parseText("fd sum 10 sum 10 sum 10 sum 20 20");
 //        commandParser.parseText("sum 10 sum 20 20");

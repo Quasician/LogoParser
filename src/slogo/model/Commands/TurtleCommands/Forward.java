@@ -3,10 +3,17 @@ package slogo.model.Commands.TurtleCommands;
 
 import slogo.model.TreeNode;
 
-//merge
+/**
+ * @author Sanna
+ *
+ * Forward command: FORWARD pixels
+ * Moves the turtle forward by "pixels" spaces in the direction it currently faces,
+ * and returns "pixels"
+ *
+ */
 public class Forward extends TurtleCommand {
 
-  private double distance;
+  private int distance;
 
   public Forward(String name) {
     super(name);
@@ -14,40 +21,10 @@ public class Forward extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    //System.out.println("\nDID FORWARD COMMAND by "+values[0]);
-//    commandStack.pushOntoValueStack(values[0]);
-    distance = Double.parseDouble(getParamList().get(0));
-    commandNode.setData(getParamList().get(0));
-    System.out.println("Result of Forward: "+commandNode.getData());
-
-    int angle = turtle.getDegree();
-    angle = getAdjustedAngle(angle);
-    int xMultiplier = getXMultiplier(angle);
-    int yMultiplier = getYMultiplier(angle);
-
-    double angleToRadians = angleToRadians(angle);
-    double rightAngle = angleToRadians(facingRight);
-    int newX = turtle.getX() + xMultiplier * (int) (distance * Math.sin(angleToRadians));
-    int newY = turtle.getY() + yMultiplier * (int) (distance * Math.sin(rightAngle - angleToRadians));
-
-    System.out.println("\nTurtle Position: X: " + newX + " Y: " + newY);
-
-    turtle.setX(newX);
-    turtle.setY(newY);
+    distance = (int)Double.parseDouble(getParamList().get(0));
+    commandNode.setData(distance + "");
+    moveTurtle(forward, distance);
+    //System.out.println("Result of Forward: "+commandNode.getData());
   }
 }
-
-//  public Turtle getTurtle() {
-//    return turtle;
-//  }
-
-//  public static void main(String[] args) {
-//    ForwardCommand c = new ForwardCommand("hi", new Turtle(), 50);
-//
-//    Turtle t = c.getTurtle();
-//    t.setDegree(40);
-//
-//    c.doCommand();
-//
-//  }
 
