@@ -2,6 +2,7 @@ package slogo;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import slogo.View.Visualiser;
 import slogo.model.CommandParser;
 import slogo.model.Turtle;
 import slogo.model.VariableHashMap;

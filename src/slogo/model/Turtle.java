@@ -1,23 +1,39 @@
 package slogo.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
+
 public class Turtle {
 
   private static final int DEGREE_LOWER_BOUND = 0;
   private static final int DEGREE_UPPER_BOUND = 360;
-  private int x, y, distanceTravelled, degree;
-  private boolean isPenDown, isVisible;
+  //private int x, y, distanceTravelled, degree;
+  //private boolean isPenDown, isVisible;
+
+  private DoubleProperty xPosition = new SimpleDoubleProperty();
+  private DoubleProperty yPosition = new SimpleDoubleProperty();
+  private DoubleProperty distance = new SimpleDoubleProperty();
+  private DoubleProperty angleFacing = new SimpleDoubleProperty();
+  private BooleanProperty isPenDown = new SimpleBooleanProperty();
+  private BooleanProperty isShowing = new SimpleBooleanProperty();
+
 
   public Turtle() {
-    isPenDown = true;
-    isVisible = true;
+    isShowing.set(true);
+    isPenDown.set(true);
+//    isPenDown = true;
+//    isVisible = true;
   }
 
   public boolean isVisible() {
-    return isVisible;
+    return isShowing.get();
   }
 
   public boolean isPenDown() {
-    return isPenDown;
+    return isPenDown.get();
   }
 
   public int getX() {
@@ -37,7 +53,7 @@ public class Turtle {
     return distanceTravelled;
   }
 
-  public  int setX(int x) {
+  public int setX(int x) {
     return this.x = x;
   }
 
