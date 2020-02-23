@@ -33,6 +33,9 @@ public class Drawing {
         newLine.setStartY(a);
         newLine.setEndX(b);
         newLine.setEndY(b);
+    // not part of api, but we can change this later?
+//    protected Color getBackgroundColor(){
+//        return backgroundColor;
     }
 
 }

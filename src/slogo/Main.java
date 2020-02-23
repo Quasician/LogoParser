@@ -1,7 +1,18 @@
 package slogo;
 
+import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import slogo.View.CommandLine;
+import slogo.View.Drawing;
+import slogo.View.Toolbar;
+import slogo.View.TurtleGrid;
+import slogo.View.ViewButton;
+import slogo.View.Visualizer;
 import slogo.model.CommandParser;
 import slogo.model.Turtle;
 import slogo.model.VariableHashMap;
@@ -14,6 +25,13 @@ import java.util.Map;
  * Feel free to completely change this code or delete it entirely. 
  */
 public class Main extends Application {
+    public static final String RESOURCES = "resources";
+    public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
+    //  public static final String LANGUAGE = "English";
+    public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
+    //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
+    public static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
+
     /**
      * Start of the program.
      */
