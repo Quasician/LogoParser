@@ -32,16 +32,16 @@ public class Visualizer {
    * Constructor for the visualizer class
    * @param window
    */
-  public Visualizer(Stage window){
+  public Visualizer(Stage window, Turtle viewTurtle){
     myWindow = window;
     myCommandHistory = new CommandHistory();
     myVariableHistory = new VariableHistory();
 
 //        ViewButton btn = new ViewButton("hi", 50, 100);
     CommandLine cmdline = new CommandLine();
-    Turtle turtle = new Turtle();
+    this.viewTurtle = viewTurtle;
     Drawing drawer = new Drawing();
-    TurtleGrid grid = new TurtleGrid(turtle, drawer);
+    TurtleGrid grid = new TurtleGrid(drawer, viewTurtle);
     Toolbar tool = new Toolbar(drawer, grid);
 
     bp = new BorderPane();
