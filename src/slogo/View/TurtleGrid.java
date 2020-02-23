@@ -48,7 +48,7 @@ public class TurtleGrid {
     myPane = new Pane();
     myPane.setMaxWidth(myCanvasWidth);
     myPane.setMaxHeight(myCanvasHeight);
-    setBackground();
+    setBackground(Color.LINEN);
     myCanvas = new Canvas(myCanvasWidth, myCanvasHeight);
     retGrid = new StackPane();
     retGrid.getChildren().addAll(myCanvas, myPane);
@@ -61,9 +61,9 @@ public class TurtleGrid {
   protected Node getTurtleGrid(){
     return retGrid;
   }
-  private void setBackground(){
-//    System.out.println(myDrawer.getBackgroundColor());
-    myPane.setBackground(new Background(new BackgroundFill(Color.LINEN, null, null)));
+
+  protected void setBackground(Color color){
+    myPane.setBackground(new Background(new BackgroundFill(color, null, null)));
   }
 
   private void updateTurtle(){

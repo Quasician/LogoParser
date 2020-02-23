@@ -29,8 +29,9 @@ public class Visualizer {
     CommandLine cmdline = new CommandLine();
     Turtle turtle = new Turtle();
     Drawing drawer = new Drawing();
-    Toolbar tool = new Toolbar(drawer);
     TurtleGrid grid = new TurtleGrid(turtle, drawer);
+    Toolbar tool = new Toolbar(drawer, grid);
+
 
     BorderPane bp = new BorderPane();
     bp.setBottom(cmdline.getCommandLineGroup());
