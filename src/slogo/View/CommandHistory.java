@@ -1,5 +1,10 @@
 package slogo.View;
 
+import static javafx.scene.text.TextAlignment.CENTER;
+
+import java.util.ResourceBundle;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
@@ -10,28 +15,29 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import slogo.Main;
 
 public class CommandHistory {
     private static VBox historyWindow;
-    private static final Color textColor= Color.WHITE;
+    private static final Color textColor= Color.BLACK;
     private HBox newCommand;
     private CustomButton runButton;
     private Label commandEntered;
     private static final String imgValue= "Play.png";
-    private static final int spacing=10;
-    private static final int BoxSpacing=5;
+    private static final int spacing=300;
+    private static final int BoxSpacing=300;
     private ArrayList<String> Values;
-    private static final String style = "-fx-background-color: rgba(255, 255, 255, 0.5);";
+    private static final String style = "-fx-background-color: rgba(0, 0,0, 0.5);";
+    private ResourceBundle myResources = Main.myResources;
 
     public CommandHistory(){
-        runButton=new CustomButton();
-        runButton.setMaxHeight(BoxSpacing);
-        runButton.setMaxWidth(spacing);
         Values= new ArrayList<>();
-        historyWindow=new VBox(spacing);
+        historyWindow=new VBox(5);
         historyWindow.setBackground(Background.EMPTY);
         historyWindow.setStyle(style);
-        //runButton.setImage(runButton,imgValue);
+        historyWindow.setPrefHeight(300.0);
+        historyWindow.setPrefWidth(300.0);
+        historyWindow.setMargin(historyWindow,new Insets(10,5,10,0));
     }
 
     private void runCommand(HBox cellForWindow){
@@ -39,12 +45,17 @@ public class CommandHistory {
         //doCommand(Values.get(cellForWindow.getAccessibleText()));
     }
 
-    private void makeBox(String StringRepresentation){
+    protected void makeBox(String StringRepresentation){
+        runButton=new CustomButton();
+        runButton.setMaxHeight(BoxSpacing);
+        runButton.setMaxWidth(spacing);
+        runButton.setImage(runButton, myResources.getString("PlayImage"));
         Values.add(StringRepresentation);
-        newCommand= new HBox(BoxSpacing);
+        newCommand= new HBox(5);
+        newCommand.setMaxSize(300,200);
         commandEntered=new Label(StringRepresentation);
         commandEntered.setTextFill(textColor);
-        newCommand.getChildren().addAll(commandEntered,runButton);
+        newCommand.getChildren().addAll(runButton,commandEntered);
         newCommand.setAccessibleText(StringRepresentation);
         historyWindow.getChildren().add(newCommand);
         runButton.setOnAction(actionEvent -> runCommand(newCommand));
