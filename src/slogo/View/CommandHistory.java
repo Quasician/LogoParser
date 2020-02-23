@@ -1,14 +1,18 @@
 package slogo.View;
 
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import slogo.model.Command;
 
+import java.awt.*;
 import java.util.LinkedHashMap;
 
 public class CommandHistory {
     private static VBox historyWindow;
+    private static final Color textColor= Color.WHITE;
     private HBox newCommand;
     private CustomButton runButton;
     private Label commandEntered;
@@ -16,12 +20,15 @@ public class CommandHistory {
     private static final int spacing=10;
     private static final int BoxSpacing=5;
     private LinkedHashMap<String,Command> Values;
+    private static final String style = "-fx-background-color: rgba(255, 255, 255, 0.5);";
 
     public CommandHistory(){
         runButton=new CustomButton();
         Values= new LinkedHashMap<>();
         historyWindow=new VBox(spacing);
-        runButton.setImage(runButton,imgValue);
+        historyWindow.setBackground(Background.EMPTY);
+        historyWindow.setStyle(style);
+        //runButton.setImage(runButton,imgValue);
     }
 
     private void runCommand(HBox cellForWindow){
@@ -33,6 +40,7 @@ public class CommandHistory {
         Values.put(StringRepresentation, command);
         newCommand= new HBox(BoxSpacing);
         commandEntered=new Label(StringRepresentation);
+        commandEntered.setTextFill(textColor);
         newCommand.getChildren().addAll(commandEntered,runButton);
         newCommand.setAccessibleText(StringRepresentation);
         historyWindow.getChildren().add(newCommand);
