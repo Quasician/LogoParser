@@ -19,6 +19,9 @@ public class VariableHistory {
     public VariableHistory(){
         Variables=new HashMap<>();
         variablesHolder= new VBox(spacing);
+        variable.setTextFill(textColor);
+        variable.setMaxHeight(10);
+        variable.setMaxWidth(10);
         variablesHolder.setBackground(Background.EMPTY);
         variablesHolder.setStyle(style);
     }
@@ -32,7 +35,6 @@ public class VariableHistory {
                 Variables.putIfAbsent(name, value);
             }
            variable.setText(name);
-           variable.setTextFill(textColor);
            variablesHolder.getChildren().add(variable);
         }
 

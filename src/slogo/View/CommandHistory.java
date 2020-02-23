@@ -7,6 +7,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import slogo.model.Command;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedHashMap;
 
@@ -24,6 +25,8 @@ public class CommandHistory {
 
     public CommandHistory(){
         runButton=new CustomButton();
+        runButton.setMaxHeight(BoxSpacing);
+        runButton.setMaxWidth(spacing);
         Values= new LinkedHashMap<>();
         historyWindow=new VBox(spacing);
         historyWindow.setBackground(Background.EMPTY);
