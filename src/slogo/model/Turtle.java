@@ -28,6 +28,30 @@ public class Turtle {
 //    isVisible = true;
   }
 
+  public DoubleProperty xProperty() {
+    return x;
+  }
+
+  public DoubleProperty yProperty() {
+    return y;
+  }
+
+  public DoubleProperty distanceProperty() {
+    return distance;
+  }
+
+  public DoubleProperty angleProperty() {
+    return angleFacing;
+  }
+
+  public BooleanProperty isPenDownProperty() {
+    return isPenDown;
+  }
+
+  public BooleanProperty isShowingProperty() {
+    return isShowing;
+  }
+
   public boolean isVisible() {
     return isShowing.get();
   }

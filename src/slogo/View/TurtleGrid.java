@@ -2,6 +2,8 @@ package slogo.View;
 
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -21,7 +23,9 @@ import slogo.model.Turtle;
 public class TurtleGrid {
   private int myCanvasWidth;
   private int myCanvasHeight;
-  private Turtle myTurtle;
+  private Turtle viewTurtle;
+  private ImageView turtleImageView;
+  //private Turtle myTurtle;
   private Drawing myDrawer;
   private Pane myPane; //to change background of grid, change the background of the pane
   private Canvas myCanvas;
@@ -35,12 +39,17 @@ public class TurtleGrid {
    * Constructor for the TurtleGrid class, which initializes everything
    * @param canvasWidth is the width of the canvas where the turtle is located, and where all the shapes are drawn
    * @param canvasHeight is the height of the canvas
-   * @param turtle is the turtle that will be drawing on the canvas
    * @param draw is the drawing class that would control what will be drawn on the canvas
    */
-  public TurtleGrid(int canvasWidth, int canvasHeight, Turtle turtle, Drawing draw){
-    myTurtle = turtle;
+  public TurtleGrid(int canvasWidth, int canvasHeight, Drawing draw, Turtle viewTurtle){
     myDrawer = draw;
+    this.viewTurtle = viewTurtle;
+    turtleImageView = new ImageView(new Image("turtle.png"));
+    turtleImageView.setX(viewTurtle.getX());
+    turtleImageView.setY(viewTurtle.getY());
+    turtleImageView.setFitHeight(40);
+    turtleImageView.setFitWidth(40);
+
     myCanvasWidth = canvasWidth;
     myCanvasHeight = canvasHeight;
     centerX = canvasWidth / 2.0;
@@ -52,10 +61,11 @@ public class TurtleGrid {
     myCanvas = new Canvas(myCanvasWidth, myCanvasHeight);
     retGrid = new StackPane();
     retGrid.getChildren().addAll(myCanvas, myPane);
+    retGrid.getChildren().add(turtleImageView);
   }
 
-  public TurtleGrid(Turtle turtle, Drawing draw){
-    this(DEFAULT_CANVAS_SIZE, DEFAULT_CANVAS_SIZE, turtle, draw);
+  public TurtleGrid(Drawing draw, Turtle viewTurtle){
+    this(DEFAULT_CANVAS_SIZE, DEFAULT_CANVAS_SIZE, draw, viewTurtle);
   }
 
   protected Node getTurtleGrid(){

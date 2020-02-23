@@ -17,19 +17,20 @@ public class Visualizer {
 //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
   public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
   private Stage myWindow;
+  private Turtle viewTurtle;
 
   /**
    * Constructor for the visualizer class
    * @param window
    */
-  public Visualizer(Stage window){
+  public Visualizer(Stage window, Turtle viewTurtle){
     myWindow = window;
 
 //        ViewButton btn = new ViewButton("hi", 50, 100);
     CommandLine cmdline = new CommandLine();
-    Turtle turtle = new Turtle();
+    this.viewTurtle = viewTurtle;
     Drawing drawer = new Drawing();
-    TurtleGrid grid = new TurtleGrid(turtle, drawer);
+    TurtleGrid grid = new TurtleGrid(drawer, viewTurtle);
     Toolbar tool = new Toolbar(drawer, grid);
 
 
