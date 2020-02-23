@@ -6,7 +6,7 @@ import javafx.scene.shape.Line;
 public class Drawing {
     private Color penColor= Color.BLACK;
     private Color backgroundColor= Color.BLACK;
-    private static boolean penState=true;
+    private boolean penState=true;
 
     public void changeBackground(Color value){
         penColor=value;
@@ -33,6 +33,9 @@ public class Drawing {
         newLine.setStartY(a);
         newLine.setEndX(b);
         newLine.setEndY(b);
+    // not part of api, but we can change this later?
+//    protected Color getBackgroundColor(){
+//        return backgroundColor;
     }
 
 }

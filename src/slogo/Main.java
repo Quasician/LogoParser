@@ -1,7 +1,19 @@
 package slogo;
 
+import java.util.ResourceBundle;
 import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import slogo.View.Visualiser;
+import slogo.View.CommandLine;
+import slogo.View.Drawing;
+import slogo.View.Toolbar;
+import slogo.View.TurtleGrid;
+import slogo.View.ViewButton;
+import slogo.View.Visualizer;
 import slogo.model.CommandParser;
 import slogo.model.Turtle;
 import slogo.model.VariableHashMap;
@@ -14,17 +26,13 @@ import java.util.Map;
  * Feel free to completely change this code or delete it entirely. 
  */
 public class Main extends Application {
-    /**
-     * Start of the program.
-     */
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setResizable(false);
-        primaryStage.setTitle(TITLE);
-        Visualiser logo = new Visualiser();
-        primaryStage.setScene(logo.Screen());
-        primaryStage.show();
-    }
+    public static final String RESOURCES = "resources";
+    public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
+    //  public static final String LANGUAGE = "English";
+    public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
+    //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
+    public static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
+
     public static void main (String[] args) {
         launch(args);
     }
@@ -53,6 +61,8 @@ public class Main extends Application {
         commandParser.parseText("make :v sum 23 3");
         commandParser.parseText("sum :v 14");
 //        commandParser.parseText("atan product random quotient remainder product log 3.4 2 2 0.19 pi");
+
+      Visualizer vis = new Visualizer(primaryStage);
     }
 
     private void printVariables()

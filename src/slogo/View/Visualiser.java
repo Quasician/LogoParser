@@ -15,7 +15,7 @@ public class Visualiser {
 
     public Scene Screen(){
         VBox root = new VBox(20);
-        bar=new Toolbar();
+//        bar=new Toolbar();
         window= new CommandHistory();
         root.getChildren().addAll(bar.ToolBar(), window.returnScene());
         return new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BACKGROUND);
