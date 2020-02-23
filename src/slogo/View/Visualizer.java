@@ -26,7 +26,7 @@ public class Visualizer {
   private CommandHistory myCommandHistory;
   private VariableHistory myVariableHistory;
   private BorderPane bp;
-
+  private Turtle viewTurtle;
 
   /**
    * Constructor for the visualizer class
@@ -41,7 +41,7 @@ public class Visualizer {
     CommandLine cmdline = new CommandLine();
     this.viewTurtle = viewTurtle;
     Drawing drawer = new Drawing();
-    TurtleGrid grid = new TurtleGrid(drawer, viewTurtle);
+    TurtleGrid grid = new TurtleGrid(viewTurtle, drawer);
     Toolbar tool = new Toolbar(drawer, grid);
 
     bp = new BorderPane();
