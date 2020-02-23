@@ -1,8 +1,9 @@
-package slogo.model.Commands.TurtleCommands;
+package slogo.model.Commands.TurtleQueries;
 
+import slogo.model.Commands.TurtleCommands.TurtleCommand;
 import slogo.model.TreeNode;
 
-public class YCoordinate extends TurtleCommand {
+public class YCoordinate extends TurtleQuery {
 
   public YCoordinate(String name) {
     super(name);
