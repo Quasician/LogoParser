@@ -20,11 +20,12 @@ public class Turtle {
   private DoubleProperty angleFacing = new SimpleDoubleProperty();
   private BooleanProperty isPenDown = new SimpleBooleanProperty();
   private BooleanProperty isShowing = new SimpleBooleanProperty();
-
+  private BooleanProperty clearScreenCalled = new SimpleBooleanProperty();
 
   public Turtle() {
     isShowing.set(true);
     isPenDown.set(true);
+    clearScreenCalled.set(false);
     Coordinate coordinate = new Coordinate(0,0);
     coordinates = new SimpleObjectProperty(coordinate, "coordinate");
     coordinates.set(coordinate);
@@ -48,6 +49,10 @@ public class Turtle {
 
   public BooleanProperty isShowingProperty() {
     return isShowing;
+  }
+
+  public BooleanProperty clearScreenProperty() {
+    return clearScreenCalled;
   }
 
   public boolean isVisible() {
@@ -100,6 +105,10 @@ public class Turtle {
     if (degree < DEGREE_LOWER_BOUND || degree >= DEGREE_UPPER_BOUND)
       throw new ArithmeticException("Degree not in valid range");
     angleFacing.set(degree);
+  }
+
+  public void clearScreenDone() {
+    clearScreenCalled.set(false);
   }
 
   public void setDistance(double distance) {

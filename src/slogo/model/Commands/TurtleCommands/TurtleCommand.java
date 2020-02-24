@@ -41,7 +41,7 @@ public abstract class TurtleCommand extends Command {
   protected boolean facingBottomLeft(double angle) {
     return angle >= FACING_DOWN && angle < FACING_LEFT;
   }
-  
+
   protected double getAdjustedAngle(double angle) {
     if (facingTopRight(angle)) {
       return angle;
