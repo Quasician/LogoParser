@@ -36,6 +36,7 @@ public class Visualizer {
   private static int WINDOW_WIDTH = 1000;
   private static int WINDOW_HEIGHT = 500;
   private Stage myWindow;
+
   private CommandHistory myCommandHistory;
   private VariableHistory myVariableHistory;
   private BorderPane bp;
@@ -43,8 +44,6 @@ public class Visualizer {
   private ImageView buttonImage;
   private javafx.scene.image.Image img;
   private static final String style="-fx-background-color: rgba(0, 0, 0, 0.7);";
-
-
 
   /**
    * Constructor for the visualizer class
