@@ -74,7 +74,8 @@ public class Main extends Application {
 //        commandParser.parseText("make :v sum 23 3");
 //        commandParser.parseText("sum :v 14");
 //        commandParser.parseText("atan product random quotient remainder product log 3.4 2 2 0.19 pi");
-
+        commandParser.parseText("# make :v sum 23 3 \n make :l 50");
+        printVariables();
         StringProperty commandLinetext = new SimpleStringProperty(){};
         StringProperty parseString = new SimpleStringProperty(){};
         parseString.bind(commandLinetext);
