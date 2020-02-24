@@ -115,6 +115,7 @@ public class Main extends Application {
         view.angleProperty().bind(model.angleProperty());
         view.isPenDownProperty().bind(model.isPenDownProperty());
         view.isShowingProperty().bind(model.isShowingProperty());
+        view.coordinatesProperty().bind(model.coordinatesProperty());
     }
     private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText, CommandParser commandParser)
     {

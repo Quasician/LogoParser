@@ -90,12 +90,14 @@ public class TurtleGrid {
   }
 
   private void addListeners() {
-    viewTurtle.xProperty().addListener(new ChangeListener() {
+    viewTurtle.coordinatesProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        System.out.println("X value changed to: " + (viewTurtle.getX() + centerX));
+        System.out.println("here");
+        //System.out.println("X value changed to: " + (viewTurtle.getX() + centerX));
         turtleImageView.setX(viewTurtle.getX() + centerX);
-        System.out.println("Y val on x change:" + -(viewTurtle.getY()) + centerY);
+        turtleImageView.setY(-(viewTurtle.getY()) + centerY);
+        //System.out.println("Y val on x change:" + -(viewTurtle.getY()) + centerY);
         if (ispenDown) {
           makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
               -(viewTurtle.getY() - turtleCenterY) + centerY);
@@ -103,23 +105,42 @@ public class TurtleGrid {
         }
         drawAllLines();
         pastX = viewTurtle.getX() + turtleCenterX + centerX;
-      }
-    });
-
-    viewTurtle.yProperty().addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        System.out.println("Y value changed to: " + (-(viewTurtle.getY()) + centerY));
-        turtleImageView.setY(-(viewTurtle.getY()) + centerY);
-        if (ispenDown) {
-          makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
-              -(viewTurtle.getY() - turtleCenterY) + centerY);
-
-        }
-        drawAllLines();
         pastY = -(viewTurtle.getY() - turtleCenterY) + centerY;
       }
     });
+
+//    viewTurtle.xProperty().addListener(new ChangeListener() {
+//      @Override
+//      public void changed(ObservableValue o, Object oldVal, Object newVal) {
+//        //System.out.println("X value changed to: " + (viewTurtle.getX() + centerX));
+//        turtleImageView.setX(viewTurtle.getX() + centerX);
+//        //System.out.println("Y val on x change:" + -(viewTurtle.getY()) + centerY);
+//        if (ispenDown) {
+//          makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
+//              -(viewTurtle.getY() - turtleCenterY) + centerY);
+//
+//        }
+//        drawAllLines();
+//        pastX = viewTurtle.getX() + turtleCenterX + centerX;
+//        pastY = -(viewTurtle.getY() - turtleCenterY) + centerY;
+//      }
+//    });
+//
+//    viewTurtle.yProperty().addListener(new ChangeListener() {
+//      @Override
+//      public void changed(ObservableValue o, Object oldVal, Object newVal) {
+//      //  System.out.println("Y value changed to: " + (-(viewTurtle.getY()) + centerY));
+//        turtleImageView.setY(-(viewTurtle.getY()) + centerY);
+//        if (ispenDown) {
+//          makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
+//              -(viewTurtle.getY() - turtleCenterY) + centerY);
+//
+//        }
+//        drawAllLines();
+//        pastX = viewTurtle.getX() + turtleCenterX + centerX;
+//        pastY = -(viewTurtle.getY() - turtleCenterY) + centerY;
+//      }
+//    });
 
     viewTurtle.angleProperty().addListener(new ChangeListener() {
       @Override
@@ -143,12 +164,14 @@ public class TurtleGrid {
     Line line = new Line(x1, y1, x2, y2);
     line.setStroke(Color.RED);
     linesDrawn.add(line);
+    System.out.println("Lines drawn size: " + linesDrawn.size());
    // myPane.getChildren().add(line);
   }
 
   public void drawAllLines() {
     for (Line line : linesDrawn) {
-      myPane.getChildren().add(line);
+      if (!myPane.getChildren().contains(line))
+        myPane.getChildren().add(line);
     }
   }
 

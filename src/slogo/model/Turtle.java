@@ -2,8 +2,10 @@ package slogo.model;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 
 public class Turtle {
@@ -13,6 +15,8 @@ public class Turtle {
   //private int x, y, distanceTravelled, degree;
   //private boolean isPenDown, isVisible;
 
+  private Coordinate coordinate;
+  private ObjectProperty coordinates;
   private DoubleProperty x = new SimpleDoubleProperty();
   private DoubleProperty y = new SimpleDoubleProperty();
   private DoubleProperty distance = new SimpleDoubleProperty();
@@ -24,8 +28,13 @@ public class Turtle {
   public Turtle() {
     isShowing.set(true);
     isPenDown.set(true);
-//    isPenDown = true;
-//    isVisible = true;
+    coordinate = new Coordinate(0,0);
+    coordinates = new SimpleObjectProperty(coordinate, "coordinate");
+    coordinates.set(coordinate);
+  }
+
+  public ObjectProperty coordinatesProperty() {
+    return coordinates;
   }
 
   public DoubleProperty xProperty() {
@@ -61,11 +70,14 @@ public class Turtle {
   }
 
   public double getX() {
-    return x.get();
+    //return x.get();
+    return ((Coordinate)coordinates.get()).getX();
   }
 
   public double getY() {
-    return y.get();
+   // return y.get();
+    System.out.println("get y" + coordinate.getY());
+    return ((Coordinate)coordinates.get()).getY();
   }
 
   // returns an int from 0 to 359
@@ -77,13 +89,26 @@ public class Turtle {
     return distance.get();
   }
 
-  public void setX(double newX) {
-    x.set(newX);
+  public void setCoordinate(double newX, double newY) {
+    coordinate.setX(newX);
+    System.out.println("just set x " + coordinate.getX());
+    coordinate.setY(newY);
+    System.out.println("new x " + newX);
+    System.out.println("new y " + newY);
+    coordinates.set(new Coordinate(newX, newY));
+    System.out.println("coordinate x " + ((Coordinate)coordinates.get()).getX());
   }
 
-  public void setY(double newY) {
-    y.set(newY);
-  }
+//  public void setX(double newX) {
+//    x.set(newX);
+//    System.out.println("new x " + newX);
+//    coordinates.set(new Coordinate(newX, y.get()));
+//  }
+//
+//  public void setY(double newY) {
+//    y.set(newY);
+//    coordinates.set(new Coordinate(x.get(), newY));
+//  }
 
   /**
    *
