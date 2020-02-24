@@ -2,8 +2,10 @@ package slogo.model;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 
 public class Turtle {
@@ -13,27 +15,24 @@ public class Turtle {
   //private int x, y, distanceTravelled, degree;
   //private boolean isPenDown, isVisible;
 
-  private DoubleProperty x = new SimpleDoubleProperty();
-  private DoubleProperty y = new SimpleDoubleProperty();
+  private ObjectProperty coordinates;
   private DoubleProperty distance = new SimpleDoubleProperty();
   private DoubleProperty angleFacing = new SimpleDoubleProperty();
   private BooleanProperty isPenDown = new SimpleBooleanProperty();
   private BooleanProperty isShowing = new SimpleBooleanProperty();
-
+  private BooleanProperty clearScreenCalled = new SimpleBooleanProperty();
 
   public Turtle() {
     isShowing.set(true);
     isPenDown.set(true);
-//    isPenDown = true;
-//    isVisible = true;
+    clearScreenCalled.set(false);
+    Coordinate coordinate = new Coordinate(0,0);
+    coordinates = new SimpleObjectProperty(coordinate, "coordinate");
+    coordinates.set(coordinate);
   }
 
-  public DoubleProperty xProperty() {
-    return x;
-  }
-
-  public DoubleProperty yProperty() {
-    return y;
+  public ObjectProperty coordinatesProperty() {
+    return coordinates;
   }
 
   public DoubleProperty distanceProperty() {
@@ -52,6 +51,10 @@ public class Turtle {
     return isShowing;
   }
 
+  public BooleanProperty clearScreenProperty() {
+    return clearScreenCalled;
+  }
+
   public boolean isVisible() {
     return isShowing.get();
   }
@@ -61,11 +64,13 @@ public class Turtle {
   }
 
   public double getX() {
-    return x.get();
+    //return x.get();
+    return ((Coordinate)coordinates.get()).getX();
   }
 
   public double getY() {
-    return y.get();
+   // return y.get();
+    return ((Coordinate)coordinates.get()).getY();
   }
 
   // returns an int from 0 to 359
@@ -77,13 +82,20 @@ public class Turtle {
     return distance.get();
   }
 
-  public void setX(double newX) {
-    x.set(newX);
+  public void setCoordinate(double newX, double newY) {
+    coordinates.set(new Coordinate(newX, newY));
   }
 
-  public void setY(double newY) {
-    y.set(newY);
-  }
+//  public void setX(double newX) {
+//    x.set(newX);
+//    System.out.println("new x " + newX);
+//    coordinates.set(new Coordinate(newX, y.get()));
+//  }
+//
+//  public void setY(double newY) {
+//    y.set(newY);
+//    coordinates.set(new Coordinate(x.get(), newY));
+//  }
 
   /**
    *
@@ -93,6 +105,10 @@ public class Turtle {
     if (degree < DEGREE_LOWER_BOUND || degree >= DEGREE_UPPER_BOUND)
       throw new ArithmeticException("Degree not in valid range");
     angleFacing.set(degree);
+  }
+
+  public void clearScreenDone() {
+    clearScreenCalled.set(false);
   }
 
   public void setDistance(double distance) {

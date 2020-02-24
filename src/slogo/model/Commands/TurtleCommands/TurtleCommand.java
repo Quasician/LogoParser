@@ -3,10 +3,12 @@ package slogo.model.Commands.TurtleCommands;
 import slogo.model.Commands.Command;
 
 public abstract class TurtleCommand extends Command {
+
   private static final double FACING_RIGHT = 90;
   private static final double FACING_UP = 360;
   private static final double FACING_LEFT = 270;
   private static final double FACING_DOWN = 180;
+  public static final int RIGHT = 1;
   protected int forward = 1;
   protected int backward = -1;
 
@@ -19,8 +21,9 @@ public abstract class TurtleCommand extends Command {
   }
 
   protected void moveTurtleTo(double x, double y) {
-    turtle.setX(x);
-    turtle.setY(y);
+//    turtle.setX(x);
+//    turtle.setY(y);
+    turtle.setCoordinate(x, y);
   }
 
   protected boolean facingTopRight(double angle) {
@@ -40,34 +43,37 @@ public abstract class TurtleCommand extends Command {
   }
 
   protected double getAdjustedAngle(double angle) {
-    if (facingTopRight(angle))
+    if (facingTopRight(angle)) {
       return angle;
-    else if (facingTopLeft(angle))
+    } else if (facingTopLeft(angle)) {
       return FACING_UP - angle;
-    else if (facingBottomRight(angle))
+    } else if (facingBottomRight(angle)) {
       return FACING_DOWN - angle;
-    else
+    } else {
       return angle - FACING_DOWN;
+    }
   }
 
   protected int getXMultiplier(double angle) {
-    if (angle >= 0 && angle < FACING_DOWN)
+    if (angle >= 0 && angle < FACING_DOWN) {
       return 1;
-    else
+    } else {
       return -1;
+    }
   }
 
   protected int getYMultiplier(double angle) {
-    if (angle >= 90 && angle < 270)
+    if (angle >= 90 && angle < 270) {
       return -1;
-    else
+    } else {
       return 1;
+    }
   }
 
   protected void moveTurtle(int directionMultiplier, double distance) {
     double angle = getAdjustedAngle(turtle.getDegree());
-    int xMultiplier = directionMultiplier * getXMultiplier(angle);
-    int yMultiplier = directionMultiplier * getYMultiplier(angle);
+    int xMultiplier = directionMultiplier * getXMultiplier(turtle.getDegree());
+    int yMultiplier = directionMultiplier * getYMultiplier(turtle.getDegree());
 
     double angleToRadians = degreesToRadians(angle);
     double rightAngle = degreesToRadians(FACING_RIGHT);
@@ -75,27 +81,29 @@ public abstract class TurtleCommand extends Command {
     double newX = turtle.getX() + xMultiplier * (distance * Math.sin(angleToRadians));
     double newY = turtle.getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
 
-    turtle.setX(newX);
-    turtle.setY(newY);
+//    turtle.setX(newX);
+//    turtle.setY(newY);
+    turtle.setCoordinate(newX, newY);
   }
 
   protected void rotateTurtle(int direction, double degrees) {
     double currentDegrees = turtle.getDegree();
 
     double newDegrees = 0;
-    if (direction == 1)
-      newDegrees = (currentDegrees + degrees) % 360;
-    else {
+    if (direction == RIGHT) {
+      newDegrees = (currentDegrees + degrees) % FACING_UP;
+    } else { //rotating to the left
       newDegrees = currentDegrees - degrees;
       if (newDegrees < 0) {
         newDegrees = -newDegrees;
-        newDegrees = newDegrees % 360;
-        newDegrees = 360 - newDegrees;
+        newDegrees = newDegrees % FACING_UP;
+        newDegrees = FACING_UP - newDegrees;
       }
     }
 
-    if (newDegrees == 360)
+    if (newDegrees == FACING_UP) {
       newDegrees = 0;
+    }
 
     turtle.setDegree(newDegrees);
   }

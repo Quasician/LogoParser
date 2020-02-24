@@ -109,12 +109,14 @@ public class Main extends Application {
     }
 
     private void bindTurtles(Turtle model, Turtle view) {
-        view.xProperty().bind(model.xProperty());
-        view.yProperty().bind(model.yProperty());
+//        view.xProperty().bind(model.xProperty());
+//        view.yProperty().bind(model.yProperty());
         view.distanceProperty().bind(model.distanceProperty());
         view.angleProperty().bind(model.angleProperty());
         view.isPenDownProperty().bind(model.isPenDownProperty());
         view.isShowingProperty().bind(model.isShowingProperty());
+        view.coordinatesProperty().bind(model.coordinatesProperty());
+        view.clearScreenProperty().bind(model.clearScreenProperty());
     }
     private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText, CommandParser commandParser)
     {
