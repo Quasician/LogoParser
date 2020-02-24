@@ -8,6 +8,7 @@ public abstract class TurtleCommand extends Command {
   private static final double FACING_UP = 360;
   private static final double FACING_LEFT = 270;
   private static final double FACING_DOWN = 180;
+  public static final int RIGHT = 1;
   protected int forward = 1;
   protected int backward = -1;
 
@@ -40,7 +41,7 @@ public abstract class TurtleCommand extends Command {
   protected boolean facingBottomLeft(double angle) {
     return angle >= FACING_DOWN && angle < FACING_LEFT;
   }
-
+  
   protected double getAdjustedAngle(double angle) {
     if (facingTopRight(angle)) {
       return angle;
@@ -71,8 +72,8 @@ public abstract class TurtleCommand extends Command {
 
   protected void moveTurtle(int directionMultiplier, double distance) {
     double angle = getAdjustedAngle(turtle.getDegree());
-    int xMultiplier = directionMultiplier * getXMultiplier(angle);
-    int yMultiplier = directionMultiplier * getYMultiplier(angle);
+    int xMultiplier = directionMultiplier * getXMultiplier(turtle.getDegree());
+    int yMultiplier = directionMultiplier * getYMultiplier(turtle.getDegree());
 
     double angleToRadians = degreesToRadians(angle);
     double rightAngle = degreesToRadians(FACING_RIGHT);
@@ -89,18 +90,18 @@ public abstract class TurtleCommand extends Command {
     double currentDegrees = turtle.getDegree();
 
     double newDegrees = 0;
-    if (direction == 1) {
-      newDegrees = (currentDegrees + degrees) % 360;
-    } else {
+    if (direction == RIGHT) {
+      newDegrees = (currentDegrees + degrees) % FACING_UP;
+    } else { //rotating to the left
       newDegrees = currentDegrees - degrees;
       if (newDegrees < 0) {
         newDegrees = -newDegrees;
-        newDegrees = newDegrees % 360;
-        newDegrees = 360 - newDegrees;
+        newDegrees = newDegrees % FACING_UP;
+        newDegrees = FACING_UP - newDegrees;
       }
     }
 
-    if (newDegrees == 360) {
+    if (newDegrees == FACING_UP) {
       newDegrees = 0;
     }
 

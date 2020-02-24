@@ -15,10 +15,7 @@ public class Turtle {
   //private int x, y, distanceTravelled, degree;
   //private boolean isPenDown, isVisible;
 
-  private Coordinate coordinate;
   private ObjectProperty coordinates;
-  private DoubleProperty x = new SimpleDoubleProperty();
-  private DoubleProperty y = new SimpleDoubleProperty();
   private DoubleProperty distance = new SimpleDoubleProperty();
   private DoubleProperty angleFacing = new SimpleDoubleProperty();
   private BooleanProperty isPenDown = new SimpleBooleanProperty();
@@ -28,21 +25,13 @@ public class Turtle {
   public Turtle() {
     isShowing.set(true);
     isPenDown.set(true);
-    coordinate = new Coordinate(0,0);
+    Coordinate coordinate = new Coordinate(0,0);
     coordinates = new SimpleObjectProperty(coordinate, "coordinate");
     coordinates.set(coordinate);
   }
 
   public ObjectProperty coordinatesProperty() {
     return coordinates;
-  }
-
-  public DoubleProperty xProperty() {
-    return x;
-  }
-
-  public DoubleProperty yProperty() {
-    return y;
   }
 
   public DoubleProperty distanceProperty() {
@@ -76,7 +65,6 @@ public class Turtle {
 
   public double getY() {
    // return y.get();
-    System.out.println("get y" + coordinate.getY());
     return ((Coordinate)coordinates.get()).getY();
   }
 
@@ -90,13 +78,7 @@ public class Turtle {
   }
 
   public void setCoordinate(double newX, double newY) {
-    coordinate.setX(newX);
-    System.out.println("just set x " + coordinate.getX());
-    coordinate.setY(newY);
-    System.out.println("new x " + newX);
-    System.out.println("new y " + newY);
     coordinates.set(new Coordinate(newX, newY));
-    System.out.println("coordinate x " + ((Coordinate)coordinates.get()).getX());
   }
 
 //  public void setX(double newX) {
