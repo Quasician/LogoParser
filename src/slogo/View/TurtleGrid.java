@@ -100,6 +100,13 @@ public class TurtleGrid {
   }
 
   private void addListeners() {
+    addCoordinatesListener();
+    addAnglePropertyListener();
+    addPenDownListener();
+    addClearScreenListener();
+  }
+
+  private void addCoordinatesListener() {
     viewTurtle.coordinatesProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
@@ -115,7 +122,9 @@ public class TurtleGrid {
         pastY = -(viewTurtle.getY() - turtleCenterY) + centerY;
       }
     });
+  }
 
+  private void addAnglePropertyListener() {
     viewTurtle.angleProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
@@ -123,7 +132,9 @@ public class TurtleGrid {
         turtleImageView.setRotate(viewTurtle.getDegree());
       }
     });
+  }
 
+  private void addPenDownListener() {
     viewTurtle.isPenDownProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
@@ -131,14 +142,15 @@ public class TurtleGrid {
         ispenDown = viewTurtle.isPenDown();
       }
     });
+  }
 
+  private void addClearScreenListener() {
     viewTurtle.clearScreenProperty().addListener(new ChangeListener<Boolean>() {
       @Override
       public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
           Boolean newValue) {
         if (viewTurtle.clearScreenProperty().get()) { //if true
           removeLines();
-          System.out.println("Clear Screen");
         }
       }
     });
