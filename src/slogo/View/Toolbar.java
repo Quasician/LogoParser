@@ -17,6 +17,7 @@ public class Toolbar {
     private ColorPicker backgroundColor;
     private ColorPicker penColor;
     private Button help;
+
     private Button setTurtleImage;
     private Button changeLanguage;
     private HBox toolBar;
