@@ -28,7 +28,9 @@ public class Visualizer {
   public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
 //  public static final String LANGUAGE = "English";
   public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
-//  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
+  public static final int BUTTON_HEIGHT = 80;
+  public static final double BUTTON_WIDTH = 200.0;
+  //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
   public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
   private ResourceBundle myResources = Main.myResources;
   private static int WINDOW_WIDTH = 1000;
@@ -58,17 +60,12 @@ public class Visualizer {
     this.viewTurtle = viewTurtle;
     Drawing drawer = new Drawing();
     img = new Image(myResources.getString("SlogoLogo"));
-    buttonImage= new ImageView(img);
-    buttonImage.setFitHeight(80);
-    buttonImage.setFitWidth(200.0);
+    buttonImage = new ImageView(img);
+    buttonImage.setFitHeight(BUTTON_HEIGHT);
+    buttonImage.setFitWidth(BUTTON_WIDTH);
     TurtleGrid grid = new TurtleGrid(viewTurtle, drawer);
     Toolbar tool = new Toolbar(drawer, grid);
-    bp = new BorderPane();
-    bp.setBackground(Background.EMPTY);
-    bp.setStyle(style);
-    bp.setBottom(cmdline.getCommandLineGroup());
-    bp.setLeft(grid.getTurtleGrid());
-    bp.setTop(tool.ToolBar());
+    setUpBorderPane(grid, cmdline, tool);
     VBox vbox = new VBox();
     vbox.setAlignment(Pos.CENTER);
     makeHistory();
@@ -77,6 +74,15 @@ public class Visualizer {
 //    vbox.getChildren().addAll(tool.ToolBar(), cmdline.getCommandLineGroup());
     window.setScene(scene);
     window.show();
+  }
+
+  private void setUpBorderPane(TurtleGrid grid, CommandLine commandLine, Toolbar tool) {
+    bp = new BorderPane();
+    bp.setBackground(Background.EMPTY);
+    bp.setStyle(style);
+    bp.setBottom(commandLine.getCommandLineGroup());
+    bp.setLeft(grid.getTurtleGrid());
+    bp.setTop(tool.ToolBar());
   }
 
   private void makeHistory(){
