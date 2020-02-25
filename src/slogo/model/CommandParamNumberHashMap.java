@@ -115,4 +115,10 @@ public class CommandParamNumberHashMap {
     addCommands();
     return commandParamNumberMap.get(s);
   }
+
+  public static boolean mapContains(String s) {
+    commandParamNumberMap = new HashMap<>();
+    addCommands();
+    return commandParamNumberMap.containsKey(s);
+  }
 }
