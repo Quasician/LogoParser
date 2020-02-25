@@ -85,7 +85,7 @@ public class Main extends Application {
 
         Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate);
         //commandParser.parseText("fd 50 rt 90 fd 50 rt 90 fd 50 rt 90 fd 50 rt 90");
-        commandParser.parseText("if sum -30 30 [ fd 100 rt 45 ]");
+        commandParser.parseText("ifelse sum -29 30 [ fd 100 rt 45 ] [ fd 100 rt 315 ]");
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
 //
