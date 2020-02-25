@@ -36,7 +36,7 @@ public class Visualizer {
    * Constructor for the visualizer class
    * @param window
 '   */
-  public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText, BooleanProperty textUpdate){
+  public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText, BooleanProperty textUpdate, Language language){
     myWindow = window;
     myCommandHistory = new CommandHistory();
     myVariableHistory = new VariableHistory();
@@ -45,10 +45,11 @@ public class Visualizer {
     buttonImage = new ImageView(img);
     buttonImage.setFitHeight(BUTTON_HEIGHT);
     buttonImage.setFitWidth(BUTTON_WIDTH);
-
+    TurtleGrid grid = new TurtleGrid(viewTurtle, drawer);
+    Toolbar tool = new Toolbar(drawer, grid, language);
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate);
-    TurtleGrid grid = new TurtleGrid(viewTurtle);
-    Toolbar tool = new Toolbar(grid);
+//     TurtleGrid grid = new TurtleGrid(viewTurtle);
+//     Toolbar tool = new Toolbar(grid);
     setUpBorderPane(grid, cmdline, tool);
     makeHistory();
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);

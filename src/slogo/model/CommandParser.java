@@ -3,8 +3,11 @@ package slogo.model;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import slogo.View.Language;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactory;
 import slogo.model.Commands.CommandFactoryInterface;
@@ -27,26 +30,29 @@ public class CommandParser {
   private static final String THIS_PACKAGE = CommandParser.class.getPackageName() + ".";
 
   // "types" and the regular expression patterns that recognize those types
-  // note, it is a list because order matters (some patterns may be more generic)
   private List<Entry<String, Pattern>> mySymbols;
 
   private Map<String, Command> stringToCommand;
   private Turtle turtle;
-
   private ObjectProperty<Turtle> turtleProperty = new SimpleObjectProperty<Turtle>(this, "turtle");
-
   private CommandFactoryInterface commandFactory;
   private CommandTreeExecutor treeExec;
   private CommandTreeConstructor treeMaker;
 
+  private Language language;
+
   /**
    * Create an empty parser
    */
-  public CommandParser(Turtle turtle) {
+  public CommandParser(Turtle turtle, Language language) {
     mySymbols = new ArrayList<>();
     commandFactory = new CommandFactory();
     this.turtle = turtle;
+    this.language = language;
   }
+
+  //add a listener in the command parser
+  //that can tell when the language is changed
 
   /**
    * Adds the given resource file to this language's recognized types
@@ -88,7 +94,12 @@ public class CommandParser {
     Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
     Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
 
-    String[] lineValues = commandLine.split(" ");
+    System.out.println("The current language is " + language.getCurrentLanguage());
+    mySymbols = new ArrayList<>();
+    addPatterns(language.getCurrentLanguage());
+
+    String[] lineValues = commandLine.split("\\s+");
+
     for (int i = 0; i < lineValues.length; i++) {
       if (match(lineValues[i], commandPattern)) {
         lineValues[i] = getSymbol(lineValues[i]);

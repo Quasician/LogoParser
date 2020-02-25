@@ -6,6 +6,7 @@ import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.stage.Stage;
+import slogo.View.Language;
 import slogo.View.Visualizer;
 import slogo.model.CommandParser;
 import slogo.model.Turtle;
@@ -46,8 +47,9 @@ public class Main extends Application {
         //ObjectProperty<Turtle> viewTurtleProp = new SimpleObjectProperty<>(viewTurtle, "viewTurtle");
         // viewTurtleProp.bind(modelTurtleProp);
 
+        Language language = new Language();
 
-        CommandParser commandParser = new CommandParser(modelTurtle);
+        CommandParser commandParser = new CommandParser(modelTurtle, language);
         commandParser.addPatterns("English");
 
 //        modelTurtle.setDegree(45);
@@ -71,7 +73,7 @@ public class Main extends Application {
 
         parseTextOnInput(textUpdate, parseString, commandParser);
 
-        Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate);
+        Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate, language);
 
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
@@ -107,6 +109,10 @@ public class Main extends Application {
         view.coordinatesProperty().bind(model.coordinatesProperty());
         view.clearScreenProperty().bind(model.clearScreenProperty());
     }
+
+
+
+
     private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText, CommandParser commandParser)
     {
         textUpdate.addListener(new ChangeListener() {
