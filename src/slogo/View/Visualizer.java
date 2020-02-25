@@ -26,8 +26,8 @@ public class Visualizer {
   //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
   public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
   private ResourceBundle myResources = Main.myResources;
-  private static int WINDOW_WIDTH = 1000;
-  private static int WINDOW_HEIGHT = 500;
+  private static int WINDOW_WIDTH = 1500;
+  private static int WINDOW_HEIGHT = 1000;
   private Stage myWindow;
 
   private CommandHistory myCommandHistory;
