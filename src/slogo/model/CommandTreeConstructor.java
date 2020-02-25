@@ -1,5 +1,8 @@
 package slogo.model;
 
+import java.awt.EventQueue;
+import java.io.IOException;
+import javax.swing.JOptionPane;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactory;
 import slogo.model.Commands.CommandFactoryInterface;
@@ -89,7 +92,18 @@ public class CommandTreeConstructor {
         return null;
     }
 
+    //trying to do error checking
     private ListNode handleCommands(Node buildingNode, ListNode commandNode, String currentElement){
+//      if (!CommandParamNumberHashMap.mapContains(currentElement)) {
+//          System.out.println("here no match");
+//          EventQueue.invokeLater(new Runnable() {
+//              @Override
+//              public void run() {
+//                  JOptionPane.showMessageDialog(null, "This is invalid command");
+//              }
+//          });
+//      }
+
         int parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
         TreeNode head = new TreeNode(currentElement);
         buildingNode.addChild(head);
