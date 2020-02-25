@@ -2,27 +2,15 @@ package slogo;
 
 import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import slogo.View.Visualiser;
-import slogo.View.CommandLine;
-import slogo.View.Drawing;
-import slogo.View.Toolbar;
-import slogo.View.TurtleGrid;
-import slogo.View.ViewButton;
 import slogo.View.Visualizer;
 import slogo.model.CommandParser;
 import slogo.model.Turtle;
 import slogo.model.VariableHashMap;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 

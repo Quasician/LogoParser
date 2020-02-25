@@ -1,6 +1,5 @@
 package slogo.View;
 
-import java.awt.*;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.BooleanProperty;
@@ -12,18 +11,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import javax.lang.model.element.Element;
 
 import slogo.Main;
 import slogo.model.Turtle;
 
-import static slogo.View.CommandLine.myResources;
-
 public class Visualizer {
-
   public static final String RESOURCES = "resources";
   public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
 //  public static final String LANGUAGE = "English";
@@ -36,6 +29,7 @@ public class Visualizer {
   private static int WINDOW_WIDTH = 1000;
   private static int WINDOW_HEIGHT = 500;
   private Stage myWindow;
+
   private CommandHistory myCommandHistory;
   private VariableHistory myVariableHistory;
   private BorderPane bp;
@@ -43,8 +37,6 @@ public class Visualizer {
   private ImageView buttonImage;
   private javafx.scene.image.Image img;
   private static final String style="-fx-background-color: rgba(0, 0, 0, 0.7);";
-
-
 
   /**
    * Constructor for the visualizer class
@@ -71,7 +63,7 @@ public class Visualizer {
     makeHistory();
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-//    vbox.getChildren().addAll(tool.ToolBar(), cmdline.getCommandLineGroup());
+//    vbox.getChildren().addAll(tool.getToolBar(), cmdline.getCommandLineGroup());
     window.setScene(scene);
     window.show();
   }
@@ -82,7 +74,7 @@ public class Visualizer {
     bp.setStyle(style);
     bp.setBottom(commandLine.getCommandLineGroup());
     bp.setLeft(grid.getTurtleGrid());
-    bp.setTop(tool.ToolBar());
+    bp.setTop(tool.getToolBar());
   }
 
   private void makeHistory(){
