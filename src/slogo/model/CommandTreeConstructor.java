@@ -2,6 +2,7 @@ package slogo.model;
 
 import java.awt.EventQueue;
 import java.io.IOException;
+import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactory;
@@ -19,6 +20,12 @@ public class CommandTreeConstructor {
     private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
     private Pattern commentPattern = Pattern.compile("^#.*");
     private Pattern newLinePattern = Pattern.compile("\n");
+
+    private static final String RESOURCES_PACKAGE =
+        "resources.";
+
+    public static ResourceBundle commandParameterNumbers = ResourceBundle
+        .getBundle(RESOURCES_PACKAGE + "ParameterNumbers");
 
     public CommandTreeConstructor(String commands)
     {}
@@ -104,7 +111,9 @@ public class CommandTreeConstructor {
 //          });
 //      }
 
-        int parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
+        int parameterNumber = Integer.parseInt(commandParameterNumbers.getString(currentElement));
+        //int parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
+
         TreeNode head = new TreeNode(currentElement);
         buildingNode.addChild(head);
         for(int i = 0; i < parameterNumber; i++){
