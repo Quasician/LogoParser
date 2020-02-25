@@ -24,8 +24,6 @@ public class Visualizer {
   private static int WINDOW_WIDTH = 1500;
   private static int WINDOW_HEIGHT = 1000;
   private Stage myWindow;
-
-  private Stage myWindow;
   private CommandHistory myCommandHistory;
   private VariableHistory myVariableHistory;
   private BorderPane bp;
