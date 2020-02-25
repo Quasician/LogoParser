@@ -4,7 +4,6 @@ import java.util.ResourceBundle;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactoryInterface;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -20,7 +19,7 @@ public class CommandTreeExecutor {
   private static final String RESOURCES_PACKAGE =
       "resources.";
 
-  public static ResourceBundle myResources = ResourceBundle
+  public static ResourceBundle commandPackageNames = ResourceBundle
       .getBundle(RESOURCES_PACKAGE + "CommandPackages");
 
   // private static final String COMMAND_PACKAGES = CommandTreeExecutor.class.getPackageName() + ".resources.packages.CommandPackages.properties";
@@ -57,7 +56,7 @@ public class CommandTreeExecutor {
 
       //System.out.println("ELEMENT DATA " + element.getData());
       String commandClass =
-          "slogo.model.Commands." + myResources.getString(element.getData()) + "." + element
+          "slogo.model.Commands." + commandPackageNames.getString(element.getData()) + "." + element
               .getData();
 
       // String commandClass = "slogo.model.Commands."+CommandTypeHashMap.getCommandType(element.getData())+"."+element.getData();
