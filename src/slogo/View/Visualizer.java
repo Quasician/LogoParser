@@ -17,19 +17,13 @@ import slogo.Main;
 import slogo.model.Turtle;
 
 public class Visualizer {
-  public static final String RESOURCES = "resources";
-  public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
-//  public static final String LANGUAGE = "English";
-  public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
+
   public static final int BUTTON_HEIGHT = 80;
   public static final double BUTTON_WIDTH = 200.0;
-  //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
-  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
   private ResourceBundle myResources = Main.myResources;
   private static int WINDOW_WIDTH = 1500;
   private static int WINDOW_HEIGHT = 1000;
   private Stage myWindow;
-
   private CommandHistory myCommandHistory;
   private VariableHistory myVariableHistory;
   private BorderPane bp;
@@ -46,24 +40,19 @@ public class Visualizer {
     myWindow = window;
     myCommandHistory = new CommandHistory();
     myVariableHistory = new VariableHistory();
-
-//        ViewButton btn = new ViewButton("hi", 50, 100);
-    CommandLine cmdline = new CommandLine(commandLineText, textUpdate);
     this.viewTurtle = viewTurtle;
-    Drawing drawer = new Drawing();
     img = new Image(myResources.getString("SlogoLogo"));
     buttonImage = new ImageView(img);
     buttonImage.setFitHeight(BUTTON_HEIGHT);
     buttonImage.setFitWidth(BUTTON_WIDTH);
+
+    CommandLine cmdline = new CommandLine(commandLineText, textUpdate);
+    Drawing drawer = new Drawing();
     TurtleGrid grid = new TurtleGrid(viewTurtle, drawer);
     Toolbar tool = new Toolbar(drawer, grid);
     setUpBorderPane(grid, cmdline, tool);
-    VBox vbox = new VBox();
-    vbox.setAlignment(Pos.CENTER);
     makeHistory();
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-//    vbox.getChildren().addAll(tool.getToolBar(), cmdline.getCommandLineGroup());
     window.setScene(scene);
     window.show();
   }
