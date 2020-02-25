@@ -47,8 +47,7 @@ public class Visualizer {
     buttonImage.setFitWidth(BUTTON_WIDTH);
 
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate);
-    Drawing drawer = new Drawing();
-    TurtleGrid grid = new TurtleGrid(viewTurtle, drawer);
+    TurtleGrid grid = new TurtleGrid(viewTurtle);
     Toolbar tool = new Toolbar(grid);
     setUpBorderPane(grid, cmdline, tool);
     makeHistory();
