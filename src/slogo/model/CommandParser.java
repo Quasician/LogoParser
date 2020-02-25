@@ -39,6 +39,12 @@ public class CommandParser {
   private CommandTreeExecutor treeExec;
   private CommandTreeConstructor treeMaker;
 
+  private static final String RESOURCES = "resources.";
+  private static final String ERRORS = RESOURCES + "ErrorMessages";
+
+//make a properties file for errors
+  private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
+
   private Language language;
 
   /**
@@ -68,7 +74,8 @@ public class CommandParser {
   }
 
   /**
-   * Returns language's type associated with the given text if one exists
+   * Returns language's type associated with the given text if one exists.
+   * Throws an error if there is no match
    */
   public String getSymbol(String text) {
     final String ERROR = "NO MATCH";
@@ -78,8 +85,8 @@ public class CommandParser {
         return e.getKey();
       }
     }
-    // FIXME: perhaps throw an exception instead
-    return ERROR;
+    throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
+    //return ERROR;
   }
 
 

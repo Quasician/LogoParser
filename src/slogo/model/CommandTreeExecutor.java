@@ -22,6 +22,14 @@ public class CommandTreeExecutor {
   public static ResourceBundle commandPackageNames = ResourceBundle
       .getBundle(RESOURCES_PACKAGE + "CommandPackages");
 
+  public static ResourceBundle commandParameterNumbers = ResourceBundle
+      .getBundle(RESOURCES_PACKAGE + "ParameterNumbers");
+
+  private static final String ERRORS = RESOURCES_PACKAGE + "ErrorMessages";
+
+  //make a properties file for errors
+  private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
+
   // private static final String COMMAND_PACKAGES = CommandTreeExecutor.class.getPackageName() + ".resources.packages.CommandPackages.properties";
 
   public CommandTreeExecutor(CommandFactoryInterface factory, Turtle turtle) {
@@ -65,10 +73,19 @@ public class CommandTreeExecutor {
       for (String s : parameters) {
         System.out.println("Param of " + element.getData() + ": " + s);
       }
-      commandObject.setParams(parameters);
-      commandObject.setTurtle(turtle);
-      commandObject.doCommand(element);
-      //nd.setData(replacementValue);
+
+      String commandName = element.getData();
+      int numParamsForCommand = Integer.parseInt(commandParameterNumbers.getString(commandName));
+
+      if (parameters.size() != numParamsForCommand) {
+        throw new CommandException(errors.getString("IncorrectFormat"));
+      } else {
+
+        commandObject.setParams(parameters);
+        commandObject.setTurtle(turtle);
+        commandObject.doCommand(element);
+        //nd.setData(replacementValue);
+      }
     } else if (match(element.getData(), variablePattern)) {
       element.setData(VariableHashMap.getVarValue(element.getData()));
     }
