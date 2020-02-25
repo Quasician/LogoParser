@@ -1,5 +1,9 @@
 package slogo.model;
 
+import java.awt.EventQueue;
+import java.io.IOException;
+import java.util.ResourceBundle;
+import javax.swing.JOptionPane;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactory;
 import slogo.model.Commands.CommandFactoryInterface;
@@ -16,6 +20,12 @@ public class CommandTreeConstructor {
     private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
     private Pattern commentPattern = Pattern.compile("^#.*");
     private Pattern newLinePattern = Pattern.compile("\n");
+
+    private static final String RESOURCES_PACKAGE =
+        "resources.";
+
+    public static ResourceBundle commandParameterNumbers = ResourceBundle
+        .getBundle(RESOURCES_PACKAGE + "ParameterNumbers");
 
     public CommandTreeConstructor(String commands)
     {}
@@ -89,8 +99,21 @@ public class CommandTreeConstructor {
         return null;
     }
 
+    //trying to do error checking
     private ListNode handleCommands(Node buildingNode, ListNode commandNode, String currentElement){
-        int parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
+//      if (!CommandParamNumberHashMap.mapContains(currentElement)) {
+//          System.out.println("here no match");
+//          EventQueue.invokeLater(new Runnable() {
+//              @Override
+//              public void run() {
+//                  JOptionPane.showMessageDialog(null, "This is invalid command");
+//              }
+//          });
+//      }
+
+        int parameterNumber = Integer.parseInt(commandParameterNumbers.getString(currentElement));
+        //int parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
+
         TreeNode head = new TreeNode(currentElement);
         buildingNode.addChild(head);
         for(int i = 0; i < parameterNumber; i++){

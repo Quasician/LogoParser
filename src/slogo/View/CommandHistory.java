@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import slogo.Main;
+import slogo.model.CommandParser;
 
 public class CommandHistory {
     private ResourceBundle myResources = Main.myResources;
@@ -22,12 +23,13 @@ public class CommandHistory {
     private static final int SPACING = 300;
     private static final int BOX_SPACING = 300;
     private static final int PLAY_IMAGE_SIZE = 10;
+    private CommandParser pars;
 
     private ArrayList<String> commandValues;
     private static final String STYLE = "-fx-background-color: rgba(0, 0,0, 0.5);";
 
 
-    public CommandHistory(){
+    public CommandHistory(CommandParser parser){
         commandValues = new ArrayList<>();
         historyWindow=new VBox(5);
         historyWindow.setBackground(Background.EMPTY);
@@ -35,11 +37,13 @@ public class CommandHistory {
         historyWindow.setPrefHeight(310.0);
         historyWindow.setPrefWidth(300.0);
         historyWindow.setMargin(historyWindow,new Insets(10,5,10,0));
+        pars=parser;
+
     }
 
     private void runCommand(HBox cellForWindow){
         //run the command in the box of the runButton using the backend
-        //doCommand(commandValues.get(cellForWindow.getAccessibleText()));
+        pars.parseText(cellForWindow.getAccessibleText());
     }
 
     protected void makeBox(String StringRepresentation){

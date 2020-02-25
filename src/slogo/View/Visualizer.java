@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import slogo.Main;
+import slogo.model.CommandParser;
 import slogo.model.Turtle;
 
 public class Visualizer {
@@ -29,26 +30,30 @@ public class Visualizer {
   private BorderPane bp;
   private Turtle viewTurtle;
   private ImageView buttonImage;
+  private CommandParser comParser;
   private javafx.scene.image.Image img;
-  private static final String style="-fx-background-color: rgba(0, 0, 0, 0.7);";
+  private static final String style = "-fx-background-color: rgba(0, 0, 0, 0.7);";
 
   /**
    * Constructor for the visualizer class
-   * @param window
-'   */
-  public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText, BooleanProperty textUpdate){
+   *
+   * @param window '
+   */
+  public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText,
+                    BooleanProperty textUpdate, Language language, CommandParser parser) {
     myWindow = window;
-    myCommandHistory = new CommandHistory();
+    comParser=parser;
+    myCommandHistory = new CommandHistory(comParser);
     myVariableHistory = new VariableHistory();
     this.viewTurtle = viewTurtle;
+
     img = new Image(myResources.getString("SlogoLogo"));
     buttonImage = new ImageView(img);
     buttonImage.setFitHeight(BUTTON_HEIGHT);
     buttonImage.setFitWidth(BUTTON_WIDTH);
-
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate);
     TurtleGrid grid = new TurtleGrid(viewTurtle);
-    Toolbar tool = new Toolbar(grid);
+    Toolbar tool = new Toolbar(grid, language);
     setUpBorderPane(grid, cmdline, tool);
     makeHistory();
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -65,14 +70,17 @@ public class Visualizer {
     bp.setTop(tool.getToolBar());
   }
 
-  private void makeHistory(){
+  private void makeHistory() {
     VBox historyVBox = new VBox();
     historyVBox.setAlignment(Pos.CENTER);
-    myCommandHistory.makeBox("Command 1");
-    myCommandHistory.makeBox("Command 2");
-    myVariableHistory.addVariable("Variable 1",5);
-    myVariableHistory.addVariable("Variable 2",5);
-    historyVBox.getChildren().addAll(buttonImage,myVariableHistory.getScene(),myCommandHistory.returnScene());
+    myVariableHistory.addVariable("Variable 1", 5);
+    myVariableHistory.addVariable("Variable 2", 5);
+    historyVBox.getChildren()
+        .addAll(buttonImage, myVariableHistory.getScene(), myCommandHistory.returnScene());
     bp.setRight(historyVBox);
+  }
+
+  public void makeNewBox(String newCommand){
+    myCommandHistory.makeBox(newCommand);
   }
 }

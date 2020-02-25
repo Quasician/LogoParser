@@ -4,11 +4,13 @@ import javafx.scene.control.Alert;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 //merge
 public class CommandFactory implements CommandFactoryInterface {
 
   private static void showError(String mes) {
+    JOptionPane.showMessageDialog(null, "Here is an error");
     Alert alert = new Alert(Alert.AlertType.ERROR);
     alert.setContentText(mes);
     alert.showAndWait();
