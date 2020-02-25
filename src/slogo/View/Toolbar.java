@@ -1,23 +1,19 @@
 package slogo.View;
 
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import slogo.model.Turtle;
-
-import static slogo.View.CommandLine.myResources;
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class Toolbar {
     private ColorPicker backgroundColor;
     private ColorPicker penColor;
     private Button help;
-
     private Button setTurtleImage;
     private Button changeLanguage;
     private HBox toolBar;
@@ -31,12 +27,15 @@ public class Toolbar {
     private static final String BUTTON_LANG ="Change Language";
     private static final String STYLE_COLOR ="lightgray";
     private static final int PADDING = 20;
+    private static final String helpURI= "https://www2.cs.duke.edu/courses/compsci308/spring20/assign/03_parser/commands.php";
     private HBox colorChooser;
     private Button colorPicker1;
     private HBox colorChooser2;
+    private Desktop forHelp;
     private Button colorPicker2;
     public Toolbar(Drawing drawer, TurtleGrid grid){
         colorChooser= new HBox();
+        forHelp= Desktop.getDesktop();
         colorPicker1= CustomButton.CustomButton("Background Color", STYLE_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
         backgroundColor= CustomButton.pickColor(BUTTON_BACKGROUND);
         backgroundColor.setOnAction(e->grid.setBackground(backgroundColor.getValue()));
@@ -48,6 +47,15 @@ public class Toolbar {
         colorChooser2.getChildren().addAll(colorPicker2,penColor);
         changeProperties=new Drawing();
         help= CustomButton.CustomButton(BUTTON_HELP, STYLE_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
+        help.setOnAction(e->{
+            try {
+                forHelp.browse(new URI(helpURI));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (URISyntaxException ex) {
+                ex.printStackTrace();
+            }
+        });
         setTurtleImage= CustomButton.CustomButton(BUTTON_TURTLE, STYLE_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
         changeLanguage= CustomButton.CustomButton(BUTTON_LANG, STYLE_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
     }
