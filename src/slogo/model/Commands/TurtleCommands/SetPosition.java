@@ -2,11 +2,11 @@ package slogo.model.Commands.TurtleCommands;
 
 import slogo.model.TreeNode;
 
-public class SetXY extends TurtleCommand {
+public class SetPosition extends TurtleCommand {
   private double x;
   private double y;
 
-  public SetXY(String name) {
+  public SetPosition(String name) {
     super(name);
   }
 

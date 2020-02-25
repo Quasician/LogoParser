@@ -107,10 +107,6 @@ public class Turtle {
     angleFacing.set(degree);
   }
 
-  public void clearScreenDone() {
-    clearScreenCalled.set(false);
-  }
-
   public void setDistance(double distance) {
      this.distance.set(distance);
   }

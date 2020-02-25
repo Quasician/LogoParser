@@ -104,6 +104,7 @@ public class TurtleGrid {
     addAnglePropertyListener();
     addPenDownListener();
     addClearScreenListener();
+    addShowingListener();
   }
 
   private void addCoordinatesListener() {
@@ -151,6 +152,20 @@ public class TurtleGrid {
           Boolean newValue) {
         if (viewTurtle.clearScreenProperty().get()) { //if true
           removeLines();
+        }
+      }
+    });
+  }
+
+  private void addShowingListener() {
+    viewTurtle.isShowingProperty().addListener(new ChangeListener<Boolean>() {
+      @Override
+      public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
+          Boolean newValue) {
+        if (viewTurtle.isShowingProperty().get()) { //make turtle visible
+          turtleImageView.setVisible(true);
+        } else { //make turtle invisible
+          turtleImageView.setVisible(false);
         }
       }
     });
