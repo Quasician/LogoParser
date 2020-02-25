@@ -2,6 +2,8 @@ package slogo.View;
 
 import java.util.Arrays;
 import java.util.List;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
@@ -12,12 +14,16 @@ import javafx.scene.paint.Paint;
 import javafx.util.Callback;
 
 public class Toolbar {
+
   private ColorPicker backgroundColor;
   private ColorPicker penColor;
   private Button help;
   private Button setTurtleImage;
   private ComboBox<String> changeLanguageBox;
-  private static final List<String> LANGUAGES = Arrays.asList("English", "Chinese", "French", "German", "Italian", "Portuguese", "Russian", "Spanish", "Urdu");
+  private static final List<String> LANGUAGES = Arrays
+      .asList("English", "Chinese", "French", "German", "Italian", "Portuguese", "Russian",
+          "Spanish", "Urdu");
+  private StringProperty currentLanguage = new SimpleStringProperty();
   private HBox toolBar;
   private Drawing changeProperties;
   private static final Paint BUTTON_FONT_COLOR = Color.BLACK;
@@ -33,8 +39,9 @@ public class Toolbar {
   private HBox colorChooser, colorChooser2;
   private Button backgroundColorPicker, penColorPicker;
   private TurtleGrid turtleGrid;
+  private Language language;
 
-  public Toolbar(Drawing drawer, TurtleGrid grid) {
+  public Toolbar(Drawing drawer, TurtleGrid grid, Language language) {
     changeLanguageBox = new ComboBox<>();
     turtleGrid = grid;
     colorChooser = new HBox();
@@ -48,17 +55,22 @@ public class Toolbar {
     setTurtleImage = CustomButton
         .CustomButton(BUTTON_TURTLE, STYLE_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
     setUpChangeLanguageChooser();
-    }
+    this.language = language;
+    currentLanguage.set("English");
+  }
+
+  public StringProperty currentLanguageProperty() {
+    return currentLanguage;
+  }
 
   private void setUpChangeLanguageChooser() {
     changeLanguageBox.setPrefWidth(BUTTON_WIDTH);
-    for(String lang : LANGUAGES){
+    for (String lang : LANGUAGES) {
       changeLanguageBox.getItems().add(lang);
     }
     changeLanguageBox.getSelectionModel().selectFirst();
-    changeLanguageBox.setOnAction(e-> System.out.println(changeLanguageBox.getValue()));
+    changeLanguageBox.setOnAction(e -> language.setLanguage(changeLanguageBox.getValue()));
   }
-
 
 
   private void setUpPenColorChooser(TurtleGrid grid) {
@@ -78,7 +90,8 @@ public class Toolbar {
 
   public HBox getToolBar() {
     toolBar = new HBox(10);
-    toolBar.getChildren().addAll(colorChooser, colorChooser2, setTurtleImage, changeLanguageBox, help);
+    toolBar.getChildren()
+        .addAll(colorChooser, colorChooser2, setTurtleImage, changeLanguageBox, help);
     return toolBar;
   }
 
