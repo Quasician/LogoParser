@@ -18,6 +18,6 @@ public class SetXY extends TurtleCommand {
     double distance = distanceFormula(turtle.getX(), turtle.getY(), x, y);
     moveTurtleTo(x, y);
 
-    commandNode.setData("" + distance);
+    commandNode.setResult("" + distance);
   }
 }

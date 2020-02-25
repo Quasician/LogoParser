@@ -14,7 +14,7 @@ public class ClearScreen extends TurtleCommand {
 
     double distanceTravelled = distanceFormula(turtle.getX(), turtle.getY(), 0, 0);
     moveTurtleTo(0, 0);
-    commandNode.setData("" + distanceTravelled);
+    commandNode.setResult("" + distanceTravelled);
     turtle.setDegree(0);
 
     turtle.clearScreenProperty().set(true);

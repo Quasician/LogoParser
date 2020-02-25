@@ -3,7 +3,7 @@ package slogo.model.Commands;
 import javafx.scene.control.Alert;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
+
 
 //merge
 public class CommandFactory implements CommandFactoryInterface {

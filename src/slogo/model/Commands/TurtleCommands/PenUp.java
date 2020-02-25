@@ -13,6 +13,6 @@ public class PenUp extends TurtleCommand {
   @Override
   public void doCommand(TreeNode commandNode) {
     turtle.penUp();
-    commandNode.setData(RETURN);
+    commandNode.setResult(RETURN);
   }
 }

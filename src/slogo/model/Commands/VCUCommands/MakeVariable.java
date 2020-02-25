@@ -14,5 +14,6 @@ public class MakeVariable extends Command {
     public void doCommand(TreeNode commandNode) {
         System.out.println("Stored the variable " + getParamList().get(0)+ " as " + getParamList().get(1));
         VariableHashMap.addToMap(getParamList().get(0),getParamList().get(1));
+        commandNode.setResult(getParamList().get(1));
     }
 }

@@ -1,0 +1,33 @@
+package slogo.model.Commands.VCUCommands;
+import slogo.model.CommandParser;
+import slogo.model.Commands.Command;
+import slogo.model.TreeNode;
+import slogo.model.VariableHashMap;
+
+public class DoTimes extends Command {
+    public DoTimes(String name)
+    {
+        super(name);
+    }
+
+    @Override
+    public void doCommand(TreeNode commandNode) {
+        System.out.println("Do this many times: " + getParamList().get(0));
+        String[] commands = getParamList().get(1).split("\\s+");
+        String finalValue = "";
+        for(int i = 0; i<Double.parseDouble(getParamList().get(0));i++) {
+            VariableHashMap.addToMap(":repcount", "" + i);
+            CommandParser miniparser = new CommandParser(turtle, language);
+            System.out.println("Repeated Commands: " + getParamList().get(1));
+            finalValue = miniparser.parseText(getParamList().get(1));
+        }
+        if(commands.length==0)
+        {
+            commandNode.setResult("0");
+        }
+        else
+        {
+            commandNode.setResult(finalValue);
+        }
+    }
+}

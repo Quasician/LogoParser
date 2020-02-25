@@ -79,8 +79,8 @@ public class CommandParamNumberHashMap {
   private static void addVCUCommands() {
     String s = "VCUCommands";
     commandParamNumberMap.putIfAbsent("MakeVariable", 2);
-    commandParamNumberMap.putIfAbsent("Repeat", 1);
-    commandParamNumberMap.putIfAbsent("DoTimes", 1);
+    commandParamNumberMap.putIfAbsent("Repeat", 2);
+    commandParamNumberMap.putIfAbsent("DoTimes", 2);
     commandParamNumberMap.putIfAbsent("For", 2);
     commandParamNumberMap.putIfAbsent("If", 1);
     commandParamNumberMap.putIfAbsent("IfElse", 1);

@@ -59,8 +59,8 @@ public class Main extends Application {
         // viewTurtleProp.bind(modelTurtleProp);
 
 
-        CommandParser commandParser = new CommandParser(modelTurtle);
-        commandParser.addPatterns("English");
+        CommandParser commandParser = new CommandParser(modelTurtle, "English");
+        //commandParser.addPatterns("English");
 
 //        modelTurtle.setDegree(45);
 //        commandParser.parseText("towards -5 0");
@@ -74,8 +74,8 @@ public class Main extends Application {
 //        commandParser.parseText("make :v sum 23 3");
 //        commandParser.parseText("sum :v 14");
 //        commandParser.parseText("atan product random quotient remainder product log 3.4 2 2 0.19 pi");
-        commandParser.parseText("# make :v sum 23 3 \n make :l 50");
-        printVariables();
+
+        //printVariables();
         StringProperty commandLinetext = new SimpleStringProperty(){};
         StringProperty parseString = new SimpleStringProperty(){};
         parseString.bind(commandLinetext);
@@ -84,7 +84,8 @@ public class Main extends Application {
         parseTextOnInput(textUpdate, parseString, commandParser);
 
         Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate);
-
+        //commandParser.parseText("fd 50 rt 90 fd 50 rt 90 fd 50 rt 90 fd 50 rt 90");
+        commandParser.parseText("repeat 4 [ fd :repcount rt 90 ]");
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
 //

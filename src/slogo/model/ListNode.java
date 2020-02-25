@@ -19,7 +19,7 @@ public class ListNode implements Node {
 
   }
 
-  public String getData() {
+  public String getName() {
     return data;
   }
 

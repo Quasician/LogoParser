@@ -8,7 +8,14 @@ public class VariableHashMap {
   private static HashMap<String, String> varHashMap = new HashMap<>();
 
   public static void addToMap(String name, String expression) {
-    varHashMap.putIfAbsent(name, expression);
+    if(varHashMap.containsKey(name))
+    {
+      varHashMap.put(name, expression);
+    }
+    else
+    {
+      varHashMap.putIfAbsent(name, expression);
+    }
   }
 
   public static String getVarValue(String name) {
