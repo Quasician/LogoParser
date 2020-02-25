@@ -96,6 +96,11 @@ public class CommandParser {
         lineValues[i] = getSymbol(lineValues[i]);
         System.out.println("ELEMENT:" + lineValues[i]);
       }
+      if(lineValues[i].equals("\n"))
+      {
+        lineValues[i] = "|n";
+      }
+      System.out.println("GENERAL ELEMENT:" + lineValues[i]);
     }
     String translatedCommands = String.join(" ", lineValues);
     System.out.println("TRANSLATED: " +translatedCommands);
