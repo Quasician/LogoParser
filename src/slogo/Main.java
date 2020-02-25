@@ -85,7 +85,7 @@ public class Main extends Application {
 
         Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate);
         //commandParser.parseText("fd 50 rt 90 fd 50 rt 90 fd 50 rt 90 fd 50 rt 90");
-        commandParser.parseText("repeat 4 [ fd :repcount rt 90 ]");
+        commandParser.parseText("dotimes [ :var 8 ] [ fd 100 rt 45 ]");
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
 //

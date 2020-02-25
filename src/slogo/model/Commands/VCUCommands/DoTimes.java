@@ -12,11 +12,12 @@ public class DoTimes extends Command {
 
     @Override
     public void doCommand(TreeNode commandNode) {
-        System.out.println("Do this many times: " + getParamList().get(0));
-        String[] commands = getParamList().get(1).split("\\s+");
+        System.out.println("Do this many times: " + getParamList().get(0).trim());
+        String[] loopGuard = getParamList().get(0).trim().split("\\s+");
+        String[] commands = getParamList().get(1).trim().split("\\s+");
         String finalValue = "";
-        for(int i = 0; i<Double.parseDouble(getParamList().get(0));i++) {
-            VariableHashMap.addToMap(":repcount", "" + i);
+        for(int i = 1; i<=Double.parseDouble(loopGuard[1]);i++) {
+            VariableHashMap.addToMap(loopGuard[0], "" + i);
             CommandParser miniparser = new CommandParser(turtle, language);
             System.out.println("Repeated Commands: " + getParamList().get(1));
             finalValue = miniparser.parseText(getParamList().get(1));
