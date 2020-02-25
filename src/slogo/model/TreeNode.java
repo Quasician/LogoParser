@@ -1,5 +1,7 @@
 package slogo.model;
 
+import com.sun.source.tree.Tree;
+
 import java.util.ArrayList;
 
 public class TreeNode implements Node {
@@ -25,12 +27,17 @@ public class TreeNode implements Node {
     return result;
   }
 
+  @Override
+  public Node getChild() {
+    return children.get(0);
+  }
+
   public void setResult(String result) {
     this.result = result;
   }
 
   public ArrayList<TreeNode> getChildren() {
-    return children;
+    return  children;
   }
 
   @Override

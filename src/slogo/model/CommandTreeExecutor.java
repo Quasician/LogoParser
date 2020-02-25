@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactoryInterface;
+import slogo.model.Commands.VCUCommands.CustomCommand;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -53,7 +54,7 @@ public class CommandTreeExecutor {
             ArrayList<TreeNode> children = element.getChildren();
             ArrayList<String> parameters = new ArrayList<>();
             // will also need to check for to commands
-            if(getSymbol(element.getName()).equals("MakeVariable"))
+            if(getSymbol(element.getName()).equals("MakeVariable") || getSymbol(element.getName()).equals("MakeUserInstruction"))
             {
                 System.out.println("YEET2");
                 parameters.add(children.get(0).getName());
@@ -64,7 +65,16 @@ public class CommandTreeExecutor {
                 parameters.add(child.getResult());
                 finalValue = child.getResult();
             }
-            String commandClass = "slogo.model.Commands."+CommandTypeHashMap.getCommandType(getSymbol(element.getName()))+"."+getSymbol(element.getName());
+            String commandClass = "";
+            if(CustomCommandMap.isACustomCommand(element.getName()))
+            {
+                commandClass = "slogo.model.Commands."+"VCUCommands"+"."+"CustomCommand";
+            }
+            else
+            {
+                commandClass = "slogo.model.Commands."+CommandTypeHashMap.getCommandType(getSymbol(element.getName()))+"."+getSymbol(element.getName());
+
+            }
             System.out.println(commandClass);
             Command commandObject = commandFactory.createCommand(commandClass);
             for(String s : parameters)

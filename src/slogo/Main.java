@@ -19,6 +19,7 @@ import slogo.View.TurtleGrid;
 import slogo.View.ViewButton;
 import slogo.View.Visualizer;
 import slogo.model.CommandParser;
+import slogo.model.CustomCommandMap;
 import slogo.model.Turtle;
 import slogo.model.VariableHashMap;
 
@@ -85,8 +86,18 @@ public class Main extends Application {
 
         Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate);
         //commandParser.parseText("fd 50 rt 90 fd 50 rt 90 fd 50 rt 90 fd 50 rt 90");
-        commandParser.parseText("make :v 56");
-        printVariables();
+        commandParser.parseText("to c [ :r ] [ repeat 4 [ fd 50 rt 95 ] ] ");
+//        commandParser.parseText("make :v 56");
+//        printVariables();
+//        commandParser.parseText("to dash [ :count ]\n" +
+//                "[\n" +
+//                "  repeat :count \n" +
+//                "  [\n" +
+//                "    pu fd 4 pd fd 4\n" +
+//                "  ]      \n" +
+//                "]");
+//        printCustomCommands();
+
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
 //
@@ -105,10 +116,16 @@ public class Main extends Application {
             Map.Entry entry = (Map.Entry)it.next(); //current entry in a loop
             System.out.println(entry.getKey() + " = " + entry.getValue());
         }
-//        for(Map.Entry e :vars)
-//        {
-//            System.out.println(e.getKey() + " = " + e.getValue());
-//        }
+    }
+
+    private void printCustomCommands()
+    {
+        Iterator it = CustomCommandMap.getAllCustomCommands().iterator();
+        System.out.println("\nTHESE ARE THE CURRENT CUSTOM COMMANDS: ");
+        while (it.hasNext()) {
+            String entry = (String) it.next(); //current entry in a loop
+            System.out.println(entry);
+        }
     }
 
     private void bindTurtles(Turtle model, Turtle view) {

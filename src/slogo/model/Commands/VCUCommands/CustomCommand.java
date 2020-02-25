@@ -6,6 +6,8 @@ import slogo.model.Commands.Command;
 import slogo.model.CustomCommandMap;
 import slogo.model.TreeNode;
 
+import java.util.Arrays;
+
 public class CustomCommand extends Command {
     public CustomCommand(String name)
     {
@@ -15,11 +17,17 @@ public class CustomCommand extends Command {
     @Override
     public void doCommand(TreeNode commandNode) {
         CommandParser miniParser = new CommandParser(turtle, language);
-        String[] variables = CustomCommandMap.getVariables(name);
-        String commands = CustomCommandMap.getCommands(name);
+        String[] variables = CustomCommandMap.getVariables(commandNode.getName());
+        String commands = CustomCommandMap.getCommands(commandNode.getName());
+        System.out.println("VARIABLE LENGTH: "  +variables[0]);
         for(int i = 0;i<variables.length;i++)
         {
-            commands = commands.replaceAll(variables[i],getParamList().get(i));
+            System.out.println(Arrays.toString(variables));
+            if(variables.length == 0 || variables[0].trim().equals(""))
+            {
+                continue;
+            }
+            commands = commands.replaceAll(variables[i],getParamList().get(0));
         }
         miniParser.parseText(commands);
     }

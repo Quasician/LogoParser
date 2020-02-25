@@ -30,11 +30,21 @@ public class CommandTreeConstructor {
         System.out.println("COMMAND LIST: " +commandElements.toString());
         ArrayList<TreeNode> answer = new ArrayList<>();
         TreeNode head = buildList(commandElements);
-        while(head != null){
+        while(head != null) {
             TreeNode root = new TreeNode();
             System.out.println("HEAD:" + head.getName());
             head = createSubTree(root, head);
-            answer.add(root.getChildren().get(0));
+            if (root.getChildren().size() > 0) {
+                answer.add(root.getChildren().get(0));
+            }
+        }
+        System.out.println("SIZE OF FINAL LIST: " + answer.size());
+        for(TreeNode node:answer)
+        {
+            for(TreeNode innerNode: node.getChildren())
+            {
+                System.out.println(node.getResult() + " : " + innerNode.getResult());
+            }
         }
         return answer;
     }
@@ -80,64 +90,116 @@ public class CommandTreeConstructor {
         {
             commandNode = commandNode.getChildren().get(0);
         }
-        if(match(currentCommand, commandPattern)){
+        if(getSymbol(currentCommand).equals("MakeUserInstruction"))
+        {
+            System.out.println("YABADABADOO");
+            System.out.println(commandNode.getChildren().get(0).getName());
+            return handleCommands(buildingNode, commandNode, currentCommand);
+        }
+        else if(match(currentCommand, commandPattern)){
             return handleCommands(buildingNode, commandNode, currentCommand);
         }
         // needs to also check for variables (use or statement
-        else if(match(currentCommand, variablePattern )){
-            buildingNode.addChild(new TreeNode(currentCommand));
-            return commandNode;
-        }
-        else if(match(currentCommand, constantPattern)){
+        else if(match(currentCommand, variablePattern ) || match(currentCommand, constantPattern)){
             TreeNode node = new TreeNode(currentCommand);
             node.setResult(currentCommand);
             buildingNode.addChild(node);
             return commandNode;
         }
         else if(currentCommand.equals("[")){
-            Pair<String, TreeNode> result = joinList("", commandNode);
+            Pair<String, TreeNode> result = joinList("[ ", commandNode, 1);
             TreeNode node = new TreeNode(result.getKey());
             node.setResult(result.getKey());
             buildingNode.addChild(node);
             System.out.println(result.getKey());
             return result.getValue();
         }
-//        else if(match(currentCommand, commentPattern)|| match(currentCommand, newLinePattern)){
-//            System.out.println("YEET: "+ commandNode.getName());
-//            commandNode.addChild(null);
-//            return null;
-//        }
         return null;
     }
 
     private TreeNode handleCommands(TreeNode buildingNode, TreeNode commandNode, String currentElement){
-        int parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(getSymbol(currentElement));
-        //System.out.println("Param number: " +parameterNumber);
+        System.out.println("CURRENT ELEMENT: " + currentElement);
+        int parameterNumber = 0;
+        if(CustomCommandMap.isACustomCommand(currentElement))
+        {
+            parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
+        }
+        else{
+            parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(getSymbol(currentElement));
+
+        }
+         //System.out.println("Param number: " +parameterNumber);
         TreeNode head = new TreeNode(currentElement);
+        head.setResult(currentElement);
         buildingNode.addChild(head);
+        if(getSymbol(currentElement).equals("MakeUserInstruction"))
+        {
+            head.addChild(commandNode);
+            commandNode.setResult(commandNode.getName());
+            System.out.println("COMMAND NODE: " + commandNode.getName());
+            commandNode = commandNode.getChildren().get(0);
+        }
         for(int i = 0; i < parameterNumber; i++){
             commandNode = createSubTree(head,commandNode);
         }
         return commandNode;
     }
 
-    private Pair joinList(String currentList, TreeNode commandNode){
-        //System.out.println("Current List: " + curList);
+    private Pair joinList(String currentList, TreeNode commandNode, int numOpen){
+        System.out.println("NUM OPEN: " + numOpen);
         if(commandNode == null)
         {
             System.out.println("Error");
-            return null;
+            return new Pair(currentList + " " + commandNode.getName(), null);
         }
-        else if(commandNode.getName().equals("]"))
-        {
-            if(commandNode.getChildren().size()==1)
+//        else if(commandNode.getName().equals("]"))
+//        {
+//            if(commandNode.getChildren().size()==1 && commandNode.getChildren().get(0).getName().equals("["))
+//            {
+//                return new Pair(currentList + " ] ", commandNode.getChildren().get(0));
+//            }
+//            return new Pair(currentList+" ] ", null);
+//        }
+        else if(commandNode.getName().equals("]") && numOpen == 1){
+            System.out.println("YEET = 1");
+            if(commandNode.getChildren().size()>0)
             {
-                return new Pair(currentList, commandNode.getChildren().get(0));
+                return new Pair(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0));
             }
-            return new Pair(currentList, null);
+            else
+            {
+                return new Pair(currentList + " " + commandNode.getName(), null);
+            }
         }
-
-        return joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0));
+        else if(commandNode.getName().equals("]") && numOpen != 1){
+            System.out.println("YEET != 1");
+            if(commandNode.getChildren().size()>0)
+            {
+                joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen-1);
+            }
+            else
+            {
+                return new Pair(currentList + " " + commandNode.getName(), null);
+            }
+        }
+        else if(commandNode.getName().equals("[")){
+            if(commandNode.getChildren().size()>0)
+            {
+                joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen+1);
+            }
+            else
+            {
+                return new Pair(currentList + " " + commandNode.getName(), null);
+            }
+        }
+        if(commandNode.getChildren().size()>0)
+        {
+            return joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen);
+        }
+        else
+        {
+            return new Pair(currentList + " " + commandNode.getName(), null);
+        }
     }
 
     private String getSymbol (String text) {

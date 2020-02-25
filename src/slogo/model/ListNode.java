@@ -23,7 +23,13 @@ public class ListNode implements Node {
     return data;
   }
 
-  public ListNode getChild() {
+  @Override
+  public String getResult() {
+    return null;
+  }
+
+  @Override
+  public Node getChild() {
     return child;
   }
 
@@ -34,5 +40,10 @@ public class ListNode implements Node {
 
   public void setData(String data) {
     this.data = data;
+  }
+
+  @Override
+  public void setResult(String data) {
+
   }
 }

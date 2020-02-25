@@ -17,7 +17,7 @@ public class If extends Command {
         if(Double.parseDouble(getParamList().get(0)) != 0)
         {
             CommandParser miniparser = new CommandParser(turtle, language);
-            finalValue = miniparser.parseText(getParamList().get(1));
+            finalValue = miniparser.parseText(getParamList().get(1).trim().replaceAll("\\[", "").replaceAll("\\]",""));
             commandNode.setResult(finalValue);
         }
         else
