@@ -1,5 +1,6 @@
 package slogo.model;
 
+import java.util.ResourceBundle;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactoryInterface;
 
@@ -14,6 +15,13 @@ public class CommandTreeExecutor {
     private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
     private CommandFactoryInterface commandFactory;
     private Turtle turtle;
+
+    private static final String RESOURCES_PACKAGE =
+        "resources.";
+
+    public static ResourceBundle myResources = ResourceBundle.getBundle(RESOURCES_PACKAGE + "CommandPackages");
+
+   // private static final String COMMAND_PACKAGES = CommandTreeExecutor.class.getPackageName() + ".resources.packages.CommandPackages.properties";
 
     public CommandTreeExecutor(CommandFactoryInterface factory, Turtle turtle)
     {
@@ -46,7 +54,11 @@ public class CommandTreeExecutor {
                 executeSubTree(child);
                 parameters.add(child.getData());
             }
-            String commandClass = "slogo.model.Commands."+CommandTypeHashMap.getCommandType(element.getData())+"."+element.getData();
+
+            //System.out.println("ELEMENT DATA " + element.getData());
+            String commandClass = "slogo.model.Commands." + myResources.getString(element.getData()) + "." + element.getData();
+
+           // String commandClass = "slogo.model.Commands."+CommandTypeHashMap.getCommandType(element.getData())+"."+element.getData();
             System.out.println(commandClass);
             Command commandObject = commandFactory.createCommand(commandClass);
             for(String s : parameters)
