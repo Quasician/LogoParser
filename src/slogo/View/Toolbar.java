@@ -1,19 +1,27 @@
 package slogo.View;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import slogo.Main;
+
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ResourceBundle;
 
 public class Toolbar {
     private ColorPicker backgroundColor;
     private ColorPicker penColor;
     private Button help;
+    private ResourceBundle myResources = Main.myResources;
     private Button setTurtleImage;
     private Button changeLanguage;
     private HBox toolBar;
@@ -49,11 +57,17 @@ public class Toolbar {
         help= CustomButton.CustomButton(BUTTON_HELP, STYLE_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
         help.setOnAction(e->{
             try {
-                forHelp.browse(new URI(helpURI));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            } catch (URISyntaxException ex) {
-                ex.printStackTrace();
+                URL url = new URL(helpURI);
+                URLConnection connection = url.openConnection();
+                connection.connect();
+                try{
+                    forHelp.browse(new URI(helpURI));
+                    } catch (Exception v){
+                    showMessage(Alert.AlertType.ERROR, v.getMessage());
+                    }
+            }
+            catch (Exception ex) {
+                showMessage(Alert.AlertType.ERROR, ex.getMessage());
             }
         });
         setTurtleImage= CustomButton.CustomButton(BUTTON_TURTLE, STYLE_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
@@ -64,6 +78,16 @@ public class Toolbar {
         toolBar=new HBox(10);
         toolBar.getChildren().addAll(colorChooser,colorChooser2,setTurtleImage,changeLanguage,help);
         return toolBar;
+    }
+    // display given message to user using the given type of Alert dialog box
+    private void showMessage (Alert.AlertType type, String message) {
+        Alert alert=  new Alert(type);
+        javafx.scene.image.Image img = new javafx.scene.image.Image(myResources.getString("Dinosaur"));
+        ImageView imageView = new ImageView(img);
+        imageView.setFitWidth(500);
+        imageView.setFitHeight(400);
+        alert.setGraphic(imageView);
+        alert.showAndWait();
     }
 
 
