@@ -21,8 +21,9 @@ public class Visualizer {
   public static final int BUTTON_HEIGHT = 80;
   public static final double BUTTON_WIDTH = 200.0;
   private ResourceBundle myResources = Main.myResources;
-  private static int WINDOW_WIDTH = 1000;
-  private static int WINDOW_HEIGHT = 500;
+  private static int WINDOW_WIDTH = 1500;
+  private static int WINDOW_HEIGHT = 1000;
+  private Stage myWindow;
 
   private Stage myWindow;
   private CommandHistory myCommandHistory;
