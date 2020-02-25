@@ -2,27 +2,15 @@ package slogo;
 
 import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import slogo.View.Visualiser;
-import slogo.View.CommandLine;
-import slogo.View.Drawing;
-import slogo.View.Toolbar;
-import slogo.View.TurtleGrid;
-import slogo.View.ViewButton;
 import slogo.View.Visualizer;
 import slogo.model.CommandParser;
 import slogo.model.Turtle;
 import slogo.model.VariableHashMap;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -74,7 +62,8 @@ public class Main extends Application {
 //        commandParser.parseText("make :v sum 23 3");
 //        commandParser.parseText("sum :v 14");
 //        commandParser.parseText("atan product random quotient remainder product log 3.4 2 2 0.19 pi");
-
+        commandParser.parseText("# make :v sum 23 3 \n make :l 50");
+        printVariables();
         StringProperty commandLinetext = new SimpleStringProperty(){};
         StringProperty parseString = new SimpleStringProperty(){};
         parseString.bind(commandLinetext);
@@ -109,12 +98,14 @@ public class Main extends Application {
     }
 
     private void bindTurtles(Turtle model, Turtle view) {
-        view.xProperty().bind(model.xProperty());
-        view.yProperty().bind(model.yProperty());
+//        view.xProperty().bind(model.xProperty());
+//        view.yProperty().bind(model.yProperty());
         view.distanceProperty().bind(model.distanceProperty());
         view.angleProperty().bind(model.angleProperty());
         view.isPenDownProperty().bind(model.isPenDownProperty());
         view.isShowingProperty().bind(model.isShowingProperty());
+        view.coordinatesProperty().bind(model.coordinatesProperty());
+        view.clearScreenProperty().bind(model.clearScreenProperty());
     }
     private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText, CommandParser commandParser)
     {

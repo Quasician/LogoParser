@@ -1,5 +1,7 @@
 package slogo.model.Commands;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import slogo.model.TreeNode;
 import slogo.model.Turtle;
 import java.util.ArrayList;
@@ -10,7 +12,6 @@ public abstract class Command {
   protected Turtle turtle;
   protected String name;
   protected ArrayList<String> values;
-  protected boolean clearScreenCalled;
 
   public Command(String name) {
     this.name = name;

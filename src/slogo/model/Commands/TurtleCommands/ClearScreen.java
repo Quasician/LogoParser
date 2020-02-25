@@ -11,12 +11,13 @@ public class ClearScreen extends TurtleCommand {
   @Override
   public void doCommand(TreeNode commandNode) {
     //have to erase the turtle lines
-    clearScreenCalled = true;
 
     double distanceTravelled = distanceFormula(turtle.getX(), turtle.getY(), 0, 0);
     moveTurtleTo(0, 0);
     commandNode.setData("" + distanceTravelled);
+    turtle.setDegree(0);
 
-    clearScreenCalled = false;
+    turtle.clearScreenProperty().set(true);
+    turtle.clearScreenProperty().set(false);
   }
 }

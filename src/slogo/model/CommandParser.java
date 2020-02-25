@@ -21,7 +21,8 @@ import java.util.regex.Pattern;
 public class CommandParser {
 
   // where to find resources specifically for this class
-  private static final String RESOURCES_PACKAGE = CommandParser.class.getPackageName() + ".resources.languages.";
+  private static final String RESOURCES_PACKAGE =
+      CommandParser.class.getPackageName() + ".resources.languages.";
 
   private static final String THIS_PACKAGE = CommandParser.class.getPackageName() + ".";
 
@@ -41,7 +42,7 @@ public class CommandParser {
   /**
    * Create an empty parser
    */
-  public CommandParser (Turtle turtle) {
+  public CommandParser(Turtle turtle) {
     mySymbols = new ArrayList<>();
     commandFactory = new CommandFactory();
     this.turtle = turtle;
@@ -50,7 +51,7 @@ public class CommandParser {
   /**
    * Adds the given resource file to this language's recognized types
    */
-  public void addPatterns (String syntax) {
+  public void addPatterns(String syntax) {
     ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + syntax);
     for (String key : Collections.list(resources.getKeys())) {
       String regex = resources.getString(key);
@@ -63,7 +64,7 @@ public class CommandParser {
   /**
    * Returns language's type associated with the given text if one exists
    */
-  public String getSymbol (String text) {
+  public String getSymbol(String text) {
     final String ERROR = "NO MATCH";
     for (Entry<String, Pattern> e : mySymbols) {
       if (match(text, e.getValue())) {
@@ -77,35 +78,35 @@ public class CommandParser {
 
 
   // Returns true if the given text matches the given regular expression pattern
-  private boolean match (String text, Pattern regex) {
+  private boolean match(String text, Pattern regex) {
     // THIS IS THE IMPORTANT LINE
     return regex.matcher(text).matches();
   }
 
 
-  public void parseText(String commandLine)
-  {
+  public void parseText(String commandLine) {
     Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
     Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
 
     String[] lineValues = commandLine.split(" ");
-    for(int i =0; i<lineValues.length;i++)
-    {
-      if(match(lineValues[i],commandPattern))
-      {
+    for (int i = 0; i < lineValues.length; i++) {
+      if (match(lineValues[i], commandPattern)) {
         lineValues[i] = getSymbol(lineValues[i]);
         System.out.println("ELEMENT:" + lineValues[i]);
       }
+      if (lineValues[i].equals("\n")) {
+        lineValues[i] = "|n";
+      }
+      System.out.println("GENERAL ELEMENT:" + lineValues[i]);
     }
     String translatedCommands = String.join(" ", lineValues);
-    System.out.println("TRANSLATED: " +translatedCommands);
+    System.out.println("TRANSLATED: " + translatedCommands);
     makeCommandTree(translatedCommands);
   }
 
-  private void makeCommandTree(String commands)
-  {
+  private void makeCommandTree(String commands) {
     treeMaker = new CommandTreeConstructor(commands);
-    ArrayList <TreeNode> head = (ArrayList) treeMaker.buildTrees(commands);
+    ArrayList<TreeNode> head = (ArrayList) treeMaker.buildTrees(commands);
     treeExec = new CommandTreeExecutor(commandFactory, turtle);
     treeExec.executeTrees(head);
   }
