@@ -50,7 +50,7 @@ public class Visualizer {
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate);
     Drawing drawer = new Drawing();
     TurtleGrid grid = new TurtleGrid(viewTurtle, drawer);
-    Toolbar tool = new Toolbar(drawer, grid);
+    Toolbar tool = new Toolbar(grid);
     setUpBorderPane(grid, cmdline, tool);
     makeHistory();
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
