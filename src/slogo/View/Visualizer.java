@@ -17,7 +17,6 @@ import slogo.Main;
 import slogo.model.Turtle;
 
 public class Visualizer {
-
   public static final String RESOURCES = "resources";
   public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
 //  public static final String LANGUAGE = "English";
