@@ -41,7 +41,7 @@ public class Toolbar {
   private TurtleGrid turtleGrid;
   private Language language;
 
-  public Toolbar(Drawing drawer, TurtleGrid grid, Language language) {
+  public Toolbar(TurtleGrid grid, Language language) {
     changeLanguageBox = new ComboBox<>();
     turtleGrid = grid;
     colorChooser = new HBox();
@@ -50,7 +50,6 @@ public class Toolbar {
     colorChooser2 = new HBox();
     setUpPenColorChooser(grid);
     colorChooser2.getChildren().addAll(penColorPicker, penColor);
-    changeProperties = new Drawing();
     helpButton = new ViewButton(Main.myResources.getString(BUTTON_HELP), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
     setTurtleImage = new ViewButton(Main.myResources.getString(CHANGE_TURTLE), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
     setUpChangeLanguageChooser();

@@ -30,13 +30,15 @@ public class Visualizer {
   private Turtle viewTurtle;
   private ImageView buttonImage;
   private javafx.scene.image.Image img;
-  private static final String style="-fx-background-color: rgba(0, 0, 0, 0.7);";
+  private static final String style = "-fx-background-color: rgba(0, 0, 0, 0.7);";
 
   /**
    * Constructor for the visualizer class
-   * @param window
-'   */
-  public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText, BooleanProperty textUpdate, Language language){
+   *
+   * @param window '
+   */
+  public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText,
+      BooleanProperty textUpdate, Language language) {
     myWindow = window;
     myCommandHistory = new CommandHistory();
     myVariableHistory = new VariableHistory();
@@ -45,11 +47,9 @@ public class Visualizer {
     buttonImage = new ImageView(img);
     buttonImage.setFitHeight(BUTTON_HEIGHT);
     buttonImage.setFitWidth(BUTTON_WIDTH);
-    TurtleGrid grid = new TurtleGrid(viewTurtle, drawer);
-    Toolbar tool = new Toolbar(drawer, grid, language);
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate);
-//     TurtleGrid grid = new TurtleGrid(viewTurtle);
-//     Toolbar tool = new Toolbar(grid);
+    TurtleGrid grid = new TurtleGrid(viewTurtle);
+    Toolbar tool = new Toolbar(grid, language);
     setUpBorderPane(grid, cmdline, tool);
     makeHistory();
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -66,14 +66,15 @@ public class Visualizer {
     bp.setTop(tool.getToolBar());
   }
 
-  private void makeHistory(){
+  private void makeHistory() {
     VBox historyVBox = new VBox();
     historyVBox.setAlignment(Pos.CENTER);
     myCommandHistory.makeBox("Command 1");
     myCommandHistory.makeBox("Command 2");
-    myVariableHistory.addVariable("Variable 1",5);
-    myVariableHistory.addVariable("Variable 2",5);
-    historyVBox.getChildren().addAll(buttonImage,myVariableHistory.getScene(),myCommandHistory.returnScene());
+    myVariableHistory.addVariable("Variable 1", 5);
+    myVariableHistory.addVariable("Variable 2", 5);
+    historyVBox.getChildren()
+        .addAll(buttonImage, myVariableHistory.getScene(), myCommandHistory.returnScene());
     bp.setRight(historyVBox);
   }
 }
