@@ -5,10 +5,11 @@ import java.util.HashMap;
 // Class maps all instructions to their operation type so we can split our commands folder into subdirectories to make it cleaner
 public class CommandTypeHashMap {
 
-  private static HashMap<String, String> commandTypeMap;
+  private static HashMap<String, String> commandTypeMap = new HashMap<>();
+
 
   private static void addCommands() {
-    commandTypeMap = new HashMap<>();
+   // commandTypeMap = new HashMap<>();
     addTurtleCommands();
     addTurtleQueries();
     addMathCommands();

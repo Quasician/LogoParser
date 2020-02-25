@@ -8,10 +8,10 @@ import java.util.HashMap;
 // Class maps all instructions to their operation type so we can split our commands folder into subdirectories to make it cleaner
 public class CommandParamNumberHashMap {
 
-  private static HashMap<String, Integer> commandParamNumberMap;
+  private static HashMap<String, Integer> commandParamNumberMap = new HashMap<>();
 
   private static void addCommands() {
-    commandParamNumberMap = new HashMap<>();
+    //commandParamNumberMap = new HashMap<>();
     addTurtleCommands();
     addTurtleQueries();
     addMathCommands();
@@ -84,7 +84,7 @@ public class CommandParamNumberHashMap {
     commandParamNumberMap.putIfAbsent("For", 2);
     commandParamNumberMap.putIfAbsent("If", 2);
     commandParamNumberMap.putIfAbsent("IfElse", 3);
-    commandParamNumberMap.putIfAbsent("MakeUserInstruction", 0);
+    commandParamNumberMap.putIfAbsent("MakeUserInstruction", 3);
   }
 
   private static void addDisplayCommands() {
@@ -110,9 +110,17 @@ public class CommandParamNumberHashMap {
   }
 
   public static int getCommandParamNumber(String s) {
-    commandParamNumberMap = new HashMap<>();
+    //commandParamNumberMap = new HashMap<>();
     System.out.println("GETTING PARAM NUMBER FOR:" + s);
     addCommands();
     return commandParamNumberMap.get(s);
+  }
+
+  public static void  addCommandParamNumber(String s, int paramNum) {
+    //commandParamNumberMap = new HashMap<>();
+    commandParamNumberMap.putIfAbsent(s, paramNum);
+    System.out.println("GETTING PARAM NUMBER FOR:" + s);
+    addCommands();
+
   }
 }

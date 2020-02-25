@@ -53,9 +53,10 @@ public class CommandTreeExecutor {
             ArrayList<TreeNode> children = element.getChildren();
             ArrayList<String> parameters = new ArrayList<>();
             // will also need to check for to commands
-            if(element.getName().equals("MakeVariable"))
+            if(getSymbol(element.getName()).equals("MakeVariable"))
             {
-                parameters.add(children.get(0).getResult());
+                System.out.println("YEET2");
+                parameters.add(children.get(0).getName());
                 children.remove(0);
             }
             for(TreeNode child: children) {
