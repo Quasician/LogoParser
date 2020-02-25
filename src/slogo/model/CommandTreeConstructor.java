@@ -14,6 +14,8 @@ public class CommandTreeConstructor {
     private Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
     private Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
     private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
+    private Pattern commentPattern = Pattern.compile("^#.*");
+    private Pattern newLinePattern = Pattern.compile("\n");
 
     public CommandTreeConstructor(String commands)
     {}
@@ -27,11 +29,11 @@ public class CommandTreeConstructor {
         ArrayList<String> commandElements = new ArrayList<>(Arrays.asList(commands.split("(\\n|\\s)+|(\\s|\\n)+")));
         System.out.println("COMMAND LIST: " +commandElements.toString());
         ArrayList<TreeNode> answer = new ArrayList<>();
-        ListNode frst = buildList(commandElements);
-        while(frst != null){
+        ListNode head = buildList(commandElements);
+        while(head != null){
             TreeNode root = new TreeNode();
-            System.out.println("HEAD:" + frst.getData());
-            frst = createSubTree(root, frst);
+            System.out.println("HEAD:" + head.getData());
+            head = createSubTree(root, head);
             answer.add(root.getChildren().get(0));
         }
         return answer;
@@ -40,9 +42,20 @@ public class CommandTreeConstructor {
     private ListNode buildList(List<String> commandElements){
         ListNode head = new ListNode();
         ListNode next = head;
+        boolean isInComment = false;
 
         for(String element: commandElements){
-            if(!element.equals("")){
+            if(element.equals("#"))
+            {
+                isInComment = true;
+                continue;
+            }
+            if(element.equals("|n"))
+            {
+                isInComment = false;
+                continue;
+            }
+            if(!element.equals("") && !isInComment){
                 ListNode node = new ListNode(element);
                 next.addChild(node);
                 System.out.println("NODE:" + node.getData());
@@ -68,8 +81,10 @@ public class CommandTreeConstructor {
             buildingNode.addChild(new TreeNode(currentCommand));
             return commandNode;
         }
-//        else if(type.equals(COMMENT_KEY) || type.equals(NEW_LINE_KEY) || type.equals(WHITESPACE_KEY)){
-//            return createSubTree(buildingNode, commandNode);
+//        else if(match(currentCommand, commentPattern)|| match(currentCommand, newLinePattern)){
+//            System.out.println("YEET: "+ commandNode.getData());
+//            commandNode.addChild(null);
+//            return null;
 //        }
         return null;
     }
