@@ -82,8 +82,8 @@ public class CommandParamNumberHashMap {
     commandParamNumberMap.putIfAbsent("Repeat", 2);
     commandParamNumberMap.putIfAbsent("DoTimes", 2);
     commandParamNumberMap.putIfAbsent("For", 2);
-    commandParamNumberMap.putIfAbsent("If", 1);
-    commandParamNumberMap.putIfAbsent("IfElse", 1);
+    commandParamNumberMap.putIfAbsent("If", 2);
+    commandParamNumberMap.putIfAbsent("IfElse", 3);
     commandParamNumberMap.putIfAbsent("MakeUserInstruction", 0);
   }
 
