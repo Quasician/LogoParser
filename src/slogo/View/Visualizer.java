@@ -69,12 +69,14 @@ public class Visualizer {
   private void makeHistory() {
     VBox historyVBox = new VBox();
     historyVBox.setAlignment(Pos.CENTER);
-    myCommandHistory.makeBox("Command 1");
-    myCommandHistory.makeBox("Command 2");
     myVariableHistory.addVariable("Variable 1", 5);
     myVariableHistory.addVariable("Variable 2", 5);
     historyVBox.getChildren()
         .addAll(buttonImage, myVariableHistory.getScene(), myCommandHistory.returnScene());
     bp.setRight(historyVBox);
+  }
+
+  public void makeNewBox(String newCommand){
+    myCommandHistory.makeBox(newCommand);
   }
 }

@@ -71,9 +71,10 @@ public class Main extends Application {
         parseString.bind(commandLinetext);
         BooleanProperty textUpdate = new SimpleBooleanProperty();
 
-        parseTextOnInput(textUpdate, parseString, commandParser);
+
 
         Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate, language);
+        parseTextOnInput(textUpdate, parseString, commandParser,vis);
 
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
@@ -113,13 +114,14 @@ public class Main extends Application {
 
 
 
-    private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText, CommandParser commandParser)
+    private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText, CommandParser commandParser,Visualizer vis)
     {
         textUpdate.addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue o, Object oldVal, Object newVal) {
                 System.out.println(parseText.getValue());
                 commandParser.parseText(parseText.getValue());
+                vis.makeNewBox(parseText.getValue());
             }
         });
     }
