@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import slogo.Main;
 import slogo.model.Turtle;
@@ -28,6 +29,7 @@ public class TurtleGrid {
 
   public static final int TURTLE_IMAGE_HEIGHT = 40;
   public static final int TURTLE_IMAGE_WIDTH = 40;
+  public static final Color DEFAULT_PEN_COLOR = Color.RED;
   private int myCanvasWidth, myCanvasHeight;
   private Turtle viewTurtle;
   private ImageView turtleImageView;
@@ -42,6 +44,7 @@ public class TurtleGrid {
   private double turtleCenterX, turtleCenterY;
   private Boolean ispenDown = true;
   private ArrayList<Line> linesDrawn;
+  private Paint penColor;
 //  private static final Paint DEFAULT_BACKGROUND  = Color.
 
   private BooleanProperty clearScreen = new SimpleBooleanProperty();
@@ -69,6 +72,7 @@ public class TurtleGrid {
     retGrid.setPadding(new Insets(10, 10, 10, 0));
     retGrid.getChildren().addAll(myCanvas, myPane);
 
+    penColor = DEFAULT_PEN_COLOR;
     linesDrawn = new ArrayList<>();
     this.viewTurtle = viewTurtle;
     setUpTurtle();
@@ -171,10 +175,14 @@ public class TurtleGrid {
     });
   }
 
+  protected void setPenColor(Paint color) {
+    penColor = color;
+  }
+
   private void makeLine(double x1, double y1, double x2, double y2) {
     System.out.println("From: (" + x1 + " , " + y1 + ")   to  (" + x2 + " , " + y2 + ")");
     Line line = new Line(x1, y1, x2, y2);
-    line.setStroke(Color.RED);
+    line.setStroke(penColor);
     linesDrawn.add(line);
   }
 
