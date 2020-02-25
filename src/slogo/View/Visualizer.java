@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import slogo.Main;
+import slogo.model.CommandParser;
 import slogo.model.Turtle;
 
 public class Visualizer {
@@ -29,6 +30,7 @@ public class Visualizer {
   private BorderPane bp;
   private Turtle viewTurtle;
   private ImageView buttonImage;
+  private CommandParser comParser;
   private javafx.scene.image.Image img;
   private static final String style = "-fx-background-color: rgba(0, 0, 0, 0.7);";
 
@@ -38,11 +40,13 @@ public class Visualizer {
    * @param window '
    */
   public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText,
-      BooleanProperty textUpdate, Language language) {
+                    BooleanProperty textUpdate, Language language, CommandParser parser) {
     myWindow = window;
-    myCommandHistory = new CommandHistory();
+    comParser=parser;
+    myCommandHistory = new CommandHistory(comParser);
     myVariableHistory = new VariableHistory();
     this.viewTurtle = viewTurtle;
+
     img = new Image(myResources.getString("SlogoLogo"));
     buttonImage = new ImageView(img);
     buttonImage.setFitHeight(BUTTON_HEIGHT);

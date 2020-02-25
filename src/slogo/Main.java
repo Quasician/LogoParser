@@ -73,7 +73,7 @@ public class Main extends Application {
 
 
 
-        Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate, language);
+        Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate, language, commandParser);
         parseTextOnInput(textUpdate, parseString, commandParser,vis);
 
 //        modelTurtle.setX(-200);
