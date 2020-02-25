@@ -3,6 +3,8 @@ package slogo.View;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -15,10 +17,12 @@ public class CommandHistory {
     private VBox historyWindow;
     private static final Color TEXT_COLOR = Color.WHITE;
     private HBox newCommand;
-    private CustomButton runButton;
+    private ViewButton runButton;
     private Label commandEntered;
     private static final int SPACING = 300;
     private static final int BOX_SPACING = 300;
+    private static final int PLAY_IMAGE_SIZE = 10;
+
     private ArrayList<String> commandValues;
     private static final String STYLE = "-fx-background-color: rgba(0, 0,0, 0.5);";
 
@@ -39,10 +43,8 @@ public class CommandHistory {
     }
 
     protected void makeBox(String StringRepresentation){
-        runButton=new CustomButton();
-        runButton.setMaxHeight(BOX_SPACING);
-        runButton.setMaxWidth(SPACING);
-        runButton.setImage(runButton, myResources.getString("PlayImage"));
+        runButton=new ViewButton("", 2* PLAY_IMAGE_SIZE, 2* PLAY_IMAGE_SIZE, 0);
+        setImage(runButton, myResources.getString("PlayImage"));
         commandValues.add(StringRepresentation);
         newCommand= new HBox(5);
         newCommand.setMaxSize(300,200);
@@ -54,6 +56,14 @@ public class CommandHistory {
         runButton.setOnAction(actionEvent -> runCommand(newCommand));
     }
 
+    private void setImage(ViewButton button, String image){
+        Image img = new Image(image);
+        ImageView buttonImage= new ImageView(img);
+        buttonImage.setFitHeight(PLAY_IMAGE_SIZE);
+        buttonImage.setFitWidth(PLAY_IMAGE_SIZE);
+        button.setGraphic(buttonImage);
+
+    }
     public VBox returnScene(){
         return historyWindow;
     }

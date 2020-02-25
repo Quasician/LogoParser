@@ -33,7 +33,6 @@ public class TurtleGrid {
   private int myCanvasWidth, myCanvasHeight;
   private Turtle viewTurtle;
   private ImageView turtleImageView;
-  private Drawing myDrawer;
   private Pane myPane; //to change background of grid, change the background of the pane
   private Canvas myCanvas;
   private static final int DEFAULT_CANVAS_WIDTH = 1140;
@@ -42,7 +41,7 @@ public class TurtleGrid {
   private StackPane retGrid;
   private double centerX, centerY, pastX, pastY;
   private double turtleCenterX, turtleCenterY;
-  private Boolean ispenDown = true;
+  private Boolean isPenDown = true;
   private ArrayList<Line> linesDrawn;
   private Paint penColor;
 //  private static final Paint DEFAULT_BACKGROUND  = Color.
@@ -51,14 +50,11 @@ public class TurtleGrid {
 
   /**
    * Constructor for the TurtleGrid class, which initializes everything
-   *
-   * @param canvasWidth  is the width of the canvas where the turtle is located, and where all the
+   *  @param canvasWidth  is the width of the canvas where the turtle is located, and where all the
    *                     shapes are drawn
    * @param canvasHeight is the height of the canvas
-   * @param draw         is the drawing class that would control what will be drawn on the canvas
    */
-  public TurtleGrid(int canvasWidth, int canvasHeight, Drawing draw, Turtle viewTurtle) {
-    myDrawer = draw;
+  public TurtleGrid(int canvasWidth, int canvasHeight, Turtle viewTurtle) {
     myCanvasWidth = canvasWidth;
     myCanvasHeight = canvasHeight;
     centerX = canvasWidth / 2.0;
@@ -78,8 +74,8 @@ public class TurtleGrid {
     setUpTurtle();
   }
 
-  public TurtleGrid(Turtle turtle, Drawing draw) {
-    this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, draw, turtle);
+  public TurtleGrid(Turtle turtle) {
+    this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, turtle);
   }
 
   private BooleanProperty clearScreenProperty() {
@@ -117,7 +113,7 @@ public class TurtleGrid {
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         turtleImageView.setX(viewTurtle.getX() + centerX);
         turtleImageView.setY(-(viewTurtle.getY()) + centerY);
-        if (ispenDown) {
+        if (isPenDown) {
           makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
               -(viewTurtle.getY() - turtleCenterY) + centerY);
 
@@ -144,7 +140,7 @@ public class TurtleGrid {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         System.out.println("Pen has been changed to: " + viewTurtle.isPenDown());
-        ispenDown = viewTurtle.isPenDown();
+        isPenDown = viewTurtle.isPenDown();
       }
     });
   }
@@ -224,7 +220,7 @@ public class TurtleGrid {
 //        //System.out.println("X value changed to: " + (viewTurtle.getX() + centerX));
 //        turtleImageView.setX(viewTurtle.getX() + centerX);
 //        //System.out.println("Y val on x change:" + -(viewTurtle.getY()) + centerY);
-//        if (ispenDown) {
+//        if (isPenDown) {
 //          makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
 //              -(viewTurtle.getY() - turtleCenterY) + centerY);
 //
@@ -240,7 +236,7 @@ public class TurtleGrid {
 //      public void changed(ObservableValue o, Object oldVal, Object newVal) {
 //      //  System.out.println("Y value changed to: " + (-(viewTurtle.getY()) + centerY));
 //        turtleImageView.setY(-(viewTurtle.getY()) + centerY);
-//        if (ispenDown) {
+//        if (isPenDown) {
 //          makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
 //              -(viewTurtle.getY() - turtleCenterY) + centerY);
 //

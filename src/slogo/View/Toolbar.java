@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import slogo.Main;
 
 public class Toolbar {
@@ -27,6 +28,8 @@ public class Toolbar {
   private static final String STYLE_COLOR = "lightgray";
   private static final int PADDING = 10;
   private static final int BUTTON_WIDTH = 200;
+  private static final int BUTTON_HEIGHT = 25;
+  private static final int COLOR_PICKER_WIDTH = 50;
   private HBox colorChooser, colorChooser2;
   private Button backgroundColorPicker, penColorPicker;
 
@@ -38,11 +41,17 @@ public class Toolbar {
     colorChooser2 = new HBox();
     setUpPenColorChooser(grid);
     colorChooser2.getChildren().addAll(penColorPicker, penColor);
-    helpButton = CustomButton.CustomButton(Main.myResources.getString(BUTTON_HELP), STYLE_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
-    setTurtleImage = CustomButton
-        .CustomButton(Main.myResources.getString(CHANGE_TURTLE), STYLE_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
+    helpButton = new ViewButton(Main.myResources.getString(BUTTON_HELP), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
+    setTurtleImage = new ViewButton(Main.myResources.getString(CHANGE_TURTLE), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
     setUpChangeLanguageChooser();
     }
+
+  public HBox getToolBar() {
+    toolBar = new HBox(PADDING);
+    toolBar.getChildren().addAll(colorChooser, colorChooser2, setTurtleImage, changeLanguageBox,
+        helpButton);
+    return toolBar;
+  }
 
   private void setUpChangeLanguageChooser() {
     changeLanguageBox.setPrefWidth(BUTTON_WIDTH);
@@ -53,26 +62,31 @@ public class Toolbar {
     changeLanguageBox.setOnAction(e-> System.out.println(changeLanguageBox.getValue()));
   }
 
-
   private void setUpPenColorChooser(TurtleGrid grid) {
-    penColorPicker = CustomButton
-        .CustomButton(Main.myResources.getString(CHANGE_PEN), STYLE_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
-    penColor = CustomButton.pickColor();
+    penColorPicker = fakeButton(Main.myResources.getString(CHANGE_PEN), STYLE_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
+    penColor = makeColorPicker();
     penColor.setOnAction(e -> grid.setPenColor(penColor.getValue()));
   }
 
   private void setUpBackgroundColorChooser(TurtleGrid grid) {
-    backgroundColorPicker = CustomButton
-        .CustomButton(Main.myResources.getString(CHANGE_BACKGROUND), STYLE_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
-    backgroundColor = CustomButton.pickColor();
+    backgroundColorPicker = fakeButton(Main.myResources.getString(CHANGE_BACKGROUND), STYLE_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
+    backgroundColor = makeColorPicker();
     backgroundColor.setOnAction(e -> grid.setBackground(backgroundColor.getValue()));
   }
 
-  public HBox getToolBar() {
-    toolBar = new HBox(PADDING);
-    toolBar.getChildren().addAll(colorChooser, colorChooser2, setTurtleImage, changeLanguageBox,
-        helpButton);
-    return toolBar;
+  private ColorPicker makeColorPicker(){
+    ColorPicker cp = new ColorPicker();
+    cp.setPrefWidth(COLOR_PICKER_WIDTH);
+    return cp;
   }
 
+  private Button fakeButton(String text, String styleColor, Paint fontColor, int fontSize){
+    Button button = new Button(text);
+    button.setTextFill(fontColor);
+    button.setFont(Font.font("Calibri"));
+    button.setStyle("-fx-background-color:" + styleColor + ";-fx-font-size:" + fontSize + " px;");
+    button.setPrefWidth(200);
+    return button;
+
+  }
 }
