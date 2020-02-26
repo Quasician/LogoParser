@@ -22,7 +22,7 @@ public class Forward extends TurtleCommand {
   @Override
   public void doCommand(TreeNode commandNode) {
     distance = Double.parseDouble(getParamList().get(0));
-    commandNode.setData(distance + "");
+    commandNode.setResult(distance + "");
     moveTurtle(forward, distance);
   }
 }

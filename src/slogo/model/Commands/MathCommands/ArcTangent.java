@@ -7,7 +7,7 @@ public class ArcTangent extends MathCommand {
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        commandNode.setData(Math.toDegrees((Math.atan(Double.parseDouble(getParamList().get(0)))))+"");
-        System.out.println("Result of ArcTangent: "+ commandNode.getData());
+        commandNode.setResult(Math.toDegrees((Math.atan(Double.parseDouble(getParamList().get(0)))))+"");
+        System.out.println("Result of ArcTangent: "+ commandNode.getResult());
     }
 }

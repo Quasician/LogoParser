@@ -9,7 +9,7 @@ public class Power extends MathCommand {
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        commandNode.setData(Math.pow(Double.parseDouble(getParamList().get(0)),Double.parseDouble(getParamList().get(1)))+"");
-        System.out.println("Result of Power: "+ commandNode.getData());
+        commandNode.setResult(Math.pow(Double.parseDouble(getParamList().get(0)),Double.parseDouble(getParamList().get(1)))+"");
+        System.out.println("Result of Power: "+ commandNode.getResult());
     }
 }

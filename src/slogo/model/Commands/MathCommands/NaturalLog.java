@@ -7,7 +7,7 @@ public class NaturalLog extends MathCommand {
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        commandNode.setData(Math.log(Double.parseDouble(getParamList().get(0)))+"");
-        System.out.println("Result of Log: "+ commandNode.getData());
+        commandNode.setResult(Math.log(Double.parseDouble(getParamList().get(0)))+"");
+        System.out.println("Result of Log: "+ commandNode.getResult());
     }
 }

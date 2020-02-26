@@ -9,7 +9,7 @@ public class Pi extends MathCommand {
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        commandNode.setData(Math.PI+"");
-        System.out.println("Result of Pi: "+ commandNode.getData());
+        commandNode.setResult(Math.PI+"");
+        System.out.println("Result of Pi: "+ commandNode.getResult());
     }
 }

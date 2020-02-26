@@ -1,24 +1,17 @@
 package slogo.model;
 
-import javafx.beans.InvalidationListener;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+
 import slogo.View.Language;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactory;
 import slogo.model.Commands.CommandFactoryInterface;
 
+import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 public class CommandParser {
@@ -38,6 +31,7 @@ public class CommandParser {
   private CommandFactoryInterface commandFactory;
   private CommandTreeExecutor treeExec;
   private CommandTreeConstructor treeMaker;
+  private HashMap<Pattern,String> translations = new HashMap<>();
 
   private static final String RESOURCES = "resources.";
   private static final String ERRORS = RESOURCES + "ErrorMessages";
@@ -50,11 +44,16 @@ public class CommandParser {
   /**
    * Create an empty parser
    */
+
   public CommandParser(Turtle turtle, Language language) {
+    this.language = language;
     mySymbols = new ArrayList<>();
+    addPatterns(this.language.getCurrentLanguage());
+    createReverseHashMap(mySymbols);
     commandFactory = new CommandFactory();
     this.turtle = turtle;
-    this.language = language;
+    System.out.println(RESOURCES_PACKAGE + language);
+    ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + language.getCurrentLanguage());
   }
 
   //add a listener in the command parser
@@ -89,6 +88,13 @@ public class CommandParser {
     //return ERROR;
   }
 
+  public void createReverseHashMap (List<Entry<String, Pattern>> mySymbols) {
+    for (Entry<String, Pattern> e : mySymbols) {
+      translations.putIfAbsent(e.getValue(), e.getKey());
+    }
+    // FIXME: perhaps throw an exception instead
+  }
+
 
   // Returns true if the given text matches the given regular expression pattern
   private boolean match(String text, Pattern regex) {
@@ -97,7 +103,8 @@ public class CommandParser {
   }
 
 
-  public void parseText(String commandLine) {
+
+  public String parseText(String commandLine) {
     Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
     Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
 
@@ -118,15 +125,14 @@ public class CommandParser {
       System.out.println("GENERAL ELEMENT:" + lineValues[i]);
     }
     String translatedCommands = String.join(" ", lineValues);
-    System.out.println("TRANSLATED: " + translatedCommands);
-    makeCommandTree(translatedCommands);
+    System.out.println("TRANSLATED: " +translatedCommands);
+    return makeCommandTree(translatedCommands);
   }
 
-  private void makeCommandTree(String commands) {
-    treeMaker = new CommandTreeConstructor(commands);
+  private String makeCommandTree(String commands) {
+    treeMaker = new CommandTreeConstructor(translations);
     ArrayList<TreeNode> head = (ArrayList) treeMaker.buildTrees(commands);
-    treeExec = new CommandTreeExecutor(commandFactory, turtle);
-    treeExec.executeTrees(head);
+    treeExec = new CommandTreeExecutor(commandFactory, turtle, translations, language);
+    return treeExec.executeTrees(head);
   }
-
 }

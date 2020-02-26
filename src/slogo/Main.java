@@ -11,6 +11,7 @@ import slogo.View.Language;
 import slogo.View.Visualizer;
 import slogo.model.CommandException;
 import slogo.model.CommandParser;
+import slogo.model.CustomCommandMap;
 import slogo.model.Turtle;
 import slogo.model.VariableHashMap;
 
@@ -51,8 +52,9 @@ public class Main extends Application {
 
         Language language = new Language();
 
+
         CommandParser commandParser = new CommandParser(modelTurtle, language);
-        commandParser.addPatterns("English");
+
 
 //        modelTurtle.setDegree(45);
 //        commandParser.parseText("towards -5 0");
@@ -66,18 +68,31 @@ public class Main extends Application {
 //        commandParser.parseText("make :v sum 23 3");
 //        commandParser.parseText("sum :v 14");
 //        commandParser.parseText("atan product random quotient remainder product log 3.4 2 2 0.19 pi");
-        commandParser.parseText("# make :v sum 23 3 \n make :l 50");
-        printVariables();
+
+        //printVariables();
         StringProperty commandLinetext = new SimpleStringProperty(){};
         StringProperty parseString = new SimpleStringProperty(){};
         parseString.bind(commandLinetext);
         BooleanProperty textUpdate = new SimpleBooleanProperty();
 
 
+        //commandParser.parseText("fd 50 rt 90 fd 50 rt 90 fd 50 rt 90 fd 50 rt 90");
+//        commandParser.parseText("make :v 56");
+//        printVariables();
+//        commandParser.parseText("to dash [ :count ]\n" +
+//                "[\n" +
+//                "  repeat :count \n" +
+//                "  [\n" +
+//                "    pu fd 4 pd fd 4\n" +
+//                "  ]      \n" +
+//                "]");
+//        printCustomCommands();
+
 
         Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate, language, commandParser);
         parseTextOnInput(textUpdate, parseString, commandParser,vis);
 
+        commandParser.parseText("repeat 5 [ fd 100 rt 144 ] ");
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
 //
@@ -96,10 +111,16 @@ public class Main extends Application {
             Map.Entry entry = (Map.Entry)it.next(); //current entry in a loop
             System.out.println(entry.getKey() + " = " + entry.getValue());
         }
-//        for(Map.Entry e :vars)
-//        {
-//            System.out.println(e.getKey() + " = " + e.getValue());
-//        }
+    }
+
+    private void printCustomCommands()
+    {
+        Iterator it = CustomCommandMap.getAllCustomCommands().iterator();
+        System.out.println("\nTHESE ARE THE CURRENT CUSTOM COMMANDS: ");
+        while (it.hasNext()) {
+            String entry = (String) it.next(); //current entry in a loop
+            System.out.println(entry);
+        }
     }
 
     private void bindTurtles(Turtle model, Turtle view) {

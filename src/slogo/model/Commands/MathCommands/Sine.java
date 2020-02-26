@@ -7,7 +7,7 @@ public class Sine extends MathCommand {
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        commandNode.setData(Math.toDegrees(Math.sin(Double.parseDouble(getParamList().get(0))))+"");
-        System.out.println("Result of Sine: "+ commandNode.getData());
+        commandNode.setResult(Math.toDegrees(Math.sin(Double.parseDouble(getParamList().get(0))))+"");
+        System.out.println("Result of Sine: "+ commandNode.getResult());
     }
 }

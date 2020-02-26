@@ -9,7 +9,7 @@ public class Random extends MathCommand {
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        commandNode.setData(((int)(Math.random() *Double.parseDouble(getParamList().get(0))))+"");
-        System.out.println("Result of Random: "+ commandNode.getData());
+        commandNode.setResult(((int)(Math.random() *Double.parseDouble(getParamList().get(0))))+"");
+        System.out.println("Result of Random: "+ commandNode.getResult());
     }
 }

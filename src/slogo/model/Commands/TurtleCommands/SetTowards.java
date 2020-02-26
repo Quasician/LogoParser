@@ -26,6 +26,6 @@ public class SetTowards extends TurtleCommand {
 
     turtle.setDegree(angle);
     double returnValue = Math.abs(turtle.getDegree() - angle);
-    commandNode.setData("" + returnValue);
+    commandNode.setResult("" + returnValue);
   }
 }
