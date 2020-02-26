@@ -5,9 +5,11 @@ import javafx.application.Application;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import slogo.View.Language;
 import slogo.View.Visualizer;
+import slogo.model.CommandException;
 import slogo.model.CommandParser;
 import slogo.model.Turtle;
 import slogo.model.VariableHashMap;
@@ -113,17 +115,31 @@ public class Main extends Application {
 
 
 
-
+    //Sanna changed this method to do error checking
     private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText, CommandParser commandParser,Visualizer vis)
     {
         textUpdate.addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue o, Object oldVal, Object newVal) {
                 System.out.println(parseText.getValue());
-                commandParser.parseText(parseText.getValue());
-                vis.makeNewBox(parseText.getValue());
+                //commandParser.parseText(parseText.getValue());
+                //vis.makeNewBox(parseText.getValue());
+
+                try {
+                    commandParser.parseText(parseText.getValue());
+                    vis.makeNewBox(parseText.getValue());
+                } catch (CommandException e) {
+                    showError(e.getMessage());
+                }
             }
         });
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Alert test - error");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }
