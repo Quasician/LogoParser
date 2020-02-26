@@ -1,8 +1,6 @@
 package slogo.model;
 
 import javafx.util.Pair;
-
-import java.awt.desktop.SystemSleepEvent;
 import java.util.*;
 import java.util.regex.Pattern;
 
