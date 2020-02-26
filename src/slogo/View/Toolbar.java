@@ -108,7 +108,13 @@ public class Toolbar {
       }
     });
     setTurtleImage.getSelectionModel().selectFirst();
-    setTurtleImage.setOnAction(e -> language.setLanguage(changeLanguageBox.getValue()));
+   // setTurtleImage.setOnAction(e -> language.setLanguage(changeLanguageBox.getValue()));
+
+    //when clicked set turtle image to what ever was clicked
+   // setTurtleImage.setOnAction(e -> System.out.println(setTurtleImage.getValue()));
+
+    setTurtleImage.setOnAction(e -> turtleGrid.updateTurtleImage((String) setTurtleImage.getValue()));
+
   }
 
   private void setUpHelpButton() {
