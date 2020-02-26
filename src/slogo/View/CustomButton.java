@@ -17,10 +17,9 @@ public class CustomButton extends Button{
         button.setPrefWidth(200);
         return button;
     }
-    public static ColorPicker pickColor(String title){
+    public static ColorPicker pickColor(){
         ColorPicker cp = new ColorPicker();
         cp.setPrefWidth(50);
-        cp.setAccessibleText(title);
         return cp;
     }
     public void setImage(CustomButton button, String image){

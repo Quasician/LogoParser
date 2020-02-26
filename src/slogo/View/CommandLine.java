@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import slogo.Main;
 
 /**
  * consider: what if I wanna add more buttons?
@@ -18,18 +19,12 @@ import javafx.scene.text.FontWeight;
  * @author Michelle Tai
  */
 public class CommandLine{
-  public static final String RESOURCES = "resources";
-  public static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
-  //  public static final String LANGUAGE = "English";
-  public static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
-  //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
-  public static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
+  public static ResourceBundle myResources = Main.myResources;
 
   private TextArea inputArea;
   private ViewButton runButton;
   private ViewButton clearButton;
   private HBox commandLineGroup;
-  private String inputText;
 
   private static final int BUTTON_HEIGHT = 60;
   private static final int BUTTON_WIDTH = 100;

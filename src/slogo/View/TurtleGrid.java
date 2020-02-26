@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import slogo.Main;
 import slogo.model.Turtle;
@@ -28,10 +29,10 @@ public class TurtleGrid {
 
   public static final int TURTLE_IMAGE_HEIGHT = 40;
   public static final int TURTLE_IMAGE_WIDTH = 40;
+  public static final Color DEFAULT_PEN_COLOR = Color.RED;
   private int myCanvasWidth, myCanvasHeight;
   private Turtle viewTurtle;
   private ImageView turtleImageView;
-  private Drawing myDrawer;
   private Pane myPane; //to change background of grid, change the background of the pane
   private Canvas myCanvas;
   private static final int DEFAULT_CANVAS_WIDTH = 300;
@@ -40,22 +41,20 @@ public class TurtleGrid {
   private StackPane retGrid;
   private double centerX, centerY, pastX, pastY;
   private double turtleCenterX, turtleCenterY;
-  private Boolean ispenDown = true;
+  private Boolean isPenDown = true;
   private ArrayList<Line> linesDrawn;
+  private Paint penColor;
 //  private static final Paint DEFAULT_BACKGROUND  = Color.
 
   private BooleanProperty clearScreen = new SimpleBooleanProperty();
 
   /**
    * Constructor for the TurtleGrid class, which initializes everything
-   *
-   * @param canvasWidth  is the width of the canvas where the turtle is located, and where all the
+   *  @param canvasWidth  is the width of the canvas where the turtle is located, and where all the
    *                     shapes are drawn
    * @param canvasHeight is the height of the canvas
-   * @param draw         is the drawing class that would control what will be drawn on the canvas
    */
-  public TurtleGrid(int canvasWidth, int canvasHeight, Drawing draw, Turtle viewTurtle) {
-    myDrawer = draw;
+  public TurtleGrid(int canvasWidth, int canvasHeight, Turtle viewTurtle) {
     myCanvasWidth = canvasWidth;
     myCanvasHeight = canvasHeight;
     centerX = canvasWidth / 2.0;
@@ -69,13 +68,14 @@ public class TurtleGrid {
     retGrid.setPadding(new Insets(10, 10, 10, 0));
     retGrid.getChildren().addAll(myCanvas, myPane);
 
+    penColor = DEFAULT_PEN_COLOR;
     linesDrawn = new ArrayList<>();
     this.viewTurtle = viewTurtle;
     setUpTurtle();
   }
 
-  public TurtleGrid(Turtle turtle, Drawing draw) {
-    this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, draw, turtle);
+  public TurtleGrid(Turtle turtle) {
+    this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, turtle);
   }
 
   private BooleanProperty clearScreenProperty() {
@@ -104,6 +104,7 @@ public class TurtleGrid {
     addAnglePropertyListener();
     addPenDownListener();
     addClearScreenListener();
+    addShowingListener();
   }
 
   private void addCoordinatesListener() {
@@ -112,7 +113,7 @@ public class TurtleGrid {
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         turtleImageView.setX(viewTurtle.getX() + centerX);
         turtleImageView.setY(-(viewTurtle.getY()) + centerY);
-        if (ispenDown) {
+        if (isPenDown) {
           makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
               -(viewTurtle.getY() - turtleCenterY) + centerY);
 
@@ -139,7 +140,7 @@ public class TurtleGrid {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         System.out.println("Pen has been changed to: " + viewTurtle.isPenDown());
-        ispenDown = viewTurtle.isPenDown();
+        isPenDown = viewTurtle.isPenDown();
       }
     });
   }
@@ -156,10 +157,28 @@ public class TurtleGrid {
     });
   }
 
+  private void addShowingListener() {
+    viewTurtle.isShowingProperty().addListener(new ChangeListener<Boolean>() {
+      @Override
+      public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
+          Boolean newValue) {
+        if (viewTurtle.isShowingProperty().get()) { //make turtle visible
+          turtleImageView.setVisible(true);
+        } else { //make turtle invisible
+          turtleImageView.setVisible(false);
+        }
+      }
+    });
+  }
+
+  protected void setPenColor(Paint color) {
+    penColor = color;
+  }
+
   private void makeLine(double x1, double y1, double x2, double y2) {
     System.out.println("From: (" + x1 + " , " + y1 + ")   to  (" + x2 + " , " + y2 + ")");
     Line line = new Line(x1, y1, x2, y2);
-    line.setStroke(Color.RED);
+    line.setStroke(penColor);
     linesDrawn.add(line);
   }
 
@@ -201,7 +220,7 @@ public class TurtleGrid {
 //        //System.out.println("X value changed to: " + (viewTurtle.getX() + centerX));
 //        turtleImageView.setX(viewTurtle.getX() + centerX);
 //        //System.out.println("Y val on x change:" + -(viewTurtle.getY()) + centerY);
-//        if (ispenDown) {
+//        if (isPenDown) {
 //          makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
 //              -(viewTurtle.getY() - turtleCenterY) + centerY);
 //
@@ -217,7 +236,7 @@ public class TurtleGrid {
 //      public void changed(ObservableValue o, Object oldVal, Object newVal) {
 //      //  System.out.println("Y value changed to: " + (-(viewTurtle.getY()) + centerY));
 //        turtleImageView.setY(-(viewTurtle.getY()) + centerY);
-//        if (ispenDown) {
+//        if (isPenDown) {
 //          makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
 //              -(viewTurtle.getY() - turtleCenterY) + centerY);
 //

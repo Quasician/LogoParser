@@ -2,28 +2,19 @@ package slogo;
 
 import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import slogo.View.Visualiser;
-import slogo.View.CommandLine;
-import slogo.View.Drawing;
-import slogo.View.Toolbar;
-import slogo.View.TurtleGrid;
-import slogo.View.ViewButton;
+import slogo.View.Language;
 import slogo.View.Visualizer;
+import slogo.model.CommandException;
 import slogo.model.CommandParser;
 import slogo.model.CustomCommandMap;
 import slogo.model.Turtle;
 import slogo.model.VariableHashMap;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -59,9 +50,11 @@ public class Main extends Application {
         //ObjectProperty<Turtle> viewTurtleProp = new SimpleObjectProperty<>(viewTurtle, "viewTurtle");
         // viewTurtleProp.bind(modelTurtleProp);
 
+        Language language = new Language();
 
-        CommandParser commandParser = new CommandParser(modelTurtle, "English");
-        //commandParser.addPatterns("English");
+
+        CommandParser commandParser = new CommandParser(modelTurtle, language);
+
 
 //        modelTurtle.setDegree(45);
 //        commandParser.parseText("towards -5 0");
@@ -82,11 +75,8 @@ public class Main extends Application {
         parseString.bind(commandLinetext);
         BooleanProperty textUpdate = new SimpleBooleanProperty();
 
-        parseTextOnInput(textUpdate, parseString, commandParser);
 
-        Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate);
         //commandParser.parseText("fd 50 rt 90 fd 50 rt 90 fd 50 rt 90 fd 50 rt 90");
-        commandParser.parseText("to c [ :r ] [ repeat 4 [ fd 50 rt 95 ] ] ");
 //        commandParser.parseText("make :v 56");
 //        printVariables();
 //        commandParser.parseText("to dash [ :count ]\n" +
@@ -98,6 +88,11 @@ public class Main extends Application {
 //                "]");
 //        printCustomCommands();
 
+
+        Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate, language, commandParser);
+        parseTextOnInput(textUpdate, parseString, commandParser,vis);
+
+        commandParser.parseText("repeat 5 [ fd 100 rt 144 ] ");
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
 //
@@ -138,15 +133,34 @@ public class Main extends Application {
         view.coordinatesProperty().bind(model.coordinatesProperty());
         view.clearScreenProperty().bind(model.clearScreenProperty());
     }
-    private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText, CommandParser commandParser)
+
+
+
+    //Sanna changed this method to do error checking
+    private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText, CommandParser commandParser,Visualizer vis)
     {
         textUpdate.addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue o, Object oldVal, Object newVal) {
                 System.out.println(parseText.getValue());
-                commandParser.parseText(parseText.getValue());
+                //commandParser.parseText(parseText.getValue());
+                //vis.makeNewBox(parseText.getValue());
+
+                try {
+                    commandParser.parseText(parseText.getValue());
+                    vis.makeNewBox(parseText.getValue());
+                } catch (CommandException e) {
+                    showError(e.getMessage());
+                }
             }
         });
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Alert test - error");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }
