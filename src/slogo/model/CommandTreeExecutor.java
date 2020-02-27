@@ -22,6 +22,23 @@ public class CommandTreeExecutor {
   private HashMap<Pattern, String> translations;
   private String finalValue = "";
 
+  private static final String RESOURCES_PACKAGE =
+      "resources.";
+
+  public static ResourceBundle commandPackageNames = ResourceBundle
+      .getBundle(RESOURCES_PACKAGE + "CommandPackages");
+
+  public static ResourceBundle commandParameterNumbers = ResourceBundle
+      .getBundle(RESOURCES_PACKAGE + "ParameterNumbers");
+
+  private static final String ERRORS = RESOURCES_PACKAGE + "ErrorMessages";
+
+  //make a properties file for errors
+  private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
+
+  // private static final String COMMAND_PACKAGES = CommandTreeExecutor.class.getPackageName() + ".resources.packages.CommandPackages.properties";
+
+
   public CommandTreeExecutor(CommandFactoryInterface factory, Turtle turtle,
       HashMap<Pattern, String> translations, Language language) {
     this.language = language;
@@ -43,22 +60,6 @@ public class CommandTreeExecutor {
         .println("Last commands result " + elementNodes.get(elementNodes.size() - 1).getResult());
     return finalValue;
   }
-
-  private static final String RESOURCES_PACKAGE =
-      "resources.";
-
-  public static ResourceBundle commandPackageNames = ResourceBundle
-      .getBundle(RESOURCES_PACKAGE + "CommandPackages");
-
-  public static ResourceBundle commandParameterNumbers = ResourceBundle
-      .getBundle(RESOURCES_PACKAGE + "ParameterNumbers");
-
-  private static final String ERRORS = RESOURCES_PACKAGE + "ErrorMessages";
-
-  //make a properties file for errors
-  private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
-
-  // private static final String COMMAND_PACKAGES = CommandTreeExecutor.class.getPackageName() + ".resources.packages.CommandPackages.properties";
 
   private void executeSubTree(TreeNode element) {
     if (match(element.getName(), commandPattern)) {
@@ -88,6 +89,10 @@ public class CommandTreeExecutor {
       for (String s : parameters) {
         System.out.println("Param of " + element.getName() + ": " + s);
       }
+
+      int numParamsShouldHave = Integer.parseInt(commandParameterNumbers.getString(commandClass));
+      
+
       commandObject.setParams(parameters);
       commandObject.setTurtle(turtle);
       commandObject.setMiniParserLanguage(language);

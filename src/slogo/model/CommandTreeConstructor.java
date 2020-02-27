@@ -132,9 +132,14 @@ public class CommandTreeConstructor {
         parameterNumber = Integer.parseInt(commandParameterNumbers.getString(getSymbol(currentElement)));
      // parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
     } else {
-        System.out.println("current element " + getSymbol(currentElement));
-        parameterNumber = Integer.parseInt(commandParameterNumbers.getString(getSymbol(currentElement)));
-     // parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(getSymbol(currentElement));
+      try {
+        parameterNumber = Integer
+            .parseInt(commandParameterNumbers.getString(getSymbol(currentElement)));
+      } catch (MissingResourceException e) {
+        String errorMessage = String.format(errors.getString("WrongParameter"), currentElement);
+        throw new CommandException(errorMessage);
+      }
+      //parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(getSymbol(currentElement));
 
     }
     //System.out.println("Param number: " +parameterNumber);
@@ -207,7 +212,8 @@ public class CommandTreeConstructor {
             return e.getValue();
         }
     }
-    //throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
+    System.out.println(text+ " -> NO MATCH");
+   // throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
     return ERROR;
   }
 }
