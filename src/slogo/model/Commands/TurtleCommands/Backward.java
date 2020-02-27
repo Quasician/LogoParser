@@ -10,11 +10,11 @@ import slogo.model.TreeNode;
  * and returns "pixels"
  *
  */
-public class Back extends TurtleCommand {
+public class Backward extends TurtleCommand {
 
   private double distance;
 
-  public Back(String name) {
+  public Backward(String name) {
     super(name);
   }
 

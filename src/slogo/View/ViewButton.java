@@ -13,27 +13,28 @@ import javafx.scene.text.FontWeight;
  */
 
 public class ViewButton extends Button {
-
-  private static final int DEFAULT_SIZE = 50;
+  private static final String STYLE_COLOR = "lightgray";
 
   /**
    * Constructor method that lays out the basic view of a button in our parser
    * @param text specifies text in button that corresponds with the value left value in the properties file
    * @author Michelle Tai, adapted from Franklin Boampong's button code in our Simulation project
    */
-  public ViewButton(String text, int height, int width) {
-    setFont(Font.font("Avenir Next", FontWeight.BOLD, 20));
+  public ViewButton(String text, int height, int width, int fontSize) {
+    setFont(Font.font("Calibri", fontSize));
     setText(text);
     setPrefHeight(height);//45
     setPrefWidth(width);//190
+//    setStyle("-fx-background-color:" + STYLE_COLOR + ";-fx-font-size:" + fontSize + " px;");
     mouseUpdateListener();
+
   }
 
   /**
    * default constructor
    */
-  public ViewButton(){
-    this("", DEFAULT_SIZE, DEFAULT_SIZE);
+  public ViewButton(String text, int height, int width){
+    this(text, height, width, 20);
   }
 
   private void mouseUpdateListener() {

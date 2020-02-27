@@ -1,5 +1,6 @@
 package slogo.model;
 
+
 import javafx.util.Pair;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -13,10 +14,21 @@ public class CommandTreeConstructor {
     private HashMap<Pattern, String> translations;
 
 
+
     public CommandTreeConstructor(HashMap<Pattern, String> translations)
     {
         this.translations = translations;
     }
+
+    private static final String RESOURCES_PACKAGE =
+        "resources.";
+
+    public static ResourceBundle commandParameterNumbers = ResourceBundle
+        .getBundle(RESOURCES_PACKAGE + "ParameterNumbers");
+
+    public CommandTreeConstructor(String commands)
+    {}
+
 
     private boolean match (String text, Pattern regex) {
         // THIS IS THE IMPORTANT LINE
@@ -127,7 +139,7 @@ public class CommandTreeConstructor {
 
         }
          //System.out.println("Param number: " +parameterNumber);
-        TreeNode head = new TreeNode(currentElement);
+   TreeNode head = new TreeNode(currentElement);
         head.setResult(currentElement);
         buildingNode.addChild(head);
         if(getSymbol(currentElement).equals("MakeUserInstruction"))
