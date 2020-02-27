@@ -12,9 +12,9 @@ public class IsShowing extends TurtleQuery {
   @Override
   public void doCommand(TreeNode commandNode) {
     if (turtle.isVisible()) {
-      commandNode.setData(TRUE);
+      commandNode.setResult(TRUE);
     } else {
-      commandNode.setData(FALSE);
+      commandNode.setResult(FALSE);
     }
 
 
