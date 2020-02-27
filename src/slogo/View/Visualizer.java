@@ -1,10 +1,12 @@
 package slogo.View;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableMap;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -33,6 +35,7 @@ public class Visualizer {
   private Turtle viewTurtle;
   private ImageView buttonImage;
   private CommandParser comParser;
+  private Map<String,String> VarMap;
   private javafx.scene.image.Image img;
   private static final String style = "-fx-background-color: rgba(0, 0, 0, 0.7);";
 
@@ -48,7 +51,6 @@ public class Visualizer {
     myCommandHistory = new CommandHistory(comParser);
     myVariableHistory = new VariableHistory();
     this.viewTurtle = viewTurtle;
-
     img = new Image(myResources.getString("SlogoLogo"));
     buttonImage = new ImageView(img);
     buttonImage.setFitHeight(BUTTON_HEIGHT);
@@ -86,9 +88,9 @@ public class Visualizer {
     trial.setOnAction(e->comParser.parseText(newCommand));
   }
 
-  public void makeNewVariableBox(HashMap<String,String> VariableMap){
-    for(String variableKey:VariableMap.keySet()) {
-      myVariableHistory.addVariable(variableKey, VariableMap.get(variableKey));
+  public void makeNewVariableBox(ObservableMap<String,String> newMap){
+    for(String variableKey :newMap.keySet()) {
+      myVariableHistory.addVariable(variableKey, newMap.get(variableKey));
     }
   }
 

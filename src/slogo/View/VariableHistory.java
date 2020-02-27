@@ -4,10 +4,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -16,7 +19,7 @@ import java.util.HashMap;
 
 public class VariableHistory {
     private HashMap<String, String> Variables;
-    private TableView variablesHolder;
+    private ListView variablesHolder;
     private static final Paint textColor= Color.BLACK;
     private Label variable;
     private static final String style = "-fx-background-color: rgba(255, 255, 255, 0.5);";
@@ -25,6 +28,7 @@ public class VariableHistory {
     private static VBox VariableHis;
     private SimpleStringProperty firstName;
     private SimpleStringProperty lastName;
+
 
     public VariableHistory(String name, String value){
             this.firstName = new SimpleStringProperty(name);
@@ -35,7 +39,7 @@ public class VariableHistory {
     public VariableHistory(){
         VariableHis= new VBox();
         Variables=new HashMap<>();
-        variablesHolder= new TableView();
+        variablesHolder= new ListView();
         variablesHolder.setPrefHeight(310.0);
         variablesHolder.setPrefWidth(300.0);
         nameCol= new TableColumn("Name");
@@ -50,17 +54,11 @@ public class VariableHistory {
     }
 
     public void addVariable(String name, String value){
-        variable=new Label();
-           if(Variables.containsKey(name)){
-                Variables.replace(name,value);
-
-            }else {
-                Variables.putIfAbsent(name, value);
-            }
-           variable.setText(name);
-           variablesHolder.getColumns().addAll(nameCol,valCol);
-           variablesHolder.setPadding(new Insets(10));
-           variablesHolder.setBorder(Border.EMPTY);
+        Label newNameBar= new Label(name);
+        Label newValueBar= new Label(value);
+        HBox vari= new HBox();
+        vari.getChildren().addAll(newNameBar,newValueBar);
+        variablesHolder.getItems().add(vari);
         }
 
 
