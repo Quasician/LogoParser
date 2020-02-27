@@ -11,6 +11,6 @@ public class XCoordinate extends TurtleQuery {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    commandNode.setResult("" + turtle.getX());
+    commandNode.setData("" + turtle.getX());
   }
 }

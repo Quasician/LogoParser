@@ -11,6 +11,6 @@ public class YCoordinate extends TurtleQuery {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    commandNode.setResult("" + turtle.getY());
+    commandNode.setData("" + turtle.getY());
   }
 }

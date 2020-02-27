@@ -18,12 +18,11 @@ public class Repeat extends Command {
         System.out.println("Repeat this many times: " + getParamList().get(0));
         String[] commands = getParamList().get(1).split("\\s+");
         String finalValue = "";
-        System.out.println("ORIGINAL STRING: " + getParamList().get(1));
-        String allCommands = getParamList().get(1).replaceFirst("\\[", "");
+        String allCommands = getParamList().get(1).replaceFirst("\\[(.*?)\\]", "$1");
+        CommandParser miniparser = new CommandParser(turtle, language);
         for(double i = 1; i<=Double.parseDouble(getParamList().get(0).trim());i++) {
             System.out.println("COUNT FOR REPEAT" + allCommands);
             VariableHashMap.addToMap(":repcount", "" + i);
-            CommandParser miniparser = new CommandParser(turtle, language);
             System.out.println("Repeated Commands: " + getParamList().get(1));
             finalValue = miniparser.parseText(allCommands);
         }

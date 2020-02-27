@@ -26,9 +26,8 @@ public class CustomCommandMap {
         return variableMap.containsKey(name) && commandsMap.containsKey(name);
     }
 
-    public static Iterable<Map.Entry<String, String>> getAllCustomCommands() {
-
-        return commandsMap.entrySet();
+    public static Iterable<String> getAllCustomCommands() {
+        return variableMap.keySet();
     }
 
 }

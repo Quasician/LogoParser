@@ -122,6 +122,11 @@ public class CommandParser {
       if (lineValues[i].equals("\n")) {
         lineValues[i] = "|n";
       }
+      if(lineValues[i].equals("MakeUserInstruction") && i < lineValues.length-1)
+      {
+        // Skip name of the to command function
+        i +=2;
+      }
       System.out.println("GENERAL ELEMENT:" + lineValues[i]);
     }
     String translatedCommands = String.join(" ", lineValues);
