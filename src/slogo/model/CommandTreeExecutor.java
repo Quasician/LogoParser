@@ -40,6 +40,7 @@ public class CommandTreeExecutor {
             }
         }
         System.out.println("Last commands result " + elementNodes.get(elementNodes.size()-1).getResult());
+        finalValue = elementNodes.get(elementNodes.size()-1).getResult();
         return finalValue;
     }
 
@@ -74,7 +75,6 @@ public class CommandTreeExecutor {
             for (TreeNode child : children) {
                 executeSubTree(child);
                 parameters.add(child.getResult());
-                finalValue = child.getResult();
             }
             String commandClass = "";
             if (CustomCommandMap.isACustomCommand(element.getName())) {

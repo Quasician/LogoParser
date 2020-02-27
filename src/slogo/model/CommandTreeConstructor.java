@@ -185,7 +185,8 @@ public class CommandTreeConstructor {
             System.out.println("YEET != 1");
             if(commandNode.getChildren().size()>0)
             {
-                joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen-1);
+                System.out.println("] -> " + numOpen);
+                return joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen-1);
             }
             else
             {
@@ -195,7 +196,7 @@ public class CommandTreeConstructor {
         else if(commandNode.getName().equals("[")){
             if(commandNode.getChildren().size()>0)
             {
-                joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen+1);
+                return joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen+1);
             }
             else
             {
