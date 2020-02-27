@@ -13,6 +13,6 @@ public class ShowTurtle extends TurtleCommand {
   @Override
   public void doCommand(TreeNode commandNode) {
     turtle.show();
-    commandNode.setData(RETURN);
+    commandNode.setResult(RETURN);
   }
 }

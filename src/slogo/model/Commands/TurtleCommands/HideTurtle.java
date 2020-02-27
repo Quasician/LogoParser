@@ -13,6 +13,6 @@ public class HideTurtle extends TurtleCommand {
   @Override
   public void doCommand(TreeNode commandNode) {
     turtle.hide();
-    commandNode.setData(RETURN);
+    commandNode.setResult(RETURN);
   }
 }

@@ -1,27 +1,43 @@
 package slogo.model;
 
+import com.sun.source.tree.Tree;
+
 import java.util.ArrayList;
 
 public class TreeNode implements Node {
 
-  private String data;
+  private String name;
+  private String result;
   private ArrayList<TreeNode> children;
 
   public TreeNode() {
     children = new ArrayList<>();
   }
 
-  public TreeNode(String data) {
-    this.data = data;
+  public TreeNode(String name) {
+    this.name = name;
     children = new ArrayList<>();
   }
 
-  public String getData() {
-    return data;
+  public String getName() {
+    return name;
+  }
+
+  public String getResult() {
+    return result;
+  }
+
+  @Override
+  public Node getChild() {
+    return children.get(0);
+  }
+
+  public void setResult(String result) {
+    this.result = result;
   }
 
   public ArrayList<TreeNode> getChildren() {
-    return children;
+    return  children;
   }
 
   @Override
@@ -29,8 +45,12 @@ public class TreeNode implements Node {
     children.add((TreeNode) child);
   }
 
+  public int getChildrenNumber(TreeNode child) {
+    return children.size();
+  }
+
   @Override
   public void setData(String data) {
-    this.data = data;
+    this.name = data;
   }
 }

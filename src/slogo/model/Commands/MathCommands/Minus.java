@@ -9,7 +9,7 @@ public class Minus extends MathCommand {
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        commandNode.setData(-1*Double.parseDouble(getParamList().get(0))+"");
-        System.out.println("Result of Minus: "+commandNode.getData());
+        commandNode.setResult(-1*Double.parseDouble(getParamList().get(0))+"");
+        System.out.println("Result of Minus: "+commandNode.getResult());
     }
 }

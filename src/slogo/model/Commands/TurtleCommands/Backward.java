@@ -21,7 +21,7 @@ public class Backward extends TurtleCommand {
   @Override
   public void doCommand(TreeNode commandNode) {
     distance = Double.parseDouble(getParamList().get(0));
-    commandNode.setData(distance + "");
+    commandNode.setResult(distance + "");
     moveTurtle(backward, distance);
   }
 }

@@ -35,8 +35,8 @@ public class TurtleGrid {
   private ImageView turtleImageView;
   private Pane myPane; //to change background of grid, change the background of the pane
   private Canvas myCanvas;
-  private static final int DEFAULT_CANVAS_WIDTH = 1140;
-  private static final int DEFAULT_CANVAS_HEIGHT = 630;
+  private static final int DEFAULT_CANVAS_WIDTH = 300;
+  private static final int DEFAULT_CANVAS_HEIGHT = 300;
   private static final String TURTLE_IMAGE = "TurtleImage";
   private StackPane retGrid;
   private double centerX, centerY, pastX, pastY;
@@ -206,8 +206,8 @@ public class TurtleGrid {
     myPane.setBackground(new Background(new BackgroundFill(color, null, null)));
   }
 
-  private void updateTurtle() {
-
+  protected void updateTurtleImage(String string) {
+    turtleImageView.setImage(new Image(Main.myResources.getString(string)));
   }
 
 }

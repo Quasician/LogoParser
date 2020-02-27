@@ -9,7 +9,7 @@ public class Sum extends MathCommand {
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        commandNode.setData(Double.parseDouble(getParamList().get(0))+Double.parseDouble(getParamList().get(1))+"");
-        System.out.println("Result of Sum: "+ commandNode.getData());
+        commandNode.setResult(Double.parseDouble(getParamList().get(0))+Double.parseDouble(getParamList().get(1))+"");
+        System.out.println("Result of Sum: "+ commandNode.getResult());
     }
 }

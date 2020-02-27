@@ -15,12 +15,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.util.Callback;
 import slogo.Main;
 
 public class Toolbar {
@@ -29,11 +33,13 @@ public class Toolbar {
   private ColorPicker penColor;
   private Button helpButton;
   private ResourceBundle myResources = Main.myResources;
-  private Button setTurtleImage;
+  private ComboBox setTurtleImage;
   private ComboBox<String> changeLanguageBox;
   private static final List<String> LANGUAGES = Arrays
       .asList("English", "Chinese", "French", "German", "Italian", "Portuguese", "Russian",
           "Spanish", "Urdu");
+  private static final List<String> TURTLES = Arrays
+      .asList("TurtleImage", "BlackTurtle", "BlueTurtle", "CuteTurtle", "Duvall");
   private StringProperty currentLanguage = new SimpleStringProperty();
   private HBox toolBar;
   private static final Paint BUTTON_FONT_COLOR = Color.BLACK;
@@ -56,6 +62,7 @@ public class Toolbar {
 
   public Toolbar(TurtleGrid grid, Language language) {
     changeLanguageBox = new ComboBox<>();
+    setTurtleImage = new ComboBox<>();
     forHelp= Desktop.getDesktop();
     turtleGrid = grid;
     colorChooser = new HBox();
@@ -65,11 +72,49 @@ public class Toolbar {
     setUpPenColorChooser(grid);
     colorChooser2.getChildren().addAll(penColorPicker, penColor);
     helpButton = new ViewButton(Main.myResources.getString(BUTTON_HELP), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
-    setTurtleImage = new ViewButton(Main.myResources.getString(CHANGE_TURTLE), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
+//    setTurtleImage = new ViewButton(Main.myResources.getString(CHANGE_TURTLE), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
     setUpChangeLanguageChooser();
+    setUpTurtleChooser();
     setUpHelpButton();
     this.language = language;
     currentLanguage.set("English");
+  }
+
+  private void setUpTurtleChooser() {
+    setTurtleImage.setPrefWidth(BUTTON_WIDTH);
+    for (String turtle : TURTLES) {
+      setTurtleImage.getItems().add(turtle);
+    }
+    setTurtleImage.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+      @Override
+      public ListCell<String> call(ListView<String> p) {
+        final ListCell<String> cell =  new ListCell<String>() {
+          @Override
+          protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            setText(item);
+            if (item == null || empty) {
+              setGraphic(null);
+            } else {
+              Image icon = new Image(myResources.getString(item));
+              ImageView iconImageView = new ImageView(icon);
+              iconImageView.setFitHeight(30);
+              iconImageView.setPreserveRatio(true);
+              setGraphic(iconImageView);
+            }
+          }
+        };
+        return cell;
+      }
+    });
+    setTurtleImage.getSelectionModel().selectFirst();
+   // setTurtleImage.setOnAction(e -> language.setLanguage(changeLanguageBox.getValue()));
+
+    //when clicked set turtle image to what ever was clicked
+   // setTurtleImage.setOnAction(e -> System.out.println(setTurtleImage.getValue()));
+
+    setTurtleImage.setOnAction(e -> turtleGrid.updateTurtleImage((String) setTurtleImage.getValue()));
+
   }
 
   private void setUpHelpButton() {
