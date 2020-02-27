@@ -1,5 +1,6 @@
 package slogo.model.Commands.TurtleCommands;
 
+import slogo.model.CommandException;
 import slogo.model.TreeNode;
 
 public class SetHeading extends TurtleCommand {

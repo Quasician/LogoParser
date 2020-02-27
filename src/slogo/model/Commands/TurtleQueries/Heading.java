@@ -11,7 +11,7 @@ public class Heading extends TurtleQuery {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    commandNode.setData("" + turtle.getDegree());
+    commandNode.setResult("" + turtle.getDegree());
   }
 }
 
