@@ -12,9 +12,9 @@ public class IsPenDown extends TurtleQuery {
   @Override
   public void doCommand(TreeNode commandNode) {
     if (turtle.isPenDown())
-      commandNode.setData(TRUE);
+      commandNode.setResult(TRUE);
     else
-      commandNode.setData(FALSE);
+      commandNode.setResult(FALSE);
   }
 }
 

@@ -116,7 +116,7 @@ public class CommandParser {
 
     for (int i = 0; i < lineValues.length; i++) {
       if (match(lineValues[i], commandPattern)) {
-        lineValues[i] = getSymbol(lineValues[i]);
+        //lineValues[i] = getSymbol(lineValues[i]);
         System.out.println("ELEMENT:" + lineValues[i]);
       }
       if (lineValues[i].equals("\n")) {
