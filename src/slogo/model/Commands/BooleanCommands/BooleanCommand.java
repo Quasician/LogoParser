@@ -15,6 +15,7 @@ public abstract class BooleanCommand extends Command {
     String ret = FALSE;
     if (condition)
       ret = TRUE;
+    System.out.println("answer for boolean = " + ret);
     return ret;
   }
 }

@@ -15,10 +15,10 @@ public class MakeUserInstruction extends Command {
     public void doCommand(TreeNode commandNode) {
         System.out.println("RAN TO COMMAND");
         String finalValue = "";
-        String[] variables = getParamList().get(1).replaceAll("\\[(.*?)\\]", "$1").split("\\s+");
-        CommandParamNumberHashMap.addCommandParamNumber(getParamList().get(0),variables.length);
+        String[] variables = getParamList().get(1).replaceFirst("\\[", "").replaceFirst("\\]", "").split("\\s+");
+        CommandParamNumberHashMap.addCommandParamNumber(getParamList().get(0).trim(),variables.length);
         String allCommands = getParamList().get(2).trim();
-        allCommands = allCommands.substring(allCommands.indexOf("[")+1,allCommands.lastIndexOf("]"));
+        allCommands = allCommands.replaceFirst("\\[","");
         CustomCommandMap.addCustomCommand(getParamList().get(0), variables, allCommands);
         // also need to error check and make the result 0 if it does not work
         commandNode.setResult("1");

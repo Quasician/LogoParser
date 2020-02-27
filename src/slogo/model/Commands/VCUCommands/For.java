@@ -13,14 +13,15 @@ public class For extends Command {
     @Override
     public void doCommand(TreeNode commandNode) {
         //System.out.println("Loops this many times: " + getParamList().get(0).trim());
+
         String[] loopGuard = getParamList().get(0).trim().split("\\s+");
         String[] commands = getParamList().get(1).trim().split("\\s+");
         String finalValue = "";
-        for(double i = Double.parseDouble(loopGuard[1]); i<=Double.parseDouble(loopGuard[2]);i+=Double.parseDouble(loopGuard[3])) {
-            VariableHashMap.addToMap(loopGuard[0], "" + i);
+        for(double i = Double.parseDouble(loopGuard[2]); i<=Double.parseDouble(loopGuard[3]);i+=Double.parseDouble(loopGuard[4])) {
+            VariableHashMap.addToMap(loopGuard[1], "" + i);
             CommandParser miniparser = new CommandParser(turtle, language);
             System.out.println("Repeated Commands: " + getParamList().get(1));
-            finalValue = miniparser.parseText(getParamList().get(1).trim().replaceAll("\\[", "").replaceAll("\\]",""));
+            finalValue = miniparser.parseText(getParamList().get(1).trim().replaceFirst("\\[", ""));
         }
         if(commands.length==0)
         {
