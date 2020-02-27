@@ -10,39 +10,18 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class CommandTreeExecutor {
-    //private static final String RESOURCES_PACKAGE = CommandParser.class.getPackageName() + ".resources.languages.";
-    private Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
-    private Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
-    private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
-    private CommandFactoryInterface commandFactory;
-    private Turtle turtle;
-    private List<Map.Entry<String, Pattern>> mySymbols;
-    private Language language;
-    private HashMap<Pattern, String> translations;
-    private String finalValue = "";
 
-    public CommandTreeExecutor(CommandFactoryInterface factory, Turtle turtle, HashMap<Pattern, String> translations, Language language)
-    {
-        this.language = language;
-        this.turtle = turtle;
-        commandFactory = factory;
-        this.translations = translations;
-    }
 
-    public String executeTrees(List<TreeNode> elementNodes) {
-
-        for(TreeNode element: elementNodes){
-            executeSubTree(element);
-            System.out.println("EXECUTED NODES: " + element.getName());
-            for(TreeNode child :element.getChildren())
-            {
-                System.out.println("Children: " + child.getName());
-            }
-        }
-        System.out.println("Last commands result " + elementNodes.get(elementNodes.size()-1).getResult());
-        finalValue = elementNodes.get(elementNodes.size()-1).getResult();
-        return finalValue;
-    }
+  //private static final String RESOURCES_PACKAGE = CommandParser.class.getPackageName() + ".resources.languages.";
+  private Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
+  private Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
+  private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
+  private CommandFactoryInterface commandFactory;
+  private Turtle turtle;
+  private List<Map.Entry<String, Pattern>> mySymbols;
+  private Language language;
+  private HashMap<Pattern, String> translations;
+  private String finalValue = "";
 
   private static final String RESOURCES_PACKAGE =
       "resources.";
@@ -61,7 +40,29 @@ public class CommandTreeExecutor {
   // private static final String COMMAND_PACKAGES = CommandTreeExecutor.class.getPackageName() + ".resources.packages.CommandPackages.properties";
 
 
+  public CommandTreeExecutor(CommandFactoryInterface factory, Turtle turtle,
+      HashMap<Pattern, String> translations, Language language) {
+    this.language = language;
+    this.turtle = turtle;
+    commandFactory = factory;
+    this.translations = translations;
+  }
 
+  public String executeTrees(List<TreeNode> elementNodes) {
+
+    for (TreeNode element : elementNodes) {
+      executeSubTree(element);
+      System.out.println("EXECUTED NODES: " + element.getName());
+      for (TreeNode child : element.getChildren()) {
+        System.out.println("Children: " + child.getName());
+      }
+    }
+    System.out.println("Last commands result " + elementNodes.get(elementNodes.size() - 1).getResult());
+    finalValue = elementNodes.get(elementNodes.size()-1).getResult();
+    return finalValue;
+  }
+  
+<<<<<<< src/slogo/model/CommandTreeExecutor.java
     private void executeSubTree(TreeNode element) {
         if (match(element.getName(), commandPattern)) {
             ArrayList<TreeNode> children = element.getChildren();
@@ -81,7 +82,14 @@ public class CommandTreeExecutor {
                 commandClass = "slogo.model.Commands." + "VCUCommands" + "." + "CustomCommand";
             } else {
                 commandClass = "slogo.model.Commands." + CommandTypeHashMap.getCommandType(getSymbol(element.getName())) + "." + getSymbol(element.getName());
+            
+            int numParamsShouldHave = Integer.parseInt(commandParameterNumbers.getString(commandName));
 
+            // System.out.println(parameters.size() + " " + numParamsShouldHave);
+            if (parameters.size() != numParamsShouldHave) {
+                throw new CommandException(errors.getString("WrongParameterNumber"));
+            }
+            
             }
             System.out.println(commandClass);
             Command commandObject = commandFactory.createCommand(commandClass);
@@ -96,8 +104,9 @@ public class CommandTreeExecutor {
         } else if (match(element.getName(), variablePattern)) {
             element.setResult(VariableHashMap.getVarValue(element.getName()));
         }
-    }
-        // for variables later on
+      }
+
+  // for variables later on
 
   private boolean match(String text, Pattern regex) {
     // THIS IS THE IMPORTANT LINE
@@ -108,15 +117,15 @@ public class CommandTreeExecutor {
 //            nd.setData(myVars.getVariable(nd.getName()));
 //        }
 
-    private String getSymbol (String text) {
-        final String ERROR = "NO MATCH";
-        for (Map.Entry<Pattern, String> e : translations.entrySet()) {
-            if (match(text, e.getKey())) {
-                //System.out.println(e.getKey());
-                return e.getValue();
-            }
-        }
-        // FIXME: perhaps throw an exception instead
-        return ERROR;
+  private String getSymbol(String text) {
+    final String ERROR = "NO MATCH";
+    for (Map.Entry<Pattern, String> e : translations.entrySet()) {
+      if (match(text, e.getKey())) {
+        //System.out.println(e.getKey());
+        return e.getValue();
+      }
     }
+    // FIXME: perhaps throw an exception instead
+    return ERROR;
+  }
 }
