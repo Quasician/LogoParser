@@ -2,6 +2,7 @@ package slogo.View;
 
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,10 +42,6 @@ public class CommandHistory {
 
     }
 
-    private void runCommand(HBox cellForWindow){
-        //run the command in the box of the runButton using the backend
-        pars.parseText(cellForWindow.getAccessibleText());
-    }
 
     protected void makeBox(String StringRepresentation){
         runButton=new ViewButton("", 2* PLAY_IMAGE_SIZE, 2* PLAY_IMAGE_SIZE, 0);
@@ -57,7 +54,6 @@ public class CommandHistory {
         newCommand.getChildren().addAll(runButton,commandEntered);
         newCommand.setAccessibleText(StringRepresentation);
         historyWindow.getChildren().add(newCommand);
-        runButton.setOnAction(actionEvent -> runCommand(newCommand));
     }
 
     private void setImage(ViewButton button, String image){
@@ -71,4 +67,9 @@ public class CommandHistory {
     public VBox returnScene(){
         return historyWindow;
     }
+
+public Button returnButton() {
+    return runButton;
+}
+
 }

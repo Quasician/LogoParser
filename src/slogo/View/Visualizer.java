@@ -6,6 +6,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -82,5 +83,8 @@ public class Visualizer {
 
   public void makeNewBox(String newCommand){
     myCommandHistory.makeBox(newCommand);
+    Button trial= myCommandHistory.returnButton();
+    trial.setOnAction(e->comParser.parseText(newCommand));
   }
+
 }
