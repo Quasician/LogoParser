@@ -56,6 +56,15 @@ public class CommandTreeConstructor {
     }
     System.out.println("SIZE OF FINAL LIST: " + answer.size());
     for (TreeNode node : answer) {
+      if (node.getChildren().size() == 0) {
+        try {
+          double value = Double.parseDouble(node.getResult());
+          throw new CommandException(errors.getString("WrongParameterNumber"));
+        } catch (NumberFormatException e) {
+          // not an Integer
+        }
+      }
+
       for (TreeNode innerNode : node.getChildren()) {
         System.out.println(node.getResult() + " : " + innerNode.getResult());
       }
@@ -130,7 +139,6 @@ public class CommandTreeConstructor {
     int parameterNumber = 0;
     if (CustomCommandMap.isACustomCommand(currentElement)) {
         parameterNumber = Integer.parseInt(commandParameterNumbers.getString(getSymbol(currentElement)));
-     // parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
     } else {
       try {
         parameterNumber = Integer
@@ -139,8 +147,6 @@ public class CommandTreeConstructor {
         String errorMessage = String.format(errors.getString("WrongParameter"), currentElement);
         throw new CommandException(errorMessage);
       }
-      //parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(getSymbol(currentElement));
-
     }
     //System.out.println("Param number: " +parameterNumber);
     TreeNode head = new TreeNode(currentElement);
