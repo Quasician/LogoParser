@@ -80,18 +80,24 @@ public class CommandTreeExecutor {
       String commandClass = "";
       if (CustomCommandMap.isACustomCommand(element.getName())) {
         commandClass = "slogo.model.Commands." + "VCUCommands" + "." + "CustomCommand";
-      } else {
+      } else { //not a custom command
+        String commandName = getSymbol(element.getName());
+
         commandClass = "slogo.model.Commands." + CommandTypeHashMap
-            .getCommandType(getSymbol(element.getName())) + "." + getSymbol(element.getName());
+            .getCommandType(commandName) + "." + commandName;
+
+        int numParamsShouldHave = Integer.parseInt(commandParameterNumbers.getString(commandName));
+
+       // System.out.println(parameters.size() + " " + numParamsShouldHave);
+        if (parameters.size() != numParamsShouldHave) {
+          throw new CommandException(errors.getString("WrongParameterNumber"));
+        }
       }
-      System.out.println("Command class = " + commandClass);
+      //System.out.println("Command class = " + commandClass);
       Command commandObject = commandFactory.createCommand(commandClass);
       for (String s : parameters) {
         System.out.println("Param of " + element.getName() + ": " + s);
       }
-
-      int numParamsShouldHave = Integer.parseInt(commandParameterNumbers.getString(commandClass));
-      
 
       commandObject.setParams(parameters);
       commandObject.setTurtle(turtle);
