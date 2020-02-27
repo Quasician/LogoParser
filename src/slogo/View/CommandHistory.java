@@ -2,7 +2,9 @@ package slogo.View;
 
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -15,8 +17,8 @@ import slogo.model.CommandParser;
 
 public class CommandHistory {
     private ResourceBundle myResources = Main.myResources;
-    private VBox historyWindow;
-    private static final Color TEXT_COLOR = Color.WHITE;
+    private ListView historyWindow;
+    private static final Color TEXT_COLOR = Color.BLACK;
     private HBox newCommand;
     private ViewButton runButton;
     private Label commandEntered;
@@ -31,20 +33,16 @@ public class CommandHistory {
 
     public CommandHistory(CommandParser parser){
         commandValues = new ArrayList<>();
-        historyWindow=new VBox(5);
+        historyWindow=new ListView();
         historyWindow.setBackground(Background.EMPTY);
         historyWindow.setStyle(STYLE);
         historyWindow.setPrefHeight(310.0);
         historyWindow.setPrefWidth(300.0);
-        historyWindow.setMargin(historyWindow,new Insets(10,5,10,0));
+        // historyWindow.setMargin(historyWindow,new Insets(10,5,10,0));
         pars=parser;
 
     }
 
-    private void runCommand(HBox cellForWindow){
-        //run the command in the box of the runButton using the backend
-        pars.parseText(cellForWindow.getAccessibleText());
-    }
 
     protected void makeBox(String StringRepresentation){
         runButton=new ViewButton("", 2* PLAY_IMAGE_SIZE, 2* PLAY_IMAGE_SIZE, 0);
@@ -56,8 +54,7 @@ public class CommandHistory {
         commandEntered.setTextFill(TEXT_COLOR);
         newCommand.getChildren().addAll(runButton,commandEntered);
         newCommand.setAccessibleText(StringRepresentation);
-        historyWindow.getChildren().add(newCommand);
-        runButton.setOnAction(actionEvent -> runCommand(newCommand));
+        historyWindow.getItems().add(newCommand);
     }
 
     private void setImage(ViewButton button, String image){
@@ -68,7 +65,12 @@ public class CommandHistory {
         button.setGraphic(buttonImage);
 
     }
-    public VBox returnScene(){
+    public ListView returnScene(){
         return historyWindow;
     }
+
+public Button returnButton() {
+    return runButton;
+}
+
 }

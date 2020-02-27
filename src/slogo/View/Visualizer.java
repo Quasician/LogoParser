@@ -1,11 +1,13 @@
 package slogo.View;
 
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -73,8 +75,6 @@ public class Visualizer {
   private void makeHistory() {
     VBox historyVBox = new VBox();
     historyVBox.setAlignment(Pos.CENTER);
-    myVariableHistory.addVariable("Variable 1", 5);
-    myVariableHistory.addVariable("Variable 2", 5);
     historyVBox.getChildren()
         .addAll(buttonImage, myVariableHistory.getScene(), myCommandHistory.returnScene());
     bp.setRight(historyVBox);
@@ -82,5 +82,14 @@ public class Visualizer {
 
   public void makeNewBox(String newCommand){
     myCommandHistory.makeBox(newCommand);
+    Button trial= myCommandHistory.returnButton();
+    trial.setOnAction(e->comParser.parseText(newCommand));
   }
+
+  public void makeNewVariableBox(HashMap<String,String> VariableMap){
+    for(String variableKey:VariableMap.keySet()) {
+      myVariableHistory.addVariable(variableKey, VariableMap.get(variableKey));
+    }
+  }
+
 }
