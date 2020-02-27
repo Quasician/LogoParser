@@ -116,11 +116,16 @@ public class CommandParser {
 
     for (int i = 0; i < lineValues.length; i++) {
       if (match(lineValues[i], commandPattern)) {
-        lineValues[i] = getSymbol(lineValues[i]);
+        //lineValues[i] = getSymbol(lineValues[i]);
         System.out.println("ELEMENT:" + lineValues[i]);
       }
       if (lineValues[i].equals("\n")) {
         lineValues[i] = "|n";
+      }
+      if(lineValues[i].equals("MakeUserInstruction") && i < lineValues.length-1)
+      {
+        // Skip name of the to command function
+        i +=2;
       }
       System.out.println("GENERAL ELEMENT:" + lineValues[i]);
     }

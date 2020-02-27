@@ -117,7 +117,7 @@ public class CommandTreeConstructor {
             return commandNode;
         }
         else if(currentCommand.equals("[")){
-            Pair<String, TreeNode> result = joinList("[ ", commandNode, 1);
+            Pair<String, TreeNode> result = joinList(" ", commandNode, 1);
             TreeNode node = new TreeNode(result.getKey());
             node.setResult(result.getKey());
             buildingNode.addChild(node);
@@ -176,10 +176,6 @@ public class CommandTreeConstructor {
             {
                 return new Pair(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0));
             }
-            else
-            {
-                return new Pair(currentList + " " + commandNode.getName(), null);
-            }
         }
         else if(commandNode.getName().equals("]") && numOpen != 1){
             System.out.println("YEET != 1");
@@ -187,19 +183,11 @@ public class CommandTreeConstructor {
             {
                 joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen-1);
             }
-            else
-            {
-                return new Pair(currentList + " " + commandNode.getName(), null);
-            }
         }
         else if(commandNode.getName().equals("[")){
             if(commandNode.getChildren().size()>0)
             {
                 joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen+1);
-            }
-            else
-            {
-                return new Pair(currentList + " " + commandNode.getName(), null);
             }
         }
         if(commandNode.getChildren().size()>0)

@@ -92,7 +92,7 @@ public class Main extends Application {
         Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate, language, commandParser);
         parseTextOnInput(textUpdate, parseString, commandParser,vis);
 
-        commandParser.parseText("repeat 5 [ fd 100 rt 144 ] ");
+        commandParser.parseText("repeat 4 [ repeat 4 [ fd 100 rt 45 ] ] ");
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
 //
