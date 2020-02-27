@@ -56,8 +56,8 @@ public class CommandTreeExecutor {
         System.out.println("Children: " + child.getName());
       }
     }
-    System.out
-        .println("Last commands result " + elementNodes.get(elementNodes.size() - 1).getResult());
+    System.out.println("Last commands result " + elementNodes.get(elementNodes.size() - 1).getResult());
+    finalValue = elementNodes.get(elementNodes.size() - 1).getResult();
     return finalValue;
   }
 
@@ -75,7 +75,7 @@ public class CommandTreeExecutor {
       for (TreeNode child : children) {
         executeSubTree(child);
         parameters.add(child.getResult());
-        finalValue = child.getResult();
+        //finalValue = child.getResult();
       }
       String commandClass = "";
       if (CustomCommandMap.isACustomCommand(element.getName())) {
@@ -83,8 +83,7 @@ public class CommandTreeExecutor {
       } else { //not a custom command
         String commandName = getSymbol(element.getName());
 
-        commandClass = "slogo.model.Commands." + CommandTypeHashMap
-            .getCommandType(commandName) + "." + commandName;
+        commandClass = "slogo.model.Commands." + CommandTypeHashMap.getCommandType(commandName) + "." + commandName;
 
         int numParamsShouldHave = Integer.parseInt(commandParameterNumbers.getString(commandName));
 

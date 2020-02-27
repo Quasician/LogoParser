@@ -97,7 +97,10 @@ public class Main extends Application {
         Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate, language, commandParser);
         parseTextOnInput(textUpdate, parseString, commandParser,vis);
 
-        //commandParser.parseText("repeat 5 [ fd 100 rt 144 ] ");
+        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
+        printCustomCommands();
+        commandParser.parseText(" c 1 ");
+
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
 //
@@ -123,8 +126,8 @@ public class Main extends Application {
         Iterator it = CustomCommandMap.getAllCustomCommands().iterator();
         System.out.println("\nTHESE ARE THE CURRENT CUSTOM COMMANDS: ");
         while (it.hasNext()) {
-            String entry = (String) it.next(); //current entry in a loop
-            System.out.println(entry);
+            Map.Entry entry = (Map.Entry)it.next(); //current entry in a loop
+            System.out.println("CUSTOM COMMAND " + entry.getKey() + " = " + entry.getValue());
         }
     }
 
