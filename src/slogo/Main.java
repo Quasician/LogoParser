@@ -1,6 +1,9 @@
 package slogo;
 
+import java.util.Arrays;
+
 import java.util.HashMap;
+
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.beans.property.*;
@@ -97,7 +100,20 @@ public class Main extends Application {
         Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate, language, commandParser);
         parseTextOnInput(textUpdate, parseString, commandParser,vis);
 
+
+//        commandParser.parseText(" to c [ ] [ for [ :b 1 2 1 ] [ dotimes [ :v 2 ] [ repeat 2 [ fd 50 rt 45 ] ] ] ]");
+//        printCustomCommands();
+//        commandParser.parseText(" c ");
+        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
+        printCustomCommands();
+        commandParser.parseText(" c 1 ");
+        //commandParser.parseText(" sum 1 0");
+
+        //commandParser.parseText("setheading heading");
+        //commandParser.parseText("make :v 50");
+
         //commandParser.parseText("repeat 5 [ fd 100 rt 144 ] ");
+
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
 //
@@ -123,8 +139,8 @@ public class Main extends Application {
         Iterator it = CustomCommandMap.getAllCustomCommands().iterator();
         System.out.println("\nTHESE ARE THE CURRENT CUSTOM COMMANDS: ");
         while (it.hasNext()) {
-            String entry = (String) it.next(); //current entry in a loop
-            System.out.println(entry);
+            Map.Entry entry = (Map.Entry)it.next(); //current entry in a loop
+            System.out.println("CUSTOM COMMAND " + entry.getKey() + " = " + entry.getValue());
         }
     }
 

@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 public class CommandTreeExecutor {
 
+
   //private static final String RESOURCES_PACKAGE = CommandParser.class.getPackageName() + ".resources.languages.";
   private Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
   private Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
@@ -56,58 +57,55 @@ public class CommandTreeExecutor {
         System.out.println("Children: " + child.getName());
       }
     }
-    System.out
-        .println("Last commands result " + elementNodes.get(elementNodes.size() - 1).getResult());
+    System.out.println("Last commands result " + elementNodes.get(elementNodes.size() - 1).getResult());
+    finalValue = elementNodes.get(elementNodes.size()-1).getResult();
     return finalValue;
   }
+  
+<<<<<<< src/slogo/model/CommandTreeExecutor.java
+    private void executeSubTree(TreeNode element) {
+        if (match(element.getName(), commandPattern)) {
+            ArrayList<TreeNode> children = element.getChildren();
+            ArrayList<String> parameters = new ArrayList<>();
+            // will also need to check for to commands
+            if (getSymbol(element.getName()).equals("MakeVariable") || getSymbol(element.getName()).equals("MakeUserInstruction")) {
+                System.out.println("YEET2");
+                parameters.add(children.get(0).getName());
+                children.remove(0);
+            }
+            for (TreeNode child : children) {
+                executeSubTree(child);
+                parameters.add(child.getResult());
+            }
+            String commandClass = "";
+            if (CustomCommandMap.isACustomCommand(element.getName())) {
+                commandClass = "slogo.model.Commands." + "VCUCommands" + "." + "CustomCommand";
+            } else {
+                commandClass = "slogo.model.Commands." + CommandTypeHashMap.getCommandType(getSymbol(element.getName())) + "." + getSymbol(element.getName());
+            
+            int numParamsShouldHave = Integer.parseInt(commandParameterNumbers.getString(commandName));
 
-  private void executeSubTree(TreeNode element) {
-    if (match(element.getName(), commandPattern)) {
-      ArrayList<TreeNode> children = element.getChildren();
-      ArrayList<String> parameters = new ArrayList<>();
-      // will also need to check for to commands
-      if (getSymbol(element.getName()).equals("MakeVariable") || getSymbol(element.getName())
-          .equals("MakeUserInstruction")) {
-        System.out.println("YEET2");
-        parameters.add(children.get(0).getName());
-        children.remove(0);
-      }
-      for (TreeNode child : children) {
-        executeSubTree(child);
-        parameters.add(child.getResult());
-        finalValue = child.getResult();
-      }
-      String commandClass = "";
-      if (CustomCommandMap.isACustomCommand(element.getName())) {
-        commandClass = "slogo.model.Commands." + "VCUCommands" + "." + "CustomCommand";
-      } else { //not a custom command
-        String commandName = getSymbol(element.getName());
-
-        commandClass = "slogo.model.Commands." + CommandTypeHashMap
-            .getCommandType(commandName) + "." + commandName;
-
-        int numParamsShouldHave = Integer.parseInt(commandParameterNumbers.getString(commandName));
-
-       // System.out.println(parameters.size() + " " + numParamsShouldHave);
-        if (parameters.size() != numParamsShouldHave) {
-          throw new CommandException(errors.getString("WrongParameterNumber"));
+            // System.out.println(parameters.size() + " " + numParamsShouldHave);
+            if (parameters.size() != numParamsShouldHave) {
+                throw new CommandException(errors.getString("WrongParameterNumber"));
+            }
+            
+            }
+            System.out.println(commandClass);
+            Command commandObject = commandFactory.createCommand(commandClass);
+            for (String s : parameters) {
+                System.out.println("Param of " + element.getName() + ": " + s);
+            }
+            commandObject.setParams(parameters);
+            commandObject.setTurtle(turtle);
+            commandObject.setMiniParserLanguage(language);
+            commandObject.doCommand(element);
+            //nd.setData(replacementValue);
+        } else if (match(element.getName(), variablePattern)) {
+            element.setResult(VariableHashMap.getVarValue(element.getName()));
         }
       }
-      //System.out.println("Command class = " + commandClass);
-      Command commandObject = commandFactory.createCommand(commandClass);
-      for (String s : parameters) {
-        System.out.println("Param of " + element.getName() + ": " + s);
-      }
 
-      commandObject.setParams(parameters);
-      commandObject.setTurtle(turtle);
-      commandObject.setMiniParserLanguage(language);
-      commandObject.doCommand(element);
-      //nd.setData(replacementValue);
-    } else if (match(element.getName(), variablePattern)) {
-      element.setResult(VariableHashMap.getVarValue(element.getName()));
-    }
-  }
   // for variables later on
 
   private boolean match(String text, Pattern regex) {
