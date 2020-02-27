@@ -84,7 +84,7 @@ public class CommandParamNumberHashMap {
     commandParamNumberMap.putIfAbsent("For", 2);
     commandParamNumberMap.putIfAbsent("If", 2);
     commandParamNumberMap.putIfAbsent("IfElse", 3);
-    commandParamNumberMap.putIfAbsent("MakeUserInstruction", 3);
+    commandParamNumberMap.putIfAbsent("MakeUserInstruction", 2);
   }
 
   private static void addDisplayCommands() {
