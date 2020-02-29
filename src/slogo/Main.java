@@ -1,10 +1,13 @@
 package slogo;
 
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import slogo.View.Language;
@@ -27,6 +30,7 @@ public class Main extends Application {
     //  public static final String LANGUAGE = "English";
     private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
     private static final String TURTLE_PNG = "turtle.png";
+    private static ObservableMap myMap = FXCollections.observableMap(new HashMap<String,String>());
     //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
     public static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
 
@@ -89,10 +93,14 @@ public class Main extends Application {
 //        printCustomCommands();
 
 
+        VariableHashMap.createMap(myMap);
         Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate, language, commandParser);
         parseTextOnInput(textUpdate, parseString, commandParser,vis);
 
-        commandParser.parseText("repeat 5 [ fd 100 rt 144 ] ");
+        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
+        printCustomCommands();
+        commandParser.parseText(" c 1 ");
+
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
 //
@@ -118,8 +126,8 @@ public class Main extends Application {
         Iterator it = CustomCommandMap.getAllCustomCommands().iterator();
         System.out.println("\nTHESE ARE THE CURRENT CUSTOM COMMANDS: ");
         while (it.hasNext()) {
-            String entry = (String) it.next(); //current entry in a loop
-            System.out.println(entry);
+            Map.Entry entry = (Map.Entry)it.next(); //current entry in a loop
+            System.out.println("CUSTOM COMMAND " + entry.getKey() + " = " + entry.getValue());
         }
     }
 
@@ -149,6 +157,7 @@ public class Main extends Application {
                 try {
                     commandParser.parseText(parseText.getValue());
                     vis.makeNewBox(parseText.getValue());
+                    vis.makeNewVariableBox(myMap);
                 } catch (CommandException e) {
                     showError(e.getMessage());
                 }
