@@ -14,29 +14,20 @@ public class CommandTreeConstructor {
   private Pattern newLinePattern = Pattern.compile("\n");
   private HashMap<Pattern, String> translations;
 
+  private static final String RESOURCES_PACKAGE =
+      "resources.";
+
+  private static ResourceBundle commandParameterNumbers = ResourceBundle
+      .getBundle(RESOURCES_PACKAGE + "ParameterNumbers");
+
+  private static final String ERRORS = RESOURCES_PACKAGE + "ErrorMessages";
+  private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
 
   public CommandTreeConstructor(HashMap<Pattern, String> translations) {
     this.translations = translations;
   }
 
-  private static final String RESOURCES_PACKAGE =
-      "resources.";
-
-  public static ResourceBundle commandParameterNumbers = ResourceBundle
-      .getBundle(RESOURCES_PACKAGE + "ParameterNumbers");
-
-  private static final String RESOURCES = "resources.";
-  private static final String ERRORS = RESOURCES + "ErrorMessages";
-
-    //make a properties file for errors
-    private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
-
-  public CommandTreeConstructor(String commands) {
-  }
-
-
   private boolean match(String text, Pattern regex) {
-    // THIS IS THE IMPORTANT LINE
     return regex.matcher(text).matches();
   }
 
@@ -138,7 +129,7 @@ public class CommandTreeConstructor {
     System.out.println("CURRENT ELEMENT: " + currentElement);
     int parameterNumber = 0;
     if (CustomCommandMap.isACustomCommand(currentElement)) {
-        parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
+      parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
     } else {
       try {
         parameterNumber = Integer
