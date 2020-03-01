@@ -56,10 +56,6 @@ public class CommandTreeExecutor {
   public String executeTrees(List<TreeNode> elementNodes) {
     for (TreeNode element : elementNodes) {
       executeSubTree(element);
-//      System.out.println("EXECUTED NODES: " + element.getName());
-//      for (TreeNode child : element.getChildren()) {
-//        System.out.println("Children: " + child.getName());
-//      }
     }
     finalValue = elementNodes.get(elementNodes.size() - 1).getResult();
     return finalValue;
@@ -72,6 +68,16 @@ public class CommandTreeExecutor {
 
   private boolean isMakeUserInstruction(TreeNode element) {
     return element.getName().equals(MAKE_USER_INSTRUCTION);
+  }
+
+  private Command createCommand(TreeNode element, List<String> parameters) {
+    String commandClass = "";
+    if (CustomCommandMap.isACustomCommand(element.getName())) {
+      commandClass = VCU_COMMAND;
+    } else { //not a custom command
+      commandClass = getCommandClass(element, parameters);
+    }
+    return commandFactory.createCommand(commandClass);
   }
 
   private void executeSubTree(TreeNode element) {
@@ -87,23 +93,16 @@ public class CommandTreeExecutor {
         executeSubTree(child);
         parameters.add(child.getResult());
       }
-      String commandClass = "";
-      if (CustomCommandMap.isACustomCommand(element.getName())) {
-        commandClass = VCU_COMMAND;
-      } else { //not a custom command
-        commandClass = getCommandClass(element, parameters);
-      }
-      Command commandObject = commandFactory.createCommand(commandClass);
-
+      Command commandObject = createCommand(element, parameters);
       commandObject.setParams(parameters);
       commandObject.setTurtles(turtles);
       commandObject.setMiniParserLanguage(language);
       commandObject.doCommand(element);//nd.setData(replacementValue);
+      System.out.println("RESULT = " + element.getResult());
     } else if (match(element.getName(), variablePattern)) {
       element.setResult(VariableHashMap.getVarValue(element.getName()));
     }
   }
-  // for variables later on
 
   private String getPackageName(String commandName) {
     System.out.println(commandName);

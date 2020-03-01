@@ -1,6 +1,5 @@
 package slogo;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.application.Application;
@@ -27,7 +26,6 @@ public class Main extends Application {
 
   private static final String RESOURCES = "resources";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
-  //  public static final String LANGUAGE = "English";
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
   private static final String TURTLE_PNG = "turtle.png";
   private ObservableMap myMap = FXCollections.observableMap(new HashMap<String, String>());
