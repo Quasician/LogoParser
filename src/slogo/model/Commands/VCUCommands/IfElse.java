@@ -17,12 +17,12 @@ public class IfElse extends Command {
         CommandParser miniparser = new CommandParser(turtle, language);
         if(Double.parseDouble(getParamList().get(0)) != 0)
         {
-            finalValue = miniparser.parseText(getParamList().get(1).trim().replaceFirst("\\[", ""));
+            finalValue = miniparser.miniParse(getParamList().get(1).trim().replaceFirst("\\[", ""));
             commandNode.setResult(finalValue);
         }
         else
         {
-            finalValue = miniparser.parseText(getParamList().get(2).trim().replaceFirst("\\[", ""));
+            finalValue = miniparser.miniParse(getParamList().get(2).trim().replaceFirst("\\[", ""));
             commandNode.setResult(finalValue);
         }
         if(finalValue.equals(""))

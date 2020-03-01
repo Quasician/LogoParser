@@ -99,6 +99,7 @@ public class Main extends Application {
 
         commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
         printCustomCommands();
+        System.out.println("done printing");
         commandParser.parseText(" c 1 ");
 
 //        modelTurtle.setX(-200);

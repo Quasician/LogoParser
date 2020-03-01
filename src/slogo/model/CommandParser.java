@@ -71,17 +71,16 @@ public class CommandParser {
    */
   public String getSymbol(String text) {
     final String ERROR = "NO MATCH";
-    try {
-      for (Entry<String, Pattern> e : mySymbols) {
-        if (match(text, e.getValue())) {
-          return e.getKey();
-        }
+
+    for (Entry<String, Pattern> e : mySymbols) {
+      if (match(text, e.getValue())) {
+        return e.getKey();
       }
-    } catch (Exception e) {
-      throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
     }
+
+    //throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
+
     return ERROR;
-    //return ERROR;
   }
 
   public void createReverseHashMap (List<Entry<String, Pattern>> mySymbols) {
@@ -107,10 +106,24 @@ public class CommandParser {
 
     String[] lineValues = commandLine.split("\\s+");
 
+    boolean toCommand = false;
+
     for (int i = 0; i < lineValues.length; i++) {
       if (match(lineValues[i], commandPattern)) {
-        lineValues[i] = getSymbol(lineValues[i]);
+        String string = lineValues[i];
+
+        if (toCommand) {
+          toCommand = false;
+        } else {
+         if (CustomCommandMap.getKeySet().contains(string)) {
+
+         } else {
+           lineValues[i] = getSymbol(lineValues[i]);
+         }
+        }
         System.out.println("ELEMENT:" + lineValues[i]);
+        if (string.equals("to"))
+          toCommand = true;
       }
 
       if (lineValues[i].equals("\n")) {
@@ -129,11 +142,9 @@ public class CommandParser {
     mySymbols = new ArrayList<>();
     addPatterns(language.getCurrentLanguage());
     String[] lineValues = commandLine.split("\\s+");
-//    for (int i = 0; i < lineValues.length; i++) {
-//      if (lineValues[i].equals("\n")) {
-//        lineValues[i] = "|n";
-//      }
-//    }
+    for (int i = 0; i < lineValues.length; i++) {
+      System.out.println("GET ELEMENT AT i = " + lineValues[i]);
+    }
     String translatedCommands = String.join(" ", lineValues);
     System.out.println("TRANSLATED: " +translatedCommands);
     return makeCommandTree(translatedCommands);
