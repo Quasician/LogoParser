@@ -14,6 +14,9 @@ import javafx.scene.text.FontWeight;
 
 public class ViewButton extends Button {
   private static final String STYLE_COLOR = "lightgray";
+  private static final int DEFAULT_FONT_SIZE = 20;
+  private static final int DEFAULT_BUTTON_WIDTH = 200;
+  private static final int DEFAULT_BUTTON_HEIGHT = 25;
 
   /**
    * Constructor method that lays out the basic view of a button in our parser
@@ -27,15 +30,23 @@ public class ViewButton extends Button {
     setPrefWidth(width);//190
 //    setStyle("-fx-background-color:" + STYLE_COLOR + ";-fx-font-size:" + fontSize + " px;");
     mouseUpdateListener();
-
   }
 
   /**
    * default constructor
    */
   public ViewButton(String text, int height, int width){
-    this(text, height, width, 20);
+    this(text, height, width, DEFAULT_FONT_SIZE);
   }
+//
+//  public ViewButton(String text){
+//    this(text, DEFAULT_BUTTON_HEIGHT, DEFAULT_BUTTON_WIDTH, DEFAULT_FONT_SIZE);
+//    this.execute(text);
+//  }
+
+//  private void execute(String action){
+//    this.setOnAction();
+//  }
 
   private void mouseUpdateListener() {
     setOnMouseEntered(new EventHandler<MouseEvent>() {

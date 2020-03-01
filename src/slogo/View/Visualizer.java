@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.MapChangeListener;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,6 +26,7 @@ import javafx.stage.Stage;
 import slogo.Main;
 import slogo.model.CommandParser;
 import slogo.model.Turtle;
+import slogo.model.VariableHashMap;
 
 public class Visualizer {
 
@@ -42,14 +45,16 @@ public class Visualizer {
   private Map<String,String> VarMap;
   private javafx.scene.image.Image img;
   private static final String style = "-fx-background-color: rgba(0, 0, 0, 0.7);";
+  private ObservableMap myMap;
 
   /**
    * Constructor for the visualizer class
-   *
-   * @param window '
+   *  @param window '
+   * @param myMap
    */
   public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText,
-                    BooleanProperty textUpdate, Language language, CommandParser parser) {
+      BooleanProperty textUpdate, Language language, CommandParser parser,
+      ObservableMap myMap) {
     myWindow = window;
     comParser=parser;
     myCommandHistory = new CommandHistory(comParser);
@@ -64,9 +69,22 @@ public class Visualizer {
     Toolbar tool = new Toolbar(grid, language);
     setUpBorderPane(grid, cmdline, tool);
     makeHistory();
+    this.myMap = myMap;
+    setUpMapListener();
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
     window.setScene(scene);
     window.show();
+  }
+
+  private void setUpMapListener() {
+    myMap.addListener(new MapChangeListener<String, String>() {
+         @Override
+         public void onChanged(Change<? extends String, ? extends String> change) {
+           System.out.println(change.getKey() + " "+ change.getValueAdded());
+           VariableHashMap.addToMap(change.getKey(), change.getValueAdded());
+         }
+       }
+    );
   }
 
   private void setUpBorderPane(TurtleGrid grid, CommandLine commandLine, Toolbar tool) {
@@ -113,9 +131,17 @@ public class Visualizer {
   }
 
   public void makeNewVariableBox(ObservableMap<String,String> newMap){
-    for(String variableKey :newMap.keySet()) {
-      myVariableHistory.addVariable(variableKey, newMap.get(variableKey));
-    }
+//    for(String variableKey :newMap.keySet()) {
+//      myVariableHistory.addVariable(variableKey, newMap.get(variableKey));
+//    }
+//    newMap.addListener(new MapChangeListener<String, String>() {
+//         @Override
+//         public void onChanged(Change<? extends String, ? extends String> change) {
+//           System.out.println(change.getKey() + " "+ change.getValueAdded());
+//           myVariableHistory.addVariable(change.getKey(), change.getValueAdded());
+//         }
+//       }
+//    );
   }
 
 }
