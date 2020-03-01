@@ -71,12 +71,16 @@ public class CommandParser {
    */
   public String getSymbol(String text) {
     final String ERROR = "NO MATCH";
-    for (Entry<String, Pattern> e : mySymbols) {
-      if (match(text, e.getValue())) {
-        return e.getKey();
+    try {
+      for (Entry<String, Pattern> e : mySymbols) {
+        if (match(text, e.getValue())) {
+          return e.getKey();
+        }
       }
+    } catch (Exception e) {
+      throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
     }
-    throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
+    return ERROR;
     //return ERROR;
   }
 
@@ -105,8 +109,7 @@ public class CommandParser {
 
     for (int i = 0; i < lineValues.length; i++) {
       if (match(lineValues[i], commandPattern)) {
-        //I think we might need the line below for other languages
-        //lineValues[i] = getSymbol(lineValues[i]);
+        lineValues[i] = getSymbol(lineValues[i]);
         System.out.println("ELEMENT:" + lineValues[i]);
       }
       if (lineValues[i].equals("\n")) {
@@ -114,6 +117,22 @@ public class CommandParser {
       }
       System.out.println("GENERAL ELEMENT:" + lineValues[i]);
     }
+    String translatedCommands = String.join(" ", lineValues);
+    System.out.println("TRANSLATED: " +translatedCommands);
+    return makeCommandTree(translatedCommands);
+  }
+
+  public String miniParse(String commandLine) {
+    Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
+    Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
+    mySymbols = new ArrayList<>();
+    addPatterns(language.getCurrentLanguage());
+    String[] lineValues = commandLine.split("\\s+");
+//    for (int i = 0; i < lineValues.length; i++) {
+//      if (lineValues[i].equals("\n")) {
+//        lineValues[i] = "|n";
+//      }
+//    }
     String translatedCommands = String.join(" ", lineValues);
     System.out.println("TRANSLATED: " +translatedCommands);
     return makeCommandTree(translatedCommands);
