@@ -14,29 +14,20 @@ public class CommandTreeConstructor {
   private Pattern newLinePattern = Pattern.compile("\n");
   private HashMap<Pattern, String> translations;
 
+  private static final String RESOURCES_PACKAGE =
+      "resources.";
+
+  private static ResourceBundle commandParameterNumbers = ResourceBundle
+      .getBundle(RESOURCES_PACKAGE + "ParameterNumbers");
+
+  private static final String ERRORS = RESOURCES_PACKAGE + "ErrorMessages";
+  private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
 
   public CommandTreeConstructor(HashMap<Pattern, String> translations) {
     this.translations = translations;
   }
 
-  private static final String RESOURCES_PACKAGE =
-      "resources.";
-
-  public static ResourceBundle commandParameterNumbers = ResourceBundle
-      .getBundle(RESOURCES_PACKAGE + "ParameterNumbers");
-
-  private static final String RESOURCES = "resources.";
-  private static final String ERRORS = RESOURCES + "ErrorMessages";
-
-    //make a properties file for errors
-    private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
-
-  public CommandTreeConstructor(String commands) {
-  }
-
-
   private boolean match(String text, Pattern regex) {
-    // THIS IS THE IMPORTANT LINE
     return regex.matcher(text).matches();
   }
 
@@ -109,7 +100,7 @@ public class CommandTreeConstructor {
     } else {
       commandNode = commandNode.getChildren().get(0);
     }
-    if (getSymbol(currentCommand).equals("MakeUserInstruction")) {
+    if (currentCommand.equals("MakeUserInstruction")) {
       System.out.println("YABADABADOO");
       System.out.println(commandNode.getChildren().get(0).getName());
       return handleCommands(buildingNode, commandNode, currentCommand);
@@ -138,21 +129,21 @@ public class CommandTreeConstructor {
     System.out.println("CURRENT ELEMENT: " + currentElement);
     int parameterNumber = 0;
     if (CustomCommandMap.isACustomCommand(currentElement)) {
-        parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
+      parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
     } else {
       try {
         parameterNumber = Integer
-            .parseInt(commandParameterNumbers.getString(getSymbol(currentElement)));
+            .parseInt(commandParameterNumbers.getString(currentElement));
       } catch (MissingResourceException e) {
         String errorMessage = String.format(errors.getString("WrongParameter"), currentElement);
-        throw new CommandException(errorMessage);
+        //throw new CommandException(errorMessage);
       }
     }
     //System.out.println("Param number: " +parameterNumber);
     TreeNode head = new TreeNode(currentElement);
     head.setResult(currentElement);
     buildingNode.addChild(head);
-    if (getSymbol(currentElement).equals("MakeUserInstruction")) {
+    if (currentElement.equals("MakeUserInstruction")) {
       head.addChild(commandNode);
       commandNode.setResult(commandNode.getName());
       System.out.println("COMMAND NODE: " + commandNode.getName());
@@ -220,19 +211,5 @@ public class CommandTreeConstructor {
     {
       return new Pair(currentList + " " + commandNode.getName(), null);
     }
-  }
-
-
-  private String getSymbol(String text) {
-    final String ERROR = "NO MATCH";
-    for (Map.Entry<Pattern, String> e : translations.entrySet()) {
-        if (match(text, e.getKey())) {
-            //System.out.println(e.getKey());
-            return e.getValue();
-        }
-    }
-    System.out.println(text+ " -> NO MATCH");
-   // throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
-    return ERROR;
   }
 }

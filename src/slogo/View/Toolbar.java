@@ -22,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import slogo.Main;
 
@@ -57,9 +58,12 @@ public class Toolbar {
   private TurtleGrid turtleGrid;
   private Desktop forHelp;
   private Language language;
+  private Button makeNew;
 
   public Toolbar(TurtleGrid grid, Language language) {
     changeLanguageBox = new ComboBox<>();
+    makeNew = new ViewButton("New Workspace", BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
+    uploadSim();
     setTurtleImage = new ComboBox<>();
     forHelp= Desktop.getDesktop();
     turtleGrid = grid;
@@ -78,6 +82,17 @@ public class Toolbar {
     currentLanguage.set("English");
   }
 
+  private void uploadSim() {
+    makeNew.setOnAction(e -> {
+      Stage newScreen = new Stage();
+      Main newSimulation = new Main();
+      try {
+        newSimulation.start(newScreen);
+      } catch (Exception ex) {
+        showMessage(Alert.AlertType.ERROR, ex.getMessage());
+      }
+    });
+  }
   private void setUpTurtleChooser() {
     setTurtleImage.setPrefWidth(BUTTON_WIDTH);
     for (String turtle : TURTLES) {
@@ -139,7 +154,7 @@ public class Toolbar {
   public HBox getToolBar() {
     toolBar = new HBox(PADDING);
     toolBar.getChildren().addAll(colorChooser, colorChooser2, setTurtleImage, changeLanguageBox,
-        helpButton);
+        helpButton,makeNew);
     return toolBar;
   }
 

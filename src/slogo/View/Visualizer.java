@@ -9,13 +9,17 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -95,10 +99,30 @@ public class Visualizer {
   private void makeHistory() {
     VBox historyVBox = new VBox();
     historyVBox.setAlignment(Pos.CENTER);
+    Button showCommand= new ViewButton("Command",45,65,10);
+    Node toDisplay= myCommandHistory.returnScene();
+    Button showVariable= new ViewButton("Variable",45,65,10);
+    HBox buttonsForPanes= new HBox();
+    buttonsForPanes.getChildren().addAll(showCommand,showVariable);
     historyVBox.getChildren()
-        .addAll(buttonImage, myVariableHistory.getScene(), myCommandHistory.returnScene());
+            .addAll(buttonImage,buttonsForPanes,toDisplay);
+    showCommand.setOnAction(e->setShowCommand(historyVBox));
+    showVariable.setOnAction(e->setShowVariable(historyVBox));
     bp.setRight(historyVBox);
   }
+
+  private void setShowVariable(VBox historyVBox) {
+    historyVBox.getChildren().remove(myCommandHistory.returnScene());
+      if(!historyVBox.getChildren().contains(myVariableHistory.getScene())){
+        historyVBox.getChildren().add(myVariableHistory.getScene());}
+  }
+
+  private void setShowCommand(VBox historyVBox) {
+    historyVBox.getChildren().remove(myVariableHistory.getScene());
+      if(!historyVBox.getChildren().contains(myCommandHistory.returnScene())){
+        historyVBox.getChildren().add(myCommandHistory.returnScene());}
+  }
+
 
   public void makeNewBox(String newCommand){
     myCommandHistory.makeBox(newCommand);

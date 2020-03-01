@@ -26,7 +26,7 @@ public class CustomCommand extends Command {
             System.out.println("VARIABLE: " + i + " " + variables[i]);
             commands = commands.replaceAll(variables[i],getParamList().get(0));
         }
-        miniParser.parseText(commands);
+        miniParser.miniParse(commands);
         //.replaceFirst("\\[","")
     }
 }

@@ -24,7 +24,6 @@ public class CommandParser {
 
   // "types" and the regular expression patterns that recognize those types
   private List<Entry<String, Pattern>> mySymbols;
-
   private Map<String, Command> stringToCommand;
   private Turtle turtle;
   private ObjectProperty<Turtle> turtleProperty = new SimpleObjectProperty<Turtle>(this, "turtle");
@@ -32,19 +31,14 @@ public class CommandParser {
   private CommandTreeExecutor treeExec;
   private CommandTreeConstructor treeMaker;
   private HashMap<Pattern,String> translations = new HashMap<>();
-
   private static final String RESOURCES = "resources.";
   private static final String ERRORS = RESOURCES + "ErrorMessages";
-
-//make a properties file for errors
   private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
-
   private Language language;
 
   /**
    * Create an empty parser
    */
-
   public CommandParser(Turtle turtle, Language language) {
     this.language = language;
     mySymbols = new ArrayList<>();
@@ -53,7 +47,6 @@ public class CommandParser {
     commandFactory = new CommandFactory();
     this.turtle = turtle;
     System.out.println(RESOURCES_PACKAGE + language);
-    ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + language.getCurrentLanguage());
   }
 
   //add a listener in the command parser
@@ -78,14 +71,16 @@ public class CommandParser {
    */
   public String getSymbol(String text) {
     final String ERROR = "NO MATCH";
+
     for (Entry<String, Pattern> e : mySymbols) {
       if (match(text, e.getValue())) {
-        System.out.println(e.getKey());
         return e.getKey();
       }
     }
-    throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
-    //return ERROR;
+
+    //throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
+
+    return ERROR;
   }
 
   public void createReverseHashMap (List<Entry<String, Pattern>> mySymbols) {
@@ -95,14 +90,11 @@ public class CommandParser {
     // FIXME: perhaps throw an exception instead
   }
 
-
   // Returns true if the given text matches the given regular expression pattern
   private boolean match(String text, Pattern regex) {
     // THIS IS THE IMPORTANT LINE
     return regex.matcher(text).matches();
   }
-
-
 
   public String parseText(String commandLine) {
     Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
@@ -114,15 +106,44 @@ public class CommandParser {
 
     String[] lineValues = commandLine.split("\\s+");
 
+    boolean toCommand = false;
+
     for (int i = 0; i < lineValues.length; i++) {
       if (match(lineValues[i], commandPattern)) {
-        //lineValues[i] = getSymbol(lineValues[i]);
+        String string = lineValues[i];
+
+        if (toCommand) {
+          toCommand = false;
+        } else {
+         if (CustomCommandMap.getKeySet().contains(string)) {
+
+         } else {
+           lineValues[i] = getSymbol(lineValues[i]);
+         }
+        }
         System.out.println("ELEMENT:" + lineValues[i]);
+        if (string.equals("to"))
+          toCommand = true;
       }
+
       if (lineValues[i].equals("\n")) {
         lineValues[i] = "|n";
       }
       System.out.println("GENERAL ELEMENT:" + lineValues[i]);
+    }
+    String translatedCommands = String.join(" ", lineValues);
+    System.out.println("TRANSLATED: " +translatedCommands);
+    return makeCommandTree(translatedCommands);
+  }
+
+  public String miniParse(String commandLine) {
+    Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
+    Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
+    mySymbols = new ArrayList<>();
+    addPatterns(language.getCurrentLanguage());
+    String[] lineValues = commandLine.split("\\s+");
+    for (int i = 0; i < lineValues.length; i++) {
+      System.out.println("GET ELEMENT AT i = " + lineValues[i]);
     }
     String translatedCommands = String.join(" ", lineValues);
     System.out.println("TRANSLATED: " +translatedCommands);

@@ -11,7 +11,10 @@ import java.util.regex.Pattern;
 
 public class CommandTreeExecutor {
 
-  //private static final String RESOURCES_PACKAGE = CommandParser.class.getPackageName() + ".resources.languages.";
+  private static final String MAKE_VARIABLE = "MakeVariable";
+  private static final String MAKE_USER_INSTRUCTION = "MakeUserInstruction";
+  private static final String THIS_PACKAGE = "slogo.model.Commands.";
+  private static final String VCU_COMMAND = THIS_PACKAGE + "VCUCommands" + "." + "CustomCommand";
   private Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
   private Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
   private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
@@ -48,7 +51,6 @@ public class CommandTreeExecutor {
   }
 
   public String executeTrees(List<TreeNode> elementNodes) {
-
     for (TreeNode element : elementNodes) {
       executeSubTree(element);
       System.out.println("EXECUTED NODES: " + element.getName());
@@ -61,14 +63,23 @@ public class CommandTreeExecutor {
     return finalValue;
   }
 
+
+  private boolean isMakeVariableCommand(TreeNode element) {
+    return element.getName().equals(MAKE_VARIABLE);
+  }
+
+  private boolean isMakeUserInstruction(TreeNode element) {
+    return element.getName().equals(MAKE_USER_INSTRUCTION);
+  }
+
   private void executeSubTree(TreeNode element) {
     if (match(element.getName(), commandPattern)) {
       ArrayList<TreeNode> children = element.getChildren();
       ArrayList<String> parameters = new ArrayList<>();
       // will also need to check for to commands
-      if (getSymbol(element.getName()).equals("MakeVariable") || getSymbol(element.getName())
-          .equals("MakeUserInstruction")) {
-        System.out.println("YEET2");
+      
+      if (isMakeVariableCommand(element) || isMakeUserInstruction(element)) {
+        System.out.println("Is make variable OR is make user");
         parameters.add(children.get(0).getName());
         children.remove(0);
       }
@@ -79,18 +90,9 @@ public class CommandTreeExecutor {
       }
       String commandClass = "";
       if (CustomCommandMap.isACustomCommand(element.getName())) {
-        commandClass = "slogo.model.Commands." + "VCUCommands" + "." + "CustomCommand";
+        commandClass = VCU_COMMAND;
       } else { //not a custom command
-        String commandName = getSymbol(element.getName());
-
-        commandClass = "slogo.model.Commands." + CommandTypeHashMap.getCommandType(commandName) + "." + commandName;
-
-        int numParamsShouldHave = Integer.parseInt(commandParameterNumbers.getString(commandName));
-
-       // System.out.println(parameters.size() + " " + numParamsShouldHave);
-        if (parameters.size() != numParamsShouldHave) {
-          throw new CommandException(errors.getString("WrongParameterNumber"));
-        }
+        commandClass = getCommandClass(element, parameters);
       }
       //System.out.println("Command class = " + commandClass);
       Command commandObject = commandFactory.createCommand(commandClass);
@@ -109,24 +111,29 @@ public class CommandTreeExecutor {
   }
   // for variables later on
 
+  private String getPackageName(String commandName) {
+    System.out.println(commandName);
+    return commandPackageNames.getString(commandName);
+  }
+
+  private String getCommandClass(TreeNode element, List<String> parameters) {
+    String commandName = element.getName();
+    String commandClass = THIS_PACKAGE + getPackageName(commandName) + "."
+            + commandName;
+
+    int numParamsShouldHave = Integer.parseInt(commandParameterNumbers.getString(commandName));
+    if (parameters.size() != numParamsShouldHave) {
+      throw new CommandException(errors.getString("WrongParameterNumber"));
+    }
+
+    return commandClass;
+  }
+
   private boolean match(String text, Pattern regex) {
-    // THIS IS THE IMPORTANT LINE
     return regex.matcher(text).matches();
   }
 
 //        if(type.equals(VARIABLE_KEY)){
 //            nd.setData(myVars.getVariable(nd.getName()));
 //        }
-
-  private String getSymbol(String text) {
-    final String ERROR = "NO MATCH";
-    for (Map.Entry<Pattern, String> e : translations.entrySet()) {
-      if (match(text, e.getKey())) {
-        //System.out.println(e.getKey());
-        return e.getValue();
-      }
-    }
-    // FIXME: perhaps throw an exception instead
-    return ERROR;
-  }
 }
