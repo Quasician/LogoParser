@@ -184,8 +184,6 @@ public class Toolbar {
 
   }
 
-
-
   public HBox getToolBar() {
     toolBar = new HBox(PADDING);
     toolBar.getChildren().addAll(colorChooser, colorChooser2, setTurtleImage, changeLanguageBox, changePenColor,changeBackgroundColor,
