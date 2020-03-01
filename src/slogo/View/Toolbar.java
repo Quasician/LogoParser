@@ -11,6 +11,9 @@ import java.util.ResourceBundle;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -26,6 +29,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import slogo.Main;
+import slogo.model.ColorOptions;
 import slogo.model.TurtleList;
 
 public class Toolbar {
@@ -64,18 +68,20 @@ public class Toolbar {
   private Language language;
   private Button makeNew;
 
-  private List<String> colorOptions;
+  private ObservableList<String> colorOptions;
   private static final String DEFAULT_RESOURCE_PACKAGE = "resources.";
   private static ResourceBundle myColors = ResourceBundle
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "Colors");
 
   private void initializeColors() {
-    colorOptions = new ArrayList<>();
+    colorOptions = FXCollections.observableArrayList();
     int index = 0;
     for (String color : myColors.keySet()) {
       colorOptions.add(color + ", " + index);
       index++;
     }
+
+    ColorOptions.createList(colorOptions);
   }
 
   public Toolbar(TurtleGrid grid, Language language) {
@@ -101,8 +107,37 @@ public class Toolbar {
     setUpHelpButton();
     setUpPenColorDropdown(grid);
     setUpBackgroundColorDropdown(grid);
+    addPenColorListener();
+    addBackgroundColorListener();
     this.language = language;
     currentLanguage.set("English");
+  }
+
+  private void addPenColorListener() {
+    colorOptions.addListener(new ListChangeListener<String>() {
+      @Override
+      public void onChanged(Change<? extends String> c) {
+        System.out.println("color options list has changed");
+        int index = ColorOptions.getCurrentChoicePen();
+        String[] color = colorOptions.get(index).split(", ");
+        System.out.println("Color is " + color[0]);
+        Color col = Color.web(color[0]);
+        turtleGrid.setPenColor(col);
+      }
+    });
+  }
+
+  private void addBackgroundColorListener() {
+    colorOptions.addListener(new ListChangeListener<String>() {
+      @Override
+      public void onChanged(Change<? extends String> c) {
+        int index = ColorOptions.getCurrentBackground();
+        String[] color = colorOptions.get(index).split(", ");
+        System.out.println("Color is " + color[0]);
+        Color col = Color.web(color[0]);
+        turtleGrid.setBackground(col);
+      }
+    });
   }
 
   private void setUpPenColorDropdown(TurtleGrid grid) {
@@ -127,6 +162,7 @@ public class Toolbar {
     changeBackgroundColor.setOnAction(e -> {
         String[] color = changeBackgroundColor.getValue().split(", ");
         Color c = Color.web(color[1]);
+        //check to make sure this is an actual color
         grid.setBackground(c);
     });
   }
