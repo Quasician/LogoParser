@@ -17,7 +17,7 @@ public class SetBackground extends DisplayCommand {
       ColorOptions.setCurrentBackground(index);
       commandNode.setResult("" + index);
     } else {
-      throw new RuntimeException("The index is invalid");
+      indexError();
     }
   }
 }

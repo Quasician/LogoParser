@@ -17,7 +17,7 @@ public class SetPenColor extends DisplayCommand {
       ColorOptions.setCurrentChoicePen(index);
       commandNode.setResult("" + index);
     } else {
-      throw new RuntimeException("The index is invalid");
+      indexError();
     }
   }
 }
