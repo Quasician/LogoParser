@@ -119,6 +119,7 @@ public class CommandParser {
         //lineValues[i] = getSymbol(lineValues[i]);
         System.out.println("ELEMENT:" + lineValues[i]);
       }
+
       if (lineValues[i].equals("\n")) {
         lineValues[i] = "|n";
       }

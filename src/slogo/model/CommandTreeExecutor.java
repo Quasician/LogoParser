@@ -66,8 +66,7 @@ public class CommandTreeExecutor {
       ArrayList<TreeNode> children = element.getChildren();
       ArrayList<String> parameters = new ArrayList<>();
       // will also need to check for to commands
-      if (getSymbol(element.getName()).equals("MakeVariable") || getSymbol(element.getName())
-          .equals("MakeUserInstruction")) {
+      if (element.getName().equals("MakeVariable") || element.getName().equals("MakeUserInstruction")) {
         System.out.println("YEET2");
         parameters.add(children.get(0).getName());
         children.remove(0);
@@ -81,7 +80,7 @@ public class CommandTreeExecutor {
       if (CustomCommandMap.isACustomCommand(element.getName())) {
         commandClass = "slogo.model.Commands." + "VCUCommands" + "." + "CustomCommand";
       } else { //not a custom command
-        String commandName = getSymbol(element.getName());
+        String commandName = element.getName();
 
         commandClass = "slogo.model.Commands." + CommandTypeHashMap.getCommandType(commandName) + "." + commandName;
 
@@ -112,21 +111,5 @@ public class CommandTreeExecutor {
   private boolean match(String text, Pattern regex) {
     // THIS IS THE IMPORTANT LINE
     return regex.matcher(text).matches();
-  }
-
-//        if(type.equals(VARIABLE_KEY)){
-//            nd.setData(myVars.getVariable(nd.getName()));
-//        }
-
-  private String getSymbol(String text) {
-    final String ERROR = "NO MATCH";
-    for (Map.Entry<Pattern, String> e : translations.entrySet()) {
-      if (match(text, e.getKey())) {
-        //System.out.println(e.getKey());
-        return e.getValue();
-      }
-    }
-    // FIXME: perhaps throw an exception instead
-    return ERROR;
   }
 }

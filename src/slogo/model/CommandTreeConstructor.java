@@ -109,7 +109,7 @@ public class CommandTreeConstructor {
     } else {
       commandNode = commandNode.getChildren().get(0);
     }
-    if (getSymbol(currentCommand).equals("MakeUserInstruction")) {
+    if (currentCommand.equals("MakeUserInstruction")) {
       System.out.println("YABADABADOO");
       System.out.println(commandNode.getChildren().get(0).getName());
       return handleCommands(buildingNode, commandNode, currentCommand);
@@ -142,7 +142,7 @@ public class CommandTreeConstructor {
     } else {
       try {
         parameterNumber = Integer
-            .parseInt(commandParameterNumbers.getString(getSymbol(currentElement)));
+            .parseInt(commandParameterNumbers.getString(currentElement));
       } catch (MissingResourceException e) {
         String errorMessage = String.format(errors.getString("WrongParameter"), currentElement);
         throw new CommandException(errorMessage);
@@ -152,7 +152,7 @@ public class CommandTreeConstructor {
     TreeNode head = new TreeNode(currentElement);
     head.setResult(currentElement);
     buildingNode.addChild(head);
-    if (getSymbol(currentElement).equals("MakeUserInstruction")) {
+    if (currentElement.equals("MakeUserInstruction")) {
       head.addChild(commandNode);
       commandNode.setResult(commandNode.getName());
       System.out.println("COMMAND NODE: " + commandNode.getName());
@@ -220,19 +220,5 @@ public class CommandTreeConstructor {
     {
       return new Pair(currentList + " " + commandNode.getName(), null);
     }
-  }
-
-
-  private String getSymbol(String text) {
-    final String ERROR = "NO MATCH";
-    for (Map.Entry<Pattern, String> e : translations.entrySet()) {
-        if (match(text, e.getKey())) {
-            //System.out.println(e.getKey());
-            return e.getValue();
-        }
-    }
-    System.out.println(text+ " -> NO MATCH");
-   // throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
-    return ERROR;
   }
 }
