@@ -1,11 +1,6 @@
 package slogo.model;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 
 
 public class Turtle {
@@ -17,10 +12,12 @@ public class Turtle {
 
   private ObjectProperty coordinates;
   private DoubleProperty distance = new SimpleDoubleProperty();
+  private IntegerProperty id = new SimpleIntegerProperty();
   private DoubleProperty angleFacing = new SimpleDoubleProperty();
   private BooleanProperty isPenDown = new SimpleBooleanProperty();
   private BooleanProperty isShowing = new SimpleBooleanProperty();
   private BooleanProperty clearScreenCalled = new SimpleBooleanProperty();
+  private BooleanProperty isActivated = new SimpleBooleanProperty();
 
   public Turtle() {
     isShowing.set(true);
@@ -29,6 +26,7 @@ public class Turtle {
     Coordinate coordinate = new Coordinate(0,0);
     coordinates = new SimpleObjectProperty(coordinate, "coordinate");
     coordinates.set(coordinate);
+    setActivated(true);
   }
 
   public ObjectProperty coordinatesProperty() {
@@ -55,6 +53,10 @@ public class Turtle {
     return clearScreenCalled;
   }
 
+  public BooleanProperty isActivatedProperty() {
+    return isActivated;
+  }
+
   public boolean isVisible() {
     return isShowing.get();
   }
@@ -71,6 +73,10 @@ public class Turtle {
   public double getY() {
    // return y.get();
     return ((Coordinate)coordinates.get()).getY();
+  }
+
+  public int getId() {
+    return id.get();
   }
 
   // returns an int from 0 to 359
@@ -111,6 +117,10 @@ public class Turtle {
      this.distance.set(distance);
   }
 
+  public void setActivated(boolean state) {
+    this.isActivated.set(state);
+  }
+
   public void penUp() {
     isPenDown.set(false);
   }
@@ -127,4 +137,7 @@ public class Turtle {
     isShowing.set(false);
   }
 
+  public void setId(int id) {
+    this.id.set(id);
+  }
 }

@@ -43,7 +43,7 @@ public class CommandTreeExecutor {
 
 
   public CommandTreeExecutor(CommandFactoryInterface factory, Turtle turtle,
-      HashMap<Pattern, String> translations, Language language) {
+                             HashMap<Pattern, String> translations, Language language) {
     this.language = language;
     this.turtle = turtle;
     commandFactory = factory;
