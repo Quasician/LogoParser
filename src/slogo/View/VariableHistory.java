@@ -67,6 +67,8 @@ public class VariableHistory {
         });
 
         TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>("Variable Value");
+        column2.setEditable(true);
+        column2.setOnEditCommit(e-> System.out.println(e.getTableView().getItems().get(e.getTablePosition().getRow())));
         column2.setPrefWidth(100);
         column2.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
 
