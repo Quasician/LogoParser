@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -71,7 +72,6 @@ public class TurtleGrid {
     retGrid = new StackPane();
     retGrid.setPadding(new Insets(10, 10, 10, 0));
     retGrid.getChildren().addAll(myCanvas, myPane);
-
     penColor = DEFAULT_PEN_COLOR;
     linesDrawn = new ArrayList<>();
     this.viewTurtles = viewTurtles;
@@ -107,6 +107,21 @@ public class TurtleGrid {
 
 //      pastX = turtleImageView.get(turtle.getId()).getX() + turtleCenterX;
 //      pastY = turtleImageView.get(turtle.getId()).getY() + turtleCenterY;
+
+  private void setUpTurtle() {
+    turtleImageView = new ImageView(new Image(Main.myResources.getString(TURTLE_IMAGE)));
+    turtleImageView.setOnMouseClicked(e-> turtleImageView.setEffect(new DropShadow()));
+    turtleImageView.setX(centerX);
+    turtleImageView.setY(centerY);
+    turtleImageView.setFitHeight(TURTLE_IMAGE_HEIGHT);
+    turtleImageView.setFitWidth(TURTLE_IMAGE_WIDTH);
+    turtleImageView.rotateProperty();
+    addListeners();
+    myPane.getChildren().add(turtleImageView);
+    turtleCenterX = turtleImageView.getFitWidth() / 2;
+    turtleCenterY = turtleImageView.getFitHeight() / 2;
+    pastX = turtleImageView.getX() + turtleCenterX;
+    pastY = turtleImageView.getY() + turtleCenterY;
   }
 
   private void addListeners(Turtle viewTurtle) {
@@ -124,6 +139,10 @@ public class TurtleGrid {
         System.out.println("DSDSDFDSF");
         turtleImageView.get(viewTurtle.getId()).setX(viewTurtle.getX() + centerX);
         turtleImageView.get(viewTurtle.getId()).setY(-(viewTurtle.getY()) + centerY);
+
+        turtleImageView.setX(viewTurtle.getX() + centerX);
+        turtleImageView.setY(-(viewTurtle.getY()) + centerY);
+
         if (isPenDown) {
           makeLine(viewTurtle.getPastX() + turtleCenterX + centerX, viewTurtle.getPastY() - turtleCenterX + centerX, viewTurtle.getX() + turtleCenterX + centerX,
                   -(viewTurtle.getY() - turtleCenterY) + centerY);

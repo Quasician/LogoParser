@@ -1,12 +1,14 @@
 package slogo.View;
 
 import java.awt.*;
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -22,6 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import slogo.Main;
 import slogo.model.TurtleList;
@@ -34,11 +37,14 @@ public class Toolbar {
   private ResourceBundle myResources = Main.myResources;
   private ComboBox setTurtleImage;
   private ComboBox<String> changeLanguageBox;
+  private ComboBox<String> changePenColor;
+  private ComboBox<String> changeBackgroundColor;
   private static final List<String> LANGUAGES = Arrays
       .asList("English", "Chinese", "French", "German", "Italian", "Portuguese", "Russian",
           "Spanish", "Urdu");
   private static final List<String> TURTLES = Arrays
       .asList("TurtleImage", "BlackTurtle", "BlueTurtle", "CuteTurtle", "Duvall");
+  private static final List<String> COLORS= Arrays.asList("Red, 1", "Black, 2", "Green, 3","Yellow, 4","Brown, 5", "Blue, 6","White, 7");
   private StringProperty currentLanguage = new SimpleStringProperty();
   private HBox toolBar;
   private static final Paint BUTTON_FONT_COLOR = Color.BLACK;
@@ -58,9 +64,14 @@ public class Toolbar {
   private TurtleGrid turtleGrid;
   private Desktop forHelp;
   private Language language;
+  private Button makeNew;
 
   public Toolbar(TurtleGrid grid, Language language) {
     changeLanguageBox = new ComboBox<>();
+    changePenColor= new ComboBox<>();
+    changeBackgroundColor= new ComboBox<>();
+    makeNew = new ViewButton("New Workspace", BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
+    uploadSim();
     setTurtleImage = new ComboBox<>();
     forHelp= Desktop.getDesktop();
     turtleGrid = grid;
@@ -75,10 +86,49 @@ public class Toolbar {
     setUpChangeLanguageChooser();
     setUpTurtleChooser();
     setUpHelpButton();
+    setUpPenColorDropdown(grid);
+    setUpBackgroundColorDropdown(grid);
     this.language = language;
     currentLanguage.set("English");
   }
 
+  private void setUpPenColorDropdown(TurtleGrid grid) {
+    changePenColor.setPrefWidth(BUTTON_WIDTH);
+    for (String lang : COLORS) {
+      changePenColor.getItems().add("Pen,"+lang);
+    }
+    changePenColor.getSelectionModel().selectFirst();
+    changePenColor.setOnAction(e -> {
+      String[] color = changePenColor.getValue().split(",");
+      Color c = Color.web(color[1]);
+      grid.setPenColor(c);
+    });
+  }
+
+  private void setUpBackgroundColorDropdown(TurtleGrid grid) {
+    changeBackgroundColor.setPrefWidth(BUTTON_WIDTH);
+    for (String lang : COLORS) {
+      changeBackgroundColor.getItems().add(lang);
+    }
+    changeBackgroundColor.getSelectionModel().selectFirst();
+    changeBackgroundColor.setOnAction(e -> {
+        String[] color = changeBackgroundColor.getValue().split(",");
+        Color c = Color.web(color[0]);
+        grid.setBackground(c);
+    });
+  }
+
+  private void uploadSim() {
+    makeNew.setOnAction(e -> {
+      Stage newScreen = new Stage();
+      Main newSimulation = new Main();
+      try {
+        newSimulation.start(newScreen);
+      } catch (Exception ex) {
+        showMessage(Alert.AlertType.ERROR, ex.getMessage());
+      }
+    });
+  }
   private void setUpTurtleChooser() {
     setTurtleImage.setPrefWidth(BUTTON_WIDTH);
     for (String turtle : TURTLES) {
@@ -142,8 +192,8 @@ public class Toolbar {
 
   public HBox getToolBar() {
     toolBar = new HBox(PADDING);
-    toolBar.getChildren().addAll(colorChooser, colorChooser2, setTurtleImage, changeLanguageBox,
-        helpButton);
+    toolBar.getChildren().addAll(colorChooser, colorChooser2, setTurtleImage, changeLanguageBox, changePenColor,changeBackgroundColor,
+        helpButton,makeNew);
     return toolBar;
   }
 
