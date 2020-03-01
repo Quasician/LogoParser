@@ -77,10 +77,10 @@ public class VariableHistory {
             }
         });
 
-        ObservableList<Entry<String, String>> items =  VariableHashMap.getAllVariables();
+        ObservableList<Entry<String, String>> items =  FXCollections.observableArrayList(VariableHashMap.getAllVariables());
+        VariableHashMap.addToMap("hi", "5");
 
         final TableView<Entry<String,String>> table = new TableView<>(VariableHashMap.getAllVariables());
-
         table.getColumns().setAll(column1, column2);
         System.out.println("table made");
 
@@ -97,9 +97,8 @@ public class VariableHistory {
 //        varHistLabel.setMaxWidth(VAR_LABEL_HEIGHT);
 //        variablesHolder.setBackground(Background.EMPTY);
 //        variablesHolder.setStyle(LISTVIEW_STYLE);
-        variableHist.getChildren().addAll(variablesTable);
+        variableHist.getChildren().addAll(table);
     }
-
     public void addVariable(String name, String value){
 //        Label newNameBar= new Label(name);
 //        Label newValueBar= new Label(value);
