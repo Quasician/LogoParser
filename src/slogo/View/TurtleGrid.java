@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -84,6 +85,7 @@ public class TurtleGrid {
 
   private void setUpTurtle() {
     turtleImageView = new ImageView(new Image(Main.myResources.getString(TURTLE_IMAGE)));
+    turtleImageView.setOnMouseClicked(e-> turtleImageView.setEffect(new DropShadow()));
     turtleImageView.setX(centerX);
     turtleImageView.setY(centerY);
     turtleImageView.setFitHeight(TURTLE_IMAGE_HEIGHT);
