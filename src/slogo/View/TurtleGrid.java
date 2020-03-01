@@ -93,36 +93,38 @@ public class TurtleGrid {
   }
 
   private void setUpTurtle(Turtle turtle) {
-      turtleImageView.add(turtle.getId(), new ImageView(new Image(Main.myResources.getString(TURTLE_IMAGE))));
-      turtleImageView.get(turtle.getId()).setX(centerX);
-      turtleImageView.get(turtle.getId()).setY(centerY);
-      turtleImageView.get(turtle.getId()).setFitHeight(TURTLE_IMAGE_HEIGHT);
-      turtleImageView.get(turtle.getId()).setFitWidth(TURTLE_IMAGE_WIDTH);
-      turtleImageView.get(turtle.getId()).rotateProperty();
-      addListeners(turtle);
-      myPane.getChildren().add(turtleImageView.get(turtle.getId()));
+    turtleImageView
+        .add(turtle.getId(), new ImageView(new Image(Main.myResources.getString(TURTLE_IMAGE))));
+    turtleImageView.get(turtle.getId()).setX(centerX);
+    turtleImageView.get(turtle.getId()).setY(centerY);
+    turtleImageView.get(turtle.getId()).setFitHeight(TURTLE_IMAGE_HEIGHT);
+    turtleImageView.get(turtle.getId()).setFitWidth(TURTLE_IMAGE_WIDTH);
+    turtleImageView.get(turtle.getId()).rotateProperty();
+    addListeners(turtle);
+    myPane.getChildren().add(turtleImageView.get(turtle.getId()));
 
-      turtleCenterX = turtleImageView.get(turtle.getId()).getFitWidth() / 2;
-      turtleCenterY = turtleImageView.get(turtle.getId()).getFitHeight() / 2;
+    turtleCenterX = turtleImageView.get(turtle.getId()).getFitWidth() / 2;
+    turtleCenterY = turtleImageView.get(turtle.getId()).getFitHeight() / 2;
 
 //      pastX = turtleImageView.get(turtle.getId()).getX() + turtleCenterX;
 //      pastY = turtleImageView.get(turtle.getId()).getY() + turtleCenterY;
-
-  private void setUpTurtle() {
-    turtleImageView = new ImageView(new Image(Main.myResources.getString(TURTLE_IMAGE)));
-    turtleImageView.setOnMouseClicked(e-> turtleImageView.setEffect(new DropShadow()));
-    turtleImageView.setX(centerX);
-    turtleImageView.setY(centerY);
-    turtleImageView.setFitHeight(TURTLE_IMAGE_HEIGHT);
-    turtleImageView.setFitWidth(TURTLE_IMAGE_WIDTH);
-    turtleImageView.rotateProperty();
-    addListeners();
-    myPane.getChildren().add(turtleImageView);
-    turtleCenterX = turtleImageView.getFitWidth() / 2;
-    turtleCenterY = turtleImageView.getFitHeight() / 2;
-    pastX = turtleImageView.getX() + turtleCenterX;
-    pastY = turtleImageView.getY() + turtleCenterY;
   }
+
+//  private void setUpTurtle() {
+//    turtleImageView = new ImageView(new Image(Main.myResources.getString(TURTLE_IMAGE)));
+//    turtleImageView.setOnMouseClicked(e-> turtleImageView.setEffect(new DropShadow()));
+//    turtleImageView.setX(centerX);
+//    turtleImageView.setY(centerY);
+//    turtleImageView.setFitHeight(TURTLE_IMAGE_HEIGHT);
+//    turtleImageView.setFitWidth(TURTLE_IMAGE_WIDTH);
+//    turtleImageView.rotateProperty();
+//    addListeners();
+//    myPane.getChildren().add(turtleImageView);
+//    turtleCenterX = turtleImageView.getFitWidth() / 2;
+//    turtleCenterY = turtleImageView.getFitHeight() / 2;
+//    pastX = turtleImageView.getX() + turtleCenterX;
+//    pastY = turtleImageView.getY() + turtleCenterY;
+//  }
 
   private void addListeners(Turtle viewTurtle) {
     addCoordinatesListener(viewTurtle);
@@ -137,11 +139,10 @@ public class TurtleGrid {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         System.out.println("DSDSDFDSF");
-        turtleImageView.get(viewTurtle.getId()).setX(viewTurtle.getX() + centerX);
-        turtleImageView.get(viewTurtle.getId()).setY(-(viewTurtle.getY()) + centerY);
-
-        turtleImageView.setX(viewTurtle.getX() + centerX);
-        turtleImageView.setY(-(viewTurtle.getY()) + centerY);
+        int id = viewTurtle.getId();
+        ImageView thisView = turtleImageView.get(id);
+        thisView.setX(viewTurtle.getX() + centerX);
+        thisView.setY(-(viewTurtle.getY()) + centerY);
 
         if (isPenDown) {
           makeLine(viewTurtle.getPastX() + turtleCenterX + centerX, viewTurtle.getPastY() - turtleCenterX + centerX, viewTurtle.getX() + turtleCenterX + centerX,
