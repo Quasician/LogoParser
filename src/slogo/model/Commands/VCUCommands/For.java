@@ -21,7 +21,7 @@ public class For extends Command {
             VariableHashMap.addToMap(loopGuard[1], "" + i);
             CommandParser miniparser = new CommandParser(turtle, language);
             System.out.println("Repeated Commands: " + getParamList().get(1));
-            finalValue = miniparser.parseText(getParamList().get(1).trim().replaceFirst("\\[", ""));
+            finalValue = miniparser.miniParse(getParamList().get(1).trim().replaceFirst("\\[", ""));
         }
         if(commands.length==0)
         {

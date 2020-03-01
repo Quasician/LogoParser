@@ -136,7 +136,7 @@ public class CommandTreeConstructor {
             .parseInt(commandParameterNumbers.getString(currentElement));
       } catch (MissingResourceException e) {
         String errorMessage = String.format(errors.getString("WrongParameter"), currentElement);
-        throw new CommandException(errorMessage);
+        //throw new CommandException(errorMessage);
       }
     }
     //System.out.println("Param number: " +parameterNumber);

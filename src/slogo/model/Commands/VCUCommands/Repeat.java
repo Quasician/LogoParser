@@ -24,7 +24,7 @@ public class Repeat extends Command {
             VariableHashMap.addToMap(":repcount", "" + i);
             CommandParser miniparser = new CommandParser(turtle, language);
             System.out.println("Repeated Commands: " + getParamList().get(1));
-            finalValue = miniparser.parseText(allCommands);
+            finalValue = miniparser.miniParse(allCommands);
         }
         if(commands.length==0)
         {

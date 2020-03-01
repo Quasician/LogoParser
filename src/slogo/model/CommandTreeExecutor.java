@@ -65,11 +65,11 @@ public class CommandTreeExecutor {
 
 
   private boolean isMakeVariableCommand(TreeNode element) {
-    return getSymbol(element.getName()).equals(MAKE_VARIABLE);
+    return element.getName().equals(MAKE_VARIABLE);
   }
 
   private boolean isMakeUserInstruction(TreeNode element) {
-    return getSymbol(element.getName()).equals(MAKE_USER_INSTRUCTION);
+    return element.getName().equals(MAKE_USER_INSTRUCTION);
   }
 
   private void executeSubTree(TreeNode element) {
@@ -112,11 +112,12 @@ public class CommandTreeExecutor {
   // for variables later on
 
   private String getPackageName(String commandName) {
+    System.out.println(commandName);
     return commandPackageNames.getString(commandName);
   }
 
   private String getCommandClass(TreeNode element, List<String> parameters) {
-    String commandName = getSymbol(element.getName());
+    String commandName = element.getName();
     String commandClass = THIS_PACKAGE + getPackageName(commandName) + "."
             + commandName;
 
@@ -135,15 +136,4 @@ public class CommandTreeExecutor {
 //        if(type.equals(VARIABLE_KEY)){
 //            nd.setData(myVars.getVariable(nd.getName()));
 //        }
-
-  private String getSymbol(String text) {
-    final String ERROR = "NO MATCH";
-    for (Map.Entry<Pattern, String> e : translations.entrySet()) {
-      if (match(text, e.getKey())) {
-        return e.getValue();
-      }
-    }
-    // FIXME: perhaps throw an exception instead
-    return ERROR;
-  }
 }
