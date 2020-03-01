@@ -1,6 +1,7 @@
 package slogo.model.Commands.TurtleCommands;
 
 import slogo.model.TreeNode;
+import slogo.model.Turtle;
 
 public class ShowTurtle extends TurtleCommand {
 
@@ -12,7 +13,10 @@ public class ShowTurtle extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    turtle.show();
-    commandNode.setResult(RETURN);
+    for(Turtle activeTurtle: activatedTurtles)
+    {
+      activeTurtle.show();
+      commandNode.setResult(RETURN);
+    }
   }
 }

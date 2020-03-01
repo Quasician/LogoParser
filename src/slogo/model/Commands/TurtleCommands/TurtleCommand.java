@@ -20,10 +20,10 @@ public abstract class TurtleCommand extends Command {
     return angle * Math.PI / 180;
   }
 
-  protected void moveTurtleTo(double x, double y) {
+  protected void moveTurtleTo(int id, double x, double y) {
 //    turtle.setX(x);
 //    turtle.setY(y);
-    turtle.setCoordinate(x, y);
+    turtles.get(id).setCoordinate(x, y);
   }
 
   protected boolean facingTopRight(double angle) {
@@ -70,24 +70,24 @@ public abstract class TurtleCommand extends Command {
     }
   }
 
-  protected void moveTurtle(int directionMultiplier, double distance) {
-    double angle = getAdjustedAngle(turtle.getDegree());
-    int xMultiplier = directionMultiplier * getXMultiplier(turtle.getDegree());
-    int yMultiplier = directionMultiplier * getYMultiplier(turtle.getDegree());
+  protected void moveTurtle(int id, int directionMultiplier, double distance) {
+    double angle = getAdjustedAngle(turtles.get(id).getDegree());
+    int xMultiplier = directionMultiplier * getXMultiplier(turtles.get(id).getDegree());
+    int yMultiplier = directionMultiplier * getYMultiplier(turtles.get(id).getDegree());
 
     double angleToRadians = degreesToRadians(angle);
     double rightAngle = degreesToRadians(FACING_RIGHT);
 
-    double newX = turtle.getX() + xMultiplier * (distance * Math.sin(angleToRadians));
-    double newY = turtle.getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
+    double newX = turtles.get(id).getX() + xMultiplier * (distance * Math.sin(angleToRadians));
+    double newY = turtles.get(id).getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
 
 //    turtle.setX(newX);
 //    turtle.setY(newY);
-    turtle.setCoordinate(newX, newY);
+    turtles.get(id).setCoordinate(newX, newY);
   }
 
-  protected void rotateTurtle(int direction, double degrees) {
-    double currentDegrees = turtle.getDegree();
+  protected void rotateTurtle(int id, int direction, double degrees) {
+    double currentDegrees = turtles.get(id).getDegree();
 
     double newDegrees = 0;
     if (direction == RIGHT) {
@@ -105,7 +105,7 @@ public abstract class TurtleCommand extends Command {
       newDegrees = 0;
     }
 
-    turtle.setDegree(newDegrees);
+    turtles.get(id).setDegree(newDegrees);
   }
 
   protected double distanceFormula(double x1, double y1, double x2, double y2) {
