@@ -42,9 +42,16 @@ public class Main extends Application {
 //            deg +=360;
 //        }
 //        System.out.println(deg);
-        TurtleList.createTurtleLists(FXCollections.emptyObservableList(), FXCollections.emptyObservableList());
-        Turtle modelTurtle = new Turtle();
-        TurtleList.addTurtleToModelList(modelTurtle);
+        TurtleList.createTurtleLists(FXCollections.observableArrayList(), FXCollections.observableArrayList());
+        Turtle modelTurtle1 = new Turtle();
+        Turtle modelTurtle2 = new Turtle();
+        modelTurtle2.setActivated(false);
+        TurtleList.addTurtleToModelList(modelTurtle1);
+        TurtleList.addTurtleToModelList(modelTurtle2);
+        for(Turtle turtle:TurtleList.getViewTurtleList())
+        {
+            System.out.println(turtle.isActivatedProperty().getValue());
+        }
         //ObjectProperty<Turtle> modelTurtleProp = new SimpleObjectProperty<>(modelTurtle, "modelTurtle");
         //ObjectProperty<Turtle> viewTurtleProp = new SimpleObjectProperty<>(viewTurtle, "viewTurtle");
         // viewTurtleProp.bind(modelTurtleProp);
@@ -52,7 +59,7 @@ public class Main extends Application {
         Language language = new Language();
 
 
-        CommandParser commandParser = new CommandParser(modelTurtle, language);
+        CommandParser commandParser = new CommandParser(TurtleList.getModelTurtleList(), language);
 
 
 //        modelTurtle.setDegree(45);
@@ -92,10 +99,23 @@ public class Main extends Application {
         Visualizer vis = new Visualizer(primaryStage, TurtleList.getViewTurtleList(), commandLinetext, textUpdate, language, commandParser);
         parseTextOnInput(textUpdate, parseString, commandParser,vis);
 
-        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
-        printCustomCommands();
-        System.out.println("done printing");
-        commandParser.parseText(" c 1 ");
+//        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
+//        printCustomCommands();
+//        System.out.println("done printing");
+//        commandParser.parseText(" c 1 ");
+        commandParser.parseText("rt 25 fd 50");
+        TurtleList.makeModelTurtleDeactivated(0);
+        TurtleList.makeModelTurtleActivated(1);
+        commandParser.parseText("rt 335 fd 50");
+        for(Turtle turtle:TurtleList.getModelTurtleList())
+        {
+            System.out.println("MODELTurtle " + turtle.getId() + " x: "+ turtle.getX() + " y: "+ turtle.getY() + " Activated: "+ turtle.isActivatedProperty().getValue());
+        }
+
+        for(Turtle turtle:TurtleList.getViewTurtleList())
+        {
+            System.out.println("VIEWTurtle " + turtle.getId() + " x: "+ turtle.getX() + " y: "+ turtle.getY() + " Activated: "+ turtle.isActivatedProperty().getValue());
+        }
 
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());

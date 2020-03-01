@@ -19,7 +19,7 @@ public class For extends Command {
         String finalValue = "";
         for(double i = Double.parseDouble(loopGuard[2]); i<=Double.parseDouble(loopGuard[3]);i+=Double.parseDouble(loopGuard[4])) {
             VariableHashMap.addToMap(loopGuard[1], "" + i);
-            CommandParser miniparser = new CommandParser(turtle, language);
+            CommandParser miniparser = new CommandParser(activatedTurtles, language);
             System.out.println("Repeated Commands: " + getParamList().get(1));
             finalValue = miniparser.miniParse(getParamList().get(1).trim().replaceFirst("\\[", ""));
         }

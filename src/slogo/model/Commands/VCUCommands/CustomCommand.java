@@ -12,7 +12,7 @@ public class CustomCommand extends Command {
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        CommandParser miniParser = new CommandParser(turtle, language);
+        CommandParser miniParser = new CommandParser(activatedTurtles, language);
         String[] variables = CustomCommandMap.getVariables(commandNode.getName());
         String commands = CustomCommandMap.getCommands(commandNode.getName());
         //System.out.println("VARIABLE LENGTH: "  +variables[0]);

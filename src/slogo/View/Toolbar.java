@@ -24,6 +24,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
 import slogo.Main;
+import slogo.model.TurtleList;
 
 public class Toolbar {
 
@@ -111,7 +112,10 @@ public class Toolbar {
     //when clicked set turtle image to what ever was clicked
    // setTurtleImage.setOnAction(e -> System.out.println(setTurtleImage.getValue()));
 
-    setTurtleImage.setOnAction(e -> turtleGrid.updateTurtleImage((String) setTurtleImage.getValue()));
+    setTurtleImage.setOnAction(e -> {
+
+      turtleGrid.updateTurtlesImage((String) setTurtleImage.getValue(), TurtleList.getActiveTurtleList());
+    });
 
   }
 

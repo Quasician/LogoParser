@@ -11,6 +11,7 @@ public class Turtle {
   //private boolean isPenDown, isVisible;
 
   private ObjectProperty coordinates;
+  private ObjectProperty pastCoordinates = new SimpleObjectProperty();
   private DoubleProperty distance = new SimpleDoubleProperty();
   private IntegerProperty id = new SimpleIntegerProperty();
   private DoubleProperty angleFacing = new SimpleDoubleProperty();
@@ -26,6 +27,7 @@ public class Turtle {
     Coordinate coordinate = new Coordinate(0,0);
     coordinates = new SimpleObjectProperty(coordinate, "coordinate");
     coordinates.set(coordinate);
+    pastCoordinates.set(coordinate);
     setActivated(true);
   }
 
@@ -84,6 +86,10 @@ public class Turtle {
     return angleFacing.get();
   }
 
+  public void updateCoordinates() {
+    pastCoordinates.set(coordinates);
+  }
+
   protected double getDistance() {
     return distance.get();
   }
@@ -117,9 +123,7 @@ public class Turtle {
      this.distance.set(distance);
   }
 
-  public void setActivated(boolean state) {
-    this.isActivated.set(state);
-  }
+  public void setActivated(boolean state) { this.isActivated.set(state); }
 
   public void penUp() {
     isPenDown.set(false);

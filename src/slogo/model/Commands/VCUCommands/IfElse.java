@@ -14,7 +14,7 @@ public class IfElse extends Command {
     public void doCommand(TreeNode commandNode) {
         //System.out.println("Do this many times: " + getParamList().get(0).trim());
         String finalValue = "";
-        CommandParser miniparser = new CommandParser(turtle, language);
+        CommandParser miniparser = new CommandParser(activatedTurtles, language);
         if(Double.parseDouble(getParamList().get(0)) != 0)
         {
             finalValue = miniparser.miniParse(getParamList().get(1).trim().replaceFirst("\\[", ""));
