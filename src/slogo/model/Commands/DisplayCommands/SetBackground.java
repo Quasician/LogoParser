@@ -10,6 +10,9 @@ public class SetBackground extends DisplayCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-
+    int index = Integer.parseInt(getParamList().get(0));
+    //check to make sure the index
+    //is within the possible options
+    //set background to the color represented by index
   }
 }

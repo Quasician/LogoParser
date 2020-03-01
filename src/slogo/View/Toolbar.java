@@ -126,7 +126,6 @@ public class Toolbar {
     changeBackgroundColor.getSelectionModel().selectFirst();
     changeBackgroundColor.setOnAction(e -> {
         String[] color = changeBackgroundColor.getValue().split(", ");
-        System.out.println(color[1]);
         Color c = Color.web(color[1]);
         grid.setBackground(c);
     });
