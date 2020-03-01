@@ -5,6 +5,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
@@ -31,7 +32,7 @@ public class TurtleGrid {
   public static final int TURTLE_IMAGE_WIDTH = 40;
   public static final Color DEFAULT_PEN_COLOR = Color.RED;
   private int myCanvasWidth, myCanvasHeight;
-  private Turtle viewTurtle;
+  private ObservableList<Turtle> viewTurtles;
   private ImageView turtleImageView;
   private Pane myPane; //to change background of grid, change the background of the pane
   private Canvas myCanvas;
@@ -54,7 +55,7 @@ public class TurtleGrid {
    *                     shapes are drawn
    * @param canvasHeight is the height of the canvas
    */
-  public TurtleGrid(int canvasWidth, int canvasHeight, Turtle viewTurtle) {
+  public TurtleGrid(int canvasWidth, int canvasHeight, ObservableList<Turtle> viewTurtles) {
     myCanvasWidth = canvasWidth;
     myCanvasHeight = canvasHeight;
     centerX = canvasWidth / 2.0;
@@ -70,11 +71,11 @@ public class TurtleGrid {
 
     penColor = DEFAULT_PEN_COLOR;
     linesDrawn = new ArrayList<>();
-    this.viewTurtle = viewTurtle;
+    this.viewTurtles = viewTurtles;
     setUpTurtle();
   }
 
-  public TurtleGrid(Turtle turtle) {
+  public TurtleGrid(ObservableList<Turtle> turtle) {
     this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, turtle);
   }
 
@@ -108,67 +109,78 @@ public class TurtleGrid {
   }
 
   private void addCoordinatesListener() {
-    viewTurtle.coordinatesProperty().addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        turtleImageView.setX(viewTurtle.getX() + centerX);
-        turtleImageView.setY(-(viewTurtle.getY()) + centerY);
-        if (isPenDown) {
-          makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
-              -(viewTurtle.getY() - turtleCenterY) + centerY);
+    for(Turtle viewTurtle: viewTurtles)
+    {
+      viewTurtle.coordinatesProperty().addListener(new ChangeListener() {
+        @Override
+        public void changed(ObservableValue o, Object oldVal, Object newVal) {
+          turtleImageView.setX(viewTurtle.getX() + centerX);
+          turtleImageView.setY(-(viewTurtle.getY()) + centerY);
+          if (isPenDown) {
+            makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
+                    -(viewTurtle.getY() - turtleCenterY) + centerY);
 
+          }
+          drawAllLines();
+          pastX = viewTurtle.getX() + turtleCenterX + centerX;
+          pastY = -(viewTurtle.getY() - turtleCenterY) + centerY;
         }
-        drawAllLines();
-        pastX = viewTurtle.getX() + turtleCenterX + centerX;
-        pastY = -(viewTurtle.getY() - turtleCenterY) + centerY;
-      }
-    });
+      });
+    }
   }
 
   private void addAnglePropertyListener() {
-    viewTurtle.angleProperty().addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        //System.out.println("Angle changed to: " + viewTurtle.getDegree());
-        turtleImageView.setRotate(viewTurtle.getDegree());
-      }
-    });
+    for(Turtle viewTurtle: viewTurtles) {
+      viewTurtle.angleProperty().addListener(new ChangeListener() {
+        @Override
+        public void changed(ObservableValue o, Object oldVal, Object newVal) {
+          //System.out.println("Angle changed to: " + viewTurtle.getDegree());
+          turtleImageView.setRotate(viewTurtle.getDegree());
+        }
+      });
+    }
   }
 
   private void addPenDownListener() {
-    viewTurtle.isPenDownProperty().addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        System.out.println("Pen has been changed to: " + viewTurtle.isPenDown());
-        isPenDown = viewTurtle.isPenDown();
-      }
-    });
+    for(Turtle viewTurtle: viewTurtles) {
+      viewTurtle.isPenDownProperty().addListener(new ChangeListener() {
+        @Override
+        public void changed(ObservableValue o, Object oldVal, Object newVal) {
+          System.out.println("Pen has been changed to: " + viewTurtle.isPenDown());
+          isPenDown = viewTurtle.isPenDown();
+        }
+      });
+    }
   }
 
   private void addClearScreenListener() {
-    viewTurtle.clearScreenProperty().addListener(new ChangeListener<Boolean>() {
-      @Override
-      public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
-          Boolean newValue) {
-        if (viewTurtle.clearScreenProperty().get()) { //if true
-          removeLines();
+    for(Turtle viewTurtle: viewTurtles) {
+      viewTurtle.clearScreenProperty().addListener(new ChangeListener<Boolean>() {
+        @Override
+        public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
+                            Boolean newValue) {
+          if (viewTurtle.clearScreenProperty().get()) { //if true
+            removeLines();
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   private void addShowingListener() {
-    viewTurtle.isShowingProperty().addListener(new ChangeListener<Boolean>() {
-      @Override
-      public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
-          Boolean newValue) {
-        if (viewTurtle.isShowingProperty().get()) { //make turtle visible
-          turtleImageView.setVisible(true);
-        } else { //make turtle invisible
-          turtleImageView.setVisible(false);
+    for(Turtle viewTurtle: viewTurtles) {
+      viewTurtle.isShowingProperty().addListener(new ChangeListener<Boolean>() {
+        @Override
+        public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
+                            Boolean newValue) {
+          if (viewTurtle.isShowingProperty().get()) { //make turtle visible
+            turtleImageView.setVisible(true);
+          } else { //make turtle invisible
+            turtleImageView.setVisible(false);
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   protected void setPenColor(Paint color) {

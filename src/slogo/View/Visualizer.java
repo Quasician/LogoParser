@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -36,7 +37,7 @@ public class Visualizer {
   private CommandHistory myCommandHistory;
   private VariableHistory myVariableHistory;
   private BorderPane bp;
-  private Turtle viewTurtle;
+  private ObservableList<Turtle> viewTurtle;
   private ImageView buttonImage;
   private CommandParser comParser;
   private Map<String,String> VarMap;
@@ -48,7 +49,7 @@ public class Visualizer {
    *
    * @param window '
    */
-  public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText,
+  public Visualizer(Stage window, ObservableList<Turtle> viewTurtles, StringProperty commandLineText,
                     BooleanProperty textUpdate, Language language, CommandParser parser) {
     myWindow = window;
     comParser=parser;
