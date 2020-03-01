@@ -97,9 +97,9 @@ public class Main extends Application {
         Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate, language, commandParser);
         parseTextOnInput(textUpdate, parseString, commandParser,vis);
 
-        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
-        printCustomCommands();
-        commandParser.parseText(" c 1 ");
+      //  commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
+       // printCustomCommands();
+       // commandParser.parseText(" c 1 ");
 
 //        modelTurtle.setX(-200);
 //        System.out.println("Turtle x " + viewTurtle.getX());
@@ -132,8 +132,6 @@ public class Main extends Application {
     }
 
     private void bindTurtles(Turtle model, Turtle view) {
-//        view.xProperty().bind(model.xProperty());
-//        view.yProperty().bind(model.yProperty());
         view.distanceProperty().bind(model.distanceProperty());
         view.angleProperty().bind(model.angleProperty());
         view.isPenDownProperty().bind(model.isPenDownProperty());

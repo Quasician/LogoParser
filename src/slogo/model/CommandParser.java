@@ -24,7 +24,6 @@ public class CommandParser {
 
   // "types" and the regular expression patterns that recognize those types
   private List<Entry<String, Pattern>> mySymbols;
-
   private Map<String, Command> stringToCommand;
   private Turtle turtle;
   private ObjectProperty<Turtle> turtleProperty = new SimpleObjectProperty<Turtle>(this, "turtle");
@@ -32,19 +31,14 @@ public class CommandParser {
   private CommandTreeExecutor treeExec;
   private CommandTreeConstructor treeMaker;
   private HashMap<Pattern,String> translations = new HashMap<>();
-
   private static final String RESOURCES = "resources.";
   private static final String ERRORS = RESOURCES + "ErrorMessages";
-
-//make a properties file for errors
   private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
-
   private Language language;
 
   /**
    * Create an empty parser
    */
-
   public CommandParser(Turtle turtle, Language language) {
     this.language = language;
     mySymbols = new ArrayList<>();
@@ -53,7 +47,6 @@ public class CommandParser {
     commandFactory = new CommandFactory();
     this.turtle = turtle;
     System.out.println(RESOURCES_PACKAGE + language);
-    ResourceBundle resources = ResourceBundle.getBundle(RESOURCES_PACKAGE + language.getCurrentLanguage());
   }
 
   //add a listener in the command parser
@@ -80,7 +73,6 @@ public class CommandParser {
     final String ERROR = "NO MATCH";
     for (Entry<String, Pattern> e : mySymbols) {
       if (match(text, e.getValue())) {
-        System.out.println(e.getKey());
         return e.getKey();
       }
     }
@@ -95,14 +87,11 @@ public class CommandParser {
     // FIXME: perhaps throw an exception instead
   }
 
-
   // Returns true if the given text matches the given regular expression pattern
   private boolean match(String text, Pattern regex) {
     // THIS IS THE IMPORTANT LINE
     return regex.matcher(text).matches();
   }
-
-
 
   public String parseText(String commandLine) {
     Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
@@ -116,6 +105,7 @@ public class CommandParser {
 
     for (int i = 0; i < lineValues.length; i++) {
       if (match(lineValues[i], commandPattern)) {
+        //I think we might need the line below for other languages
         //lineValues[i] = getSymbol(lineValues[i]);
         System.out.println("ELEMENT:" + lineValues[i]);
       }
