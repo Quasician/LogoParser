@@ -1,7 +1,6 @@
 package slogo.View;
 
 import java.awt.*;
-import java.io.File;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
@@ -23,7 +22,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import slogo.Main;
 
@@ -44,7 +42,7 @@ public class Toolbar {
   private HBox toolBar;
   private static final Paint BUTTON_FONT_COLOR = Color.BLACK;
   private static final int BUTTON_FONT_SIZE = 13;
-  private static final String helpURI= "https://www2.cs.duke.edu/courses/compsci308/spring20/assign/03_parser/commands.php";
+  private static final String HELP_URI = "https://www2.cs.duke.edu/courses/compsci308/spring20/assign/03_parser/commands.php";
   private static final String CHANGE_BACKGROUND = "ChangeBackgroundColor";
   private static final String CHANGE_PEN = "ChangePenColor";
   private static final String BUTTON_HELP = "Help";
@@ -120,11 +118,11 @@ public class Toolbar {
   private void setUpHelpButton() {
     helpButton.setOnAction(e->{
       try {
-        URL url = new URL(helpURI);
+        URL url = new URL(HELP_URI);
         URLConnection connection = url.openConnection();
         connection.connect();
         try{
-          forHelp.browse(new URI(helpURI));
+          forHelp.browse(new URI(HELP_URI));
         } catch (Exception v){
           showMessage(Alert.AlertType.ERROR, v.getMessage());
         }

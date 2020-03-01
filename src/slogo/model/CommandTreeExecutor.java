@@ -77,6 +77,7 @@ public class CommandTreeExecutor {
       ArrayList<TreeNode> children = element.getChildren();
       ArrayList<String> parameters = new ArrayList<>();
       // will also need to check for to commands
+      
       if (isMakeVariableCommand(element) || isMakeUserInstruction(element)) {
         System.out.println("Is make variable OR is make user");
         parameters.add(children.get(0).getName());
