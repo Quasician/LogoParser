@@ -20,7 +20,7 @@ public class If extends Command {
 //        System.out.println("TEST: " + test);
         if(Double.parseDouble(getParamList().get(0)) != 0)
         {
-            finalValue = miniParser.parseText(getParamList().get(1).trim().replaceFirst("\\[", ""));
+            finalValue = miniParser.miniParse(getParamList().get(1).trim().replaceFirst("\\[", ""));
             commandNode.setResult(finalValue);
         }
         else

@@ -99,6 +99,7 @@ public class Main extends Application {
 
         commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
         printCustomCommands();
+        System.out.println("done printing");
         commandParser.parseText(" c 1 ");
 
 //        modelTurtle.setX(-200);
@@ -132,8 +133,6 @@ public class Main extends Application {
     }
 
     private void bindTurtles(Turtle model, Turtle view) {
-//        view.xProperty().bind(model.xProperty());
-//        view.yProperty().bind(model.yProperty());
         view.distanceProperty().bind(model.distanceProperty());
         view.angleProperty().bind(model.angleProperty());
         view.isPenDownProperty().bind(model.isPenDownProperty());

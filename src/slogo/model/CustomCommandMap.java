@@ -2,6 +2,7 @@ package slogo.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class CustomCommandMap {
     private static HashMap<String, String[]> variableMap = new HashMap<>();
@@ -29,6 +30,11 @@ public class CustomCommandMap {
     public static Iterable<Map.Entry<String, String>> getAllCustomCommands() {
 
         return commandsMap.entrySet();
+    }
+
+    public static Set<String> getKeySet() {
+
+        return commandsMap.keySet();
     }
 
 }

@@ -58,7 +58,7 @@ public class VariableHistory {
         HBox vari= new HBox();
         vari.getChildren().addAll(newNameBar,newValueBar);
         variablesHolder.getItems().add(vari);
-        }
+    }
 
 
     public String getVariable(String name){
