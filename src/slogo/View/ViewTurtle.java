@@ -18,6 +18,7 @@ public class ViewTurtle {
   private DoubleProperty angleFacing = new SimpleDoubleProperty();
   private BooleanProperty isPenDown = new SimpleBooleanProperty();
   private BooleanProperty isShowing = new SimpleBooleanProperty();
+  private BooleanProperty isActivated = new SimpleBooleanProperty();
 
   public ViewTurtle() {
     Image turtleImage = new Image("turtle.png");

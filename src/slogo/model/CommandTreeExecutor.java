@@ -3,6 +3,7 @@ package slogo.model;
 
 import java.util.ResourceBundle;
 
+import javafx.collections.ObservableList;
 import slogo.View.Language;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactoryInterface;
@@ -19,7 +20,7 @@ public class CommandTreeExecutor {
   private Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
   private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
   private CommandFactoryInterface commandFactory;
-  private Turtle turtle;
+  private ObservableList<Turtle> turtles;
   private List<Map.Entry<String, Pattern>> mySymbols;
   private Language language;
   private HashMap<Pattern, String> translations;
@@ -42,10 +43,10 @@ public class CommandTreeExecutor {
   // private static final String COMMAND_PACKAGES = CommandTreeExecutor.class.getPackageName() + ".resources.packages.CommandPackages.properties";
 
 
-  public CommandTreeExecutor(CommandFactoryInterface factory, Turtle turtle,
-      HashMap<Pattern, String> translations, Language language) {
+  public CommandTreeExecutor(CommandFactoryInterface factory, ObservableList<Turtle> turtles,
+                             HashMap<Pattern, String> translations, Language language) {
     this.language = language;
-    this.turtle = turtle;
+    this.turtles = turtles;
     commandFactory = factory;
     this.translations = translations;
   }
@@ -101,7 +102,7 @@ public class CommandTreeExecutor {
       }
 
       commandObject.setParams(parameters);
-      commandObject.setTurtle(turtle);
+      commandObject.setTurtles(turtles);
       commandObject.setMiniParserLanguage(language);
       commandObject.doCommand(element);
       //nd.setData(replacementValue);

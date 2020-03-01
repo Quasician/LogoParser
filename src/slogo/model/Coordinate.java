@@ -1,6 +1,9 @@
 package slogo.model;
 
-public class Coordinate {
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+
+public class Coordinate extends SimpleObjectProperty {
   private double x;
   private double y;
 
@@ -24,5 +27,4 @@ public class Coordinate {
   public void setY(double y) {
     this.y = y;
   }
-
 }

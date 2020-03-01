@@ -3,15 +3,20 @@ package slogo.model.Commands;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import slogo.View.Language;
 import slogo.model.TreeNode;
 import slogo.model.Turtle;
+import slogo.model.TurtleList;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Command {
 
-  protected Turtle turtle;
+  protected ObservableList<Turtle> turtles;
+  protected ObservableList<Turtle> activatedTurtles;
   protected String name;
   protected Language language;
   protected ArrayList<String> values;
@@ -26,7 +31,15 @@ public abstract class Command {
     return values;
   }
 
-  public void setTurtle(Turtle turtle) { this.turtle = turtle; }
+  public void setTurtles(ObservableList<Turtle> turtles) {
+    this.turtles = turtles;
+    activatedTurtles = getActivatedTurtles(this.turtles);
+  }
+
+  private ObservableList<Turtle> getActivatedTurtles(ObservableList<Turtle> turtles)
+  {
+    return TurtleList.getActiveTurtleList();
+  }
 
   public void setMiniParserLanguage(Language language){ this.language = language;}
 

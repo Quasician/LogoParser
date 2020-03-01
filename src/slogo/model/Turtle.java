@@ -1,11 +1,6 @@
 package slogo.model;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 
 
 public class Turtle {
@@ -16,23 +11,33 @@ public class Turtle {
   //private boolean isPenDown, isVisible;
 
   private ObjectProperty coordinates;
+  private ObjectProperty pastCoordinates;
   private DoubleProperty distance = new SimpleDoubleProperty();
+  private IntegerProperty id = new SimpleIntegerProperty();
   private DoubleProperty angleFacing = new SimpleDoubleProperty();
   private BooleanProperty isPenDown = new SimpleBooleanProperty();
   private BooleanProperty isShowing = new SimpleBooleanProperty();
   private BooleanProperty clearScreenCalled = new SimpleBooleanProperty();
+  private BooleanProperty isActivated = new SimpleBooleanProperty();
 
   public Turtle() {
     isShowing.set(true);
     isPenDown.set(true);
     clearScreenCalled.set(false);
     Coordinate coordinate = new Coordinate(0,0);
+    Coordinate coordinate1 = new Coordinate(0,0);
     coordinates = new SimpleObjectProperty(coordinate, "coordinate");
     coordinates.set(coordinate);
+    pastCoordinates = new SimpleObjectProperty(coordinate1, "coordinate");
+    pastCoordinates.set(coordinate1);
+    setActivated(true);
   }
 
   public ObjectProperty coordinatesProperty() {
     return coordinates;
+  }
+  public ObjectProperty pastCoordinatesProperty() {
+    return pastCoordinates;
   }
 
   public DoubleProperty distanceProperty() {
@@ -55,6 +60,10 @@ public class Turtle {
     return clearScreenCalled;
   }
 
+  public BooleanProperty isActivatedProperty() {
+    return isActivated;
+  }
+
   public boolean isVisible() {
     return isShowing.get();
   }
@@ -73,9 +82,28 @@ public class Turtle {
     return ((Coordinate)coordinates.get()).getY();
   }
 
+  public double getPastX() {
+    //return x.get();
+    return ((Coordinate)pastCoordinates.getBean()).getX();
+  }
+
+  public double getPastY() {
+    // return y.get();
+    return ((Coordinate)pastCoordinates.getBean()).getY();
+  }
+
+  public int getId() {
+    return id.get();
+  }
+
   // returns an int from 0 to 359
   public double getDegree() {
     return angleFacing.get();
+  }
+
+  public void updateCoordinates() {
+    pastCoordinates.set(coordinates);
+    //System.out.println("ZXCV"+ ((Coordinate)pastCoordinates.get()).getX() + "   " + ((Coordinate)pastCoordinates.get()).getY());
   }
 
   protected double getDistance() {
@@ -111,6 +139,8 @@ public class Turtle {
      this.distance.set(distance);
   }
 
+  public void setActivated(boolean state) { this.isActivated.set(state); }
+
   public void penUp() {
     isPenDown.set(false);
   }
@@ -127,4 +157,7 @@ public class Turtle {
     isShowing.set(false);
   }
 
+  public void setId(int id) {
+    this.id.set(id);
+  }
 }

@@ -15,7 +15,7 @@ public class If extends Command {
         //System.out.println("Do this many times: " + getParamList().get(0).trim());
         String test = "";
         String finalValue = "";
-        CommandParser miniParser = new CommandParser(turtle, language);
+        CommandParser miniParser = new CommandParser(activatedTurtles, language);
 //        System.out.println("PARAM 1: " + getParamList().get(0));
 //        System.out.println("TEST: " + test);
         if(Double.parseDouble(getParamList().get(0)) != 0)
