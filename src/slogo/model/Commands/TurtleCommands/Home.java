@@ -1,6 +1,7 @@
 package slogo.model.Commands.TurtleCommands;
 
 import slogo.model.TreeNode;
+import slogo.model.Turtle;
 
 public class Home extends TurtleCommand {
 
@@ -10,10 +11,11 @@ public class Home extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    double distanceTravelled = distanceFormula(turtle.getX(), turtle.getY(), 0, 0);
-    moveTurtleTo(0, 0);
-
-    turtle.setDegree(0);
-    commandNode.setResult("" + distanceTravelled);
+    for(Turtle activeTurtle: activatedTurtles) {
+      double distanceTravelled = distanceFormula(activeTurtle.getX(), activeTurtle.getY(), 0, 0);
+      moveTurtleTo(activeTurtle.getId(),0, 0);
+      activeTurtle.setDegree(0);
+      commandNode.setResult("" + distanceTravelled);
+    }
   }
 }

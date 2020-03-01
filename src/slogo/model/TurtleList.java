@@ -11,7 +11,7 @@ public class TurtleList {
     private static ObservableList<Turtle> modelTurtleList;
     private static ObservableList<Turtle> viewTurtleList;
 
-    public void createTurtleLists(ObservableList<Turtle> modelList, ObservableList<Turtle> viewList)
+    public static void createTurtleLists(ObservableList<Turtle> modelList, ObservableList<Turtle> viewList)
     {
         modelTurtleList = modelList;
         viewTurtleList = viewList;

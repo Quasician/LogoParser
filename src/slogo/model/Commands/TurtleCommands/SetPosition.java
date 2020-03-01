@@ -1,6 +1,7 @@
 package slogo.model.Commands.TurtleCommands;
 
 import slogo.model.TreeNode;
+import slogo.model.Turtle;
 
 public class SetPosition extends TurtleCommand {
   private double x;
@@ -15,9 +16,11 @@ public class SetPosition extends TurtleCommand {
     x = Double.parseDouble(getParamList().get(0));
     y = Double.parseDouble(getParamList().get(1));
 
-    double distance = distanceFormula(turtle.getX(), turtle.getY(), x, y);
-    moveTurtleTo(x, y);
+    for(Turtle activeTurtle: activatedTurtles) {
+      double distance = distanceFormula(activeTurtle.getX(), activeTurtle.getY(), x, y);
+      moveTurtleTo(activeTurtle.getId(),x, y);
 
-    commandNode.setResult("" + distance);
+      commandNode.setResult("" + distance);
+    }
   }
 }

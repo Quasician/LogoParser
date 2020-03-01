@@ -12,11 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import slogo.View.Language;
 import slogo.View.Visualizer;
-import slogo.model.CommandException;
-import slogo.model.CommandParser;
-import slogo.model.CustomCommandMap;
-import slogo.model.Turtle;
-import slogo.model.VariableHashMap;
+import slogo.model.*;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -46,10 +42,9 @@ public class Main extends Application {
 //            deg +=360;
 //        }
 //        System.out.println(deg);
+        TurtleList.createTurtleLists(FXCollections.emptyObservableList(), FXCollections.emptyObservableList());
         Turtle modelTurtle = new Turtle();
-        Turtle viewTurtle = new Turtle();
-        bindTurtles(modelTurtle, viewTurtle);
-
+        TurtleList.addTurtleToModelList(modelTurtle);
         //ObjectProperty<Turtle> modelTurtleProp = new SimpleObjectProperty<>(modelTurtle, "modelTurtle");
         //ObjectProperty<Turtle> viewTurtleProp = new SimpleObjectProperty<>(viewTurtle, "viewTurtle");
         // viewTurtleProp.bind(modelTurtleProp);
@@ -94,7 +89,7 @@ public class Main extends Application {
 
 
         VariableHashMap.createMap(myMap);
-        Visualizer vis = new Visualizer(primaryStage, viewTurtle, commandLinetext, textUpdate, language, commandParser);
+        Visualizer vis = new Visualizer(primaryStage, TurtleList.getViewTurtleList(), commandLinetext, textUpdate, language, commandParser);
         parseTextOnInput(textUpdate, parseString, commandParser,vis);
 
         commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");

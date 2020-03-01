@@ -1,6 +1,7 @@
 package slogo.model.Commands.TurtleCommands;
 
 import slogo.model.TreeNode;
+import slogo.model.Turtle;
 
 /**
  * Assumption: turtle will always move clockwise to the new angle
@@ -19,13 +20,15 @@ public class SetTowards extends TurtleCommand {
     x = Double.parseDouble(getParamList().get(0));
     y = Double.parseDouble(getParamList().get(1));
 
-    double angle = Math.toDegrees(Math.atan2(x - turtle.getX(), y - turtle.getY()));
+    for(Turtle activeTurtle: activatedTurtles) {
+      double angle = Math.toDegrees(Math.atan2(x - activeTurtle.getX(), y - activeTurtle.getY()));
 
-    if (angle < 0)
-      angle += 360;
+      if (angle < 0)
+        angle += 360;
 
-    turtle.setDegree(angle);
-    double returnValue = Math.abs(turtle.getDegree() - angle);
-    commandNode.setResult("" + returnValue);
+      activeTurtle.setDegree(angle);
+      double returnValue = Math.abs(activeTurtle.getDegree() - angle);
+      commandNode.setResult("" + returnValue);
+    }
   }
 }

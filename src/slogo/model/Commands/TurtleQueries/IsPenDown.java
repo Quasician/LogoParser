@@ -11,7 +11,7 @@ public class IsPenDown extends TurtleQuery {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    if (turtle.isPenDown())
+    if (turtles.get(0).isPenDown())
       commandNode.setResult(TRUE);
     else
       commandNode.setResult(FALSE);

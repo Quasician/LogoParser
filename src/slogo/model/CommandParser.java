@@ -4,6 +4,8 @@ package slogo.model;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 import slogo.View.Language;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactory;
@@ -25,7 +27,7 @@ public class CommandParser {
   // "types" and the regular expression patterns that recognize those types
   private List<Entry<String, Pattern>> mySymbols;
   private Map<String, Command> stringToCommand;
-  private Turtle turtle;
+  private ObservableList<Turtle> turtles;
   private ObjectProperty<Turtle> turtleProperty = new SimpleObjectProperty<Turtle>(this, "turtle");
   private CommandFactoryInterface commandFactory;
   private CommandTreeExecutor treeExec;
@@ -39,13 +41,13 @@ public class CommandParser {
   /**
    * Create an empty parser
    */
-  public CommandParser(Turtle turtle, Language language) {
+  public CommandParser(ObservableList<Turtle> turtles, Language language) {
     this.language = language;
     mySymbols = new ArrayList<>();
     addPatterns(this.language.getCurrentLanguage());
     createReverseHashMap(mySymbols);
     commandFactory = new CommandFactory();
-    this.turtle = turtle;
+    this.turtles = turtles;
     System.out.println(RESOURCES_PACKAGE + language);
   }
 
@@ -153,7 +155,7 @@ public class CommandParser {
   private String makeCommandTree(String commands) {
     treeMaker = new CommandTreeConstructor(translations);
     ArrayList<TreeNode> head = (ArrayList) treeMaker.buildTrees(commands);
-    treeExec = new CommandTreeExecutor(commandFactory, turtle, translations, language);
+    treeExec = new CommandTreeExecutor(commandFactory, turtles, translations, language);
     return treeExec.executeTrees(head);
   }
 }

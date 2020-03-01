@@ -1,6 +1,7 @@
 package slogo.model.Commands.TurtleCommands;
 
 import slogo.model.TreeNode;
+import slogo.model.Turtle;
 
 public class PenDown extends TurtleCommand {
 
@@ -12,7 +13,9 @@ public class PenDown extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    turtle.penDown();
-    commandNode.setResult(RETURN);
+    for(Turtle activeTurtle: activatedTurtles) {
+      activeTurtle.penDown();
+      commandNode.setResult(RETURN);
+    }
   }
 }

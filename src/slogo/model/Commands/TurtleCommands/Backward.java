@@ -1,6 +1,7 @@
 package slogo.model.Commands.TurtleCommands;
 
 import slogo.model.TreeNode;
+import slogo.model.Turtle;
 
 /**
  * @author Sanna
@@ -21,7 +22,9 @@ public class Backward extends TurtleCommand {
   @Override
   public void doCommand(TreeNode commandNode) {
     distance = Double.parseDouble(getParamList().get(0));
-    commandNode.setResult(distance + "");
-    moveTurtle(backward, distance);
+    for(Turtle activeTurtle: activatedTurtles) {
+      commandNode.setResult(distance + "");
+      moveTurtle(activeTurtle.getId(),backward, distance);
+    }
   }
 }
