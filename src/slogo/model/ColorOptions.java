@@ -2,16 +2,26 @@ package slogo.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 public class ColorOptions {
   private static Map<String, String> varHashMap = new HashMap<String, String>();
   private static ObservableList<String> colorOptions;
-  private static int currentChoicePen, currentChoiceBackground;
+  private static IntegerProperty penIndex = new SimpleIntegerProperty();
+  private static IntegerProperty bgIndex = new SimpleIntegerProperty();
+
+  public static IntegerProperty getPenIndex() {
+    return penIndex;
+  }
+
+  public static IntegerProperty getBgIndex() {
+    return bgIndex;
+  }
 
   public static void createList(ObservableList list) {
-    currentChoicePen = 0;
     colorOptions = list;
     seeChange();
   }
@@ -37,19 +47,20 @@ public class ColorOptions {
   }
 
   public static void setCurrentChoicePen(int index) {
-    currentChoicePen = index;
+    penIndex.set(index);
   }
 
   public static int getCurrentChoicePen() {
-    return currentChoicePen;
+    return penIndex.get();
   }
 
   public static void setCurrentBackground(int index) {
-    currentChoiceBackground = index;
+    bgIndex.set(index);
+    System.out.println("BACKGROUND has changed to : " + index);
   }
 
   public static int getCurrentBackground() {
-    return currentChoiceBackground;
+    return bgIndex.get();
   }
 
   public static void addToList(String c) {

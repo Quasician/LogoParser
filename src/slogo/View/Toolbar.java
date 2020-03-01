@@ -4,13 +4,16 @@ import java.awt.*;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -73,16 +76,9 @@ public class Toolbar {
   private static ResourceBundle myColors = ResourceBundle
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "Colors");
 
-  private void initializeColors() {
-    colorOptions = FXCollections.observableArrayList();
-    int index = 0;
-    for (String color : myColors.keySet()) {
-      colorOptions.add(color + ", " + index);
-      index++;
-    }
+  private IntegerProperty penColorIndex = new SimpleIntegerProperty();
+  private IntegerProperty bgColorIndex = new SimpleIntegerProperty();
 
-    ColorOptions.createList(colorOptions);
-  }
 
   public Toolbar(TurtleGrid grid, Language language) {
     initializeColors();
@@ -107,22 +103,61 @@ public class Toolbar {
     setUpHelpButton();
     setUpPenColorDropdown(grid);
     setUpBackgroundColorDropdown(grid);
-    addPenColorListener();
-    addBackgroundColorListener();
+    addColorListener();
+    bindColorProperties();
+    addBgIndexListener();
+    addPenIndexListener();
     this.language = language;
     currentLanguage.set("English");
   }
 
-  private void addPenColorListener() {
+  private void initializeColors() {
+    colorOptions = FXCollections.observableArrayList();
+    int index = 0;
+    for (String color : myColors.keySet()) {
+      colorOptions.add(color + ", " + index);
+      index++;
+    }
+    ColorOptions.createList(colorOptions);
+  }
+
+  private void bindColorProperties() {
+    penColorIndex.bindBidirectional(ColorOptions.getPenIndex());
+    bgColorIndex.bindBidirectional(ColorOptions.getBgIndex());
+  }
+
+  private void addPenIndexListener() {
+    penColorIndex.addListener(new ChangeListener() {
+      @Override
+      public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        int index = ColorOptions.getCurrentChoicePen();
+        String[] color = colorOptions.get(index).split(", ");
+        Color col = Color.web(color[0]);
+        turtleGrid.setPenColor(col);
+      }
+    });
+  }
+
+  private void addBgIndexListener() {
+    bgColorIndex.addListener(new ChangeListener() {
+      @Override
+      public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        int index = ColorOptions.getCurrentBackground();
+        String[] color = colorOptions.get(index).split(", ");
+        Color col = Color.web(color[0]);
+        turtleGrid.setBackground(col);
+      }
+    });
+  }
+
+  private void addColorListener() {
     colorOptions.addListener(new ListChangeListener<String>() {
       @Override
       public void onChanged(Change<? extends String> c) {
         System.out.println("color options list has changed");
-        int index = ColorOptions.getCurrentChoicePen();
-        String[] color = colorOptions.get(index).split(", ");
-        System.out.println("Color is " + color[0]);
-        Color col = Color.web(color[0]);
-        turtleGrid.setPenColor(col);
+        for (String s : colorOptions) {
+          System.out.println(s);
+        }
       }
     });
   }

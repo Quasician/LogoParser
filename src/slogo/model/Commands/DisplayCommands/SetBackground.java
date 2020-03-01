@@ -13,15 +13,11 @@ public class SetBackground extends DisplayCommand {
   public void doCommand(TreeNode commandNode) {
     int index = Integer.parseInt(getParamList().get(0));
 
-    if (index <= ColorOptions.getLargestIndex() && index >= 0) {
+    if (indexInBounds(index)) {
       ColorOptions.setCurrentBackground(index);
       commandNode.setResult("" + index);
     } else {
       throw new RuntimeException("The index is invalid");
     }
-
-    //check to make sure the index
-    //is within the possible options
-    //set background to the color represented by index
   }
 }
