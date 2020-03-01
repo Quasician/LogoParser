@@ -26,6 +26,7 @@ public class Forward extends TurtleCommand {
     for(Turtle activeTurtle: activatedTurtles) {
       commandNode.setResult(distance + "");
       activeTurtle.updateCoordinates();
+      //System.out.println("ZXCV"+ activeTurtle.getPastX() + "   " + activeTurtle.getPastY());
       moveTurtle(activeTurtle.getId(),forward, distance);
     }
   }

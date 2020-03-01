@@ -103,7 +103,7 @@ public class Main extends Application {
 //        printCustomCommands();
 //        System.out.println("done printing");
 //        commandParser.parseText(" c 1 ");
-        commandParser.parseText("rt 25 fd 50");
+        commandParser.parseText("rt 45 fd 50");
         TurtleList.makeModelTurtleDeactivated(0);
         TurtleList.makeModelTurtleActivated(1);
         commandParser.parseText("rt 335 fd 50");

@@ -105,8 +105,8 @@ public class TurtleGrid {
       turtleCenterX = turtleImageView.get(turtle.getId()).getFitWidth() / 2;
       turtleCenterY = turtleImageView.get(turtle.getId()).getFitHeight() / 2;
 
-      pastX = turtleImageView.get(turtle.getId()).getX() + turtleCenterX;
-      pastY = turtleImageView.get(turtle.getId()).getY() + turtleCenterY;
+//      pastX = turtleImageView.get(turtle.getId()).getX() + turtleCenterX;
+//      pastY = turtleImageView.get(turtle.getId()).getY() + turtleCenterY;
   }
 
   private void addListeners(Turtle viewTurtle) {
@@ -125,13 +125,13 @@ public class TurtleGrid {
         turtleImageView.get(viewTurtle.getId()).setX(viewTurtle.getX() + centerX);
         turtleImageView.get(viewTurtle.getId()).setY(-(viewTurtle.getY()) + centerY);
         if (isPenDown) {
-          makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
+          makeLine(viewTurtle.getPastX() + turtleCenterX + centerX, viewTurtle.getPastY() - turtleCenterX + centerX, viewTurtle.getX() + turtleCenterX + centerX,
                   -(viewTurtle.getY() - turtleCenterY) + centerY);
 
         }
         drawAllLines();
-        pastX = viewTurtle.getX() + turtleCenterX + centerX;
-        pastY = -(viewTurtle.getY() - turtleCenterY) + centerY;
+//        pastX = viewTurtle.getX() + turtleCenterX + centerX;
+//        pastY = -(viewTurtle.getY() - turtleCenterY) + centerY;
       }
     });
   }
