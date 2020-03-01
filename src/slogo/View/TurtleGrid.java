@@ -68,7 +68,6 @@ public class TurtleGrid {
     retGrid = new StackPane();
     retGrid.setPadding(new Insets(10, 10, 10, 0));
     retGrid.getChildren().addAll(myCanvas, myPane);
-
     penColor = DEFAULT_PEN_COLOR;
     linesDrawn = new ArrayList<>();
     this.viewTurtle = viewTurtle;
@@ -93,10 +92,8 @@ public class TurtleGrid {
     turtleImageView.rotateProperty();
     addListeners();
     myPane.getChildren().add(turtleImageView);
-
     turtleCenterX = turtleImageView.getFitWidth() / 2;
     turtleCenterY = turtleImageView.getFitHeight() / 2;
-
     pastX = turtleImageView.getX() + turtleCenterX;
     pastY = turtleImageView.getY() + turtleCenterY;
   }
@@ -115,6 +112,7 @@ public class TurtleGrid {
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         turtleImageView.setX(viewTurtle.getX() + centerX);
         turtleImageView.setY(-(viewTurtle.getY()) + centerY);
+
         if (isPenDown) {
           makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
               -(viewTurtle.getY() - turtleCenterY) + centerY);
