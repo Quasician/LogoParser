@@ -15,16 +15,12 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 public class CommandParser {
-
   // where to find resources specifically for this class
   private static final String RESOURCES_PACKAGE =
       CommandParser.class.getPackageName() + ".resources.languages.";
 
-  private static final String THIS_PACKAGE = CommandParser.class.getPackageName() + ".";
-
   // "types" and the regular expression patterns that recognize those types
   private List<Entry<String, Pattern>> mySymbols;
-  private Map<String, Command> stringToCommand;
   private Turtle turtle;
   private ObjectProperty<Turtle> turtleProperty = new SimpleObjectProperty<Turtle>(this, "turtle");
   private CommandFactoryInterface commandFactory;
@@ -48,9 +44,6 @@ public class CommandParser {
     this.turtle = turtle;
     System.out.println(RESOURCES_PACKAGE + language);
   }
-
-  //add a listener in the command parser
-  //that can tell when the language is changed
 
   /**
    * Adds the given resource file to this language's recognized types
@@ -78,9 +71,9 @@ public class CommandParser {
       }
     }
 
-    //throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
+    throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
 
-    return ERROR;
+   // return ERROR;
   }
 
   public void createReverseHashMap (List<Entry<String, Pattern>> mySymbols) {
