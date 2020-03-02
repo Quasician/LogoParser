@@ -80,6 +80,9 @@ public class Toolbar {
   private static ResourceBundle myColors = ResourceBundle
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "Colors");
 
+  private static ResourceBundle myColors2 = ResourceBundle
+      .getBundle(DEFAULT_RESOURCE_PACKAGE + "Colors2");
+
   private IntegerProperty penColorIndex = new SimpleIntegerProperty();
   private IntegerProperty bgColorIndex = new SimpleIntegerProperty();
 
@@ -118,8 +121,10 @@ public class Toolbar {
   private void initializeColors() {
     colorOptions = FXCollections.observableArrayList();
     int index = 0;
-    for (String color : myColors.keySet()) {
-      colorOptions.add(color + ", " + index);
+    for (String color : myColors2.keySet()) {
+      String rgb = myColors2.getString(color);
+      System.out.println(rgb);
+      colorOptions.add(rgb + ", " + index);
       index++;
     }
     ColorOptions.createList(colorOptions);
@@ -130,14 +135,25 @@ public class Toolbar {
     bgColorIndex.bindBidirectional(ColorOptions.getBgIndex());
   }
 
+  private Color getColorRGB(String[] rgb) {
+    int r = Integer.parseInt(rgb[0]);
+    int g = Integer.parseInt(rgb[1]);
+    int b = Integer.parseInt(rgb[2]);
+
+    return Color.rgb(r, g, b);
+  }
+
+
   private void addPenIndexListener() {
     penColorIndex.addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         int index = ColorOptions.getCurrentChoicePen();
         String[] color = colorOptions.get(index).split(", ");
+        String[] rgb = color[0].split(" ");
+        Color c = getColorRGB(rgb);
         Color col = Color.web(color[0]);
-        turtleGrid.setPenColor(col);
+        turtleGrid.setPenColor(c);
       }
     });
   }
@@ -148,8 +164,10 @@ public class Toolbar {
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         int index = ColorOptions.getCurrentBackground();
         String[] color = colorOptions.get(index).split(", ");
+        String[] rgb = color[0].split(" ");
+        Color c = getColorRGB(rgb);
         Color col = Color.web(color[0]);
-        turtleGrid.setBackground(col);
+        turtleGrid.setBackground(c);
       }
     });
   }
@@ -158,10 +176,7 @@ public class Toolbar {
     colorOptions.addListener(new ListChangeListener<String>() {
       @Override
       public void onChanged(Change<? extends String> c) {
-        System.out.println("color options list has changed");
-        for (String s : colorOptions) {
-          System.out.println(s);
-        }
+        //list has changed
       }
     });
   }
@@ -172,9 +187,10 @@ public class Toolbar {
       public void onChanged(Change<? extends String> c) {
         int index = ColorOptions.getCurrentBackground();
         String[] color = colorOptions.get(index).split(", ");
-        System.out.println("Color is " + color[0]);
-        Color col = Color.web(color[0]);
-        turtleGrid.setBackground(col);
+        String[] rgb = color[0].split(" ");
+        Color cc = getColorRGB(rgb);
+        //Color col = Color.web(color[0]);
+        turtleGrid.setBackground(cc);
       }
     });
   }
@@ -188,7 +204,8 @@ public class Toolbar {
     changePenColor.getSelectionModel().selectFirst();
     changePenColor.setOnAction(e -> {
       String[] color = changePenColor.getValue().split(", ");
-      Color c = Color.web(color[1]);
+      Color c = getColorRGB(color[1].split(" "));
+     // Color c = Color.web(color[1]);
       grid.setPenColor(c);
       changePenColor.setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -208,8 +225,13 @@ public class Toolbar {
             if (item == null || empty) {
               //
             } else {
-              Color color = Color.web(item.split(", ")[1]);
-              Background background = new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY));
+              String[] color = item.split(", ");
+             // Color color = Color.web(item.split(", ")[1]);
+
+              String[] rgb = color[1].split(" ");
+              Color c = getColorRGB(rgb);
+
+              Background background = new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY));
               setBackground(background);
             }
           }
@@ -229,7 +251,8 @@ public class Toolbar {
     changeBackgroundColor.getSelectionModel().selectFirst();
     changeBackgroundColor.setOnAction(e -> {
         String[] color = changeBackgroundColor.getValue().split(", ");
-        Color c = Color.web(color[1]);
+        //Color c = Color.web(color[1]);
+      Color c = getColorRGB(color[1].split(" "));
         //check to make sure this is an actual color
         grid.setBackground(c);
         changeBackgroundColor.setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));

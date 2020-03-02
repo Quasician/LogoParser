@@ -8,6 +8,9 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 public class ColorOptions {
+
+  public static final String COMMA = ", ";
+  public static final String SPACE = " ";
   private static Map<String, String> varHashMap = new HashMap<String, String>();
   private static ObservableList<String> colorOptions;
   private static IntegerProperty penIndex = new SimpleIntegerProperty();
@@ -64,12 +67,26 @@ public class ColorOptions {
   }
 
   public static void addToList(String c) {
-    String[] colorarray = c.split(", ");
+    String[] colorarray = c.split(COMMA);
     String color = colorarray[0];
     System.out.println(" the color is " + color);
 
     if (!colorOptions.contains(color)) {
-      colorOptions.add(color + ", " + colorOptions.size());
+      colorOptions.add(color + COMMA + colorOptions.size());
+    }
+  }
+
+  public static void setColorAt(int index, int[] rgb) {
+    String[] rgbStrings = new String[rgb.length];
+    for (int i = 0; i < rgbStrings.length; i++) {
+      rgbStrings[i] = "" + rgb[i];
+    }
+    String rgbToString = String.join(SPACE, rgbStrings);
+
+    if (index < colorOptions.size()) {
+      colorOptions.set(index, rgbToString + COMMA + index);
+    } else {
+      addToList(rgbToString);
     }
   }
 }
