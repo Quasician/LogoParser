@@ -1,6 +1,6 @@
 package slogo.model.Commands.DisplayCommands;
 
-import slogo.model.ColorOptions;
+import slogo.model.UIOptions;
 import slogo.model.TreeNode;
 
 public class SetBackground extends DisplayCommand {
@@ -14,7 +14,7 @@ public class SetBackground extends DisplayCommand {
     int index = Integer.parseInt(getParamList().get(0));
 
     if (indexInBounds(index)) {
-      ColorOptions.setCurrentBackground(index);
+      UIOptions.setCurrentBackground(index);
       commandNode.setResult("" + index);
     } else {
       indexError();

@@ -38,7 +38,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import slogo.Main;
-import slogo.model.ColorOptions;
+import slogo.model.UIOptions;
 import slogo.model.TurtleList;
 
 public class Toolbar {
@@ -127,6 +127,7 @@ public class Toolbar {
     bindPenWidth();
     addBgIndexListener();
     addPenIndexListener();
+    addPenWidthListener();
     this.language = language;
     currentLanguage.set("English");
   }
@@ -140,16 +141,16 @@ public class Toolbar {
       colorOptions.add(rgb + ", " + index);
       index++;
     }
-    ColorOptions.createList(colorOptions);
+    UIOptions.createList(colorOptions);
   }
 
   private void bindColorProperties() {
-    penColorIndex.bindBidirectional(ColorOptions.getPenIndex());
-    bgColorIndex.bindBidirectional(ColorOptions.getBgIndex());
+    penColorIndex.bindBidirectional(UIOptions.getPenIndex());
+    bgColorIndex.bindBidirectional(UIOptions.getBgIndex());
   }
 
   private void bindPenWidth() {
-    penWidth.bindBidirectional(ColorOptions.getPenWidthProperty());
+    penWidth.bindBidirectional(UIOptions.getPenWidthProperty());
   }
 
   private Color getColorRGB(String[] rgb) {
@@ -164,7 +165,7 @@ public class Toolbar {
     penColorIndex.addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        int index = ColorOptions.getCurrentChoicePen();
+        int index = UIOptions.getCurrentChoicePen();
         String[] color = colorOptions.get(index).split(", ");
         String[] rgb = color[0].split(" ");
         Color c = getColorRGB(rgb);
@@ -178,12 +179,21 @@ public class Toolbar {
     bgColorIndex.addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        int index = ColorOptions.getCurrentBackground();
+        int index = UIOptions.getCurrentBackground();
         String[] color = colorOptions.get(index).split(", ");
         String[] rgb = color[0].split(" ");
         Color c = getColorRGB(rgb);
         Color col = Color.web(color[0]);
         turtleGrid.setBackground(c);
+      }
+    });
+  }
+
+  private void addPenWidthListener() {
+    penWidth.addListener(new ChangeListener() {
+      @Override
+      public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        turtleGrid.setPenWidth(penWidth.get());
       }
     });
   }

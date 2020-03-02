@@ -9,10 +9,10 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
-public class ColorOptions {
+public class UIOptions {
 
-  public static final String COMMA = ", ";
-  public static final String SPACE = " ";
+  private static final String COMMA = ", ";
+  private static final String SPACE = " ";
   private static Map<String, String> varHashMap = new HashMap<String, String>();
   private static ObservableList<String> colorOptions;
   private static IntegerProperty penIndex = new SimpleIntegerProperty();
@@ -71,6 +71,10 @@ public class ColorOptions {
   public static void setCurrentBackground(int index) {
     bgIndex.set(index);
     System.out.println("BACKGROUND has changed to : " + index);
+  }
+
+  public static void setPenWidth(double width) {
+    penWidth.set(width);
   }
 
   public static int getCurrentBackground() {

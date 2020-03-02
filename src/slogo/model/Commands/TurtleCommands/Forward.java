@@ -1,9 +1,6 @@
 package slogo.model.Commands.TurtleCommands;
 
 
-import java.awt.Color;
-import slogo.model.ColorOptions;
-import slogo.model.Coordinate;
 import slogo.model.TreeNode;
 import slogo.model.Turtle;
 
