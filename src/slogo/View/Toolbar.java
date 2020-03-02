@@ -184,25 +184,55 @@ public class Toolbar {
     for (String color : colorOptions) {
       changePenColor.getItems().add("Pen, "+ color);
     }
+    setupCellBackgrounds(changePenColor);
     changePenColor.getSelectionModel().selectFirst();
     changePenColor.setOnAction(e -> {
       String[] color = changePenColor.getValue().split(", ");
       Color c = Color.web(color[1]);
       grid.setPenColor(c);
+      changePenColor.setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
+
     });
   }
+
+  private void setupCellBackgrounds(ComboBox<String> box) {
+    box.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+      @Override
+      public ListCell<String> call(ListView<String> p) {
+        final ListCell<String> cell =  new ListCell<String>() {
+          @Override
+          protected void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            setText(item);
+            System.out.println(item);
+            if (item == null || empty) {
+              //
+            } else {
+              Color color = Color.web(item.split(", ")[1]);
+              Background background = new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY));
+              setBackground(background);
+            }
+          }
+        };
+        return cell;
+      }
+    });
+  }
+
 
   private void setUpBackgroundColorDropdown(TurtleGrid grid) {
     changeBackgroundColor.setPrefWidth(BUTTON_WIDTH);
     for (String color : colorOptions) {
       changeBackgroundColor.getItems().add("Background, " + color);
     }
+    setupCellBackgrounds(changeBackgroundColor);
     changeBackgroundColor.getSelectionModel().selectFirst();
     changeBackgroundColor.setOnAction(e -> {
         String[] color = changeBackgroundColor.getValue().split(", ");
         Color c = Color.web(color[1]);
         //check to make sure this is an actual color
         grid.setBackground(c);
+        changeBackgroundColor.setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
     });
   }
 

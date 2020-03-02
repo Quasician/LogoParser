@@ -160,10 +160,9 @@ public class CommandTreeConstructor {
     return commandNode;
   }
 
-  private Pair joinList(String currentList, TreeNode commandNode, int numOpen){
+  private Pair joinList(String currentList, TreeNode commandNode, int numOpen) {
     System.out.println("NUM OPEN: " + numOpen);
-    if(commandNode == null)
-    {
+    if (commandNode == null) {
       System.out.println("Error");
       return new Pair(currentList + " " + commandNode.getName(), null);
     }
@@ -175,45 +174,35 @@ public class CommandTreeConstructor {
 //            }
 //            return new Pair(currentList+" ] ", null);
 //        }
-    else if(commandNode.getName().equals("]") && numOpen == 1){
+    else if (commandNode.getName().equals("]") && numOpen == 1) {
       System.out.println("YEET = 1");
-      if(commandNode.getChildren().size()>0)
-      {
-        return new Pair(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0));
-      }
-      else
-      {
+      if (commandNode.getChildren().size() > 0) {
+        return new Pair(currentList + " " + commandNode.getName(),
+            commandNode.getChildren().get(0));
+      } else {
         return new Pair(currentList + " " + commandNode.getName(), null);
       }
-    }
-    else if(commandNode.getName().equals("]") && numOpen != 1){
+    } else if (commandNode.getName().equals("]") && numOpen != 1) {
       System.out.println("YEET != 1");
-      if(commandNode.getChildren().size()>0)
-      {
+      if (commandNode.getChildren().size() > 0) {
         System.out.println("] -> " + numOpen);
-        return joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen-1);
+        return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0),
+            numOpen - 1);
+      } else {
+        return new Pair(currentList + " " + commandNode.getName(), null);
       }
-      else
-      {
+    } else if (commandNode.getName().equals("[")) {
+      if (commandNode.getChildren().size() > 0) {
+        return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0),
+            numOpen + 1);
+      } else {
         return new Pair(currentList + " " + commandNode.getName(), null);
       }
     }
-    else if(commandNode.getName().equals("[")){
-      if(commandNode.getChildren().size()>0)
-      {
-        return joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen+1);
-      }
-      else
-      {
-        return new Pair(currentList + " " + commandNode.getName(), null);
-      }
-    }
-    if(commandNode.getChildren().size()>0)
-    {
-      return joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen);
-    }
-    else
-    {
+    if (commandNode.getChildren().size() > 0) {
+      return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0),
+          numOpen);
+    } else {
       return new Pair(currentList + " " + commandNode.getName(), null);
     }
   }
