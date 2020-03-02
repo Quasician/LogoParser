@@ -9,12 +9,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -117,6 +120,7 @@ public class TurtleGrid {
     addClearScreenListener(viewTurtle);
     addShowingListener(viewTurtle);
   }
+
 
 
   //NOTE: need to make each turtle have a center x
@@ -259,7 +263,11 @@ public class TurtleGrid {
           .setImage(new Image(Main.myResources.getString(string)));
     }
   }
+  public ArrayList<ImageView> getTurtleImage(){
+    return turtleImageView;
+  }
 }
+
 
 //    viewTurtle.xProperty().addListener(new ChangeListener() {
 //      @Override
