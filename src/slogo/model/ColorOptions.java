@@ -2,7 +2,9 @@ package slogo.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -15,6 +17,7 @@ public class ColorOptions {
   private static ObservableList<String> colorOptions;
   private static IntegerProperty penIndex = new SimpleIntegerProperty();
   private static IntegerProperty bgIndex = new SimpleIntegerProperty();
+  private static DoubleProperty penWidth = new SimpleDoubleProperty();
 
   public static IntegerProperty getPenIndex() {
     return penIndex;
@@ -22,6 +25,14 @@ public class ColorOptions {
 
   public static IntegerProperty getBgIndex() {
     return bgIndex;
+  }
+
+  public static DoubleProperty getPenWidthProperty() {
+    return penWidth;
+  }
+
+  public static double getPenWidth() {
+    return penWidth.get();
   }
 
   public static void createList(ObservableList list) {

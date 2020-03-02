@@ -8,7 +8,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -68,7 +70,7 @@ public class Toolbar {
   private static final int BUTTON_WIDTH = 200;
   private static final int BUTTON_HEIGHT = 25;
   private static final int COLOR_PICKER_WIDTH = 50;
-  private HBox colorChooser, colorChooser2;
+  private HBox backgroundColorChooser, penColorChoosers;
   private Button backgroundColorPicker, penColorPicker;
   private TurtleGrid turtleGrid;
   private Desktop forHelp;
@@ -85,24 +87,33 @@ public class Toolbar {
 
   private IntegerProperty penColorIndex = new SimpleIntegerProperty();
   private IntegerProperty bgColorIndex = new SimpleIntegerProperty();
+  private DoubleProperty penWidth = new SimpleDoubleProperty();
 
 
-  public Toolbar(TurtleGrid grid, Language language) {
-    initializeColors();
+  private void setUpColorChoosers() {
+    backgroundColorChooser = new HBox();
+    setUpBackgroundColorChooser(turtleGrid);
+    backgroundColorChooser.getChildren().addAll(backgroundColorPicker, backgroundColor);
+    penColorChoosers = new HBox();
+    setUpPenColorChooser(turtleGrid);
+    penColorChoosers.getChildren().addAll(penColorPicker, penColor);
+  }
+
+  private void makeComboBoxes() {
     changeLanguageBox = new ComboBox<>();
     changePenColor = new ComboBox<>();
     changeBackgroundColor = new ComboBox<>();
+  }
+
+  public Toolbar(TurtleGrid grid, Language language) {
+    initializeColors();
+    makeComboBoxes();
     makeNew = new ViewButton("New Workspace", BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
     uploadSim();
     setTurtleImage = new ComboBox<>();
     forHelp = Desktop.getDesktop();
     turtleGrid = grid;
-    colorChooser = new HBox();
-    setUpBackgroundColorChooser(grid);
-    colorChooser.getChildren().addAll(backgroundColorPicker, backgroundColor);
-    colorChooser2 = new HBox();
-    setUpPenColorChooser(grid);
-    colorChooser2.getChildren().addAll(penColorPicker, penColor);
+    setUpColorChoosers();
     helpButton = new ViewButton(Main.myResources.getString(BUTTON_HELP), BUTTON_HEIGHT,
         BUTTON_WIDTH, BUTTON_FONT_SIZE);
 //    setTurtleImage = new ViewButton(Main.myResources.getString(CHANGE_TURTLE), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
@@ -113,6 +124,7 @@ public class Toolbar {
     setUpBackgroundColorDropdown(grid);
     addColorListener();
     bindColorProperties();
+    bindPenWidth();
     addBgIndexListener();
     addPenIndexListener();
     this.language = language;
@@ -134,6 +146,10 @@ public class Toolbar {
   private void bindColorProperties() {
     penColorIndex.bindBidirectional(ColorOptions.getPenIndex());
     bgColorIndex.bindBidirectional(ColorOptions.getBgIndex());
+  }
+
+  private void bindPenWidth() {
+    penWidth.bindBidirectional(ColorOptions.getPenWidthProperty());
   }
 
   private Color getColorRGB(String[] rgb) {
@@ -326,7 +342,7 @@ public class Toolbar {
     toolBar.setBackground(
         new Background(new BackgroundFill(Color.rgb(88, 77, 20), CornerRadii.EMPTY, Insets.EMPTY)));
     toolBar.getChildren()
-        .addAll(makeNew, colorChooser, colorChooser2, setTurtleImage, changeLanguageBox,
+        .addAll(makeNew, backgroundColorChooser, penColorChoosers, setTurtleImage, changeLanguageBox,
             changePenColor, changeBackgroundColor,
             helpButton);
     return toolBar;
