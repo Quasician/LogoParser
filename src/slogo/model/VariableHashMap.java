@@ -10,9 +10,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-import slogo.View.VariableHistory;
-
-import java.awt.desktop.SystemEventListener;
 import java.util.HashMap;
 import java.util.Map;
 

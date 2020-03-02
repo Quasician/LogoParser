@@ -1,17 +1,22 @@
 package slogo.View;
 
 import java.awt.*;
-import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -27,6 +32,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import slogo.Main;
+import slogo.model.ColorOptions;
+import slogo.model.TurtleList;
 
 public class Toolbar {
 
@@ -43,7 +50,6 @@ public class Toolbar {
           "Spanish", "Urdu");
   private static final List<String> TURTLES = Arrays
       .asList("TurtleImage", "BlackTurtle", "BlueTurtle", "CuteTurtle", "Duvall");
-  private static final List<String> COLORS= Arrays.asList("Red, 1", "Black, 2", "Green, 3","Yellow, 4","Brown, 5", "Blue, 6","White, 7");
   private StringProperty currentLanguage = new SimpleStringProperty();
   private HBox toolBar;
   private static final Paint BUTTON_FONT_COLOR = Color.BLACK;
@@ -65,7 +71,17 @@ public class Toolbar {
   private Language language;
   private Button makeNew;
 
+  private ObservableList<String> colorOptions;
+  private static final String DEFAULT_RESOURCE_PACKAGE = "resources.";
+  private static ResourceBundle myColors = ResourceBundle
+      .getBundle(DEFAULT_RESOURCE_PACKAGE + "Colors");
+
+  private IntegerProperty penColorIndex = new SimpleIntegerProperty();
+  private IntegerProperty bgColorIndex = new SimpleIntegerProperty();
+
+
   public Toolbar(TurtleGrid grid, Language language) {
+    initializeColors();
     changeLanguageBox = new ComboBox<>();
     changePenColor= new ComboBox<>();
     changeBackgroundColor= new ComboBox<>();
@@ -87,18 +103,86 @@ public class Toolbar {
     setUpHelpButton();
     setUpPenColorDropdown(grid);
     setUpBackgroundColorDropdown(grid);
+    addColorListener();
+    bindColorProperties();
+    addBgIndexListener();
+    addPenIndexListener();
     this.language = language;
     currentLanguage.set("English");
   }
 
+  private void initializeColors() {
+    colorOptions = FXCollections.observableArrayList();
+    int index = 0;
+    for (String color : myColors.keySet()) {
+      colorOptions.add(color + ", " + index);
+      index++;
+    }
+    ColorOptions.createList(colorOptions);
+  }
+
+  private void bindColorProperties() {
+    penColorIndex.bindBidirectional(ColorOptions.getPenIndex());
+    bgColorIndex.bindBidirectional(ColorOptions.getBgIndex());
+  }
+
+  private void addPenIndexListener() {
+    penColorIndex.addListener(new ChangeListener() {
+      @Override
+      public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        int index = ColorOptions.getCurrentChoicePen();
+        String[] color = colorOptions.get(index).split(", ");
+        Color col = Color.web(color[0]);
+        turtleGrid.setPenColor(col);
+      }
+    });
+  }
+
+  private void addBgIndexListener() {
+    bgColorIndex.addListener(new ChangeListener() {
+      @Override
+      public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        int index = ColorOptions.getCurrentBackground();
+        String[] color = colorOptions.get(index).split(", ");
+        Color col = Color.web(color[0]);
+        turtleGrid.setBackground(col);
+      }
+    });
+  }
+
+  private void addColorListener() {
+    colorOptions.addListener(new ListChangeListener<String>() {
+      @Override
+      public void onChanged(Change<? extends String> c) {
+        System.out.println("color options list has changed");
+        for (String s : colorOptions) {
+          System.out.println(s);
+        }
+      }
+    });
+  }
+
+  private void addBackgroundColorListener() {
+    colorOptions.addListener(new ListChangeListener<String>() {
+      @Override
+      public void onChanged(Change<? extends String> c) {
+        int index = ColorOptions.getCurrentBackground();
+        String[] color = colorOptions.get(index).split(", ");
+        System.out.println("Color is " + color[0]);
+        Color col = Color.web(color[0]);
+        turtleGrid.setBackground(col);
+      }
+    });
+  }
+
   private void setUpPenColorDropdown(TurtleGrid grid) {
     changePenColor.setPrefWidth(BUTTON_WIDTH);
-    for (String lang : COLORS) {
-      changePenColor.getItems().add("Pen,"+lang);
+    for (String color : colorOptions) {
+      changePenColor.getItems().add("Pen, "+ color);
     }
     changePenColor.getSelectionModel().selectFirst();
     changePenColor.setOnAction(e -> {
-      String[] color = changePenColor.getValue().split(",");
+      String[] color = changePenColor.getValue().split(", ");
       Color c = Color.web(color[1]);
       grid.setPenColor(c);
     });
@@ -106,13 +190,14 @@ public class Toolbar {
 
   private void setUpBackgroundColorDropdown(TurtleGrid grid) {
     changeBackgroundColor.setPrefWidth(BUTTON_WIDTH);
-    for (String lang : COLORS) {
-      changeBackgroundColor.getItems().add(lang);
+    for (String color : colorOptions) {
+      changeBackgroundColor.getItems().add("Background, " + color);
     }
     changeBackgroundColor.getSelectionModel().selectFirst();
     changeBackgroundColor.setOnAction(e -> {
-        String[] color = changeBackgroundColor.getValue().split(",");
-        Color c = Color.web(color[0]);
+        String[] color = changeBackgroundColor.getValue().split(", ");
+        Color c = Color.web(color[1]);
+        //check to make sure this is an actual color
         grid.setBackground(c);
     });
   }
@@ -128,6 +213,7 @@ public class Toolbar {
       }
     });
   }
+
   private void setUpTurtleChooser() {
     setTurtleImage.setPrefWidth(BUTTON_WIDTH);
     for (String turtle : TURTLES) {
@@ -157,11 +243,12 @@ public class Toolbar {
     });
     setTurtleImage.getSelectionModel().selectFirst();
    // setTurtleImage.setOnAction(e -> language.setLanguage(changeLanguageBox.getValue()));
-
     //when clicked set turtle image to what ever was clicked
    // setTurtleImage.setOnAction(e -> System.out.println(setTurtleImage.getValue()));
 
-    setTurtleImage.setOnAction(e -> turtleGrid.updateTurtleImage((String) setTurtleImage.getValue()));
+    setTurtleImage.setOnAction(e -> {
+      turtleGrid.updateTurtlesImage((String) setTurtleImage.getValue(), TurtleList.getActiveTurtleList());
+    });
 
   }
 
@@ -181,7 +268,6 @@ public class Toolbar {
         showMessage(Alert.AlertType.ERROR, ex.getMessage());
       }
     });
-
   }
 
   public HBox getToolBar() {
@@ -212,13 +298,6 @@ public class Toolbar {
     backgroundColor.setOnAction(e -> grid.setBackground(backgroundColor.getValue()));
   }
 
-//   public HBox getToolBar() {
-//     toolBar = new HBox(10);
-//     toolBar.getChildren()
-//         .addAll(colorChooser, colorChooser2, setTurtleImage, changeLanguageBox, help);
-//     return toolBar;
-//   }
-
   private ColorPicker makeColorPicker(){
     ColorPicker cp = new ColorPicker();
     cp.setPrefWidth(COLOR_PICKER_WIDTH);
@@ -232,8 +311,8 @@ public class Toolbar {
     button.setStyle("-fx-background-color:" + styleColor + ";-fx-font-size:" + fontSize + " px;");
     button.setPrefWidth(200);
     return button;
-
   }
+
   // display given message to user using the given type of Alert dialog box
   private void showMessage (Alert.AlertType type, String message) {
     Alert alert=  new Alert(type);

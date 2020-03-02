@@ -1,45 +1,50 @@
-package slogo.model;
+package slogo.View;
 
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import slogo.model.Coordinate;
 
+public abstract class AbstractTurtle {
+  protected static final double DEGREE_LOWER_BOUND = 0;
+  protected static final double DEGREE_UPPER_BOUND = 360;
+  protected ObjectProperty coordinates;
+  protected ObjectProperty pastCoordinates;
+  protected DoubleProperty distance = new SimpleDoubleProperty();
+  protected IntegerProperty id = new SimpleIntegerProperty();
+  protected DoubleProperty angleFacing = new SimpleDoubleProperty();
+  protected BooleanProperty isPenDown = new SimpleBooleanProperty();
+  protected BooleanProperty isShowing = new SimpleBooleanProperty();
+  protected BooleanProperty clearScreenCalled = new SimpleBooleanProperty();
+  protected BooleanProperty isActivated = new SimpleBooleanProperty();
+  protected static final String COORDINATE = "coordinate";
 
-public class Turtle {
-
-  private static final double DEGREE_LOWER_BOUND = 0;
-  private static final double DEGREE_UPPER_BOUND = 360;
-  private static final double CENTER_X = 20; //remove these later
-  private static final double CENTER_Y = 20;
-
-  private ObjectProperty coordinates;
-  private Coordinate pastCoordinates;
-  private DoubleProperty distance = new SimpleDoubleProperty();
-  private IntegerProperty id = new SimpleIntegerProperty();
-  private DoubleProperty angleFacing = new SimpleDoubleProperty();
-  private BooleanProperty isPenDown = new SimpleBooleanProperty();
-  private BooleanProperty isShowing = new SimpleBooleanProperty();
-  private BooleanProperty clearScreenCalled = new SimpleBooleanProperty();
-  private BooleanProperty isActivated = new SimpleBooleanProperty();
-
-  public Turtle() {
+  public AbstractTurtle() {
     isShowing.set(true);
     isPenDown.set(true);
     clearScreenCalled.set(false);
     Coordinate coordinate = new Coordinate(0,0);
-    pastCoordinates = new Coordinate(0,0);
-    coordinates = new SimpleObjectProperty(coordinate, "coordinate");
+    Coordinate pastCoordinate = new Coordinate(0,0);
+    coordinates = new SimpleObjectProperty(coordinate, COORDINATE);
     coordinates.set(coordinate);
-//    pastCoordinates = new SimpleObjectProperty(coordinate1, "coordinate");
-//    pastCoordinates.set(coordinate1);
+    pastCoordinates = new SimpleObjectProperty(pastCoordinate, COORDINATE);
+    pastCoordinates.set(pastCoordinate);
     setActivated(true);
   }
+
 
   public ObjectProperty coordinatesProperty() {
     return coordinates;
   }
 
-//  public ObjectProperty pastCoordinatesProperty() {
-//    return pastCoordinates;
-//  }
+  public ObjectProperty pastCoordinatesProperty() {
+    return pastCoordinates;
+  }
 
   public DoubleProperty distanceProperty() {
     return distance;
@@ -74,23 +79,19 @@ public class Turtle {
   }
 
   public double getX() {
-    //return x.get();
     return ((Coordinate)coordinates.get()).getX();
   }
 
   public double getY() {
-   // return y.get();
     return ((Coordinate)coordinates.get()).getY();
   }
 
   public double getPastX() {
-    //return x.get();
-    return pastCoordinates.getX();
+    return ((Coordinate)pastCoordinates.getBean()).getX();
   }
 
   public double getPastY() {
-    // return y.get();
-    return pastCoordinates.getY();
+    return ((Coordinate)pastCoordinates.getBean()).getY();
   }
 
   public int getId() {
@@ -103,9 +104,7 @@ public class Turtle {
   }
 
   public void updateCoordinates() {
-    Coordinate coords = ((Coordinate)coordinates.get());
-    pastCoordinates.setX(coords.getX());
-    pastCoordinates.setY(coords.getY());
+    pastCoordinates.set(coordinates);
   }
 
   protected double getDistance() {
@@ -113,7 +112,7 @@ public class Turtle {
   }
 
   public void setCoordinate(double newX, double newY) {
-    updateCoordinates();
+    pastCoordinates.set(coordinates);
     coordinates.set(new Coordinate(newX, newY));
   }
 
@@ -128,7 +127,7 @@ public class Turtle {
   }
 
   public void setDistance(double distance) {
-     this.distance.set(distance);
+    this.distance.set(distance);
   }
 
   public void setActivated(boolean state) { this.isActivated.set(state); }

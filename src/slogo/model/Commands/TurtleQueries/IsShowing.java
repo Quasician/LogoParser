@@ -11,7 +11,7 @@ public class IsShowing extends TurtleQuery {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    if (turtle.isVisible()) {
+    if (turtles.get(0).isVisible()) {
       commandNode.setResult(TRUE);
     } else {
       commandNode.setResult(FALSE);

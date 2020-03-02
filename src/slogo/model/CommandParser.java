@@ -4,6 +4,8 @@ package slogo.model;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 import slogo.View.Language;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactory;
@@ -15,17 +17,15 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 public class CommandParser {
-
   // where to find resources specifically for this class
   private static final String RESOURCES_PACKAGE =
       CommandParser.class.getPackageName() + ".resources.languages.";
 
-  private static final String THIS_PACKAGE = CommandParser.class.getPackageName() + ".";
-
   // "types" and the regular expression patterns that recognize those types
   private List<Entry<String, Pattern>> mySymbols;
-  private Map<String, Command> stringToCommand;
   private Turtle turtle;
+  private Map<String, Command> stringToCommand;
+  private ObservableList<Turtle> turtles;
   private ObjectProperty<Turtle> turtleProperty = new SimpleObjectProperty<Turtle>(this, "turtle");
   private CommandFactoryInterface commandFactory;
   private CommandTreeExecutor treeExec;
@@ -39,18 +39,15 @@ public class CommandParser {
   /**
    * Create an empty parser
    */
-  public CommandParser(Turtle turtle, Language language) {
+  public CommandParser(ObservableList<Turtle> turtles, Language language) {
     this.language = language;
     mySymbols = new ArrayList<>();
     addPatterns(this.language.getCurrentLanguage());
     createReverseHashMap(mySymbols);
     commandFactory = new CommandFactory();
-    this.turtle = turtle;
+    this.turtles = turtles;
     System.out.println(RESOURCES_PACKAGE + language);
   }
-
-  //add a listener in the command parser
-  //that can tell when the language is changed
 
   /**
    * Adds the given resource file to this language's recognized types
@@ -78,9 +75,9 @@ public class CommandParser {
       }
     }
 
-    //throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
+    throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
 
-    return ERROR;
+   // return ERROR;
   }
 
   public void createReverseHashMap (List<Entry<String, Pattern>> mySymbols) {
@@ -153,7 +150,7 @@ public class CommandParser {
   private String makeCommandTree(String commands) {
     treeMaker = new CommandTreeConstructor(translations);
     ArrayList<TreeNode> head = (ArrayList) treeMaker.buildTrees(commands);
-    treeExec = new CommandTreeExecutor(commandFactory, turtle, translations, language);
+    treeExec = new CommandTreeExecutor(commandFactory, turtles, translations, language);
     return treeExec.executeTrees(head);
   }
 }

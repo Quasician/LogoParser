@@ -1,6 +1,7 @@
 package slogo.model.Commands.TurtleCommands;
 
 import slogo.model.TreeNode;
+import slogo.model.Turtle;
 
 public class PenUp extends TurtleCommand {
 
@@ -12,7 +13,9 @@ public class PenUp extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    turtle.penUp();
-    commandNode.setResult(RETURN);
+    for(Turtle activeTurtle: activatedTurtles) {
+      activeTurtle.penUp();
+      commandNode.setResult(RETURN);
+    }
   }
 }

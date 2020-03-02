@@ -1,11 +1,13 @@
 package slogo.View;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -39,7 +41,7 @@ public class Visualizer {
   private CommandHistory myCommandHistory;
   private VariableHistory myVariableHistory;
   private BorderPane bp;
-  private Turtle viewTurtle;
+  private ObservableList<Turtle> viewTurtles;
   private ImageView buttonImage;
   private CommandParser comParser;
   private Map<String,String> VarMap;
@@ -52,20 +54,25 @@ public class Visualizer {
    *  @param window '
    * @param myMap
    */
-  public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText,
-      BooleanProperty textUpdate, Language language, CommandParser parser,
+    // public Visualizer(Stage window, Turtle viewTurtle, StringProperty commandLineText,
+    //   BooleanProperty textUpdate, Language language, CommandParser parser,
+    //   ObservableMap myMap) 
+   
+   
+  public Visualizer(Stage window, ObservableList<Turtle> viewTurtles, StringProperty commandLineText,
+                    BooleanProperty textUpdate, Language language, CommandParser parser,
       ObservableMap myMap) {
     myWindow = window;
     comParser=parser;
     myCommandHistory = new CommandHistory(comParser);
     myVariableHistory = new VariableHistory();
-    this.viewTurtle = viewTurtle;
+    this.viewTurtles = viewTurtles;
     img = new Image(myResources.getString("SlogoLogo"));
     buttonImage = new ImageView(img);
     buttonImage.setFitHeight(BUTTON_HEIGHT);
     buttonImage.setFitWidth(BUTTON_WIDTH);
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate);
-    TurtleGrid grid = new TurtleGrid(viewTurtle);
+    TurtleGrid grid = new TurtleGrid(this.viewTurtles);
     Toolbar tool = new Toolbar(grid, language);
     setUpBorderPane(grid, cmdline, tool);
     makeHistory();
@@ -74,6 +81,23 @@ public class Visualizer {
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
     window.setScene(scene);
     window.show();
+    addSizeListener();
+  }
+
+  private void addSizeListener()
+  {
+    viewTurtles.addListener(new ListChangeListener<Turtle>() {
+      @Override
+      public void onChanged(Change<? extends Turtle> c) {
+        c.next();
+        List<Turtle> newTurtles = (List<Turtle>) c.getAddedSubList();
+        System.out.println("View turtles changed in turtle grid");
+        for(Turtle changedTurtle:newTurtles) {
+          System.out.println("NEW VIEW turtle: " + changedTurtle.isActivatedProperty().getValue());
+          //setUpTurtle(changedTurtle);
+        }
+      }
+    });
   }
 
   private void setUpMapListener() {

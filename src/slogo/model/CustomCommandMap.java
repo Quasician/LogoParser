@@ -20,6 +20,7 @@ public class CustomCommandMap {
     {
         variableMap.putIfAbsent(name,variables);
         commandsMap.putIfAbsent(name,commands);
+        commandsMap.put(name,commands);
     }
 
     public static boolean isACustomCommand(String name)
