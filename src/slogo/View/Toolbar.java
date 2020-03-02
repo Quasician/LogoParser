@@ -17,6 +17,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -25,6 +26,9 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -272,8 +276,10 @@ public class Toolbar {
 
   public HBox getToolBar() {
     toolBar = new HBox(PADDING);
-    toolBar.getChildren().addAll(colorChooser, colorChooser2, setTurtleImage, changeLanguageBox, changePenColor,changeBackgroundColor,
-        helpButton,makeNew);
+    toolBar.setPrefHeight(40);
+    toolBar.setBackground(new Background(new BackgroundFill(Color.rgb(88, 77, 20), CornerRadii.EMPTY, Insets.EMPTY)));
+    toolBar.getChildren().addAll(makeNew,colorChooser, colorChooser2, setTurtleImage, changeLanguageBox, changePenColor,changeBackgroundColor,
+        helpButton);
     return toolBar;
   }
 
