@@ -139,7 +139,6 @@ public class Toolbar {
     int r = Integer.parseInt(rgb[0]);
     int g = Integer.parseInt(rgb[1]);
     int b = Integer.parseInt(rgb[2]);
-
     return Color.rgb(r, g, b);
   }
 
@@ -176,21 +175,20 @@ public class Toolbar {
     colorOptions.addListener(new ListChangeListener<String>() {
       @Override
       public void onChanged(Change<? extends String> c) {
-        //list has changed
-      }
-    });
-  }
+        System.out.println("COLOR LIST HAS CHANGED");
+        System.out.println(colorOptions.get(0));
 
-  private void addBackgroundColorListener() {
-    colorOptions.addListener(new ListChangeListener<String>() {
-      @Override
-      public void onChanged(Change<? extends String> c) {
-        int index = ColorOptions.getCurrentBackground();
-        String[] color = colorOptions.get(index).split(", ");
-        String[] rgb = color[0].split(" ");
-        Color cc = getColorRGB(rgb);
-        //Color col = Color.web(color[0]);
-        turtleGrid.setBackground(cc);
+        int index = 0;
+        for (String color : colorOptions) {
+          if (index >= changeBackgroundColor.getItems().size()) {
+            changeBackgroundColor.getItems().add("Background, "+ color);
+            changePenColor.getItems().add("Pen, "+ color);
+          } else {
+            changeBackgroundColor.getItems().set(index, "Background, " + color);
+            changePenColor.getItems().set(index, "Pen, " + color);
+          }
+          index ++;
+        }
       }
     });
   }
@@ -205,6 +203,7 @@ public class Toolbar {
     changePenColor.setOnAction(e -> {
       String[] color = changePenColor.getValue().split(", ");
       Color c = getColorRGB(color[1].split(" "));
+      System.out.println("CHANGED PEN TO : " + color[1]);
      // Color c = Color.web(color[1]);
       grid.setPenColor(c);
       changePenColor.setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
