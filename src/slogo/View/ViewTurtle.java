@@ -49,4 +49,8 @@ public class ViewTurtle {
     return isShowing;
   }
 
+  public void setImage(String imageName) {
+    turtleImage = new ImageView(new Image(imageName));
+  }
+
 }

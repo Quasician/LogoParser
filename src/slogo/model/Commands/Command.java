@@ -1,5 +1,6 @@
 package slogo.model.Commands;
 
+import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
@@ -20,6 +21,8 @@ public abstract class Command {
   protected String name;
   protected Language language;
   protected ArrayList<String> values;
+  private static final String ERRORS = "resources.ErrorMessages";
+  protected ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
 
   public Command(String name) {
     this.name = name;

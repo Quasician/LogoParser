@@ -50,14 +50,10 @@ public class CommandTreeConstructor {
       if (node.getChildren().size() == 0) {
         try {
           double value = Double.parseDouble(node.getResult());
-          throw new CommandException(errors.getString("WrongParameterNumber"));
         } catch (NumberFormatException e) {
-          // not an Integer
+          // not a double
+          throw new CommandException(errors.getString("WrongParameterNumber"));
         }
-      }
-
-      for (TreeNode innerNode : node.getChildren()) {
-        System.out.println(node.getResult() + " : " + innerNode.getResult());
       }
     }
     return answer;
