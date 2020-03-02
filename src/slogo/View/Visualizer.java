@@ -13,16 +13,15 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import slogo.Main;
@@ -39,7 +38,9 @@ public class Visualizer {
   private static int WINDOW_HEIGHT = 1000;
   private Stage myWindow;
   private CommandHistory myCommandHistory;
+  private UserDefinedCommands myUserDefined;
   private VariableHistory myVariableHistory;
+  private Configuration myConfig;
   private BorderPane bp;
   private ObservableList<Turtle> viewTurtles;
   private ImageView buttonImage;
@@ -65,7 +66,9 @@ public class Visualizer {
     myWindow = window;
     comParser=parser;
     myCommandHistory = new CommandHistory(comParser);
+    myUserDefined= new UserDefinedCommands(comParser);
     myVariableHistory = new VariableHistory();
+    myConfig = new Configuration();
     this.viewTurtles = viewTurtles;
     img = new Image(myResources.getString("SlogoLogo"));
     buttonImage = new ImageView(img);
@@ -126,23 +129,40 @@ public class Visualizer {
     Button showCommand= new ViewButton("Command",45,65,10);
     Node toDisplay= myCommandHistory.returnScene();
     Button showVariable= new ViewButton("Variable",45,65,10);
-    HBox buttonsForPanes= new HBox();
-    buttonsForPanes.getChildren().addAll(showCommand,showVariable);
+    Button showCustomCommands= new ViewButton("Custom",45,65,10);
+    Button showProperties= new ViewButton("Properties",45,65,10);
+    HBox buttonsForPanes= new HBox(20);
+    buttonsForPanes.setBackground(new Background(new BackgroundFill(Color.rgb(10, 10, 20), CornerRadii.EMPTY, Insets.EMPTY)));
+    buttonsForPanes.getChildren().addAll(showCommand,showVariable,showCustomCommands,showProperties);
     historyVBox.getChildren()
             .addAll(buttonImage,buttonsForPanes,toDisplay);
     showCommand.setOnAction(e->setShowCommand(historyVBox));
     showVariable.setOnAction(e->setShowVariable(historyVBox));
+    showCustomCommands.setOnAction(e->setShowCustom(historyVBox));
+    showProperties.setOnAction(e-> setShowProperties(historyVBox));
     bp.setRight(historyVBox);
   }
 
+  private void setShowProperties(VBox historyVBox) {
+    historyVBox.getChildren().removeAll(myCommandHistory.returnScene(),myVariableHistory.getScene(),myUserDefined.returnScene());
+    if(!historyVBox.getChildren().contains(myConfig.getScene())){
+      historyVBox.getChildren().add(myConfig.getScene());}
+  }
+
+  private void setShowCustom(VBox historyVBox) {
+    historyVBox.getChildren().removeAll(myCommandHistory.returnScene(),myVariableHistory.getScene(),myConfig.getScene());
+    if(!historyVBox.getChildren().contains(myUserDefined.returnScene())){
+      historyVBox.getChildren().add(myUserDefined.returnScene());}
+  }
+
   private void setShowVariable(VBox historyVBox) {
-    historyVBox.getChildren().remove(myCommandHistory.returnScene());
+    historyVBox.getChildren().removeAll(myCommandHistory.returnScene(),myUserDefined.returnScene(),myConfig.getScene());
       if(!historyVBox.getChildren().contains(myVariableHistory.getScene())){
         historyVBox.getChildren().add(myVariableHistory.getScene());}
   }
 
   private void setShowCommand(VBox historyVBox) {
-    historyVBox.getChildren().remove(myVariableHistory.getScene());
+    historyVBox.getChildren().removeAll(myVariableHistory.getScene(),myUserDefined.returnScene(),myConfig.getScene());
       if(!historyVBox.getChildren().contains(myCommandHistory.returnScene())){
         historyVBox.getChildren().add(myCommandHistory.returnScene());}
   }
