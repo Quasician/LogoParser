@@ -31,10 +31,7 @@ public class CommandTreeConstructor {
     return regex.matcher(text).matches();
   }
 
-  public List<TreeNode> buildTrees(String commands) {
-    ArrayList<String> commandElements = new ArrayList<>(
-        Arrays.asList(commands.split("(\\n|\\s)+|(\\s|\\n)+")));
-    System.out.println("COMMAND LIST: " + commandElements.toString());
+  private List<TreeNode> buildSubtree(List<String> commandElements) {
     ArrayList<TreeNode> answer = new ArrayList<>();
     TreeNode head = buildList(commandElements);
     while (head != null) {
@@ -45,17 +42,29 @@ public class CommandTreeConstructor {
         answer.add(root.getChildren().get(0));
       }
     }
-    System.out.println("SIZE OF FINAL LIST: " + answer.size());
-    for (TreeNode node : answer) {
+    return answer;
+  }
+
+  private void checkParameters(List<TreeNode> nodes) {
+    for (TreeNode node : nodes) {
       if (node.getChildren().size() == 0) {
         try {
           double value = Double.parseDouble(node.getResult());
-        } catch (NumberFormatException e) {
-          // not a double
           throw new CommandException(errors.getString("WrongParameterNumber"));
+        } catch (NumberFormatException e) {
+          //do nothing
         }
       }
     }
+  }
+
+  public List<TreeNode> buildTrees(String commands) {
+    ArrayList<String> commandElements = new ArrayList<>(
+        Arrays.asList(commands.split("(\\n|\\s)+|(\\s|\\n)+")));
+    System.out.println("COMMAND LIST: " + commandElements.toString());
+    List<TreeNode> answer = buildSubtree(commandElements);
+    System.out.println("SIZE OF FINAL LIST: " + answer.size());
+    checkParameters(answer);
     return answer;
   }
 
@@ -151,10 +160,9 @@ public class CommandTreeConstructor {
     return commandNode;
   }
 
-  private Pair joinList(String currentList, TreeNode commandNode, int numOpen){
+  private Pair joinList(String currentList, TreeNode commandNode, int numOpen) {
     System.out.println("NUM OPEN: " + numOpen);
-    if(commandNode == null)
-    {
+    if (commandNode == null) {
       System.out.println("Error");
       return new Pair(currentList + " " + commandNode.getName(), null);
     }
@@ -166,45 +174,35 @@ public class CommandTreeConstructor {
 //            }
 //            return new Pair(currentList+" ] ", null);
 //        }
-    else if(commandNode.getName().equals("]") && numOpen == 1){
+    else if (commandNode.getName().equals("]") && numOpen == 1) {
       System.out.println("YEET = 1");
-      if(commandNode.getChildren().size()>0)
-      {
-        return new Pair(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0));
-      }
-      else
-      {
+      if (commandNode.getChildren().size() > 0) {
+        return new Pair(currentList + " " + commandNode.getName(),
+            commandNode.getChildren().get(0));
+      } else {
         return new Pair(currentList + " " + commandNode.getName(), null);
       }
-    }
-    else if(commandNode.getName().equals("]") && numOpen != 1){
+    } else if (commandNode.getName().equals("]") && numOpen != 1) {
       System.out.println("YEET != 1");
-      if(commandNode.getChildren().size()>0)
-      {
+      if (commandNode.getChildren().size() > 0) {
         System.out.println("] -> " + numOpen);
-        return joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen-1);
+        return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0),
+            numOpen - 1);
+      } else {
+        return new Pair(currentList + " " + commandNode.getName(), null);
       }
-      else
-      {
+    } else if (commandNode.getName().equals("[")) {
+      if (commandNode.getChildren().size() > 0) {
+        return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0),
+            numOpen + 1);
+      } else {
         return new Pair(currentList + " " + commandNode.getName(), null);
       }
     }
-    else if(commandNode.getName().equals("[")){
-      if(commandNode.getChildren().size()>0)
-      {
-        return joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen+1);
-      }
-      else
-      {
-        return new Pair(currentList + " " + commandNode.getName(), null);
-      }
-    }
-    if(commandNode.getChildren().size()>0)
-    {
-      return joinList(currentList+ " "+ commandNode.getName(), commandNode.getChildren().get(0), numOpen);
-    }
-    else
-    {
+    if (commandNode.getChildren().size() > 0) {
+      return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0),
+          numOpen);
+    } else {
       return new Pair(currentList + " " + commandNode.getName(), null);
     }
   }
