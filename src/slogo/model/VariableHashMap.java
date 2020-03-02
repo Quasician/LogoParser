@@ -16,8 +16,10 @@ import java.util.Map;
 
 public class VariableHashMap {
   private static Map<String, String> varHashMap = new HashMap<String, String>();
-  private static ObservableMap<String, String> observableMap;
+  private static ObservableMap<String, String> observableMap = FXCollections.observableHashMap();
   private static ObservableList<Entry<String, String>> observableEntryList = FXCollections.observableList(new ArrayList<>());
+  private static ObservableList<String> keys = FXCollections.observableArrayList();
+  private static ObservableList<String> vals = FXCollections.observableArrayList();
 
   public static void createMap(ObservableMap newMap){
     observableMap = newMap;
@@ -38,6 +40,19 @@ public class VariableHashMap {
     });
     System.out.println("listener added");
 
+
+    observableMap.addListener((MapChangeListener.Change<? extends String, ? extends String> change) -> {
+      boolean removed = change.wasRemoved();
+      if (removed != change.wasAdded()) {
+        // no put for existing key
+        if (removed) {
+          keys.remove(change.getKey());
+        } else {
+          keys.add(change.getKey());
+        }
+      }
+    });
+
   }
 
   public static void addToMap(String name, String expression) {
@@ -46,6 +61,7 @@ public class VariableHashMap {
       observableMap.put(name, expression);
     } else {
       observableMap.putIfAbsent(name, expression);
+      keys.add(name);
     }
   }
 
@@ -61,6 +77,18 @@ public class VariableHashMap {
 
   public static ObservableList<Entry<String, String>> getAllVariables() {
     return observableEntryList;
+  }
+
+  public static ObservableList<String> getKeysList(){
+    return keys;
+  }
+
+  public static ObservableList<String> getValsList(){
+    return vals;
+  }
+
+  public static ObservableMap<String, String> getObservableMap(){
+    return observableMap;
   }
 
 }
