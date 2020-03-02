@@ -3,6 +3,7 @@ package slogo.model.Commands.TurtleCommands;
 
 import java.awt.Color;
 import slogo.model.ColorOptions;
+import slogo.model.Coordinate;
 import slogo.model.TreeNode;
 import slogo.model.Turtle;
 
@@ -24,12 +25,16 @@ public class Forward extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
+    System.out.println("FORWARD DO COMMAND CALLED");
     distance = Double.parseDouble(getParamList().get(0));
     for(Turtle activeTurtle: activatedTurtles) {
       commandNode.setResult(distance + "");
-      activeTurtle.updateCoordinates();
-      //System.out.println("ZXCV"+ activeTurtle.getPastX() + "   " + activeTurtle.getPastY());
-      moveTurtle(activeTurtle.getId(),forward, distance);
+      //activeTurtle.updateCoordinates();
+      System.out.println("Current coordinates " + activeTurtle.getX() + " " + activeTurtle.getY());
+      moveTurtle(activeTurtle.getId(), forward, distance);
+      System.out.println("New coordinates " + activeTurtle.getX() + " " + activeTurtle.getY());
+      System.out.println("Old coordinates " + activeTurtle.getPastX() + " " + activeTurtle.getPastY());
+
     }
   }
 }

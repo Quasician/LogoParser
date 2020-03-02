@@ -118,23 +118,37 @@ public class TurtleGrid {
     addShowingListener(viewTurtle);
   }
 
+
+  //NOTE: need to make each turtle have a center x
   private void addCoordinatesListener(Turtle viewTurtle) {
     viewTurtle.coordinatesProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        System.out.println("DSDSDFDSF");
+        System.out.println("Changed coordinates");
         int id = viewTurtle.getId();
+        System.out.println("Turtle id: " + id);
         ImageView thisView = turtleImageView.get(id);
         thisView.setX(viewTurtle.getX() + centerX);
         thisView.setY(-(viewTurtle.getY()) + centerY);
 
-        if (isPenDown) {
-          makeLine(viewTurtle.getPastX() + turtleCenterX + centerX,
-              viewTurtle.getPastY() - turtleCenterX + centerX,
-              viewTurtle.getX() + turtleCenterX + centerX,
-              -(viewTurtle.getY() - turtleCenterY) + centerY);
+        System.out.println("past x " + viewTurtle.getPastX() + " past y " + viewTurtle.getPastY() + " x " + viewTurtle.getX() +
+            " y " + viewTurtle.getY());
 
+        double oldX = viewTurtle.getPastX() + centerX + turtleCenterX;
+        double oldY = - viewTurtle.getPastY() + centerY + turtleCenterY;
+        double currentX = viewTurtle.getX() + centerX + turtleCenterX;
+        double currentY = -viewTurtle.getY() + centerY + turtleCenterY;
+
+//        if (isPenDown) {
+//          makeLine(viewTurtle.getPastX() + turtleCenterX + centerX,
+//              viewTurtle.getPastY() - turtleCenterX + centerX,
+//              viewTurtle.getX() + turtleCenterX + centerX,
+//              -(viewTurtle.getY() - turtleCenterY) + centerY);
+//        }
+        if (isPenDown) {
+          makeLine(oldX, oldY, currentX, currentY);
         }
+
         drawAllLines();
 //        pastX = viewTurtle.getX() + turtleCenterX + centerX;
 //        pastY = -(viewTurtle.getY() - turtleCenterY) + centerY;
