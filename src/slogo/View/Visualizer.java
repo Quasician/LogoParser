@@ -13,16 +13,15 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import slogo.Main;
@@ -132,7 +131,8 @@ public class Visualizer {
     Button showVariable= new ViewButton("Variable",45,65,10);
     Button showCustomCommands= new ViewButton("Custom",45,65,10);
     Button showProperties= new ViewButton("Properties",45,65,10);
-    HBox buttonsForPanes= new HBox();
+    HBox buttonsForPanes= new HBox(20);
+    buttonsForPanes.setBackground(new Background(new BackgroundFill(Color.rgb(10, 10, 20), CornerRadii.EMPTY, Insets.EMPTY)));
     buttonsForPanes.getChildren().addAll(showCommand,showVariable,showCustomCommands,showProperties);
     historyVBox.getChildren()
             .addAll(buttonImage,buttonsForPanes,toDisplay);
