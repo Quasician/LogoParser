@@ -31,10 +31,7 @@ public class CommandTreeConstructor {
     return regex.matcher(text).matches();
   }
 
-  public List<TreeNode> buildTrees(String commands) {
-    ArrayList<String> commandElements = new ArrayList<>(
-        Arrays.asList(commands.split("(\\n|\\s)+|(\\s|\\n)+")));
-    System.out.println("COMMAND LIST: " + commandElements.toString());
+  private List<TreeNode> buildSubtree(List<String> commandElements) {
     ArrayList<TreeNode> answer = new ArrayList<>();
     TreeNode head = buildList(commandElements);
     while (head != null) {
@@ -45,8 +42,11 @@ public class CommandTreeConstructor {
         answer.add(root.getChildren().get(0));
       }
     }
-    System.out.println("SIZE OF FINAL LIST: " + answer.size());
-    for (TreeNode node : answer) {
+    return answer;
+  }
+
+  private void checkParameters(List<TreeNode> nodes) {
+    for (TreeNode node : nodes) {
       if (node.getChildren().size() == 0) {
         try {
           double value = Double.parseDouble(node.getResult());
@@ -56,6 +56,15 @@ public class CommandTreeConstructor {
         }
       }
     }
+  }
+
+  public List<TreeNode> buildTrees(String commands) {
+    ArrayList<String> commandElements = new ArrayList<>(
+        Arrays.asList(commands.split("(\\n|\\s)+|(\\s|\\n)+")));
+    System.out.println("COMMAND LIST: " + commandElements.toString());
+    List<TreeNode> answer = buildSubtree(commandElements);
+    System.out.println("SIZE OF FINAL LIST: " + answer.size());
+    checkParameters(answer);
     return answer;
   }
 
