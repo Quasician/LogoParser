@@ -77,6 +77,7 @@ public class TurtleList {
         //System.out.println("Turtle "+ turtle.getId()+ " is activated");
       }
     }
+    System.out.println("ACTIVE SIZE: " + activeTurtles.size());
     return activeTurtles;
   }
 

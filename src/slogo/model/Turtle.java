@@ -7,11 +7,11 @@ public class Turtle {
 
   private static final double DEGREE_LOWER_BOUND = 0;
   private static final double DEGREE_UPPER_BOUND = 360;
-  //private int x, y, distanceTravelled, degree;
-  //private boolean isPenDown, isVisible;
+  private static final double CENTER_X = 20; //remove these later
+  private static final double CENTER_Y = 20;
 
   private ObjectProperty coordinates;
-  private ObjectProperty pastCoordinates;
+  private Coordinate pastCoordinates;
   private DoubleProperty distance = new SimpleDoubleProperty();
   private IntegerProperty id = new SimpleIntegerProperty();
   private DoubleProperty angleFacing = new SimpleDoubleProperty();
@@ -25,20 +25,21 @@ public class Turtle {
     isPenDown.set(true);
     clearScreenCalled.set(false);
     Coordinate coordinate = new Coordinate(0,0);
-    Coordinate coordinate1 = new Coordinate(0,0);
+    pastCoordinates = new Coordinate(0,0);
     coordinates = new SimpleObjectProperty(coordinate, "coordinate");
     coordinates.set(coordinate);
-    pastCoordinates = new SimpleObjectProperty(coordinate1, "coordinate");
-    pastCoordinates.set(coordinate1);
+//    pastCoordinates = new SimpleObjectProperty(coordinate1, "coordinate");
+//    pastCoordinates.set(coordinate1);
     setActivated(true);
   }
 
   public ObjectProperty coordinatesProperty() {
     return coordinates;
   }
-  public ObjectProperty pastCoordinatesProperty() {
-    return pastCoordinates;
-  }
+
+//  public ObjectProperty pastCoordinatesProperty() {
+//    return pastCoordinates;
+//  }
 
   public DoubleProperty distanceProperty() {
     return distance;
@@ -84,12 +85,12 @@ public class Turtle {
 
   public double getPastX() {
     //return x.get();
-    return ((Coordinate)pastCoordinates.getBean()).getX();
+    return pastCoordinates.getX();
   }
 
   public double getPastY() {
     // return y.get();
-    return ((Coordinate)pastCoordinates.getBean()).getY();
+    return pastCoordinates.getY();
   }
 
   public int getId() {
@@ -102,8 +103,9 @@ public class Turtle {
   }
 
   public void updateCoordinates() {
-    pastCoordinates.set(coordinates);
-    //System.out.println("ZXCV"+ ((Coordinate)pastCoordinates.get()).getX() + "   " + ((Coordinate)pastCoordinates.get()).getY());
+    Coordinate coords = ((Coordinate)coordinates.get());
+    pastCoordinates.setX(coords.getX());
+    pastCoordinates.setY(coords.getY());
   }
 
   protected double getDistance() {
@@ -111,19 +113,9 @@ public class Turtle {
   }
 
   public void setCoordinate(double newX, double newY) {
+    updateCoordinates();
     coordinates.set(new Coordinate(newX, newY));
   }
-
-//  public void setX(double newX) {
-//    x.set(newX);
-//    System.out.println("new x " + newX);
-//    coordinates.set(new Coordinate(newX, y.get()));
-//  }
-//
-//  public void setY(double newY) {
-//    y.set(newY);
-//    coordinates.set(new Coordinate(x.get(), newY));
-//  }
 
   /**
    *
