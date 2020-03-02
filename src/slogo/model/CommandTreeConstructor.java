@@ -50,9 +50,9 @@ public class CommandTreeConstructor {
       if (node.getChildren().size() == 0) {
         try {
           double value = Double.parseDouble(node.getResult());
-        } catch (NumberFormatException e) {
-          // not a double
           throw new CommandException(errors.getString("WrongParameterNumber"));
+        } catch (NumberFormatException e) {
+          //do nothing
         }
       }
     }

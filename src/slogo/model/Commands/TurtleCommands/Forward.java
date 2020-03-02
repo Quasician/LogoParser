@@ -30,10 +30,7 @@ public class Forward extends TurtleCommand {
     for(Turtle activeTurtle: activatedTurtles) {
       commandNode.setResult(distance + "");
       //activeTurtle.updateCoordinates();
-      System.out.println("Current coordinates " + activeTurtle.getX() + " " + activeTurtle.getY());
       moveTurtle(activeTurtle.getId(), forward, distance);
-      System.out.println("New coordinates " + activeTurtle.getX() + " " + activeTurtle.getY());
-      System.out.println("Old coordinates " + activeTurtle.getPastX() + " " + activeTurtle.getPastY());
 
     }
   }
