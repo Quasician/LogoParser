@@ -32,9 +32,10 @@ import slogo.model.Turtle;
  */
 public class TurtleGrid {
 
-  public static final int TURTLE_IMAGE_HEIGHT = 40;
-  public static final int TURTLE_IMAGE_WIDTH = 40;
-  public static final Color DEFAULT_PEN_COLOR = Color.RED;
+  private static final int TURTLE_IMAGE_HEIGHT = 40;
+  private static final int TURTLE_IMAGE_WIDTH = 40;
+  private static final Color DEFAULT_PEN_COLOR = Color.RED;
+  private static final Color DEFAULT_BACKGROUND = Color.LINEN;
   private int myCanvasWidth, myCanvasHeight;
   private ObservableList<Turtle> viewTurtles;
   private ArrayList<ImageView> turtleImageView = new ArrayList<>();
@@ -49,9 +50,8 @@ public class TurtleGrid {
   private Boolean isPenDown = true;
   private ArrayList<Line> linesDrawn;
   private Paint penColor;
-//  private static final Paint DEFAULT_BACKGROUND  = Color.
-
   private BooleanProperty clearScreen = new SimpleBooleanProperty();
+  private static final int PADDING_INSET = 10;
 
   /**
    * Constructor for the TurtleGrid class, which initializes everything
@@ -65,27 +65,33 @@ public class TurtleGrid {
     myCanvasHeight = canvasHeight;
     centerX = canvasWidth / 2.0;
     centerY = canvasHeight / 2.0;
-    myPane = new Pane();
-    myPane.setMaxWidth(myCanvasWidth);
-    myPane.setMaxHeight(myCanvasHeight);
-    setBackground(Color.LINEN);
+    setUpPane();
+    setBackground(DEFAULT_BACKGROUND);
     myCanvas = new Canvas(myCanvasWidth, myCanvasHeight);
-    retGrid = new StackPane();
-    retGrid.setPadding(new Insets(10, 10, 10, 0));
-    retGrid.getChildren().addAll(myCanvas, myPane);
+    setUpGrid();
     penColor = DEFAULT_PEN_COLOR;
     linesDrawn = new ArrayList<>();
     this.viewTurtles = viewTurtles;
     for (Turtle viewTurtle : this.viewTurtles) {
-      System.out.println("ASDF");
       setUpTurtle(viewTurtle);
     }
     addSizeListener();
-    //viewTurtles.add(new Turtle());
   }
 
   public TurtleGrid(ObservableList<Turtle> turtles) {
     this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, turtles);
+  }
+
+  private void setUpGrid() {
+    retGrid = new StackPane();
+    retGrid.setPadding(new Insets(PADDING_INSET, PADDING_INSET, PADDING_INSET, 0));
+    retGrid.getChildren().addAll(myCanvas, myPane);
+  }
+
+  private void setUpPane() {
+    myPane = new Pane();
+    myPane.setMaxWidth(myCanvasWidth);
+    myPane.setMaxHeight(myCanvasHeight);
   }
 
   private BooleanProperty clearScreenProperty() {
@@ -105,9 +111,6 @@ public class TurtleGrid {
 
     turtleCenterX = turtleImageView.get(turtle.getId()).getFitWidth() / 2;
     turtleCenterY = turtleImageView.get(turtle.getId()).getFitHeight() / 2;
-
-//      pastX = turtleImageView.get(turtle.getId()).getX() + turtleCenterX;
-//      pastY = turtleImageView.get(turtle.getId()).getY() + turtleCenterY;
   }
 
   private void addListeners(Turtle viewTurtle) {
