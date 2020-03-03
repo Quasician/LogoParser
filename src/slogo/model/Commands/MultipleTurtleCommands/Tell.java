@@ -13,9 +13,13 @@ public class Tell extends MultipleTurtleCommand{
     public void doCommand(TreeNode commandNode) {
         //DO error checking if not an int
         String list = getParamList().get(0).replaceFirst("\\[","").replaceFirst("\\]","");
-        list = list.replaceAll("\\s?","");
+        list = list.trim();
         String[] turtlesToActivate = list.split("\\s+");
         System.out.println("LIST: " + Arrays.toString(turtlesToActivate));
+        for(Turtle turtle:turtles)
+        {
+            TurtleList.makeModelTurtleDeactivated(turtle.getId());
+        }
         for(String activatedTurtle:turtlesToActivate)
         {
             int currentTurtleNum = Integer.parseInt(activatedTurtle);
