@@ -1,5 +1,6 @@
 package slogo.View;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import slogo.Main;
@@ -91,16 +93,23 @@ public class Visualizer {
     window.setScene(scene);
     window.show();
     addSizeListener();
+    addKeyHandler(scene, grid);
   }
 
   public void setDisplayOption(DisplayOption d) {
     tool.bindWithDisplayOption(d);
   }
 
+  public void getXML() {
+    FileChooser fileChooser = new FileChooser();
+    File xml = fileChooser.showOpenDialog(myWindow);
+    System.out.println(xml.toString());
+  }
 
-//  private void addKeyHandler(Scene scene, TurtleGrid grid) {
-//    scene.setOnKeyPressed(ke -> {
-//      KeyCode keyCode = ke.getCode();
+
+  private void addKeyHandler(Scene scene, TurtleGrid grid) {
+    scene.setOnKeyPressed(ke -> {
+      KeyCode keyCode = ke.getCode();
 //      if (keyCode== KeyCode.RIGHT) {
 //        grid.getTurtleImage().get(0).setX(100);
 //      }
@@ -113,9 +122,12 @@ public class Visualizer {
 //      if(keyCode== KeyCode.N){
 //        grid.getTurtleImage().get(0).setY(30);
 //      }
-//    });
-//
-//  }
+      if (keyCode == KeyCode.ENTER) {
+        getXML(); //TODO: CHANGE THIS LATER
+      }
+    });
+
+  }
 
   private void addSizeListener()
   {

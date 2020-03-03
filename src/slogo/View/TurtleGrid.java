@@ -259,7 +259,7 @@ public class TurtleGrid {
           .setImage(new Image(Main.myResources.getString(imageName)));
     }
   }
-  
+
   public List<ImageView> getTurtleImage(){
     return turtleImageViews;
   }

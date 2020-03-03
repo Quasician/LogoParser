@@ -79,7 +79,7 @@ public class CommandTreeExecutor {
 
   private void executeSubTree(TreeNode element) {
     if (match(element.getName(), commandPattern)) {
-      ArrayList<TreeNode> children = element.getChildren();
+      List<TreeNode> children = element.getChildren();
       ArrayList<String> parameters = new ArrayList<>();
 
       if (isMakeVariableCommand(element) || isMakeUserInstruction(element)) {
