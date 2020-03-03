@@ -7,6 +7,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.util.List;
+import slogo.View.UserException;
 
 
 public class TurtleList {
@@ -82,13 +83,20 @@ public class TurtleList {
   }
 
   public static void makeModelTurtleActivated(int id) {
-    modelTurtleList.get(id-1).setActivated(true);
-   // modelTurtleList.get(id).setActivated(true);
+    changeActivation(id, true);
   }
 
   public static void makeModelTurtleDeactivated(int id) {
-    modelTurtleList.get(id-1).setActivated(false);
-//    modelTurtleList.get(id).setActivated(false);
+    changeActivation(id, false);
+  }
+
+  private static void changeActivation(int id, boolean activate) {
+    try {
+      modelTurtleList.get(id - 1).setActivated(activate);
+    } catch (IndexOutOfBoundsException e) {
+      //TODO: fix the error message later
+      throw new CommandException("Please enter an integer greater than 0 for turtle index.");
+    }
   }
 
   public int getTurtles() {

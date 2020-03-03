@@ -12,6 +12,7 @@ import javafx.collections.ObservableMap;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import slogo.View.Language;
+import slogo.View.UserException;
 import slogo.View.Visualizer;
 import slogo.model.*;
 import java.util.Iterator;
@@ -124,7 +125,7 @@ public class Main extends Application {
           commandParser.parseText(parseText.getValue());
           vis.makeNewBox(parseText.getValue());
 //                    vis.makeNewVariableBox(myMap);
-        } catch (CommandException e) {
+        } catch (CommandException | UserException e) {
           showError(e.getMessage());
         }
       }
