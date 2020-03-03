@@ -38,18 +38,6 @@ public class UserDefinedCommands {
         // historyWindow.setMargin(historyWindow,new Insets(10,5,10,0));
         pars = parser;
     }
-    protected void makeBox(String StringRepresentation){
-        runButton=new ViewButton("", 2* PLAY_IMAGE_SIZE, 2* PLAY_IMAGE_SIZE, 0);
-        setImage(runButton, myResources.getString("PlayImage"));
-        commandValues.add(StringRepresentation);
-        newCommand= new HBox(5);
-        newCommand.setMaxSize(300,200);
-        commandEntered=new Label(StringRepresentation);
-        commandEntered.setTextFill(TEXT_COLOR);
-        newCommand.getChildren().addAll(runButton,commandEntered);
-        newCommand.setAccessibleText(StringRepresentation);
-        historyWindow.getItems().add(newCommand);
-    }
     private void setImage(ViewButton button, String image){
         Image img = new Image(image);
         ImageView buttonImage= new ImageView(img);
