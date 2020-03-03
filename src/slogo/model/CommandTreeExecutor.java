@@ -40,6 +40,8 @@ public class CommandTreeExecutor {
   //make a properties file for errors
   private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
 
+//  public CommandTreeExecutor(CommandFactoryInterface factory, Turtle turtle,
+//      HashMap<Pattern, String> translations, Language language) {
   // private static final String COMMAND_PACKAGES = CommandTreeExecutor.class.getPackageName() + ".resources.packages.CommandPackages.properties";
 
 
@@ -54,12 +56,7 @@ public class CommandTreeExecutor {
   public String executeTrees(List<TreeNode> elementNodes) {
     for (TreeNode element : elementNodes) {
       executeSubTree(element);
-      System.out.println("EXECUTED NODES: " + element.getName());
-      for (TreeNode child : element.getChildren()) {
-        System.out.println("Children: " + child.getName());
-      }
     }
-    System.out.println("Last commands result " + elementNodes.get(elementNodes.size() - 1).getResult());
     finalValue = elementNodes.get(elementNodes.size() - 1).getResult();
     return finalValue;
   }
@@ -73,44 +70,39 @@ public class CommandTreeExecutor {
     return element.getName().equals(MAKE_USER_INSTRUCTION);
   }
 
+  private Command createCommand(TreeNode element, List<String> parameters) {
+    String commandClass = "";
+    if (CustomCommandMap.isACustomCommand(element.getName())) {
+      commandClass = VCU_COMMAND;
+    } else { //not a custom command
+      commandClass = getCommandClass(element, parameters);
+    }
+    return commandFactory.createCommand(commandClass);
+  }
+
   private void executeSubTree(TreeNode element) {
     if (match(element.getName(), commandPattern)) {
       ArrayList<TreeNode> children = element.getChildren();
       ArrayList<String> parameters = new ArrayList<>();
-      // will also need to check for to commands
-      
+
       if (isMakeVariableCommand(element) || isMakeUserInstruction(element)) {
-        System.out.println("Is make variable OR is make user");
         parameters.add(children.get(0).getName());
         children.remove(0);
       }
       for (TreeNode child : children) {
         executeSubTree(child);
         parameters.add(child.getResult());
-        //finalValue = child.getResult();
       }
-      String commandClass = "";
-      if (CustomCommandMap.isACustomCommand(element.getName())) {
-        commandClass = VCU_COMMAND;
-      } else { //not a custom command
-        commandClass = getCommandClass(element, parameters);
-      }
-      //System.out.println("Command class = " + commandClass);
-      Command commandObject = commandFactory.createCommand(commandClass);
-      for (String s : parameters) {
-        System.out.println("Param of " + element.getName() + ": " + s);
-      }
-
+      Command commandObject = createCommand(element, parameters);
       commandObject.setParams(parameters);
       commandObject.setTurtles(turtles);
       commandObject.setMiniParserLanguage(language);
-      commandObject.doCommand(element);
-      //nd.setData(replacementValue);
+      commandObject.doCommand(element);//nd.setData(replacementValue);
+      System.out.println("RESULT = " + element.getResult());
     } else if (match(element.getName(), variablePattern)) {
       element.setResult(VariableHashMap.getVarValue(element.getName()));
     }
   }
-  // for variables later on
 
   private String getPackageName(String commandName) {
     System.out.println(commandName);
@@ -122,7 +114,9 @@ public class CommandTreeExecutor {
     String commandClass = THIS_PACKAGE + getPackageName(commandName) + "."
             + commandName;
 
+
     int numParamsShouldHave = Integer.parseInt(commandParameterNumbers.getString(commandName));
+    System.out.println("Num params should have = " + numParamsShouldHave + " size = " + parameters.size());
     if (parameters.size() != numParamsShouldHave) {
       throw new CommandException(errors.getString("WrongParameterNumber"));
     }
