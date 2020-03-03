@@ -204,18 +204,4 @@ public class Visualizer {
     trial.setOnAction(e->comParser.parseText(newCommand));
   }
 
-  public void makeNewVariableBox(ObservableMap<String,String> newMap){
-//    for(String variableKey :newMap.keySet()) {
-//      myVariableHistory.addVariable(variableKey, newMap.get(variableKey));
-//    }
-//    newMap.addListener(new MapChangeListener<String, String>() {
-//         @Override
-//         public void onChanged(Change<? extends String, ? extends String> change) {
-//           System.out.println(change.getKey() + " "+ change.getValueAdded());
-//           myVariableHistory.addVariable(change.getKey(), change.getValueAdded());
-//         }
-//       }
-//    );
-  }
-
 }

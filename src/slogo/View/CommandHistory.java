@@ -69,7 +69,7 @@ public class CommandHistory {
         return historyWindow;
     }
 
-public Button returnButton() {
+    public Button returnButton() {
     return runButton;
 }
 
