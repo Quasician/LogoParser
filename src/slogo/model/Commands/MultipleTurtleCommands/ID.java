@@ -13,6 +13,6 @@ public class ID extends MultipleTurtleCommand {
             commandNode.setResult(0+"");
             return;
         }
-        commandNode.setResult(activatedTurtles.size()+"");
+        commandNode.setResult(activatedTurtles.get(activatedTurtles.size()-1).getId()+"");
     }
 }
