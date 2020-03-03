@@ -298,14 +298,18 @@ public class Toolbar {
 
   private void uploadSim() {
     makeNew.setOnAction(e -> {
-      Stage newScreen = new Stage();
-      Main newSimulation = new Main();
-      try {
-        newSimulation.start(newScreen);
-      } catch (Exception ex) {
-        showMessage(Alert.AlertType.ERROR, ex.getMessage());
-      }
+      makeNewWorkspace();
     });
+  }
+
+  private void makeNewWorkspace(){
+    Stage newScreen = new Stage();
+    Main newSimulation = new Main();
+    try {
+      newSimulation.start(newScreen);
+    } catch (Exception ex) {
+      showMessage(Alert.AlertType.ERROR, ex.getMessage());
+    }
   }
 
   private void setUpTurtleChooser() {
@@ -353,19 +357,23 @@ public class Toolbar {
 
   private void setUpHelpButton() {
     helpButton.setOnAction(e -> {
-      try {
-        URL url = new URL(HELP_URI);
-        URLConnection connection = url.openConnection();
-        connection.connect();
-        try {
-          forHelp.browse(new URI(HELP_URI));
-        } catch (Exception v) {
-          showMessage(Alert.AlertType.ERROR, v.getMessage());
-        }
-      } catch (Exception ex) {
-        showMessage(Alert.AlertType.ERROR, ex.getMessage());
-      }
+      help();
     });
+  }
+
+  private void help(){
+    try {
+      URL url = new URL(HELP_URI);
+      URLConnection connection = url.openConnection();
+      connection.connect();
+      try {
+        forHelp.browse(new URI(HELP_URI));
+      } catch (Exception v) {
+        showMessage(Alert.AlertType.ERROR, v.getMessage());
+      }
+    } catch (Exception ex) {
+      showMessage(Alert.AlertType.ERROR, ex.getMessage());
+    }
   }
 
   public HBox getToolBar() {
