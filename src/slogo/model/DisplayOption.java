@@ -4,9 +4,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 public class DisplayOption {
@@ -43,19 +40,6 @@ public class DisplayOption {
 
   public void createList(ObservableList list) {
     colorOptions = list;
-    seeChange();
-  }
-
-  public void seeChange() {
-    colorOptions.addListener(new ListChangeListener<String>() {
-      @Override
-      public void onChanged(Change<? extends String> c) {
-        System.out.println("the color list has changed");
-        for (String s : colorOptions) {
-          System.out.println(s);
-        }
-      }
-    });
   }
 
   public String getColorAt(int index) {
@@ -100,6 +84,7 @@ public class DisplayOption {
   }
 
   public void setColorAt(int index, int[] rgb) {
+    System.out.println("here color options set11");
     String[] rgbStrings = new String[rgb.length];
     for (int i = 0; i < rgbStrings.length; i++) {
       rgbStrings[i] = "" + rgb[i];
@@ -107,7 +92,9 @@ public class DisplayOption {
     String rgbToString = String.join(SPACE, rgbStrings);
 
     if (index < colorOptions.size()) {
+      System.out.println("here color options set2");
       colorOptions.set(index, rgbToString + COMMA + index);
+      System.out.println("here color options set");
     } else {
       addToList(rgbToString);
     }

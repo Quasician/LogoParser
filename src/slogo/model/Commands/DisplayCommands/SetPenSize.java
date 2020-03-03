@@ -17,7 +17,7 @@ public class SetPenSize extends DisplayCommand {
     if (penSize <= 0)
       throw new CommandException(errors.getString("Negative"));
     else {
-      UIOption.setPenWidth(penSize);
+      displayOption.setPenWidth(penSize);
       commandNode.setResult("" + penSize);
     }
   }

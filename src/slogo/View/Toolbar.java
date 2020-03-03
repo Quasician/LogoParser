@@ -237,10 +237,10 @@ public class Toolbar {
         for (String color : colorOptions) {
           if (index >= changeBackgroundColor.getItems().size()) {
            // changeBackgroundColor.getItems().add("Background, " + color);
-            changePenColor.getItems().add("Pen, " + color);
+            //changePenColor.getItems().add("Pen, " + color);
           } else {
            // changeBackgroundColor.getItems().set(index, "Background, " + color);
-            changePenColor.getItems().set(index, "Pen, " + color);
+            //changePenColor.getItems().set(index, "Pen, " + color);
           }
           index++;
         }
@@ -250,6 +250,7 @@ public class Toolbar {
 
   private void setUpPenColorDropdown(TurtleGrid grid) {
     changePenColor.itemsProperty().bind(new SimpleObjectProperty<>(colorOptions));
+    //colorOptions.set(0, "0 0 0, 0");
     changePenColor.setPrefWidth(BUTTON_WIDTH);
 //    for (String color : colorOptions) {
 //      changePenColor.getItems().add("Pen, " + color);
