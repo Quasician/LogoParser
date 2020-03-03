@@ -2,19 +2,27 @@ package slogo.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
-public class ColorOptions {
+public class UIOption {
 
-  public static final String COMMA = ", ";
-  public static final String SPACE = " ";
+  private static final String COMMA = ", ";
+  private static final String SPACE = " ";
   private static Map<String, String> varHashMap = new HashMap<String, String>();
   private static ObservableList<String> colorOptions;
   private static IntegerProperty penIndex = new SimpleIntegerProperty();
   private static IntegerProperty bgIndex = new SimpleIntegerProperty();
+  private static DoubleProperty penWidth = new SimpleDoubleProperty();
+  private static IntegerProperty imageIndex = new SimpleIntegerProperty();
+
+  public static IntegerProperty getImageIndex() {
+    return imageIndex;
+  }
 
   public static IntegerProperty getPenIndex() {
     return penIndex;
@@ -22,6 +30,15 @@ public class ColorOptions {
 
   public static IntegerProperty getBgIndex() {
     return bgIndex;
+  }
+
+  public static DoubleProperty getPenWidthProperty() {
+    return penWidth;
+  }
+
+
+  public static double getPenWidth() {
+    return penWidth.get();
   }
 
   public static void createList(ObservableList list) {
@@ -57,9 +74,16 @@ public class ColorOptions {
     return penIndex.get();
   }
 
+  public static void setImageIndex(int index) {
+    imageIndex.set(index);
+  }
+
   public static void setCurrentBackground(int index) {
     bgIndex.set(index);
-    System.out.println("BACKGROUND has changed to : " + index);
+  }
+
+  public static void setPenWidth(double width) {
+    penWidth.set(width);
   }
 
   public static int getCurrentBackground() {
@@ -69,7 +93,6 @@ public class ColorOptions {
   public static void addToList(String c) {
     String[] colorarray = c.split(COMMA);
     String color = colorarray[0];
-    System.out.println(" the color is " + color);
 
     if (!colorOptions.contains(color)) {
       colorOptions.add(color + COMMA + colorOptions.size());
