@@ -83,7 +83,7 @@ public class CommandParser {
         return e.getKey();
       }
     }
-
+    System.out.println("INVALID COMMAND: " + text);
     throw new CommandException(new Exception(), errors.getString("InvalidCommand"));
 
    // return ERROR;

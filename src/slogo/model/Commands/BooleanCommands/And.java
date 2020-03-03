@@ -13,6 +13,6 @@ public class And extends BooleanCommand {
     double test1 = Double.parseDouble(getParamList().get(0));
     double test2 = Double.parseDouble(getParamList().get(1));
     condition = (test1 != 0 && test2 != 0);
-    commandNode.setData(getReturnValue(condition));
+    commandNode.setResult(getReturnValue(condition));
   }
 }
