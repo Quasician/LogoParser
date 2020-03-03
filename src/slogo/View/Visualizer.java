@@ -75,40 +75,39 @@ public class Visualizer {
     buttonImage = new ImageView(img);
     buttonImage.setFitHeight(BUTTON_HEIGHT);
     buttonImage.setFitWidth(BUTTON_WIDTH);
-    CommandLine cmdline = new CommandLine(commandLineText, textUpdate);
     TurtleGrid grid = new TurtleGrid(this.viewTurtles);
+    CommandLine cmdline = new CommandLine(commandLineText, textUpdate,grid);
     Toolbar tool = new Toolbar(grid, language);
     setUpBorderPane(grid, cmdline, tool);
     makeHistory();
     this.myMap = myMap;
     setUpMapListener();
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
-    buttonImage.requestFocus();
-    addKeyHandler(scene,grid);
-    scene.setOnMouseEntered(e->buttonImage.requestFocus());
+    buttonImage.isFocused();
+//    addKeyHandler(scene,grid);
     window.setScene(scene);
     window.show();
     addSizeListener();
   }
 
-  private void addKeyHandler(Scene scene, TurtleGrid grid) {
-    scene.setOnKeyPressed(ke -> {
-      KeyCode keyCode = ke.getCode();
-      if (keyCode== KeyCode.RIGHT) {
-        grid.getTurtleImage().get(0).setX(100);
-      }
-      if(keyCode==KeyCode.LEFT){
-        grid.getTurtleImage().get(0).setX(50);
-      }
-      if(keyCode== KeyCode.J){
-        grid.getTurtleImage().get(0).setY(50);
-      }
-      if(keyCode== KeyCode.N){
-        grid.getTurtleImage().get(0).setY(30);
-      }
-    });
-
-  }
+//  private void addKeyHandler(Scene scene, TurtleGrid grid) {
+//    scene.setOnKeyPressed(ke -> {
+//      KeyCode keyCode = ke.getCode();
+//      if (keyCode== KeyCode.RIGHT) {
+//        grid.getTurtleImage().get(0).setX(100);
+//      }
+//      if(keyCode==KeyCode.LEFT){
+//        grid.getTurtleImage().get(0).setX(50);
+//      }
+//      if(keyCode== KeyCode.J){
+//        grid.getTurtleImage().get(0).setY(50);
+//      }
+//      if(keyCode== KeyCode.N){
+//        grid.getTurtleImage().get(0).setY(30);
+//      }
+//    });
+//
+//  }
   private void addSizeListener()
   {
     viewTurtles.addListener(new ListChangeListener<Turtle>() {
