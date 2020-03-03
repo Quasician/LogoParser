@@ -14,7 +14,7 @@ public class VariableHistory {
     private static final double VAR_BOX_WIDTH = 300.0;
     private VBox variableHist;
     private static ObservableMap<String, String> myObservableMap;
-    
+
     public VariableHistory(){
         variableHist = new VBox();
         variableHist.setPrefWidth(VAR_BOX_WIDTH);

@@ -13,7 +13,6 @@ public class VariableHistoryRow extends HBox{
 
 
   public VariableHistoryRow(MapChangeListener.Change change) {
-//    HBox row = new HBox(5);
     super.setSpacing(10);
     variableText = new Text(change.getKey().toString());
     valText = new Text(VariableHashMap.getVarValue(change.getKey().toString()));
@@ -25,12 +24,8 @@ public class VariableHistoryRow extends HBox{
     this.getChildren().addAll(variableText, valText, textfield, enterBtn);
   }
 
-
   protected String getVar(){
     return variableText.getText();
   }
 
-  protected String getVal(){
-    return valText.getText();
-  }
 }
