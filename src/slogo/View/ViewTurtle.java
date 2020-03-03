@@ -2,55 +2,79 @@ package slogo.View;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import slogo.Main;
+import slogo.model.Coordinate;
 
 public class ViewTurtle {
 
-  private static final String TURTLE = "turtle.png";
-  private ImageView turtleImage = new ImageView(new Image(TURTLE));
+  private static final String DEFAULT_TURTLE = "TurtleImage";
+  private static final Image DEFAULT_IMAGE =  new Image(Main.myResources.getString(DEFAULT_TURTLE));
+  private static final double HEIGHT = 40;
+  private static final double WIDTH = 40;
+  private double height;
+  private double width;
 
-  private DoubleProperty x = new SimpleDoubleProperty();
-  private DoubleProperty y = new SimpleDoubleProperty();
-  private DoubleProperty distance = new SimpleDoubleProperty();
-  private DoubleProperty angleFacing = new SimpleDoubleProperty();
-  private BooleanProperty isPenDown = new SimpleBooleanProperty();
-  private BooleanProperty isShowing = new SimpleBooleanProperty();
-  private BooleanProperty isActivated = new SimpleBooleanProperty();
+  private ImageView myImageView;
+  private ObjectProperty<Coordinate> coordinateProperty;
+  private DoubleProperty angleProperty;
 
   public ViewTurtle() {
-    Image turtleImage = new Image("turtle.png");
-    ImageView turtle = new ImageView(turtleImage);
+    this(HEIGHT, WIDTH);
   }
 
-  public DoubleProperty xProperty() {
-    return x;
+  public ViewTurtle(double height, double width) {
+    myImageView = new ImageView(DEFAULT_IMAGE);
+    coordinateProperty = new SimpleObjectProperty(new Coordinate(0,0));
+    angleProperty = new SimpleDoubleProperty(0);
+    this.height = height;
+    this.width = width;
   }
 
-  public DoubleProperty yProperty() {
-    return y;
+  protected DoubleProperty getAngleProperty() {
+    return angleProperty;
   }
 
-  public DoubleProperty distanceProperty() {
-    return distance;
+  protected ObjectProperty getCoordinateProperty() {
+    return coordinateProperty;
   }
 
-  public DoubleProperty angleProperty() {
-    return angleFacing;
+  protected double getX() {
+    return (coordinateProperty.get()).getX();
   }
 
-  public BooleanProperty isPenDownProperty() {
-    return isPenDown;
+  protected double getY() {
+    return (coordinateProperty.get()).getY();
   }
 
-  public BooleanProperty isShowingProperty() {
-    return isShowing;
+  protected double getAngle() {
+    return angleProperty.get();
   }
 
-  public void setImage(String imageName) {
-    turtleImage = new ImageView(new Image(imageName));
+  protected ImageView getImage() {
+    return myImageView;
+  }
+
+  protected void setImage(String imageName) {
+    String imageString = Main.myResources.getString(imageName);
+    try {
+      myImageView = new ImageView(new Image(imageString));
+    } catch (Exception e) {
+      throw new UserException("Make this a real error message later");
+    }
+  }
+
+  protected double getCenterX() {
+    return width / 2;
+  }
+
+  protected double getCenterY() {
+    return height / 2;
   }
 
 }
