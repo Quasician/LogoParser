@@ -18,8 +18,7 @@ import java.util.regex.Pattern;
 
 public class CommandParser {
   // where to find resources specifically for this class
-  private static final String RESOURCES_PACKAGE =
-      CommandParser.class.getPackageName() + ".resources.languages.";
+  private static final String RESOURCES_PACKAGE = "resources.";
 
   // "types" and the regular expression patterns that recognize those types
   private List<Entry<String, Pattern>> mySymbols;
