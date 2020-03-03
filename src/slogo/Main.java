@@ -80,7 +80,7 @@ public class Main extends Application {
     commandParser.parseText("fd 50");
     TurtleList.makeModelTurtleActivated(1);
     commandParser.parseText("rt 50 fd 50 ");
-    commandParser.parseText("turtles ");
+    commandParser.parseText("turtles id ");
    // TurtleList.makeModelTurtleActivated(1);
     //commandParser.parseText("fd 50");
     for (Turtle turtle : TurtleList.getModelTurtleList()) {

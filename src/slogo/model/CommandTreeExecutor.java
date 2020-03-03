@@ -114,7 +114,7 @@ public class CommandTreeExecutor {
     String commandClass = THIS_PACKAGE + getPackageName(commandName) + "."
             + commandName;
 
-    System.out.println("Current Command: "+ commandName);
+    //System.out.println("Current Command: "+ commandName);
     int numParamsShouldHave = Integer.parseInt(commandParameterNumbers.getString(commandName));
     System.out.println("Num params should have = " + numParamsShouldHave + " size = " + parameters.size());
     if (parameters.size() != numParamsShouldHave) {
