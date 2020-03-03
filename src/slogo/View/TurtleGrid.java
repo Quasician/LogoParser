@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -134,6 +135,14 @@ public class TurtleGrid {
         ImageView thisView = turtleImageViews.get(id);
         thisView.setX(viewTurtle.getX() + centerX);
         thisView.setY(-(viewTurtle.getY()) + centerY);
+        
+        //trying to change color adjustment
+//        if (viewTurtle.isActivatedProperty().getValue()) {
+//          ColorAdjust colorAdjust = new ColorAdjust();
+//          colorAdjust.setBrightness(0.2);
+//          colorAdjust.setSaturation(0.2);
+//          thisView.setEffect(colorAdjust);
+//        }
 
         double oldX = viewTurtle.getPastX() + centerX + turtleCenterX;
         double oldY = - viewTurtle.getPastY() + centerY + turtleCenterY;
