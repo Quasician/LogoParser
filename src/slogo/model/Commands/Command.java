@@ -7,6 +7,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import slogo.View.Language;
+import slogo.model.DisplayOption;
 import slogo.model.TreeNode;
 import slogo.model.Turtle;
 import slogo.model.TurtleList;
@@ -23,12 +24,17 @@ public abstract class Command {
   protected ArrayList<String> values;
   private static final String ERRORS = "resources.ErrorMessages";
   protected ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
+  protected DisplayOption displayOption;
 
   public Command(String name) {
     this.name = name;
   }
 
   public abstract void doCommand(TreeNode commandNode);
+
+  public void setDisplayOption(DisplayOption d) {
+    displayOption = d;
+  }
 
   public List<String> getParamList() {
     return values;
