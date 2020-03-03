@@ -1,11 +1,9 @@
 package slogo.model.Commands.VCUCommands;
 import slogo.model.CommandParamNumberHashMap;
-import slogo.model.CommandParser;
-import slogo.model.Commands.Command;
 import slogo.model.CustomCommandMap;
 import slogo.model.TreeNode;
 
-public class MakeUserInstruction extends Command {
+public class MakeUserInstruction extends VCUCommand {
     public MakeUserInstruction(String name)
     {
         super(name);

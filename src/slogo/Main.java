@@ -67,6 +67,27 @@ public class Main extends Application {
     TurtleList.makeModelTurtleDeactivated(1);
     commandParser.parseText("fd 50");
     TurtleList.makeModelTurtleActivated(1);
+//        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
+//        printCustomCommands();
+//        System.out.println("done printing");
+//        commandParser.parseText(" c 1 ");
+   // commandParser.parseText("rt 45 fd 50");
+    TurtleList.makeModelTurtleActivated(1);
+    TurtleList.makeModelTurtleDeactivated(2);
+    //commandParser.parseText("fd 50");
+    TurtleList.makeModelTurtleActivated(2);
+    //commandParser.parseText("rt 50 fd 50 ");
+    commandParser.parseText("tell [ 4 ] turtles id ");
+    commandParser.parseText("tell [ 1 3 ]");
+    commandParser.parseText("ask [ 2 4 ] [ fd 50 rt 45 ]");
+   // TurtleList.makeModelTurtleActivated(1);
+    //commandParser.parseText("fd 50");
+    for (Turtle turtle : TurtleList.getModelTurtleList()) {
+      System.out.println(
+          "MODELTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
+              + " Activated: " + turtle.isActivatedProperty().getValue());
+    }
+>>>>>>> master
 
 //        varList = FXCollections.observableList(Arrays.asList(myMap.keySet()));
    // parseTextOnInput(textUpdate, parseString, commandParser, vis);

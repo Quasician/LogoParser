@@ -7,7 +7,7 @@ import slogo.model.VariableHashMap;
 
 import java.util.Arrays;
 
-public class DoTimes extends Command {
+public class DoTimes extends VCUCommand {
     public DoTimes(String name)
     {
         super(name);

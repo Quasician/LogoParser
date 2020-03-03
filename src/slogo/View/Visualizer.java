@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -77,14 +78,16 @@ public class Visualizer {
     buttonImage = new ImageView(img);
     buttonImage.setFitHeight(BUTTON_HEIGHT);
     buttonImage.setFitWidth(BUTTON_WIDTH);
-    CommandLine cmdline = new CommandLine(commandLineText, textUpdate);
     TurtleGrid grid = new TurtleGrid(this.viewTurtles);
     tool = new Toolbar(grid, language);
+    CommandLine cmdline = new CommandLine(commandLineText, textUpdate,grid);
     setUpBorderPane(grid, cmdline, tool);
     makeHistory();
     this.myMap = myMap;
     setUpMapListener();
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
+    buttonImage.isFocused();
+//    addKeyHandler(scene,grid);
     window.setScene(scene);
     window.show();
     addSizeListener();
@@ -93,6 +96,26 @@ public class Visualizer {
   public void setDisplayOption(DisplayOption d) {
     tool.bindWithDisplayOption(d);
   }
+
+
+//  private void addKeyHandler(Scene scene, TurtleGrid grid) {
+//    scene.setOnKeyPressed(ke -> {
+//      KeyCode keyCode = ke.getCode();
+//      if (keyCode== KeyCode.RIGHT) {
+//        grid.getTurtleImage().get(0).setX(100);
+//      }
+//      if(keyCode==KeyCode.LEFT){
+//        grid.getTurtleImage().get(0).setX(50);
+//      }
+//      if(keyCode== KeyCode.J){
+//        grid.getTurtleImage().get(0).setY(50);
+//      }
+//      if(keyCode== KeyCode.N){
+//        grid.getTurtleImage().get(0).setY(30);
+//      }
+//    });
+//
+//  }
 
   private void addSizeListener()
   {

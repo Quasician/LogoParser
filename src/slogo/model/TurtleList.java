@@ -46,17 +46,17 @@ public class TurtleList {
       @Override
       public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
           Boolean newValue) {
-        viewTurtleList.get(turtle.getId()).setActivated(newValue);
+        viewTurtleList.get(turtle.getId()-1).setActivated(newValue);
         System.out.println(
             "New value of turtle " + turtle.getId() + " : + " + turtle.isActivatedProperty()
-                .getValue() + " VIEW: + " + viewTurtleList.get(turtle.getId()).isActivatedProperty()
+                .getValue() + " VIEW: + " + viewTurtleList.get(turtle.getId()-1).isActivatedProperty()
                 .getValue());
       }
     });
   }
 
   public static void addTurtleToModelList(Turtle modelTurtle) {
-    modelTurtle.setId(modelTurtleList.size());
+    modelTurtle.setId(modelTurtleList.size()+1);
     modelTurtleList.add(modelTurtle);
     addActivatedPropertyListener(modelTurtle);
   }
@@ -82,11 +82,11 @@ public class TurtleList {
   }
 
   public static void makeModelTurtleActivated(int id) {
-    modelTurtleList.get(id).setActivated(true);
+    modelTurtleList.get(id-1).setActivated(true);
   }
 
   public static void makeModelTurtleDeactivated(int id) {
-    modelTurtleList.get(id).setActivated(false);
+    modelTurtleList.get(id-1).setActivated(false);
   }
 
   public int getTurtles() {

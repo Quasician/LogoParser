@@ -7,6 +7,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -33,16 +35,17 @@ public class CommandLine{
   private static final int TEXTAREA_FONTSIZE = 20;
   private StringProperty commandLineText;
   private BooleanProperty textUpdate;
+  private TurtleGrid turtle;
 
 
   /**
    * Constructor for the command line group, which includes the run and clear button, as well as an area
    * where the user can type in commands to control the turtle.
    */
-  public CommandLine(StringProperty commandLineText, BooleanProperty textUpdate){
+  public CommandLine(StringProperty commandLineText, BooleanProperty textUpdate, TurtleGrid turt){
     this.textUpdate = textUpdate;
     this.commandLineText = commandLineText;
-    setInputArea();
+    setInputArea(turt);
     setButtons();
     formatCommandLineGroup();
   }
@@ -54,8 +57,34 @@ public class CommandLine{
     return commandLineGroup;
   }
 
-  private void setInputArea(){
+  private void setInputArea(TurtleGrid turtle){
     inputArea = new TextArea();
+    inputArea.setOnKeyPressed(e-> {
+      if((e.getCode()== KeyCode.UP)){
+        System.out.println("NHHHhhhhhh");
+        for (ImageView eachTurtle: turtle.getTurtleImage()){
+          eachTurtle.setY(eachTurtle.getY()-50);
+        }
+      }
+      if((e.getCode()== KeyCode.DOWN)){
+        System.out.println("NHHHhhhhhh");
+        for (ImageView eachTurtle: turtle.getTurtleImage()){
+          eachTurtle.setY(eachTurtle.getY()+50);
+        }
+      }
+      if((e.getCode()== KeyCode.LEFT)){
+        System.out.println("NHHHhhhhhh");
+        for (ImageView eachTurtle: turtle.getTurtleImage()){
+          eachTurtle.setX(eachTurtle.getX()-50);
+        }
+      }
+      if((e.getCode()== KeyCode.RIGHT)){
+        System.out.println("NHHHhhhhhh");
+        for (ImageView eachTurtle: turtle.getTurtleImage()){
+          eachTurtle.setX(eachTurtle.getX()+50);
+        }
+      }
+    });
     inputArea.setMaxHeight(COMMAND_LINE_TEXTAREA_HEIGHT);
     inputArea.setFont(Font.font("Avenir", FontWeight.NORMAL, TEXTAREA_FONTSIZE));
     inputArea.setPromptText(myResources.getString("EnterCommandPrompt"));

@@ -1,13 +1,10 @@
 package slogo.model.Commands.VCUCommands;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import slogo.model.CommandParser;
-import slogo.model.Commands.Command;
 import slogo.model.TreeNode;
 import slogo.model.VariableHashMap;
 
-public class Repeat extends Command {
+public class Repeat extends VCUCommand {
     public Repeat(String name)
     {
         super(name);

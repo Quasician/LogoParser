@@ -4,7 +4,7 @@ import slogo.model.Commands.Command;
 import slogo.model.TreeNode;
 import slogo.model.VariableHashMap;
 
-public class For extends Command {
+public class For extends VCUCommand {
     public For(String name)
     {
         super(name);
