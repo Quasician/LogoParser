@@ -174,7 +174,6 @@ public class Toolbar {
         String[] color = colorOptions.get(index).split(", ");
         String[] rgb = color[0].split(" ");
         Color c = getColorRGB(rgb);
-        Color col = Color.web(color[0]);
         turtleGrid.setPenColor(c);
       }
     });
@@ -188,7 +187,7 @@ public class Toolbar {
         String[] color = colorOptions.get(index).split(", ");
         String[] rgb = color[0].split(" ");
         Color c = getColorRGB(rgb);
-        Color col = Color.web(color[0]);
+        //Color col = Color.web(color[0]);
         turtleGrid.setBackground(c);
       }
     });
