@@ -257,6 +257,11 @@ public class TurtleGrid {
           .setImage(new Image(Main.myResources.getString(imageName)));
     }
   }
+  public ArrayList<ImageView> getTurtleImage(){
+    return turtleImageView;
+  }
+}
+
 
 //  protected void updateTurtlesImage(int index, ObservableList<Turtle> updateTurtles) {
 //    for (Turtle viewTurtle : updateTurtles) {
@@ -265,4 +270,4 @@ public class TurtleGrid {
 //          .setImage(new Image(Main.myResources.getString(imageName)));
 //    }
 //  }
-}
+
