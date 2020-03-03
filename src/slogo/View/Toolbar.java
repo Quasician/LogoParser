@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import java.util.Set;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -81,6 +82,8 @@ public class Toolbar {
   private static final String DEFAULT_RESOURCE_PACKAGE = "resources.";
   private static ResourceBundle myColors2 = ResourceBundle
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "Colors2");
+  private static ResourceBundle buttonNames = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "buttonNames");
+  private static ResourceBundle buttonMethods = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "buttonMethodNames");
 
   private static ResourceBundle possibleLanguages = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "Languages");
   private IntegerProperty penColorIndex = new SimpleIntegerProperty();
@@ -106,6 +109,10 @@ public class Toolbar {
     changeLanguageBox = new ComboBox<>();
     changePenColor = new ComboBox<>();
     changeBackgroundColor = new ComboBox<>();
+  }
+
+  private void makeButton() {
+    
   }
 
   public Toolbar(TurtleGrid grid, Language language) {
@@ -242,12 +249,16 @@ public class Toolbar {
     setupCellBackgrounds(changePenColor);
     changePenColor.getSelectionModel().selectFirst();
     changePenColor.setOnAction(e -> {
-      String[] color = changePenColor.getValue().split(", ");
-      Color c = getColorRGB(color[1].split(" "));
-      grid.setPenColor(c);
-      changePenColor
-          .setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
+     changePenColor();
     });
+  }
+
+  private void changePenColor() {
+    String[] color = changePenColor.getValue().split(", ");
+    Color c = getColorRGB(color[1].split(" "));
+    turtleGrid.setPenColor(c);
+    changePenColor
+        .setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
   private void setupCellBackgrounds(ComboBox<String> box) {
@@ -286,13 +297,17 @@ public class Toolbar {
     setupCellBackgrounds(changeBackgroundColor);
     changeBackgroundColor.getSelectionModel().selectFirst();
     changeBackgroundColor.setOnAction(e -> {
-      String[] color = changeBackgroundColor.getValue().split(", ");
-      Color c = getColorRGB(color[1].split(" "));
-      //check to make sure this is an actual color
-      grid.setBackground(c);
-      changeBackgroundColor
-          .setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
+      changeBackground();
     });
+  }
+
+  private void changeBackground() {
+    String[] color = changeBackgroundColor.getValue().split(", ");
+    Color c = getColorRGB(color[1].split(" "));
+    //check to make sure this is an actual color
+    turtleGrid.setBackground(c);
+    changeBackgroundColor
+        .setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
   }
 
   private void uploadSim() {
@@ -348,10 +363,13 @@ public class Toolbar {
     // setTurtleImage.setOnAction(e -> System.out.println(setTurtleImage.getValue()));
 
     setTurtleImage.setOnAction(e -> {
-      turtleGrid
-          .updateTurtlesImage((String) setTurtleImage.getValue(), TurtleList.getActiveTurtleList());
+      setImage();
     });
+  }
 
+  private void setImage() {
+    turtleGrid
+        .updateTurtlesImage((String) setTurtleImage.getValue(), TurtleList.getActiveTurtleList());
   }
 
   private void setUpHelpButton() {
@@ -393,14 +411,22 @@ public class Toolbar {
       changeLanguageBox.getItems().add(lang);
     }
     changeLanguageBox.getSelectionModel().selectFirst();
-    changeLanguageBox.setOnAction(e -> language.setLanguage(changeLanguageBox.getValue()));
+    changeLanguageBox.setOnAction(e -> setLanguage());
+  }
+
+  private void setLanguage() {
+    language.setLanguage(changeLanguageBox.getValue());
   }
 
   private void setUpPenColorChooser(TurtleGrid grid) {
     penColorPicker = fakeButton(Main.myResources.getString(CHANGE_PEN), STYLE_COLOR,
         BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
     penColor = makeColorPicker();
-    penColor.setOnAction(e -> grid.setPenColor(penColor.getValue()));
+    penColor.setOnAction(e -> setPenColor());
+  }
+
+  private void setPenColor() {
+    turtleGrid.setPenColor(penColor.getValue());
   }
 
   private void setUpBackgroundColorChooser(TurtleGrid grid) {
