@@ -109,6 +109,8 @@ public class TurtleGrid {
     turtleImageView.get(turtle.getId()).setFitHeight(TURTLE_IMAGE_HEIGHT);
     turtleImageView.get(turtle.getId()).setFitWidth(TURTLE_IMAGE_WIDTH);
     turtleImageView.get(turtle.getId()).rotateProperty();
+    turtleImageView.get(turtle.getId()).requestFocus();
+    turtleImageView.get(turtle.getId()).setOnKeyPressed(e-> System.out.println("HEllo"));
     addListeners(turtle);
     myPane.getChildren().add(turtleImageView.get(turtle.getId()));
 
@@ -257,6 +259,11 @@ public class TurtleGrid {
           .setImage(new Image(Main.myResources.getString(imageName)));
     }
   }
+  public ArrayList<ImageView> getTurtleImage(){
+    return turtleImageView;
+  }
+}
+
 
 //  protected void updateTurtlesImage(int index, ObservableList<Turtle> updateTurtles) {
 //    for (Turtle viewTurtle : updateTurtles) {
@@ -265,4 +272,4 @@ public class TurtleGrid {
 //          .setImage(new Image(Main.myResources.getString(imageName)));
 //    }
 //  }
-}
+
