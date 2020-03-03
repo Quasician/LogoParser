@@ -9,12 +9,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -257,9 +260,21 @@ public class TurtleGrid {
           .setImage(new Image(Main.myResources.getString(imageName)));
     }
   }
+  public ArrayList<ImageView> getTurtleImage(){
+    return turtleImageView;
+  }
+}
 
-//  protected void updateTurtlesImage(int index, ObservableList<Turtle> updateTurtles) {
-//    for (Turtle viewTurtle : updateTurtles) {
+
+//    viewTurtle.xProperty().addListener(new ChangeListener() {
+//      @Override
+//      public void changed(ObservableValue o, Object oldVal, Object newVal) {
+//        //System.out.println("X value changed to: " + (viewTurtle.getX() + centerX));
+//        turtleImageView.setX(viewTurtle.getX() + centerX);
+//        //System.out.println("Y val on x change:" + -(viewTurtle.getY()) + centerY);
+//        if (isPenDown) {
+//          makeLine(pastX, pastY, viewTurtle.getX() + turtleCenterX + centerX,
+//              -(viewTurtle.getY() - turtleCenterY) + centerY);
 //
 //      turtleImageView.get(viewTurtle.getId())
 //          .setImage(new Image(Main.myResources.getString(imageName)));

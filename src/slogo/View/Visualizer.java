@@ -1,5 +1,8 @@
 package slogo.View;
 
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +15,7 @@ import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,10 +24,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javafx.stage.WindowEvent;
 import slogo.Main;
 import slogo.model.CommandParser;
 import slogo.model.Turtle;
@@ -62,7 +69,7 @@ public class Visualizer {
    
   public Visualizer(Stage window, ObservableList<Turtle> viewTurtles, StringProperty commandLineText,
                     BooleanProperty textUpdate, Language language, CommandParser parser,
-      ObservableMap myMap) {
+      ObservableMap myMap){
     myWindow = window;
     comParser=parser;
     myCommandHistory = new CommandHistory(comParser);
@@ -82,10 +89,32 @@ public class Visualizer {
     this.myMap = myMap;
     setUpMapListener();
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
+    addKeyHandler(scene,grid);
     window.setScene(scene);
+    buttonImage.requestFocus();
+    scene.setOnMouseEntered(e->buttonImage.requestFocus());
     window.show();
     addSizeListener();
   }
+
+  private void addKeyHandler(Scene scene, TurtleGrid grid) {
+    scene.setOnKeyPressed(ke -> {
+      KeyCode keyCode = ke.getCode();
+      if (keyCode== KeyCode.RIGHT) {
+        grid.getTurtleImage().get(0).setX(100);
+      }
+      if(keyCode==KeyCode.LEFT){
+        grid.getTurtleImage().get(0).setX(50);
+      }
+      if(keyCode== KeyCode.J){
+        grid.getTurtleImage().get(0).setY(50);
+      }
+      if(keyCode==KeyCode.N){
+        grid.getTurtleImage().get(0).setY(30);
+      }
+    });
+  }
+
 
   private void addSizeListener()
   {
