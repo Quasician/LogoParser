@@ -65,18 +65,20 @@ public class Main extends Application {
 
     TurtleList.makeModelTurtleActivated(1);
     TurtleList.makeModelTurtleDeactivated(2);
-    commandParser.parseText("fd 50");
+    commandParser.parseText("fd 100");
     TurtleList.makeModelTurtleActivated(1);
     TurtleList.makeModelTurtleActivated(2);
 
     commandParser.parseText("tell [ 4 ] turtles id ");
     commandParser.parseText("tell [ 1 3 ]");
     commandParser.parseText("ask [ 2 4 ] [ fd 50 rt 45 ]");
+    commandParser.parseText("askwith [ less? xcor 75 ] [ rt 270 ]");
+    //commandParser.parseText("fd 100");
     //commandParser.parseText("fd 50");
     for (Turtle turtle : TurtleList.getModelTurtleList()) {
       System.out.println(
           "MODELTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
-              + " Activated: " + turtle.isActivatedProperty().getValue());
+              + " Angle: " + turtle.getDegree() + " Activated: "+ turtle.isActivatedProperty().getValue());
     }
 
 //        varList = FXCollections.observableList(Arrays.asList(myMap.keySet()));

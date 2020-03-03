@@ -13,7 +13,7 @@ public class Not extends BooleanCommand {
   public void doCommand(TreeNode commandNode) {
     double test = Double.parseDouble(getParamList().get(0));
     condition = test == 0;
-    commandNode.setData(getReturnValue(condition));
+    commandNode.setResult(getReturnValue(condition));
   }
 
 }
