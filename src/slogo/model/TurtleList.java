@@ -83,10 +83,12 @@ public class TurtleList {
 
   public static void makeModelTurtleActivated(int id) {
     modelTurtleList.get(id-1).setActivated(true);
+   // modelTurtleList.get(id).setActivated(true);
   }
 
   public static void makeModelTurtleDeactivated(int id) {
     modelTurtleList.get(id-1).setActivated(false);
+//    modelTurtleList.get(id).setActivated(false);
   }
 
   public int getTurtles() {

@@ -42,7 +42,6 @@ public class Main extends Application {
         FXCollections.observableArrayList());
     Turtle modelTurtle1 = new Turtle();
     Turtle modelTurtle2 = new Turtle();
-   // modelTurtle2.setActivated(false);
     TurtleList.addTurtleToModelList(modelTurtle1);
     TurtleList.addTurtleToModelList(modelTurtle2);
 
@@ -63,31 +62,21 @@ public class Main extends Application {
 
     parseTextOnInput(textUpdate, parseString, commandParser, vis);
 
-    TurtleList.makeModelTurtleActivated(0);
-    TurtleList.makeModelTurtleDeactivated(1);
-    commandParser.parseText("fd 50");
-    TurtleList.makeModelTurtleActivated(1);
-//        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
-//        printCustomCommands();
-//        System.out.println("done printing");
-//        commandParser.parseText(" c 1 ");
-   // commandParser.parseText("rt 45 fd 50");
     TurtleList.makeModelTurtleActivated(1);
     TurtleList.makeModelTurtleDeactivated(2);
-    //commandParser.parseText("fd 50");
+    commandParser.parseText("fd 50");
+    TurtleList.makeModelTurtleActivated(1);
     TurtleList.makeModelTurtleActivated(2);
-    //commandParser.parseText("rt 50 fd 50 ");
+
     commandParser.parseText("tell [ 4 ] turtles id ");
     commandParser.parseText("tell [ 1 3 ]");
     commandParser.parseText("ask [ 2 4 ] [ fd 50 rt 45 ]");
-   // TurtleList.makeModelTurtleActivated(1);
     //commandParser.parseText("fd 50");
     for (Turtle turtle : TurtleList.getModelTurtleList()) {
       System.out.println(
           "MODELTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
               + " Activated: " + turtle.isActivatedProperty().getValue());
     }
->>>>>>> master
 
 //        varList = FXCollections.observableList(Arrays.asList(myMap.keySet()));
    // parseTextOnInput(textUpdate, parseString, commandParser, vis);
@@ -183,3 +172,11 @@ public class Main extends Application {
 //ObjectProperty<Turtle> modelTurtleProp = new SimpleObjectProperty<>(modelTurtle, "modelTurtle");
 //ObjectProperty<Turtle> viewTurtleProp = new SimpleObjectProperty<>(viewTurtle, "viewTurtle");
 // viewTurtleProp.bind(modelTurtleProp);
+
+//        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
+//        printCustomCommands();
+//        System.out.println("done printing");
+//        commandParser.parseText(" c 1 ");
+// commandParser.parseText("rt 45 fd 50");
+//commandParser.parseText("fd 50");
+//commandParser.parseText("rt 50 fd 50 ");
