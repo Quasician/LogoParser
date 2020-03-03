@@ -1,10 +1,8 @@
 package slogo.model.Commands.VCUCommands;
-
-import slogo.model.Commands.Command;
 import slogo.model.TreeNode;
 import slogo.model.VariableHashMap;
 
-public class MakeVariable extends Command {
+public class MakeVariable extends VCUCommand {
     public MakeVariable(String name)
     {
         super(name);

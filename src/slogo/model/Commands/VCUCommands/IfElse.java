@@ -1,10 +1,8 @@
 package slogo.model.Commands.VCUCommands;
 import slogo.model.CommandParser;
-import slogo.model.Commands.Command;
 import slogo.model.TreeNode;
-import slogo.model.VariableHashMap;
 
-public class IfElse extends Command {
+public class IfElse extends VCUCommand {
     public IfElse(String name)
     {
         super(name);

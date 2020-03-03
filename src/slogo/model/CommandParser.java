@@ -48,6 +48,11 @@ public class CommandParser {
     System.out.println(RESOURCES_PACKAGE + language);
   }
 
+  public void setTurtles(ObservableList<Turtle> turtles)
+  {
+    this.turtles = turtles;
+  }
+
   /**
    * Adds the given resource file to this language's recognized types
    */

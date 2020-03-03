@@ -75,10 +75,14 @@ public class Main extends Application {
 //        System.out.println("done printing");
 //        commandParser.parseText(" c 1 ");
    // commandParser.parseText("rt 45 fd 50");
-    TurtleList.makeModelTurtleActivated(0);
-    TurtleList.makeModelTurtleDeactivated(1);
-    commandParser.parseText("fd 50");
     TurtleList.makeModelTurtleActivated(1);
+    TurtleList.makeModelTurtleDeactivated(2);
+    //commandParser.parseText("fd 50");
+    TurtleList.makeModelTurtleActivated(2);
+    //commandParser.parseText("rt 50 fd 50 ");
+    commandParser.parseText("tell [ 4 ] turtles id ");
+    commandParser.parseText("tell [ 1 3 ]");
+    commandParser.parseText("ask [ 2 4 ] [ fd 50 rt 45 ]");
    // TurtleList.makeModelTurtleActivated(1);
     //commandParser.parseText("fd 50");
     for (Turtle turtle : TurtleList.getModelTurtleList()) {

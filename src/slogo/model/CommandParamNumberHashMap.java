@@ -102,11 +102,11 @@ public class CommandParamNumberHashMap {
 
   private static void addMultipleTurtleCommands() {
     String s = "MultipleTurtleCommands";
-    commandParamNumberMap.putIfAbsent("ID", 1);
-    commandParamNumberMap.putIfAbsent("Turtles", 1);
+    commandParamNumberMap.putIfAbsent("ID", 0);
+    commandParamNumberMap.putIfAbsent("Turtles", 0);
     commandParamNumberMap.putIfAbsent("Tell", 1);
-    commandParamNumberMap.putIfAbsent("Ask", 1);
-    commandParamNumberMap.putIfAbsent("AskWith", 1);
+    commandParamNumberMap.putIfAbsent("Ask", 2);
+    commandParamNumberMap.putIfAbsent("AskWith", 2);
   }
 
   public static int getCommandParamNumber(String s) {
