@@ -34,6 +34,7 @@ public class CommandParser {
   private static final String ERRORS = RESOURCES + "ErrorMessages";
   private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
   private Language language;
+  private DisplayOption displayOption;
 
   /**
    * Create an empty parser
@@ -46,6 +47,10 @@ public class CommandParser {
     commandFactory = new CommandFactory();
     this.turtles = turtles;
     System.out.println(RESOURCES_PACKAGE + language);
+  }
+
+  public void setDisplayOption(DisplayOption disp) {
+    displayOption = disp;
   }
 
   public void setTurtles(ObservableList<Turtle> turtles)
@@ -155,6 +160,7 @@ public class CommandParser {
     treeMaker = new CommandTreeConstructor(translations);
     ArrayList<TreeNode> head = (ArrayList) treeMaker.buildTrees(commands);
     treeExec = new CommandTreeExecutor(commandFactory, turtles, translations, language);
+    treeExec.setDisplayOption(displayOption);
     return treeExec.executeTrees(head);
   }
 }

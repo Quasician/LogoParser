@@ -1,6 +1,5 @@
 package slogo.model.Commands.DisplayCommands;
 
-import slogo.model.UIOption;
 import slogo.model.CommandException;
 import slogo.model.Commands.Command;
 
@@ -13,11 +12,11 @@ public abstract class DisplayCommand extends Command {
   }
 
   protected boolean indexInBounds(int index) {
-    return index <= UIOption.getLargestIndex() && index >= 0;
+    return index <= displayOption.getLargestIndex() && index >= 0;
   }
 
   protected void indexError() {
-    String errorMessage = String.format(errors.getString(INDEX_ERROR), UIOption.getLargestIndex());
+    String errorMessage = String.format(errors.getString(INDEX_ERROR), displayOption.getLargestIndex());
     throw new CommandException(errorMessage);
   }
 

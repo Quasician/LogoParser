@@ -25,6 +25,7 @@ public class CommandTreeExecutor {
   private Language language;
   private HashMap<Pattern, String> translations;
   private String finalValue = "";
+  private DisplayOption displayOption;
 
   private static final String RESOURCES_PACKAGE =
       "resources.";
@@ -61,6 +62,9 @@ public class CommandTreeExecutor {
     return finalValue;
   }
 
+  public void setDisplayOption(DisplayOption d) {
+    displayOption = d;
+  }
 
   private boolean isMakeVariableCommand(TreeNode element) {
     return element.getName().equals(MAKE_VARIABLE);
@@ -97,6 +101,7 @@ public class CommandTreeExecutor {
       commandObject.setParams(parameters);
       commandObject.setTurtles(turtles);
       commandObject.setMiniParserLanguage(language);
+      commandObject.setDisplayOption(displayOption);
       commandObject.doCommand(element);//nd.setData(replacementValue);
       System.out.println("RESULT = " + element.getResult());
     } else if (match(element.getName(), variablePattern)) {
