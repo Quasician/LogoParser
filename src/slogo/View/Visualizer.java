@@ -100,9 +100,17 @@ public class Visualizer {
   private void addKeyHandler(Scene scene, TurtleGrid grid) {
     scene.setOnKeyPressed(ke -> {
       KeyCode keyCode = ke.getCode();
-      if (keyCode.isArrowKey()) {
-        System.out.println("helloomnxjndjnxjsn");
+      if (keyCode== KeyCode.RIGHT) {
         grid.getTurtleImage().get(0).setX(100);
+      }
+      if(keyCode==KeyCode.LEFT){
+        grid.getTurtleImage().get(0).setX(50);
+      }
+      if(keyCode== KeyCode.J){
+        grid.getTurtleImage().get(0).setY(50);
+      }
+      if(keyCode==KeyCode.N){
+        grid.getTurtleImage().get(0).setY(30);
       }
     });
   }
