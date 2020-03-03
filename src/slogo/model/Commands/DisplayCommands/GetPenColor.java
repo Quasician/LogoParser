@@ -1,6 +1,5 @@
 package slogo.model.Commands.DisplayCommands;
 
-import slogo.model.UIOption;
 import slogo.model.TreeNode;
 
 public class GetPenColor extends DisplayCommand {

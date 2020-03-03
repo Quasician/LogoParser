@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import java.util.Set;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -19,7 +18,6 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
@@ -41,7 +39,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import slogo.Main;
 import slogo.model.DisplayOption;
-import slogo.model.UIOption;
 import slogo.model.TurtleList;
 
 public class Toolbar {

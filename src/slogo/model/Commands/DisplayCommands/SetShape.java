@@ -1,7 +1,6 @@
 package slogo.model.Commands.DisplayCommands;
 
 import slogo.model.TreeNode;
-import slogo.model.UIOption;
 
 public class SetShape extends DisplayCommand {
 

@@ -2,7 +2,6 @@ package slogo.model.Commands.DisplayCommands;
 
 import slogo.model.CommandException;
 import slogo.model.TreeNode;
-import slogo.model.UIOption;
 
 public class SetPenSize extends DisplayCommand {
 
