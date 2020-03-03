@@ -14,7 +14,8 @@ public class SetBackground extends DisplayCommand {
     int index = Integer.parseInt(getParamList().get(0));
 
     if (indexInBounds(index)) {
-      UIOption.setCurrentBackground(index);
+     // UIOption.setCurrentBackground(index);
+      displayOption.setCurrentBackground(index);
       commandNode.setResult("" + index);
     } else {
       indexError();

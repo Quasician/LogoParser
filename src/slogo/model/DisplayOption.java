@@ -1,51 +1,52 @@
 package slogo.model;
 
-import java.util.HashMap;
-import java.util.Map;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
-public class UIOption {
-
+public class DisplayOption {
   private static final String COMMA = ", ";
   private static final String SPACE = " ";
-  private static ObservableList<String> colorOptions;
-  private static IntegerProperty penIndex = new SimpleIntegerProperty();
-  private static IntegerProperty bgIndex = new SimpleIntegerProperty();
-  private static DoubleProperty penWidth = new SimpleDoubleProperty();
-  private static IntegerProperty imageIndex = new SimpleIntegerProperty();
+  private ObservableList<String> colorOptions;
+  private IntegerProperty penIndex = new SimpleIntegerProperty();
+  private IntegerProperty bgIndex = new SimpleIntegerProperty();
+  private DoubleProperty penWidth = new SimpleDoubleProperty();
+  private IntegerProperty imageIndex = new SimpleIntegerProperty();
 
-  public static IntegerProperty getImageIndex() {
+  public DisplayOption() {
+  }
+
+  public IntegerProperty getImageIndex() {
     return imageIndex;
   }
 
-  public static IntegerProperty getPenIndex() {
+  public IntegerProperty getPenIndex() {
     return penIndex;
   }
 
-  public static IntegerProperty getBgIndex() {
+  public IntegerProperty getBgIndex() {
     return bgIndex;
   }
 
-  public static DoubleProperty getPenWidthProperty() {
+  public DoubleProperty getPenWidthProperty() {
     return penWidth;
   }
 
-
-  public static double getPenWidth() {
+  public double getPenWidth() {
     return penWidth.get();
   }
 
-  public static void createList(ObservableList list) {
+  public void createList(ObservableList list) {
     colorOptions = list;
     seeChange();
   }
 
-  public static void seeChange() {
+  public void seeChange() {
     colorOptions.addListener(new ListChangeListener<String>() {
       @Override
       public void onChanged(Change<? extends String> c) {
@@ -57,39 +58,39 @@ public class UIOption {
     });
   }
 
-  public static String getColorAt(int index) {
+  public String getColorAt(int index) {
     return colorOptions.get(index);
   }
 
-  public static int getLargestIndex() {
+  public int getLargestIndex() {
     return colorOptions.size() - 1;
   }
 
-  public static void setCurrentChoicePen(int index) {
+  public void setCurrentChoicePen(int index) {
     penIndex.set(index);
   }
 
-  public static int getCurrentChoicePen() {
+  public int getCurrentChoicePen() {
     return penIndex.get();
   }
 
-  public static void setImageIndex(int index) {
+  public void setImageIndex(int index) {
     imageIndex.set(index);
   }
 
-  public static void setCurrentBackground(int index) {
+  public void setCurrentBackground(int index) {
     bgIndex.set(index);
   }
 
-  public static void setPenWidth(double width) {
+  public void setPenWidth(double width) {
     penWidth.set(width);
   }
 
-  public static int getCurrentBackground() {
+  public int getCurrentBackground() {
     return bgIndex.get();
   }
 
-  public static void addToList(String c) {
+  public void addToList(String c) {
     String[] colorarray = c.split(COMMA);
     String color = colorarray[0];
 
@@ -98,7 +99,7 @@ public class UIOption {
     }
   }
 
-  public static void setColorAt(int index, int[] rgb) {
+  public void setColorAt(int index, int[] rgb) {
     String[] rgbStrings = new String[rgb.length];
     for (int i = 0; i < rgbStrings.length; i++) {
       rgbStrings[i] = "" + rgb[i];

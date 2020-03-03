@@ -21,10 +21,10 @@ public class SetPalette extends DisplayCommand {
     int index = Integer.parseInt(getParamList().get(0));
 
     if (index < 0) {
-      throw new CommandException(String.format(errors.getString("Index"),  UIOption.getLargestIndex()));
+      throw new CommandException(String.format(errors.getString("Index"),  displayOption.getLargestIndex()));
     }
-    if (index > UIOption.getLargestIndex())
-      index = UIOption.getLargestIndex() + 1;
+    if (index > displayOption.getLargestIndex())
+      index = displayOption.getLargestIndex() + 1;
 
     int[] rgb = new int[RGB_SIZE];
     for (int i = 0; i < RGB_SIZE; i++) {
@@ -33,7 +33,7 @@ public class SetPalette extends DisplayCommand {
         throw new CommandException(errors.getString("RGB"));
     }
 
-    UIOption.setColorAt(index, rgb);
+    displayOption.setColorAt(index, rgb);
 
     commandNode.setResult(index + "");
   }
