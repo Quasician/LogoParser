@@ -110,9 +110,6 @@ public class Toolbar {
     setUpHelpButton();
     setUpPenColorDropdown(grid);
     setUpBackgroundColorDropdown(grid);
-    addColorListener();
-    bindColorProperties();
-    bindPenWidth();
     addBgIndexListener();
     addPenIndexListener();
     addPenWidthListener();
@@ -131,7 +128,6 @@ public class Toolbar {
     bgColorIndex.bindBidirectional(displayOption.getBgIndex());
     imageIndex.bindBidirectional(displayOption.getImageIndex());
     displayOption.createList(colorOptions);
-    //choices.itemsProperty().bind(new SimpleObjectProperty<>(myWords));
   }
 
   private void setUpColorChoosers() {
@@ -162,17 +158,6 @@ public class Toolbar {
       colorOptions.add(rgb + ", " + index);
       index++;
     }
-   // UIOption.createList(colorOptions);
-  }
-
-  private void bindColorProperties() {
-//    penColorIndex.bindBidirectional(UIOption.getPenIndex());
-//    bgColorIndex.bindBidirectional(UIOption.getBgIndex());
-//    imageIndex.bindBidirectional(UIOption.getImageIndex());
-  }
-
-  private void bindPenWidth() {
-  //  penWidth.bindBidirectional(UIOption.getPenWidthProperty());
   }
 
   private Color getColorRGB(String[] rgb) {
@@ -225,25 +210,6 @@ public class Toolbar {
         String image = (String)setTurtleImage.getItems().get(index);
         String imageName = image.split(", ")[0];
         turtleGrid.updateTurtlesImage(imageName, TurtleList.getActiveTurtleList());
-      }
-    });
-  }
-
-  private void addColorListener() {
-    colorOptions.addListener(new ListChangeListener<String>() {
-      @Override
-      public void onChanged(Change<? extends String> c) {
-        int index = 0;
-        for (String color : colorOptions) {
-          if (index >= changeBackgroundColor.getItems().size()) {
-           // changeBackgroundColor.getItems().add("Background, " + color);
-            //changePenColor.getItems().add("Pen, " + color);
-          } else {
-           // changeBackgroundColor.getItems().set(index, "Background, " + color);
-            //changePenColor.getItems().set(index, "Pen, " + color);
-          }
-          index++;
-        }
       }
     });
   }

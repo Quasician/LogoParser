@@ -14,7 +14,7 @@ public class SetShape extends DisplayCommand {
     int index = Integer.parseInt(getParamList().get(0));
 
     //TODO: error checking
-    UIOption.setImageIndex(index);
+    displayOption.setImageIndex(index);
     commandNode.setResult(index + "");
   }
 }
