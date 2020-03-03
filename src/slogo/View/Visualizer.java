@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 
 import slogo.Main;
 import slogo.model.CommandParser;
+import slogo.model.DisplayOption;
 import slogo.model.Turtle;
 import slogo.model.VariableHashMap;
 
@@ -50,6 +51,8 @@ public class Visualizer {
   private javafx.scene.image.Image img;
   private static final String style = "-fx-background-color: rgba(0, 0, 0, 0.7);";
   private ObservableMap myMap;
+  private DisplayOption displayOption;
+  private Toolbar tool;
 
   /**
    * Constructor for the visualizer class
@@ -76,8 +79,8 @@ public class Visualizer {
     buttonImage.setFitHeight(BUTTON_HEIGHT);
     buttonImage.setFitWidth(BUTTON_WIDTH);
     TurtleGrid grid = new TurtleGrid(this.viewTurtles);
+    tool = new Toolbar(grid, language);
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate,grid);
-    Toolbar tool = new Toolbar(grid, language);
     setUpBorderPane(grid, cmdline, tool);
     makeHistory();
     this.myMap = myMap;
@@ -89,6 +92,11 @@ public class Visualizer {
     window.show();
     addSizeListener();
   }
+
+  public void setDisplayOption(DisplayOption d) {
+    tool.bindWithDisplayOption(d);
+  }
+
 
 //  private void addKeyHandler(Scene scene, TurtleGrid grid) {
 //    scene.setOnKeyPressed(ke -> {
@@ -108,6 +116,7 @@ public class Visualizer {
 //    });
 //
 //  }
+
   private void addSizeListener()
   {
     viewTurtles.addListener(new ListChangeListener<Turtle>() {

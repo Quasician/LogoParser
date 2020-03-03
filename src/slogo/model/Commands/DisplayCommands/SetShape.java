@@ -1,7 +1,6 @@
 package slogo.model.Commands.DisplayCommands;
 
 import slogo.model.TreeNode;
-import slogo.model.UIOption;
 
 public class SetShape extends DisplayCommand {
 
@@ -14,7 +13,7 @@ public class SetShape extends DisplayCommand {
     int index = Integer.parseInt(getParamList().get(0));
 
     //TODO: error checking
-    UIOption.setImageIndex(index);
+    displayOption.setImageIndex(index);
     commandNode.setResult(index + "");
   }
 }
