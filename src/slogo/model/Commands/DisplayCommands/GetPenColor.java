@@ -11,6 +11,6 @@ public class GetPenColor extends DisplayCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    commandNode.setResult(UIOption.getPenIndex() + "");
+    commandNode.setResult(displayOption.getPenIndex() + "");
   }
 }

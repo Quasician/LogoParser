@@ -14,7 +14,7 @@ public class SetPenColor extends DisplayCommand {
     int index = Integer.parseInt(getParamList().get(0));
 
     if (indexInBounds(index)) {
-      UIOption.setCurrentChoicePen(index);
+      displayOption.setCurrentChoicePen(index);
       commandNode.setResult("" + index);
     } else {
       indexError();

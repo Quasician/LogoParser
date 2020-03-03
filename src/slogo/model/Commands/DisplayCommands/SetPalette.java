@@ -33,9 +33,7 @@ public class SetPalette extends DisplayCommand {
         throw new CommandException(errors.getString("RGB"));
     }
 
-    System.out.println("here");
     displayOption.setColorAt(index, rgb);
-
     commandNode.setResult(index + "");
   }
 }
