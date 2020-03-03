@@ -1,6 +1,6 @@
 package slogo.model.Commands.DisplayCommands;
 
-import slogo.model.UIOptions;
+import slogo.model.UIOption;
 import slogo.model.CommandException;
 import slogo.model.TreeNode;
 
@@ -21,10 +21,10 @@ public class SetPalette extends DisplayCommand {
     int index = Integer.parseInt(getParamList().get(0));
 
     if (index < 0) {
-      throw new CommandException(String.format(errors.getString("Index"),  UIOptions.getLargestIndex()));
+      throw new CommandException(String.format(errors.getString("Index"),  UIOption.getLargestIndex()));
     }
-    if (index > UIOptions.getLargestIndex())
-      index = UIOptions.getLargestIndex() + 1;
+    if (index > UIOption.getLargestIndex())
+      index = UIOption.getLargestIndex() + 1;
 
     int[] rgb = new int[RGB_SIZE];
     for (int i = 0; i < RGB_SIZE; i++) {
@@ -33,7 +33,7 @@ public class SetPalette extends DisplayCommand {
         throw new CommandException(errors.getString("RGB"));
     }
 
-    UIOptions.setColorAt(index, rgb);
+    UIOption.setColorAt(index, rgb);
 
     commandNode.setResult(index + "");
   }

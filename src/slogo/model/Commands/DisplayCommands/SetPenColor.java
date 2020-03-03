@@ -1,6 +1,6 @@
 package slogo.model.Commands.DisplayCommands;
 
-import slogo.model.UIOptions;
+import slogo.model.UIOption;
 import slogo.model.TreeNode;
 
 public class SetPenColor extends DisplayCommand {
@@ -14,7 +14,7 @@ public class SetPenColor extends DisplayCommand {
     int index = Integer.parseInt(getParamList().get(0));
 
     if (indexInBounds(index)) {
-      UIOptions.setCurrentChoicePen(index);
+      UIOption.setCurrentChoicePen(index);
       commandNode.setResult("" + index);
     } else {
       indexError();

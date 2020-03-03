@@ -252,8 +252,17 @@ public class TurtleGrid {
 
   protected void updateTurtlesImage(String string, ObservableList<Turtle> updateTurtles) {
     for (Turtle viewTurtle : updateTurtles) {
+      String imageName = string.split(", ")[0];
       turtleImageView.get(viewTurtle.getId())
-          .setImage(new Image(Main.myResources.getString(string)));
+          .setImage(new Image(Main.myResources.getString(imageName)));
     }
   }
+
+//  protected void updateTurtlesImage(int index, ObservableList<Turtle> updateTurtles) {
+//    for (Turtle viewTurtle : updateTurtles) {
+//
+//      turtleImageView.get(viewTurtle.getId())
+//          .setImage(new Image(Main.myResources.getString(imageName)));
+//    }
+//  }
 }

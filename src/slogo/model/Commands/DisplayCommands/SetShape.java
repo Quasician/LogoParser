@@ -1,0 +1,20 @@
+package slogo.model.Commands.DisplayCommands;
+
+import slogo.model.TreeNode;
+import slogo.model.UIOption;
+
+public class SetShape extends DisplayCommand {
+
+  public SetShape(String name) {
+    super(name);
+  }
+
+  @Override
+  public void doCommand(TreeNode commandNode) {
+    int index = Integer.parseInt(getParamList().get(0));
+
+    //TODO: error checking
+    UIOption.setImageIndex(index);
+    commandNode.setResult(index + "");
+  }
+}

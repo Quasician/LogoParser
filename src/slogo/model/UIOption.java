@@ -9,7 +9,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
-public class UIOptions {
+public class UIOption {
 
   private static final String COMMA = ", ";
   private static final String SPACE = " ";
@@ -18,6 +18,11 @@ public class UIOptions {
   private static IntegerProperty penIndex = new SimpleIntegerProperty();
   private static IntegerProperty bgIndex = new SimpleIntegerProperty();
   private static DoubleProperty penWidth = new SimpleDoubleProperty();
+  private static IntegerProperty imageIndex = new SimpleIntegerProperty();
+
+  public static IntegerProperty getImageIndex() {
+    return imageIndex;
+  }
 
   public static IntegerProperty getPenIndex() {
     return penIndex;
@@ -30,6 +35,7 @@ public class UIOptions {
   public static DoubleProperty getPenWidthProperty() {
     return penWidth;
   }
+
 
   public static double getPenWidth() {
     return penWidth.get();
@@ -68,9 +74,12 @@ public class UIOptions {
     return penIndex.get();
   }
 
+  public static void setImageIndex(int index) {
+    imageIndex.set(index);
+  }
+
   public static void setCurrentBackground(int index) {
     bgIndex.set(index);
-    System.out.println("BACKGROUND has changed to : " + index);
   }
 
   public static void setPenWidth(double width) {
@@ -84,7 +93,6 @@ public class UIOptions {
   public static void addToList(String c) {
     String[] colorarray = c.split(COMMA);
     String color = colorarray[0];
-    System.out.println(" the color is " + color);
 
     if (!colorOptions.contains(color)) {
       colorOptions.add(color + COMMA + colorOptions.size());

@@ -1,6 +1,6 @@
 package slogo.model.Commands.DisplayCommands;
 
-import slogo.model.UIOptions;
+import slogo.model.UIOption;
 import slogo.model.TreeNode;
 
 public class GetPenColor extends DisplayCommand {
@@ -11,6 +11,6 @@ public class GetPenColor extends DisplayCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    commandNode.setResult(UIOptions.getPenIndex() + "");
+    commandNode.setResult(UIOption.getPenIndex() + "");
   }
 }

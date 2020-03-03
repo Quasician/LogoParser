@@ -38,7 +38,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import slogo.Main;
-import slogo.model.UIOptions;
+import slogo.model.UIOption;
 import slogo.model.TurtleList;
 
 public class Toolbar {
@@ -79,16 +79,19 @@ public class Toolbar {
 
   private ObservableList<String> colorOptions;
   private static final String DEFAULT_RESOURCE_PACKAGE = "resources.";
-  private static ResourceBundle myColors = ResourceBundle
-      .getBundle(DEFAULT_RESOURCE_PACKAGE + "Colors");
-
   private static ResourceBundle myColors2 = ResourceBundle
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "Colors2");
 
+  private static ResourceBundle possibleLanguages = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "Languages");
   private IntegerProperty penColorIndex = new SimpleIntegerProperty();
   private IntegerProperty bgColorIndex = new SimpleIntegerProperty();
   private DoubleProperty penWidth = new SimpleDoubleProperty();
+  private IntegerProperty imageIndex = new SimpleIntegerProperty();
 
+
+  private void setupLanguages() {
+    //TODO: do this method later
+  }
 
   private void setUpColorChoosers() {
     backgroundColorChooser = new HBox();
@@ -128,6 +131,7 @@ public class Toolbar {
     addBgIndexListener();
     addPenIndexListener();
     addPenWidthListener();
+    addImageListener();
     this.language = language;
     currentLanguage.set("English");
   }
@@ -141,16 +145,17 @@ public class Toolbar {
       colorOptions.add(rgb + ", " + index);
       index++;
     }
-    UIOptions.createList(colorOptions);
+    UIOption.createList(colorOptions);
   }
 
   private void bindColorProperties() {
-    penColorIndex.bindBidirectional(UIOptions.getPenIndex());
-    bgColorIndex.bindBidirectional(UIOptions.getBgIndex());
+    penColorIndex.bindBidirectional(UIOption.getPenIndex());
+    bgColorIndex.bindBidirectional(UIOption.getBgIndex());
+    imageIndex.bindBidirectional(UIOption.getImageIndex());
   }
 
   private void bindPenWidth() {
-    penWidth.bindBidirectional(UIOptions.getPenWidthProperty());
+    penWidth.bindBidirectional(UIOption.getPenWidthProperty());
   }
 
   private Color getColorRGB(String[] rgb) {
@@ -165,7 +170,7 @@ public class Toolbar {
     penColorIndex.addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        int index = UIOptions.getCurrentChoicePen();
+        int index = UIOption.getCurrentChoicePen();
         String[] color = colorOptions.get(index).split(", ");
         String[] rgb = color[0].split(" ");
         Color c = getColorRGB(rgb);
@@ -179,7 +184,7 @@ public class Toolbar {
     bgColorIndex.addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        int index = UIOptions.getCurrentBackground();
+        int index = UIOption.getCurrentBackground();
         String[] color = colorOptions.get(index).split(", ");
         String[] rgb = color[0].split(" ");
         Color c = getColorRGB(rgb);
@@ -194,6 +199,19 @@ public class Toolbar {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         turtleGrid.setPenWidth(penWidth.get());
+      }
+    });
+  }
+
+  private void addImageListener() {
+    imageIndex.addListener(new ChangeListener() {
+      @Override
+      public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        System.out.println("here, image index");
+        int index = imageIndex.get();
+        String image = (String)setTurtleImage.getItems().get(index);
+        String imageName = image.split(", ")[0];
+        turtleGrid.updateTurtlesImage(imageName, TurtleList.getActiveTurtleList());
       }
     });
   }
@@ -292,8 +310,11 @@ public class Toolbar {
 
   private void setUpTurtleChooser() {
     setTurtleImage.setPrefWidth(BUTTON_WIDTH);
+
+    int index = 0;
     for (String turtle : TURTLES) {
-      setTurtleImage.getItems().add(turtle);
+      setTurtleImage.getItems().add(turtle + ", " + index);
+      index++;
     }
     setTurtleImage.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
       @Override
@@ -306,7 +327,8 @@ public class Toolbar {
             if (item == null || empty) {
               setGraphic(null);
             } else {
-              Image icon = new Image(myResources.getString(item));
+              String turtleName = item.split(", ")[0];
+              Image icon = new Image(myResources.getString(turtleName));
               ImageView iconImageView = new ImageView(icon);
               iconImageView.setFitHeight(30);
               iconImageView.setPreserveRatio(true);

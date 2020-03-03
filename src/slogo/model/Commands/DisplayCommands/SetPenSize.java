@@ -1,9 +1,8 @@
 package slogo.model.Commands.DisplayCommands;
 
-import java.awt.image.ColorConvertOp;
 import slogo.model.CommandException;
 import slogo.model.TreeNode;
-import slogo.model.UIOptions;
+import slogo.model.UIOption;
 
 public class SetPenSize extends DisplayCommand {
 
@@ -18,7 +17,7 @@ public class SetPenSize extends DisplayCommand {
     if (penSize <= 0)
       throw new CommandException(errors.getString("Negative"));
     else {
-      UIOptions.setPenWidth(penSize);
+      UIOption.setPenWidth(penSize);
       commandNode.setResult("" + penSize);
     }
   }
