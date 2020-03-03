@@ -135,14 +135,6 @@ public class TurtleGrid {
         ImageView thisView = turtleImageViews.get(id);
         thisView.setX(viewTurtle.getX() + centerX);
         thisView.setY(-(viewTurtle.getY()) + centerY);
-        
-        //trying to change color adjustment
-//        if (viewTurtle.isActivatedProperty().getValue()) {
-//          ColorAdjust colorAdjust = new ColorAdjust();
-//          colorAdjust.setBrightness(0.2);
-//          colorAdjust.setSaturation(0.2);
-//          thisView.setEffect(colorAdjust);
-//        }
 
         double oldX = viewTurtle.getPastX() + centerX + turtleCenterX;
         double oldY = - viewTurtle.getPastY() + centerY + turtleCenterY;
@@ -267,7 +259,8 @@ public class TurtleGrid {
           .setImage(new Image(Main.myResources.getString(imageName)));
     }
   }
-  public ArrayList<ImageView> getTurtleImage(){
+  
+  public List<ImageView> getTurtleImage(){
     return turtleImageViews;
   }
 }
