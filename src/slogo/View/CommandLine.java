@@ -14,6 +14,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import slogo.Main;
+import slogo.model.Turtle;
+import slogo.model.TurtleList;
 
 /**
  * consider: what if I wanna add more buttons?
@@ -60,31 +62,59 @@ public class CommandLine{
   private void setInputArea(TurtleGrid turtle){
     inputArea = new TextArea();
     inputArea.setOnKeyPressed(e-> {
-      if((e.getCode()== KeyCode.UP)){
-        System.out.println("NHHHhhhhhh");
-        for (ImageView eachTurtle: turtle.getTurtleImage()){
-          eachTurtle.setY(eachTurtle.getY()-50);
-        }
-      }
-      if((e.getCode()== KeyCode.DOWN)){
-        System.out.println("NHHHhhhhhh");
-        for (ImageView eachTurtle: turtle.getTurtleImage()){
-          eachTurtle.setY(eachTurtle.getY()+50);
-        }
-      }
-      if((e.getCode()== KeyCode.LEFT)){
-        System.out.println("NHHHhhhhhh");
-        for (ImageView eachTurtle: turtle.getTurtleImage()){
-          eachTurtle.setX(eachTurtle.getX()-50);
-        }
-      }
-      if((e.getCode()== KeyCode.RIGHT)){
-        System.out.println("NHHHhhhhhh");
-        for (ImageView eachTurtle: turtle.getTurtleImage()){
-          eachTurtle.setX(eachTurtle.getX()+50);
-        }
-      }
-    });
+              if ((e.getCode() == KeyCode.UP)) {
+                for (Turtle t : TurtleList.getActiveTurtleList()) {
+                  if(t.isActivatedProperty().getValue()) {
+                    t.setCoordinate(t.getX(), t.getY() + 50);
+                  }
+                }
+              }
+              if ((e.getCode() == KeyCode.DOWN)) {
+                for (Turtle t : TurtleList.getActiveTurtleList()) {
+                  if(t.isActivatedProperty().getValue()) {
+                    t.setCoordinate(t.getX(), t.getY() - 50);
+                  }
+                }
+              }
+              if ((e.getCode() == KeyCode.RIGHT)) {
+                for (Turtle t : TurtleList.getActiveTurtleList()) {
+                  if(t.isActivatedProperty().getValue()) {
+                    t.setDegree(t.getDegree() + 30);
+                  }
+                }
+              }
+              if ((e.getCode() == KeyCode.LEFT)) {
+                for (Turtle t : TurtleList.getActiveTurtleList()) {
+                  if(t.isActivatedProperty().getValue()) {
+                    t.setDegree(t.getDegree() - 30);
+                  }
+                }
+              }});
+//
+//        for (ImageView eachTurtle: turtle.getTurtleImage()){
+//          eachTurtle.setY(eachTurtle.getY()-50);
+//        }
+              // }
+//      if((e.getCode()== KeyCode.DOWN)){
+//        System.out.println("NHHHhhhhhh");
+//        for (ImageView eachTurtle: turtle.getTurtleImage()){
+//          eachTurtle.setY(eachTurtle.getY()+50);
+//        }
+//      }
+//      if((e.getCode()== KeyCode.LEFT)){
+//        System.out.println("NHHHhhhhhh");
+//        for (ImageView eachTurtle: turtle.getTurtleImage()){
+//          eachTurtle.setX(eachTurtle.getX()-50);
+//        }
+//      }
+//      if((e.getCode()== KeyCode.RIGHT)){
+//        System.out.println("NHHHhhhhhh");
+//        for (ImageView eachTurtle: turtle.getTurtleImage()){
+//          eachTurtle.setX(eachTurtle.getX()+50);
+//        }
+//      }
+//    });
+
     inputArea.setMaxHeight(COMMAND_LINE_TEXTAREA_HEIGHT);
     inputArea.setFont(Font.font("Avenir", FontWeight.NORMAL, TEXTAREA_FONTSIZE));
     inputArea.setPromptText(myResources.getString("EnterCommandPrompt"));
