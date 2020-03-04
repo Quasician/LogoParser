@@ -15,6 +15,8 @@ import slogo.View.Language;
 import slogo.View.UserException;
 import slogo.View.Visualizer;
 import slogo.model.*;
+
+import javax.sound.midi.SysexMessage;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -28,6 +30,7 @@ public class Main extends Application {
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
   private static final String TURTLE_PNG = "turtle.png";
   private ObservableMap myMap = FXCollections.observableMap(new HashMap<String, String>());
+  private ObservableMap myCustomMap = FXCollections.observableMap(new HashMap<String, String>());
   private ObservableList varList;
   //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
   public static ResourceBundle myResources = ResourceBundle
@@ -68,10 +71,10 @@ public class Main extends Application {
     //commandParser.parseText("fd 100");
     TurtleList.makeModelTurtleActivated(1);
     TurtleList.makeModelTurtleActivated(2);
-
-    commandParser.parseText("tell [ 4 ] turtles id ");
-    commandParser.parseText("tell [ 2 ]");
-    commandParser.parseText("left 90 fd 100 ");
+    commandParser.parseText("atan 1");
+//    commandParser.parseText("tell [ 4 ] turtles id ");
+//    commandParser.parseText("tell [ 2 ]");
+//    commandParser.parseText("left 90 fd 100 ");
     //commandParser.parseText("ask [ 2 4 ] [ fd 50 rt 45 ]");
     //commandParser.parseText("askwith [ less? xcor 75 ] [ rt 270 ]");
     //commandParser.parseText("fd 100");
@@ -125,8 +128,9 @@ public class Main extends Application {
         //vis.makeNewBox(parseText.getValue());
 
         try {
-          commandParser.parseText(parseText.getValue());
+         commandParser.parseText(parseText.getValue());
           vis.makeNewBox(parseText.getValue());
+          vis.makeNewTerminalBox(commandParser.parseText(parseText.getValue()));
 //                    vis.makeNewVariableBox(myMap);
         } catch (CommandException | UserException e) {
           showError(e.getMessage());

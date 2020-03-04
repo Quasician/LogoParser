@@ -44,6 +44,7 @@ public class Visualizer {
   private static int WINDOW_HEIGHT = 1000;
   private Stage myWindow;
   private CommandHistory myCommandHistory;
+  private OutputView myOutputView;
   private UserDefinedCommands myUserDefined;
   private VariableHistory myVariableHistory;
   private Configuration myConfig;
@@ -71,6 +72,7 @@ public class Visualizer {
     myWindow = window;
     comParser = parser;
     myCommandHistory = new CommandHistory(comParser);
+    myOutputView= new OutputView();
     myUserDefined = new UserDefinedCommands(comParser);
     myVariableHistory = new VariableHistory();
     myConfig = new Configuration();
@@ -184,6 +186,7 @@ public class Visualizer {
     historyVBox.setAlignment(Pos.CENTER);
     Button showCommand= new ViewButton("Command",45,65,10);
     Node toDisplay= myCommandHistory.returnScene();
+    Node outputView= myOutputView.returnScene();
     Button showVariable= new ViewButton("Variable",45,65,10);
     Button showCustomCommands= new ViewButton("Custom",45,65,10);
     Button showProperties= new ViewButton("Properties",45,65,10);
@@ -193,7 +196,7 @@ public class Visualizer {
     buttonsForPanes.setBackground(new Background(new BackgroundFill(Color.rgb(10, 10, 20), CornerRadii.EMPTY, Insets.EMPTY)));
     buttonsForPanes.getChildren().addAll(showCommand,showVariable,showCustomCommands,showProperties,saveConfig,uploadConfig);
     historyVBox.getChildren()
-        .addAll(buttonImage, buttonsForPanes, toDisplay);
+        .addAll(buttonImage, buttonsForPanes, toDisplay, outputView);
     saveConfig.setOnAction(e -> saveXML());
     uploadConfig.setOnAction(e -> getXML());
     showCommand.setOnAction(e -> setShowCommand(historyVBox));
@@ -244,4 +247,7 @@ public class Visualizer {
     trial.setOnAction(e -> comParser.parseText(newCommand));
   }
 
+  public void makeNewTerminalBox(String parseText) {
+    myOutputView.makeBox(parseText);
+  }
 }
