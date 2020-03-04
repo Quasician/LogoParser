@@ -7,7 +7,7 @@ public class Tangent extends MathCommand {
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        commandNode.setResult(Math.toDegrees(Math.tan(Double.parseDouble(getParamList().get(0))))+"");
+        commandNode.setResult(Math.tan(Math.toRadians(Double.parseDouble(getParamList().get(0))))+"");
         System.out.println("Result of Tangent: "+ commandNode.getResult());
     }
 }
