@@ -41,7 +41,7 @@ public class XMLParser {
    * Gets set-up parameters from XML config file and puts them in a list
    * @return arraylist with set up parameters for simulation
    */
-  public List<String> getSetUpParameters() {
+  public void setUp() {
     DOCUMENT_BUILDER = getDocumentBuilder();
     try {
       doc = DOCUMENT_BUILDER.parse(configFile);
@@ -50,10 +50,6 @@ public class XMLParser {
     } catch (SAXException | IOException e) {
       throw new XMLException(e);
     }
-
-    name = root.getElementsByTagName(NAME).item(0).getTextContent();
-    readGeneralParameters();
-    return setUpVals;
   }
 
   private void readGeneralParameters() {
@@ -78,10 +74,11 @@ public class XMLParser {
     ArrayList<String> specificCommand = new ArrayList<>();
     NodeList nodeList1 = root.getElementsByTagName("Command");
     for (int x = 0; x < nodeList1.getLength(); x++) {
+      System.out.println(nodeList1.getLength());
       Node node = nodeList1.item(x);
       if (node.getNodeType() == Node.ELEMENT_NODE) {
         commandElement = (Element) (node);
-        String command = getTextByTag(COMMAND, 0);
+        String command = getTextByTag("Text", 0);
         specificCommand.add(command);
       }
     }

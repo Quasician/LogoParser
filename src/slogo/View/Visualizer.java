@@ -32,6 +32,7 @@ import slogo.model.CommandParser;
 import slogo.model.DisplayOption;
 import slogo.model.Turtle;
 import slogo.model.VariableHashMap;
+import slogo.model.xml.XMLParser;
 
 public class Visualizer {
 
@@ -100,10 +101,24 @@ public class Visualizer {
     tool.bindWithDisplayOption(d);
   }
 
+  //TODO: CHNAGE THIS
   public void getXML() {
     FileChooser fileChooser = new FileChooser();
     File xml = fileChooser.showOpenDialog(myWindow);
     System.out.println(xml.toString());
+
+    XMLParser parser = new XMLParser(xml);
+    parser.setUp();
+    List<String> commands = parser.getCommands();
+    for (String s : commands) {
+      System.out.println(s);
+    }
+    String[] array = commands.toArray(new String[0]);
+    System.out.println(array.length);
+    String str = String.join("\n", array);
+    System.out.println(str);
+
+    comParser.parseText(str);
   }
 
 
