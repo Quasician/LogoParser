@@ -161,9 +161,11 @@ public class Visualizer {
     Button showVariable= new ViewButton("Variable",45,65,10);
     Button showCustomCommands= new ViewButton("Custom",45,65,10);
     Button showProperties= new ViewButton("Properties",45,65,10);
-    HBox buttonsForPanes= new HBox(20);
+    Button saveConfig= new ViewButton("Save", 45, 65, 10);
+    Button uploadConfig= new ViewButton("Upload",45,65,10);
+    HBox buttonsForPanes= new HBox();
     buttonsForPanes.setBackground(new Background(new BackgroundFill(Color.rgb(10, 10, 20), CornerRadii.EMPTY, Insets.EMPTY)));
-    buttonsForPanes.getChildren().addAll(showCommand,showVariable,showCustomCommands,showProperties);
+    buttonsForPanes.getChildren().addAll(showCommand,showVariable,showCustomCommands,showProperties,saveConfig,uploadConfig);
     historyVBox.getChildren()
             .addAll(buttonImage,buttonsForPanes,toDisplay);
     showCommand.setOnAction(e->setShowCommand(historyVBox));
