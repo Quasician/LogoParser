@@ -194,6 +194,8 @@ public class Visualizer {
     buttonsForPanes.getChildren().addAll(showCommand,showVariable,showCustomCommands,showProperties,saveConfig,uploadConfig);
     historyVBox.getChildren()
         .addAll(buttonImage, buttonsForPanes, toDisplay);
+    saveConfig.setOnAction(e -> saveXML());
+    uploadConfig.setOnAction(e -> getXML());
     showCommand.setOnAction(e -> setShowCommand(historyVBox));
     showVariable.setOnAction(e -> setShowVariable(historyVBox));
     showCustomCommands.setOnAction(e -> setShowCustom(historyVBox));

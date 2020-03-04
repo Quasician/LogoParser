@@ -3,7 +3,14 @@
     <author>Sanna</author>
     <Commands>
         <Command>
-            <Text>fd 50 </Text>
+            <Text>fd 50</Text>
+        </Command>
+        <Command>
+            <Text>rt 50</Text>
+        </Command>
+        <Command>
+            <Text>fd 50
+bk 10</Text>
         </Command>
     </Commands>
 </Title>
