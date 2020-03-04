@@ -68,10 +68,10 @@ public class Main extends Application {
     //commandParser.parseText("fd 100");
     TurtleList.makeModelTurtleActivated(1);
     TurtleList.makeModelTurtleActivated(2);
-
-    commandParser.parseText("tell [ 4 ] turtles id ");
-    commandParser.parseText("tell [ 2 ]");
-    commandParser.parseText("left 90 fd 100 ");
+    commandParser.parseText("atan 1");
+//    commandParser.parseText("tell [ 4 ] turtles id ");
+//    commandParser.parseText("tell [ 2 ]");
+//    commandParser.parseText("left 90 fd 100 ");
     //commandParser.parseText("ask [ 2 4 ] [ fd 50 rt 45 ]");
     //commandParser.parseText("askwith [ less? xcor 75 ] [ rt 270 ]");
     //commandParser.parseText("fd 100");
