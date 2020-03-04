@@ -37,14 +37,7 @@ public class CommandTreeExecutor {
       .getBundle(RESOURCES_PACKAGE + "ParameterNumbers");
 
   private static final String ERRORS = RESOURCES_PACKAGE + "ErrorMessages";
-
-  //make a properties file for errors
   private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
-
-//  public CommandTreeExecutor(CommandFactoryInterface factory, Turtle turtle,
-//      HashMap<Pattern, String> translations, Language language) {
-  // private static final String COMMAND_PACKAGES = CommandTreeExecutor.class.getPackageName() + ".resources.packages.CommandPackages.properties";
-
 
   public CommandTreeExecutor(CommandFactoryInterface factory, ObservableList<Turtle> turtles,
                              HashMap<Pattern, String> translations, Language language) {
@@ -86,7 +79,7 @@ public class CommandTreeExecutor {
 
   private void executeSubTree(TreeNode element) {
     if (match(element.getName(), commandPattern)) {
-      ArrayList<TreeNode> children = element.getChildren();
+      List<TreeNode> children = element.getChildren();
       ArrayList<String> parameters = new ArrayList<>();
 
       if (isMakeVariableCommand(element) || isMakeUserInstruction(element)) {
@@ -121,7 +114,6 @@ public class CommandTreeExecutor {
 
     System.out.println("Current Command: "+ commandName);
     int numParamsShouldHave = Integer.parseInt(commandParameterNumbers.getString(commandName));
-    System.out.println("Num params should have = " + numParamsShouldHave + " size = " + parameters.size());
     if (parameters.size() != numParamsShouldHave) {
       throw new CommandException(errors.getString("WrongParameterNumber"));
     }

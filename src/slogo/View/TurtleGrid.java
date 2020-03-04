@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -263,7 +264,8 @@ public class TurtleGrid {
           .setImage(new Image(Main.myResources.getString(imageName)));
     }
   }
-  public ArrayList<ImageView> getTurtleImage(){
+
+  public List<ImageView> getTurtleImage(){
     return turtleImageViews;
   }
 }

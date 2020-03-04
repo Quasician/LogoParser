@@ -1,5 +1,6 @@
 package slogo.View;
 
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -40,9 +41,12 @@ public class CommandHistory {
         historyWindow.setPrefWidth(300.0);
         // historyWindow.setMargin(historyWindow,new Insets(10,5,10,0));
         pars=parser;
-
     }
 
+    protected List<String> getCommandListCopy() {
+        List<String> copy = new ArrayList<String>(commandValues);
+        return copy;
+    }
 
     protected void makeBox(String StringRepresentation){
         runButton=new ViewButton("", 2* PLAY_IMAGE_SIZE, 2* PLAY_IMAGE_SIZE, 0);
