@@ -58,6 +58,7 @@ public class Visualizer {
   private ObservableMap myMap;
   private DisplayOption displayOption;
   private Toolbar tool;
+  private TurtleGrid grid;
 
   /**
    * Constructor for the visualizer class
@@ -75,13 +76,13 @@ public class Visualizer {
     myOutputView= new OutputView();
     myUserDefined = new UserDefinedCommands(comParser);
     myVariableHistory = new VariableHistory();
-    myConfig = new Configuration();
+    myConfig = new Configuration(viewTurtles);
     this.viewTurtles = viewTurtles;
     img = new Image(myResources.getString("SlogoLogo"));
     buttonImage = new ImageView(img);
     buttonImage.setFitHeight(BUTTON_HEIGHT);
     buttonImage.setFitWidth(BUTTON_WIDTH);
-    TurtleGrid grid = new TurtleGrid(this.viewTurtles);
+    grid = new TurtleGrid(this.viewTurtles);
     tool = new Toolbar(grid, language);
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate, grid);
     setUpBorderPane(grid, cmdline, tool);
@@ -124,18 +125,6 @@ public class Visualizer {
   private void addKeyHandler(Scene scene, TurtleGrid grid) {
     scene.setOnKeyPressed(ke -> {
       KeyCode keyCode = ke.getCode();
-//      if (keyCode== KeyCode.RIGHT) {
-//        grid.getTurtleImage().get(0).setX(100);
-//      }
-//      if(keyCode==KeyCode.LEFT){
-//        grid.getTurtleImage().get(0).setX(50);
-//      }
-//      if(keyCode== KeyCode.J){
-//        grid.getTurtleImage().get(0).setY(50);
-//      }
-//      if(keyCode== KeyCode.N){
-//        grid.getTurtleImage().get(0).setY(30);
-//      }
       if (keyCode == KeyCode.ENTER) {
         getXML(); //TODO: CHANGE THIS LATER
       }
@@ -209,34 +198,34 @@ public class Visualizer {
   private void setShowProperties(VBox historyVBox) {
     historyVBox.getChildren()
         .removeAll(myCommandHistory.returnScene(), myVariableHistory.getScene(),
-            myUserDefined.returnScene());
+            myUserDefined.returnScene(), myOutputView.returnScene());
     if (!historyVBox.getChildren().contains(myConfig.getScene())) {
-      historyVBox.getChildren().add(myConfig.getScene());
+      historyVBox.getChildren().addAll(myConfig.getScene(),myOutputView.returnScene());
     }
   }
 
   private void setShowCustom(VBox historyVBox) {
     historyVBox.getChildren()
         .removeAll(myCommandHistory.returnScene(), myVariableHistory.getScene(),
-            myConfig.getScene());
+            myConfig.getScene(),myOutputView.returnScene());
     if (!historyVBox.getChildren().contains(myUserDefined.returnScene())) {
-      historyVBox.getChildren().add(myUserDefined.returnScene());
+      historyVBox.getChildren().addAll(myUserDefined.returnScene(),myOutputView.returnScene());
     }
   }
 
   private void setShowVariable(VBox historyVBox) {
     historyVBox.getChildren().removeAll(myCommandHistory.returnScene(), myUserDefined.returnScene(),
-        myConfig.getScene());
+        myConfig.getScene(),myOutputView.returnScene());
     if (!historyVBox.getChildren().contains(myVariableHistory.getScene())) {
-      historyVBox.getChildren().add(myVariableHistory.getScene());
+      historyVBox.getChildren().addAll(myVariableHistory.getScene(),myOutputView.returnScene());
     }
   }
 
   private void setShowCommand(VBox historyVBox) {
     historyVBox.getChildren()
-        .removeAll(myVariableHistory.getScene(), myUserDefined.returnScene(), myConfig.getScene());
+        .removeAll(myVariableHistory.getScene(), myUserDefined.returnScene(), myConfig.getScene(),myOutputView.returnScene());
     if (!historyVBox.getChildren().contains(myCommandHistory.returnScene())) {
-      historyVBox.getChildren().add(myCommandHistory.returnScene());
+      historyVBox.getChildren().addAll(myCommandHistory.returnScene(),myOutputView.returnScene());
     }
   }
 

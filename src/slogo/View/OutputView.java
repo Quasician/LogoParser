@@ -23,6 +23,8 @@ public class OutputView {
     private HBox newCommand;
     private ViewButton runButton;
     private Label commandEntered;
+    private Label terminalCommand;
+    private static final String textForTerminal="(Slogo) User-MBP:~ User$ ";
     private static final int SPACING = 300;
     private static final int BOX_SPACING = 300;
     private static final int PLAY_IMAGE_SIZE = 10;
@@ -48,12 +50,13 @@ public class OutputView {
     protected void makeBox(String StringRepresentation){
         commandValues.add(StringRepresentation);
         newCommand= new HBox(5);
-        newCommand.setMaxSize(300,200);
+        newCommand.setMaxSize(500,200);
         commandEntered=new Label(StringRepresentation);
+        terminalCommand= new Label(textForTerminal);
         commandEntered.setTextFill(TEXT_COLOR);
-        newCommand.getChildren().addAll(commandEntered);
+        newCommand.getChildren().addAll(terminalCommand,commandEntered);
         newCommand.setAccessibleText(StringRepresentation);
-        historyWindow.getItems().add(newCommand);
+        historyWindow.getItems().addAll(newCommand);
     }
 
     private void setImage(ViewButton button, String image){
