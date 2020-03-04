@@ -7,15 +7,14 @@ import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import slogo.View.Language;
+import slogo.View.UserException;
 import slogo.View.Visualizer;
 import slogo.model.*;
-
 import java.util.Iterator;
 import java.util.Map;
 
@@ -44,21 +43,13 @@ public class Main extends Application {
         FXCollections.observableArrayList());
     Turtle modelTurtle1 = new Turtle();
     Turtle modelTurtle2 = new Turtle();
-   // modelTurtle2.setActivated(false);
     TurtleList.addTurtleToModelList(modelTurtle1);
     TurtleList.addTurtleToModelList(modelTurtle2);
 
-    //ObjectProperty<Turtle> modelTurtleProp = new SimpleObjectProperty<>(modelTurtle, "modelTurtle");
-    //ObjectProperty<Turtle> viewTurtleProp = new SimpleObjectProperty<>(viewTurtle, "viewTurtle");
-    // viewTurtleProp.bind(modelTurtleProp);
-
     Language language = new Language();
+    DisplayOption displayOption = new DisplayOption();
     CommandParser commandParser = new CommandParser(TurtleList.getModelTurtleList(), language);
-
-//    Turtle modelTurtle = new Turtle();
-//    Turtle viewTurtle = new Turtle();
-//    bindTurtles(modelTurtle, viewTurtle);
-
+    commandParser.setDisplayOption(displayOption);
     StringProperty commandLineText = new SimpleStringProperty();
     StringProperty parseString = new SimpleStringProperty();
     parseString.bind(commandLineText);
@@ -68,43 +59,29 @@ public class Main extends Application {
 
     Visualizer vis = new Visualizer(primaryStage, TurtleList.getViewTurtleList(), commandLineText,
         textUpdate, language, commandParser, myMap);
+    vis.setDisplayOption(displayOption);
+
     parseTextOnInput(textUpdate, parseString, commandParser, vis);
 
-//        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
-//        printCustomCommands();
-//        System.out.println("done printing");
-//        commandParser.parseText(" c 1 ");
-   // commandParser.parseText("rt 45 fd 50");
     TurtleList.makeModelTurtleActivated(1);
     TurtleList.makeModelTurtleDeactivated(2);
-    //commandParser.parseText("fd 50");
+    //commandParser.parseText("fd 100");
+    TurtleList.makeModelTurtleActivated(1);
     TurtleList.makeModelTurtleActivated(2);
-    //commandParser.parseText("rt 50 fd 50 ");
+
     commandParser.parseText("tell [ 4 ] turtles id ");
-    commandParser.parseText("tell [ 1 3 ]");
-    commandParser.parseText("ask [ 2 4 ] [ fd 50 rt 45 ]");
-   // TurtleList.makeModelTurtleActivated(1);
+    commandParser.parseText("tell [ 2 ]");
+    commandParser.parseText("left 90 fd 100 ");
+    //commandParser.parseText("ask [ 2 4 ] [ fd 50 rt 45 ]");
+    //commandParser.parseText("askwith [ less? xcor 75 ] [ rt 270 ]");
+    //commandParser.parseText("fd 100");
     //commandParser.parseText("fd 50");
     for (Turtle turtle : TurtleList.getModelTurtleList()) {
       System.out.println(
           "MODELTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
-              + " Activated: " + turtle.isActivatedProperty().getValue());
+              + " Angle: " + turtle.getDegree() + " Activated: "+ turtle.isActivatedProperty().getValue());
     }
 
-    for (Turtle turtle : TurtleList.getViewTurtleList()) {
-      System.out.println(
-          "VIEWTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
-              + " Activated: " + turtle.isActivatedProperty().getValue());
-    }
-
-//        modelTurtle.setX(-200);
-//        System.out.println("Turtle x " + viewTurtle.getX());
-//
-//        modelTurtle.setY(280);
-//        System.out.println("Turtle y " + viewTurtle.getY());
-//
-//        //modelTurtle.setDegree(49.9);
-//        System.out.println("Turtle degree " + viewTurtle.getDegree());
 //        varList = FXCollections.observableList(Arrays.asList(myMap.keySet()));
    // parseTextOnInput(textUpdate, parseString, commandParser, vis);
   }
@@ -151,7 +128,7 @@ public class Main extends Application {
           commandParser.parseText(parseText.getValue());
           vis.makeNewBox(parseText.getValue());
 //                    vis.makeNewVariableBox(myMap);
-        } catch (CommandException e) {
+        } catch (CommandException | UserException e) {
           showError(e.getMessage());
         }
       }
@@ -166,3 +143,44 @@ public class Main extends Application {
   }
 
 }
+
+
+//        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
+//        printCustomCommands();
+//        System.out.println("done printing");
+//        commandParser.parseText(" c 1 ");
+// commandParser.parseText("rt 45 fd 50");
+
+ // Turtle modelTurtle = new Turtle();
+//    Turtle viewTurtle = new Turtle();
+//    bindTurtles(modelTurtle, viewTurtle);
+
+
+// TurtleList.makeModelTurtleActivated(1);
+//commandParser.parseText("fd 50");
+
+
+// for (Turtle turtle : TurtleList.getModelTurtleList()) {
+//     System.out.println(
+//     "MODELTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
+//     + " Activated: " + turtle.isActivatedProperty().getValue());
+//     }
+//
+//     for (Turtle turtle : TurtleList.getViewTurtleList()) {
+//     System.out.println(
+//     "VIEWTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
+//     + " Activated: " + turtle.isActivatedProperty().getValue());
+//     }
+
+
+//ObjectProperty<Turtle> modelTurtleProp = new SimpleObjectProperty<>(modelTurtle, "modelTurtle");
+//ObjectProperty<Turtle> viewTurtleProp = new SimpleObjectProperty<>(viewTurtle, "viewTurtle");
+// viewTurtleProp.bind(modelTurtleProp);
+
+//        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
+//        printCustomCommands();
+//        System.out.println("done printing");
+//        commandParser.parseText(" c 1 ");
+// commandParser.parseText("rt 45 fd 50");
+//commandParser.parseText("fd 50");
+//commandParser.parseText("rt 50 fd 50 ");
