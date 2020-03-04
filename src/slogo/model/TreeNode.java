@@ -3,6 +3,7 @@ package slogo.model;
 import com.sun.source.tree.Tree;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TreeNode implements Node {
 
@@ -36,7 +37,8 @@ public class TreeNode implements Node {
     this.result = result;
   }
 
-  public ArrayList<TreeNode> getChildren() {
+  //TODO: MUST REFACTOR THIS
+  public List<TreeNode> getChildren() {
     return  children;
   }
 
