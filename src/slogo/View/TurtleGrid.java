@@ -109,7 +109,12 @@ public class TurtleGrid {
     turtleImageViews.get(turtle.getId()-1).setFitWidth(TURTLE_IMAGE_WIDTH);
     turtleImageViews.get(turtle.getId()-1).rotateProperty();
     turtleImageViews.get(turtle.getId()-1).requestFocus();
-    turtleImageViews.get(turtle.getId()-1).setOnKeyPressed(e-> System.out.println("HEllo"));
+    turtleImageViews.get(turtle.getId()-1).setOnMouseClicked(e-> {
+      System.out.println("I am turtle: " + (turtle.getId()-1));
+//      ImageView opaquePics = turtleImageViews.get(turtle.getId()-1);
+//      opaquePics.setOpacity(20.0);
+//      turtleImageViews.set(turtle.getId()-1, opaquePics);
+    });
     addListeners(turtle);
     myPane.getChildren().add(turtleImageViews.get(turtle.getId()-1));
 
