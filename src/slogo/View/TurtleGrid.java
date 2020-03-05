@@ -111,28 +111,28 @@ public class TurtleGrid {
     Image turtleImage = new Image(Main.myResources.getString(TURTLE_IMAGE));
     ImageView turtleImageView = new ImageView(turtleImage);
     turtleImageView.setOpacity(0.7);
-    turtleImageViews.add(turtle.getId()-1, turtleImageView);
-    turtleImageViews.get(turtle.getId()-1).setX(centerX);
-    turtleImageViews.get(turtle.getId()-1).setY(centerY);
-    turtleImageViews.get(turtle.getId()-1).setFitHeight(TURTLE_IMAGE_HEIGHT);
-    turtleImageViews.get(turtle.getId()-1).setFitWidth(TURTLE_IMAGE_WIDTH);
-    turtleImageViews.get(turtle.getId()-1).rotateProperty();
-    turtleImageViews.get(turtle.getId()-1).requestFocus();
-    turtleImageViews.get(turtle.getId()-1).setOnMouseClicked(e-> {
+    turtleImageViews.add(turtle.getId(), turtleImageView);
+    turtleImageViews.get(turtle.getId()).setX(centerX);
+    turtleImageViews.get(turtle.getId()).setY(centerY);
+    turtleImageViews.get(turtle.getId()).setFitHeight(TURTLE_IMAGE_HEIGHT);
+    turtleImageViews.get(turtle.getId()).setFitWidth(TURTLE_IMAGE_WIDTH);
+    turtleImageViews.get(turtle.getId()).rotateProperty();
+    turtleImageViews.get(turtle.getId()).requestFocus();
+    turtleImageViews.get(turtle.getId()).setOnMouseClicked(e-> {
       System.out.println("I am turtle: " + (turtle.getId()));
       turtle.setActivated(!turtle.isActivatedProperty().getValue());
-      ImageView opaquePics = turtleImageViews.get(turtle.getId()-1);
+      ImageView opaquePics = turtleImageViews.get(turtle.getId());
       if(!turtle.isActivatedProperty().getValue()){
-        opaquePics = turtleImageViews.get(turtle.getId()-1);
+        opaquePics = turtleImageViews.get(turtle.getId());
         opaquePics.setOpacity(0.2);
         System.out.println("inactive");
       }
       else{
-        opaquePics = turtleImageViews.get(turtle.getId()-1);
+        opaquePics = turtleImageViews.get(turtle.getId());
         opaquePics.setOpacity(0.7);
         System.out.println("active");
       }
-      turtleImageViews.set(turtle.getId()-1, opaquePics);
+      turtleImageViews.set(turtle.getId(), opaquePics);
     });
     addListeners(turtle);
     myPane.getChildren().add(turtleImageViews.get(turtle.getId()));
