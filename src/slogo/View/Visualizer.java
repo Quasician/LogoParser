@@ -18,11 +18,8 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import slogo.Main;
-import slogo.model.CommandParser;
+import slogo.model.*;
 import slogo.model.Commands.Command;
-import slogo.model.DisplayOption;
-import slogo.model.Turtle;
-import slogo.model.VariableHashMap;
 
 public class Visualizer {
 
@@ -65,16 +62,16 @@ public class Visualizer {
    * @param window '
    * @param myMap
    */
-  public Visualizer(Stage window, ObservableList<Turtle> viewTurtles,
+  public Visualizer(Stage window, ObservableList viewTurtles, ObservableList activatedTurtles,
       StringProperty commandLineText,
       BooleanProperty textUpdate, Language language, CommandParser parser,
       ObservableMap myMap) {
 //    myWindow = window;
-    myHistoryPanel = new HistoryPanel(window, viewTurtles, parser);
     this.viewTurtles = viewTurtles;
-    grid = new TurtleGrid(this.viewTurtles);
-    tool = new Toolbar(grid, language);
-    CommandLine cmdline = new CommandLine(commandLineText, textUpdate, grid);
+    myHistoryPanel = new HistoryPanel(window, viewTurtles, parser);
+    grid = new TurtleGrid(viewTurtles);
+    tool = new Toolbar(grid, language, activatedTurtles);
+    CommandLine cmdline = new CommandLine(commandLineText, textUpdate, grid, activatedTurtles);
 
     this.myMap = myMap;
     setUpMapListener();

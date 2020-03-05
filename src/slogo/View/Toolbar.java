@@ -40,6 +40,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import slogo.Main;
 import slogo.model.DisplayOption;
+import slogo.model.Turtle;
 import slogo.model.TurtleList;
 
 public class Toolbar {
@@ -77,6 +78,7 @@ public class Toolbar {
   private Desktop forHelp;
   private Language language;
   private Button makeNew;
+  private ObservableList<Turtle> activatedTurtles;
 
   private ObservableList<String> colorOptions;
   private static final String DEFAULT_RESOURCE_PACKAGE = "resources.";
@@ -93,7 +95,8 @@ public class Toolbar {
   private IntegerProperty changedIndex = new SimpleIntegerProperty(-1);
   private StringProperty newColor = new SimpleStringProperty();
 
-  public Toolbar(TurtleGrid grid, Language language) {
+  public Toolbar(TurtleGrid grid, Language language, ObservableList<Turtle> activatedTurtles) {
+    this.activatedTurtles = activatedTurtles;
     initializeColors();
     makeComboBoxes();
     makeNew = new ViewButton("New Workspace", BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
@@ -227,7 +230,7 @@ public class Toolbar {
         int index = imageIndex.get();
         String image = (String)setTurtleImage.getItems().get(index);
         String imageName = image.split(", ")[0];
-        turtleGrid.updateTurtlesImage(imageName, TurtleList.getActiveTurtleList());
+        turtleGrid.updateTurtlesImage(imageName, activatedTurtles);
       }
     });
   }
@@ -363,7 +366,7 @@ public class Toolbar {
 
   private void setImage() {
     turtleGrid
-        .updateTurtlesImage((String) setTurtleImage.getValue(), TurtleList.getActiveTurtleList());
+        .updateTurtlesImage((String) setTurtleImage.getValue(), activatedTurtles);
   }
 
   private void setUpHelpButton() {
