@@ -56,7 +56,7 @@ public class TurtleGrid {
   private ArrayList<Line> linesDrawn;
   private Paint penColor;
   private double penWidth;
-  Configuration PropertiesView;
+  private Configuration PropertiesView;
   private BooleanProperty clearScreen = new SimpleBooleanProperty();
   private static final int PADDING_INSET = 10;
 
