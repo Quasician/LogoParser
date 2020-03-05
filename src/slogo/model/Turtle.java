@@ -65,22 +65,18 @@ public class Turtle {
   }
 
   public double getX() {
-    //return x.get();
     return ((Coordinate)coordinates.get()).getX();
   }
 
   public double getY() {
-   // return y.get();
     return ((Coordinate)coordinates.get()).getY();
   }
 
   public double getPastX() {
-    //return x.get();
     return pastCoordinates.getX();
   }
 
   public double getPastY() {
-    // return y.get();
     return pastCoordinates.getY();
   }
 
@@ -113,6 +109,13 @@ public class Turtle {
    * @param degree must be between 0 and 359, inclusive
    */
   public void setDegree(double degree) {
+    while (degree >= DEGREE_UPPER_BOUND) {
+      degree -= DEGREE_UPPER_BOUND;
+    }
+    while (degree < DEGREE_LOWER_BOUND) {
+      degree = DEGREE_UPPER_BOUND + degree;
+    }
+
     if (degree < DEGREE_LOWER_BOUND || degree >= DEGREE_UPPER_BOUND)
       throw new ArithmeticException("Degree not in valid range"); //TODO: Fix this
     angleFacing.set(degree);
