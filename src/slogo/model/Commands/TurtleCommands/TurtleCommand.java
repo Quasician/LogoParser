@@ -1,10 +1,6 @@
 package slogo.model.Commands.TurtleCommands;
 
 import javafx.animation.AnimationTimer;
-import javafx.animation.Interpolator;
-import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 import slogo.model.Commands.Command;
 
 public abstract class TurtleCommand extends Command {
@@ -74,6 +70,7 @@ public abstract class TurtleCommand extends Command {
   }
 
   protected void moveTurtle(int id, int directionMultiplier, double distance) {
+<<<<<<< HEAD
     double angle = getAdjustedAngle(turtles.get(id).getDegree());
     int xMultiplier = directionMultiplier * getXMultiplier(turtles.get(id).getDegree());
     int yMultiplier = directionMultiplier * getYMultiplier(turtles.get(id).getDegree());
@@ -85,6 +82,18 @@ public abstract class TurtleCommand extends Command {
     double newY = turtles.get(id).getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
 
     System.out.println("OLD Y: " + turtles.get(id).getY());
+=======
+
+    double angle = getAdjustedAngle(turtles.get(id).getDegree());
+    int xMultiplier = directionMultiplier * getXMultiplier(turtles.get(id).getDegree());
+    int yMultiplier = directionMultiplier * getYMultiplier(turtles.get(id).getDegree());
+
+    double angleToRadians = degreesToRadians(angle);
+    double rightAngle = degreesToRadians(FACING_RIGHT);
+
+    double newX = turtles.get(id).getX() + xMultiplier * (distance * Math.sin(angleToRadians));
+    double newY = turtles.get(id).getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
+>>>>>>> 2fcdf9eca26a2151c5f1b66bb3da55cbfc97f80c
 
     System.out.println("NEW COORDS: " + newX + " " + newY);
 

@@ -126,8 +126,7 @@ public class Main extends Application {
         //vis.makeNewBox(parseText.getValue());
 
         try {
-          String finalValue;
-          finalValue = commandParser.parseText(parseText.getValue());
+          String finalValue = commandParser.parseText(parseText.getValue());
           vis.makeNewBox(parseText.getValue());
           vis.makeNewTerminalBox(finalValue);
 //                    vis.makeNewVariableBox(myMap);
