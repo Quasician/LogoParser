@@ -2,6 +2,7 @@ package slogo.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -9,11 +10,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -22,6 +22,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import slogo.Main;
 import slogo.model.Turtle;
+
+import javax.sound.midi.SysexMessage;
 
 /**
  * This class holds the grid where the commands are executed on; for example, if the turtle moves
@@ -40,6 +42,7 @@ public class TurtleGrid {
   private static final double DEFAULT_PEN_WIDTH = 1;
   private int myCanvasWidth, myCanvasHeight;
   private ObservableList<Turtle> viewTurtles;
+  private Configuration properties;
   private ArrayList<ImageView> turtleImageViews = new ArrayList<>();
   private Pane myPane; //to change background of grid, change the background of the pane
   private Canvas myCanvas;
@@ -53,6 +56,7 @@ public class TurtleGrid {
   private ArrayList<Line> linesDrawn;
   private Paint penColor;
   private double penWidth;
+  Configuration PropertiesView;
   private BooleanProperty clearScreen = new SimpleBooleanProperty();
   private static final int PADDING_INSET = 10;
 
@@ -64,6 +68,7 @@ public class TurtleGrid {
    * @param canvasHeight is the height of the canvas
    */
   public TurtleGrid(int canvasWidth, int canvasHeight, ObservableList<Turtle> viewTurtles) {
+    PropertiesView= new Configuration(viewTurtles);
     myCanvasWidth = canvasWidth;
     myCanvasHeight = canvasHeight;
     centerX = canvasWidth / 2.0;
@@ -85,6 +90,8 @@ public class TurtleGrid {
   public TurtleGrid(ObservableList<Turtle> turtles) {
     this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, turtles);
   }
+
+
 
   private void setUpGrid() {
     retGrid = new StackPane();
@@ -145,12 +152,13 @@ public class TurtleGrid {
         double oldY = - viewTurtle.getPastY() + centerY + turtleCenterY;
         double currentX = viewTurtle.getX() + centerX + turtleCenterX;
         double currentY = -viewTurtle.getY() + centerY + turtleCenterY;
-
         if (isPenDown) {
           makeLine(oldX, oldY, currentX, currentY);
         }
 
+
         drawAllLines();
+
       }
     });
   }
@@ -212,9 +220,13 @@ public class TurtleGrid {
           System.out.println("NEW VIEW turtle: " + changedTurtle.isActivatedProperty().getValue());
           setUpTurtle(changedTurtle);
         }
+        PropertiesView.addRowListener(viewTurtles);
       }
     });
+
   }
+
+
 
   protected void setPenColor(Paint color) {
     penColor = color;

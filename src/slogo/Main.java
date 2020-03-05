@@ -16,7 +16,6 @@ import slogo.View.UserException;
 import slogo.View.Visualizer;
 import slogo.model.*;
 
-import javax.sound.midi.SysexMessage;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -59,7 +58,6 @@ public class Main extends Application {
     BooleanProperty textUpdate = new SimpleBooleanProperty();
 
     VariableHashMap.createMap(myMap);
-
     Visualizer vis = new Visualizer(primaryStage, TurtleList.getViewTurtleList(), commandLineText,
         textUpdate, language, commandParser, myMap);
     vis.setDisplayOption(displayOption);
