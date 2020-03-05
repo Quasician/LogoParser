@@ -4,6 +4,7 @@ import java.awt.*;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -89,6 +90,8 @@ public class Toolbar {
   private IntegerProperty bgColorIndex = new SimpleIntegerProperty();
   private DoubleProperty penWidth = new SimpleDoubleProperty();
   private IntegerProperty imageIndex = new SimpleIntegerProperty();
+  private IntegerProperty changedIndex = new SimpleIntegerProperty(-1);
+  private StringProperty newColor = new SimpleStringProperty();
 
   public Toolbar(TurtleGrid grid, Language language) {
     initializeColors();
@@ -101,7 +104,7 @@ public class Toolbar {
     setUpColorChoosers();
     helpButton = new ViewButton(Main.myResources.getString(BUTTON_HELP), BUTTON_HEIGHT,
         BUTTON_WIDTH, BUTTON_FONT_SIZE);
-//    setTurtleImage = new ViewButton(Main.myResources.getString(CHANGE_TURTLE), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
+//    setTurtleImage = new ViewButton(Main.myResources.getString(CHANGE_TURTLE), SLOGO_IMAGE_HEIGHT, SLOGO_IMAGE_WIDTH, BUTTON_FONT_SIZE);
     setUpChangeLanguageChooser();
     setUpTurtleChooser();
     setUpHelpButton();
@@ -111,6 +114,7 @@ public class Toolbar {
     addPenIndexListener();
     addPenWidthListener();
     addImageListener();
+    addChangedIndexListener();
     this.language = language;
     currentLanguage.set("English");
   }
@@ -124,7 +128,10 @@ public class Toolbar {
     penColorIndex.bindBidirectional(displayOption.getPenIndex());
     bgColorIndex.bindBidirectional(displayOption.getBgIndex());
     imageIndex.bindBidirectional(displayOption.getImageIndex());
-    displayOption.createList(colorOptions);
+    newColor.bindBidirectional(displayOption.getNewColor());
+    changedIndex.bindBidirectional(displayOption.getChangedIndex());
+    List<String> colorCopy = new ArrayList<>(colorOptions);
+    displayOption.createList(colorCopy);
   }
 
   private void setUpColorChoosers() {
@@ -168,24 +175,38 @@ public class Toolbar {
     penColorIndex.addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        int index = penColorIndex.get();
-        String[] color = colorOptions.get(index).split(", ");
-        String[] rgb = color[0].split(" ");
-        Color c = getColorRGB(rgb);
-        turtleGrid.setPenColor(c);
+        turtleGrid.setPenColor(getNewColor(penColorIndex));
       }
     });
+  }
+
+  private Color getNewColor(IntegerProperty property) {
+    int index = property.get();
+    String[] color = colorOptions.get(index).split(", ");
+    String[] rgb = color[0].split(" ");
+    return getColorRGB(rgb);
   }
 
   private void addBgIndexListener() {
     bgColorIndex.addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        int index = bgColorIndex.get();
-        String[] color = colorOptions.get(index).split(", ");
-        String[] rgb = color[0].split(" ");
-        Color c = getColorRGB(rgb);
-        turtleGrid.setBackground(c);
+        turtleGrid.setBackground(getNewColor(bgColorIndex));
+      }
+    });
+  }
+
+  private void addChangedIndexListener() {
+    changedIndex.addListener(new ChangeListener() {
+      @Override
+      public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        System.out.println("CHANGED INDEX");
+        int index = changedIndex.get();
+        if (index >= colorOptions.size()) {
+          colorOptions.add(newColor.get());
+        } else {
+          colorOptions.set(index, newColor.get());
+        }
       }
     });
   }

@@ -31,6 +31,14 @@ public class ViewButton extends Button {
 //    setStyle("-fx-background-color:" + STYLE_COLOR + ";-fx-font-size:" + fontSize + " px;");
     mouseUpdateListener();
   }
+  public ViewButton(String text) {
+    setFont(Font.font("Calibri", 10));
+    setText(text);
+    setPrefHeight(45);//45
+    setPrefWidth(65);//190
+//    setStyle("-fx-background-color:" + STYLE_COLOR + ";-fx-font-size:" + fontSize + " px;");
+    mouseUpdateListener();
+  }
 
   /**
    * default constructor
@@ -38,6 +46,7 @@ public class ViewButton extends Button {
   public ViewButton(String text, int height, int width){
     this(text, height, width, DEFAULT_FONT_SIZE);
   }
+
 //
 //  public ViewButton(String text){
 //    this(text, DEFAULT_BUTTON_HEIGHT, DEFAULT_BUTTON_WIDTH, DEFAULT_FONT_SIZE);

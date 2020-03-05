@@ -1,21 +1,33 @@
 package slogo.model;
 
+import java.util.List;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.collections.ObservableList;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class DisplayOption {
   private static final String COMMA = ", ";
   private static final String SPACE = " ";
-  private ObservableList<String> colorOptions;
+  private List<String> colorOptions;
   private IntegerProperty penIndex = new SimpleIntegerProperty();
   private IntegerProperty bgIndex = new SimpleIntegerProperty();
   private DoubleProperty penWidth = new SimpleDoubleProperty();
   private IntegerProperty imageIndex = new SimpleIntegerProperty();
+  private IntegerProperty changedIndex = new SimpleIntegerProperty(-1);
+  private StringProperty newColor = new SimpleStringProperty();
 
   public DisplayOption() {
+  }
+
+  public StringProperty getNewColor() {
+    return newColor;
+  }
+
+  public IntegerProperty getChangedIndex() {
+    return changedIndex;
   }
 
   public IntegerProperty getImageIndex() {
@@ -34,16 +46,8 @@ public class DisplayOption {
     return penWidth;
   }
 
-  public double getPenWidth() {
-    return penWidth.get();
-  }
-
-  public void createList(ObservableList list) {
+  public void createList(List list) {
     colorOptions = list;
-  }
-
-  public String getColorAt(int index) {
-    return colorOptions.get(index);
   }
 
   public int getLargestIndex() {
@@ -52,10 +56,6 @@ public class DisplayOption {
 
   public void setCurrentChoicePen(int index) {
     penIndex.set(index);
-  }
-
-  public int getCurrentChoicePen() {
-    return penIndex.get();
   }
 
   public void setImageIndex(int index) {
@@ -70,31 +70,22 @@ public class DisplayOption {
     penWidth.set(width);
   }
 
-  public int getCurrentBackground() {
-    return bgIndex.get();
-  }
-
   public void addToList(String c) {
     String[] colorarray = c.split(COMMA);
     String color = colorarray[0];
-
-    if (!colorOptions.contains(color)) {
-      colorOptions.add(color + COMMA + colorOptions.size());
-    }
+    colorOptions.add(color + COMMA + colorOptions.size());
   }
 
   public void setColorAt(int index, int[] rgb) {
-    System.out.println("here color options set11");
     String[] rgbStrings = new String[rgb.length];
     for (int i = 0; i < rgbStrings.length; i++) {
       rgbStrings[i] = "" + rgb[i];
     }
     String rgbToString = String.join(SPACE, rgbStrings);
-
+    newColor.set(rgbToString + COMMA + index);
+    changedIndex.set(index);
     if (index < colorOptions.size()) {
-      System.out.println("here color options set2");
-      colorOptions.set(index, rgbToString + COMMA + index);
-      System.out.println("here color options set");
+      colorOptions.set(index, newColor.get());
     } else {
       addToList(rgbToString);
     }

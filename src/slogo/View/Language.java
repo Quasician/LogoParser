@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Language {
-
+  private final String ERROR="Not a valid language.";
   public enum PossibleLanguage {
     ENGLISH ("English"),
     GERMAN ("German"),
@@ -53,6 +53,6 @@ public class Language {
     }
 
     //make this error better later
-    throw new RuntimeException("Not a valid language.");
+    throw new RuntimeException(ERROR);
   }
 }
