@@ -40,14 +40,14 @@ public abstract class Command {
     return values;
   }
 
-  public void setTurtles(ObservableList<Turtle> turtles) {
+  public void setTurtles(ObservableList<Turtle> turtles, ObservableList<Turtle> activatedTurtles) {
     this.turtles = turtles;
-    activatedTurtles = getActivatedTurtles(this.turtles);
+    this.activatedTurtles = getActivatedTurtles();
   }
 
-  private ObservableList<Turtle> getActivatedTurtles(ObservableList<Turtle> turtles)
+  private ObservableList<Turtle> getActivatedTurtles()
   {
-    return TurtleList.getActiveTurtleList();
+    return activatedTurtles;
   }
 
   public void setMiniParserLanguage(Language language){ this.language = language;}

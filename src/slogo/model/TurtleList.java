@@ -7,16 +7,13 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.util.List;
-import slogo.View.UserException;
-
 
 public class TurtleList {
 
   private static ObservableList<Turtle> modelTurtleList;
   private static ObservableList<Turtle> viewTurtleList;
 
-  public static void createTurtleLists(ObservableList<Turtle> modelList,
-      ObservableList<Turtle> viewList) {
+  public TurtleList(ObservableList<Turtle> modelList, ObservableList<Turtle> viewList) {
     modelTurtleList = modelList;
     viewTurtleList = viewList;
     addSizeListener();
@@ -25,7 +22,7 @@ public class TurtleList {
     }
   }
 
-  private static void addSizeListener() {
+  private void addSizeListener() {
     modelTurtleList.addListener(new ListChangeListener<Turtle>() {
       @Override
       public void onChanged(Change<? extends Turtle> c) {
@@ -42,7 +39,7 @@ public class TurtleList {
     });
   }
 
-  private static void addActivatedPropertyListener(Turtle turtle) {
+  private void addActivatedPropertyListener(Turtle turtle) {
     turtle.isActivatedProperty().addListener(new ChangeListener<Boolean>() {
       @Override
       public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
@@ -56,21 +53,21 @@ public class TurtleList {
     });
   }
 
-  public static void addTurtleToModelList(Turtle modelTurtle) {
+  public void addTurtleToModelList(Turtle modelTurtle) {
     modelTurtle.setId(modelTurtleList.size()+1);
     modelTurtleList.add(modelTurtle);
     addActivatedPropertyListener(modelTurtle);
   }
 
-  public static ObservableList<Turtle> getModelTurtleList() {
+  public ObservableList<Turtle> getModelTurtleList() {
     return modelTurtleList;
   }
 
-  public static ObservableList<Turtle> getViewTurtleList() {
+  public ObservableList<Turtle> getViewTurtleList() {
     return viewTurtleList;
   }
 
-  public static ObservableList<Turtle> getActiveTurtleList() {
+  public ObservableList<Turtle> getActiveTurtleList() {
     ObservableList<Turtle> activeTurtles = FXCollections.observableArrayList();
     for (Turtle turtle : viewTurtleList) {
       if (turtle.isActivatedProperty().getValue()) {
@@ -83,22 +80,21 @@ public class TurtleList {
     return activeTurtles;
   }
 
-  public static void makeModelTurtleActivated(int id) {
+  public void makeModelTurtleActivated(int id) {
     changeActivation(id, true);
   }
 
-  public static void makeModelTurtleDeactivated(int id) {
+  public void makeModelTurtleDeactivated(int id) {
     changeActivation(id, false);
   }
 
-  private static void changeActivation(int id, boolean activate) {
-   // try {
-    System.out.println(id);
-      modelTurtleList.get(id-1).setActivated(activate);
-//    } catch (IndexOutOfBoundsException e) {
-//      //TODO: fix the error message later
-//      throw new CommandException("Please enter an integer greater than 0 for turtle index.");
-//    }
+  private void changeActivation(int id, boolean activate) {
+    try {
+      modelTurtleList.get(id - 1).setActivated(activate);
+    } catch (IndexOutOfBoundsException e) {
+      //TODO: fix the error message later
+      throw new CommandException("Please enter an integer greater than 0 for turtle index.");
+    }
   }
 
   public int getTurtles() {
