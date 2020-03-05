@@ -3,14 +3,17 @@
     <author>Sanna</author>
     <Commands>
         <Command>
-            <Text>fd 50</Text>
+            <Text>to star
+[ ]
+[ repeat 5 [ fd 100 rt 144 ] ]</Text>
         </Command>
         <Command>
-            <Text>rt 50</Text>
+            <Text>to square
+[ :a ]
+[ repeat 4 [ fd :a right 90 ] ]</Text>
         </Command>
         <Command>
-            <Text>fd 50
-bk 10</Text>
+            <Text> make :a 50</Text>
         </Command>
     </Commands>
 </Title>
