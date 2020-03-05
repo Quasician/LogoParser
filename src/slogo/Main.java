@@ -69,7 +69,7 @@ public class Main extends Application {
     //commandParser.parseText("fd 100");
     TurtleList.makeModelTurtleActivated(1);
     TurtleList.makeModelTurtleActivated(2);
-    commandParser.parseText("atan 1");
+   // commandParser.parseText("fd 50");
 //    commandParser.parseText("tell [ 4 ] turtles id ");
 //    commandParser.parseText("tell [ 2 ]");
 //    commandParser.parseText("left 90 fd 100 ");
@@ -126,9 +126,10 @@ public class Main extends Application {
         //vis.makeNewBox(parseText.getValue());
 
         try {
-         commandParser.parseText(parseText.getValue());
+          String finalValue;
+          finalValue = commandParser.parseText(parseText.getValue());
           vis.makeNewBox(parseText.getValue());
-          vis.makeNewTerminalBox(commandParser.parseText(parseText.getValue()));
+          vis.makeNewTerminalBox(finalValue);
 //                    vis.makeNewVariableBox(myMap);
         } catch (CommandException | UserException e) {
           showError(e.getMessage());

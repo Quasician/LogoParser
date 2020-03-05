@@ -2,13 +2,10 @@ package slogo.model;
 
 import javafx.beans.property.*;
 
-
 public class Turtle {
 
   private static final double DEGREE_LOWER_BOUND = 0;
   private static final double DEGREE_UPPER_BOUND = 360;
-  private static final double CENTER_X = 20; //remove these later
-  private static final double CENTER_Y = 20;
 
   private ObjectProperty coordinates;
   private Coordinate pastCoordinates;
@@ -28,18 +25,12 @@ public class Turtle {
     pastCoordinates = new Coordinate(0,0);
     coordinates = new SimpleObjectProperty(coordinate, "coordinate");
     coordinates.set(coordinate);
-//    pastCoordinates = new SimpleObjectProperty(coordinate1, "coordinate");
-//    pastCoordinates.set(coordinate1);
     setActivated(true);
   }
 
   public ObjectProperty coordinatesProperty() {
     return coordinates;
   }
-
-//  public ObjectProperty pastCoordinatesProperty() {
-//    return pastCoordinates;
-//  }
 
   public DoubleProperty distanceProperty() {
     return distance;

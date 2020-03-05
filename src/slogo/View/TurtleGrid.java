@@ -143,6 +143,7 @@ public class TurtleGrid {
     viewTurtle.coordinatesProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        System.out.println("COORDINATES WERE CHANGED");
         int id = viewTurtle.getId()-1;
         ImageView thisView = turtleImageViews.get(id);
         thisView.setX(viewTurtle.getX() + centerX);
@@ -156,9 +157,7 @@ public class TurtleGrid {
           makeLine(oldX, oldY, currentX, currentY);
         }
 
-
         drawAllLines();
-
       }
     });
   }
@@ -223,10 +222,7 @@ public class TurtleGrid {
         PropertiesView.addRowListener(viewTurtles);
       }
     });
-
   }
-
-
 
   protected void setPenColor(Paint color) {
     penColor = color;

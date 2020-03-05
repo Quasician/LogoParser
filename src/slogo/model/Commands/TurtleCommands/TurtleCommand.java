@@ -26,8 +26,6 @@ public abstract class TurtleCommand extends Command {
   }
 
   protected void moveTurtleTo(int id, double x, double y) {
-//    turtle.setX(x);
-//    turtle.setY(y);
     turtles.get(id-1).setCoordinate(x, y);
   }
 
@@ -76,30 +74,22 @@ public abstract class TurtleCommand extends Command {
   }
 
   protected void moveTurtle(int id, int directionMultiplier, double distance) {
-    final int[] count = {1};
+    double angle = getAdjustedAngle(turtles.get(id).getDegree());
+    int xMultiplier = directionMultiplier * getXMultiplier(turtles.get(id).getDegree());
+    int yMultiplier = directionMultiplier * getYMultiplier(turtles.get(id).getDegree());
 
-    AnimationTimer timer = new AnimationTimer(){
+    double angleToRadians = degreesToRadians(angle);
+    double rightAngle = degreesToRadians(FACING_RIGHT);
 
-      @Override
-      public void handle(long now) {
-        while(count[0]<=1){
-        double angle = getAdjustedAngle(turtles.get(id).getDegree());
-        int xMultiplier = directionMultiplier * getXMultiplier(turtles.get(id).getDegree());
-        int yMultiplier = directionMultiplier * getYMultiplier(turtles.get(id).getDegree());
+    double newX = turtles.get(id).getX() + xMultiplier * (distance * Math.sin(angleToRadians));
+    double newY = turtles.get(id).getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
 
-        double angleToRadians = degreesToRadians(angle);
-        double rightAngle = degreesToRadians(FACING_RIGHT);
+    System.out.println("OLD Y: " + turtles.get(id).getY());
 
-        double newX = turtles.get(id).getX() + xMultiplier * (distance * Math.sin(angleToRadians));
-        double newY = turtles.get(id).getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
+    System.out.println("NEW COORDS: " + newX + " " + newY);
 
-        System.out.println("NEW COORDS: " + newX + " " + newY);
-
-        turtles.get(id).setCoordinate(newX, newY);
-          count[0]++;
-
-      }}
-    };timer.start(); }
+    turtles.get(id).setCoordinate(newX, newY);
+  }
 
   protected void rotateTurtle(int id, int direction, double degrees) {
     double currentDegrees = turtles.get(id).getDegree();
