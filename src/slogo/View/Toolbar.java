@@ -104,7 +104,7 @@ public class Toolbar {
     setUpColorChoosers();
     helpButton = new ViewButton(Main.myResources.getString(BUTTON_HELP), BUTTON_HEIGHT,
         BUTTON_WIDTH, BUTTON_FONT_SIZE);
-//    setTurtleImage = new ViewButton(Main.myResources.getString(CHANGE_TURTLE), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
+//    setTurtleImage = new ViewButton(Main.myResources.getString(CHANGE_TURTLE), SLOGO_IMAGE_HEIGHT, SLOGO_IMAGE_WIDTH, BUTTON_FONT_SIZE);
     setUpChangeLanguageChooser();
     setUpTurtleChooser();
     setUpHelpButton();
