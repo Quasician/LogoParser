@@ -63,6 +63,7 @@ public class Visualizer {
   private static final String style = "Style";
   private static final String title= "Title";
   private static final String UndoCommand= "Undo";
+  private static final String Error="No Commands Found to Undo";
   private static final String space =" ";
   private static final int colorRed=10;
   private static final int colorGreen=10;
@@ -215,8 +216,7 @@ public class Visualizer {
     try {
       myCommandHistory.removeCommand();
     } catch (IndexOutOfBoundsException e){
-      String error= e.getMessage();
-      makeNewTerminalBox(error);
+      makeNewTerminalBox(Error);
     }
     for(String command:myCommandHistory.getCommandListCopy()){
       comParser.parseText(command);
