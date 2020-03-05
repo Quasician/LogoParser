@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import slogo.Main;
 import slogo.model.CommandParser;
 
-public class CommandHistory {
+public class CommandHistory implements HistoryView{
     private ResourceBundle myResources = Main.myResources;
     private ListView historyWindow;
     private static final Color TEXT_COLOR = Color.BLACK;

@@ -36,6 +36,7 @@ public class CustomCommandMap {
             Triplet<String, String, String> triplet = new Triplet<>(name, varString, commands);
             customCommandObsList.add(triplet);
         }
+
         variableMap.putIfAbsent(name,variables);
         commandsMap.putIfAbsent(name,commands);
         commandsMap.put(name,commands);

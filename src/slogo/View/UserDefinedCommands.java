@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 import slogo.model.CustomCommandMap;
 import slogo.model.VariableHashMap;
 
-public class UserDefinedCommands {
+public class UserDefinedCommands implements HistoryView{
     private ResourceBundle myResources = Main.myResources;
     private TableView ucdTable;
     private VBox udcVBox;
@@ -36,20 +36,10 @@ public class UserDefinedCommands {
     private static final String STYLE = "-fx-background-color: rgba(0, 0,0, 0.5);";
     public UserDefinedCommands() {
       commandValues = new ArrayList<>();
-//      ucdTable = new TableView();
       udcVBox = new VBox();
-
-//      customCommandObsList = CustomCommandMap.getCommandTriplets();
 
       TableColumn<Triplet<String, String, String>, String> column1 = new TableColumn<>("User-Defined Command Name");
       column1.setPrefWidth(100);
-//      column1.setCellValueFactory(new Callback<>() {
-//        @Override
-//        public ObservableValue<String> call(
-//            TableColumn.CellDataFeatures<Triplet<String, String, String>, String> param) {
-//          return new SimpleStringProperty(param.getValue().getFirst());
-//        }
-//      });
       column1.setCellValueFactory(e -> e.getValue().getFirstStringProperty());
 
 
@@ -61,23 +51,11 @@ public class UserDefinedCommands {
 //      column3.setPrefWidth(100);
       column3.setCellValueFactory(e -> e.getValue().getThirdStringProperty());
 
-//      ObservableList<Entry<String, String>> items =  FXCollections
-//          .observableArrayList(VariableHashMap.getAllVariables());
-
-
-//      customCommandObsList = FXCollections.observableArrayList(CustomCommandMap.getCommandTriplets());
       final TableView<Triplet<String, String, String>> table = new TableView<>(CustomCommandMap.getCommandTriplets());
       table.setPrefHeight(310.0);
       table.setPrefWidth(300.0);
       table.getColumns().setAll(column1, column2, column3);
 
-//      System.out.println("table made");
-
-
-//        variablesHolder.setPrefHeight(VAR_BOX_HEIGHT);
-//        variablesHolder.setPrefWidth(VAR_BOX_WIDTH);
-
-      // TODO: make these strings read from properties files
       udcVBox.getChildren().add(table);
     }
 
