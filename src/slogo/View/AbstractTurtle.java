@@ -23,6 +23,7 @@ public abstract class AbstractTurtle {
   protected BooleanProperty clearScreenCalled = new SimpleBooleanProperty();
   protected BooleanProperty isActivated = new SimpleBooleanProperty();
   protected static final String COORDINATE = "coordinate";
+  private static final String ERROR = "Degree not in valid range";
 
   public AbstractTurtle() {
     isShowing.set(true);
@@ -122,7 +123,7 @@ public abstract class AbstractTurtle {
    */
   public void setDegree(double degree) {
     if (degree < DEGREE_LOWER_BOUND || degree >= DEGREE_UPPER_BOUND)
-      throw new ArithmeticException("Degree not in valid range");
+      throw new ArithmeticException(ERROR);
     angleFacing.set(degree);
   }
 

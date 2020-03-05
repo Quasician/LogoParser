@@ -3,9 +3,7 @@
     <author>Sanna</author>
     <Commands>
         <Command>
-            <Text>to star
-[ ]
-[ repeat 5 [ fd 100 rt 144 ] ]</Text>
+            <Text>fd 40</Text>
         </Command>
     </Commands>
 </Title>

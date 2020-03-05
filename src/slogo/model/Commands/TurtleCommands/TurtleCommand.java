@@ -1,5 +1,10 @@
 package slogo.model.Commands.TurtleCommands;
 
+import javafx.animation.AnimationTimer;
+import javafx.animation.Interpolator;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import slogo.model.Commands.Command;
 
 public abstract class TurtleCommand extends Command {
@@ -23,7 +28,7 @@ public abstract class TurtleCommand extends Command {
   protected void moveTurtleTo(int id, double x, double y) {
 //    turtle.setX(x);
 //    turtle.setY(y);
-    turtles.get(id).setCoordinate(x, y);
+    turtles.get(id-1).setCoordinate(x, y);
   }
 
   protected boolean facingTopRight(double angle) {
@@ -71,20 +76,30 @@ public abstract class TurtleCommand extends Command {
   }
 
   protected void moveTurtle(int id, int directionMultiplier, double distance) {
-    double angle = getAdjustedAngle(turtles.get(id).getDegree());
-    int xMultiplier = directionMultiplier * getXMultiplier(turtles.get(id).getDegree());
-    int yMultiplier = directionMultiplier * getYMultiplier(turtles.get(id).getDegree());
+    final int[] count = {1};
 
-    double angleToRadians = degreesToRadians(angle);
-    double rightAngle = degreesToRadians(FACING_RIGHT);
+    AnimationTimer timer = new AnimationTimer(){
 
-    double newX = turtles.get(id).getX() + xMultiplier * (distance * Math.sin(angleToRadians));
-    double newY = turtles.get(id).getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
+      @Override
+      public void handle(long now) {
+        while(count[0]<=1){
+        double angle = getAdjustedAngle(turtles.get(id).getDegree());
+        int xMultiplier = directionMultiplier * getXMultiplier(turtles.get(id).getDegree());
+        int yMultiplier = directionMultiplier * getYMultiplier(turtles.get(id).getDegree());
 
-    System.out.println("NEW COORDS: " + newX + " " + newY);
+        double angleToRadians = degreesToRadians(angle);
+        double rightAngle = degreesToRadians(FACING_RIGHT);
 
-    turtles.get(id).setCoordinate(newX, newY);
-  }
+        double newX = turtles.get(id).getX() + xMultiplier * (distance * Math.sin(angleToRadians));
+        double newY = turtles.get(id).getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
+
+        System.out.println("NEW COORDS: " + newX + " " + newY);
+
+        turtles.get(id).setCoordinate(newX, newY);
+          count[0]++;
+
+      }}
+    };timer.start(); }
 
   protected void rotateTurtle(int id, int direction, double degrees) {
     double currentDegrees = turtles.get(id).getDegree();
