@@ -5,11 +5,5 @@
         <Command>
             <Text>fd 40</Text>
         </Command>
-        <Command>
-            <Text>fd 40</Text>
-        </Command>
-        <Command>
-            <Text>fd 40</Text>
-        </Command>
     </Commands>
 </Title>
