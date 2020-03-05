@@ -108,18 +108,31 @@ public class TurtleGrid {
   }
 
   private void setUpTurtle(Turtle turtle) {
-    turtleImageViews.add(turtle.getId(), new ImageView(new Image(Main.myResources.getString(TURTLE_IMAGE))));
-    turtleImageViews.get(turtle.getId()).setX(centerX);
-    turtleImageViews.get(turtle.getId()).setY(centerY);
-    turtleImageViews.get(turtle.getId()).setFitHeight(TURTLE_IMAGE_HEIGHT);
-    turtleImageViews.get(turtle.getId()).setFitWidth(TURTLE_IMAGE_WIDTH);
-    turtleImageViews.get(turtle.getId()).rotateProperty();
-    turtleImageViews.get(turtle.getId()).requestFocus();
-    turtleImageViews.get(turtle.getId()).setOnMouseClicked(e-> {
+    Image turtleImage = new Image(Main.myResources.getString(TURTLE_IMAGE));
+    ImageView turtleImageView = new ImageView(turtleImage);
+    turtleImageView.setOpacity(0.7);
+    turtleImageViews.add(turtle.getId()-1, turtleImageView);
+    turtleImageViews.get(turtle.getId()-1).setX(centerX);
+    turtleImageViews.get(turtle.getId()-1).setY(centerY);
+    turtleImageViews.get(turtle.getId()-1).setFitHeight(TURTLE_IMAGE_HEIGHT);
+    turtleImageViews.get(turtle.getId()-1).setFitWidth(TURTLE_IMAGE_WIDTH);
+    turtleImageViews.get(turtle.getId()-1).rotateProperty();
+    turtleImageViews.get(turtle.getId()-1).requestFocus();
+    turtleImageViews.get(turtle.getId()-1).setOnMouseClicked(e-> {
       System.out.println("I am turtle: " + (turtle.getId()));
-//      ImageView opaquePics = turtleImageViews.get(turtle.getId()-1);
-//      opaquePics.setOpacity(20.0);
-//      turtleImageViews.set(turtle.getId()-1, opaquePics);
+      turtle.setActivated(!turtle.isActivatedProperty().getValue());
+      ImageView opaquePics = turtleImageViews.get(turtle.getId()-1);
+      if(!turtle.isActivatedProperty().getValue()){
+        opaquePics = turtleImageViews.get(turtle.getId()-1);
+        opaquePics.setOpacity(0.2);
+        System.out.println("inactive");
+      }
+      else{
+        opaquePics = turtleImageViews.get(turtle.getId()-1);
+        opaquePics.setOpacity(0.7);
+        System.out.println("active");
+      }
+      turtleImageViews.set(turtle.getId()-1, opaquePics);
     });
     addListeners(turtle);
     myPane.getChildren().add(turtleImageViews.get(turtle.getId()));
