@@ -60,7 +60,7 @@ public class HistoryPanel implements HistoryView{
    */
 
   public HistoryPanel(Stage myWindow, ObservableList<Turtle> viewTurtles, CommandParser parser) {
-    buttonNames = Arrays.asList("Command", "Variable", "Custom", "Properties", "Save", "Upload");
+    buttonNames = Arrays.asList("Command", "Variable", "Custom", "Properties","Undo", "Save", "Upload");
     this.myWindow = myWindow;
     this.comParser = parser;
     myCommandHistory = new CommandHistory(comParser);
@@ -133,6 +133,17 @@ public class HistoryPanel implements HistoryView{
 
   }
 
+  private void undoCommands(){
+    comParser.parseText("clearscreen");
+    try{
+      myCommandHistory.removeCommand();
+      for(String commandsUndo: myCommandHistory.getCommandListCopy() ){
+         comParser.parseText(commandsUndo);
+      }
+    } catch (IndexOutOfBoundsException e){
+      makeNewTerminalBox(e.getMessage());
+    }
+  }
 
   private void setShowProperties() {
     historyVBox.getChildren()
