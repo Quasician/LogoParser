@@ -147,12 +147,13 @@ public class TurtleGrid {
         double oldY = - viewTurtle.getPastY() + centerY + turtleCenterY;
         double currentX = viewTurtle.getX() + centerX + turtleCenterX;
         double currentY = -viewTurtle.getY() + centerY + turtleCenterY;
-
         if (isPenDown) {
           makeLine(oldX, oldY, currentX, currentY);
         }
 
+
         drawAllLines();
+
       }
     });
   }
@@ -214,7 +215,7 @@ public class TurtleGrid {
           System.out.println("NEW VIEW turtle: " + changedTurtle.isActivatedProperty().getValue());
           setUpTurtle(changedTurtle);
         }
-        PropertiesView.makeRow(viewTurtles);
+        PropertiesView.addRowListener(viewTurtles);
       }
     });
 

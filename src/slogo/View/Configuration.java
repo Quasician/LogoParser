@@ -37,107 +37,33 @@ public class Configuration {
     private SimpleStringProperty lastName;
     private Label PropertyName;
     private Label number= new Label();
-
+    private HBox rowForSize;
+    private HBox CoordForSize;
     public Configuration(String name, String value){
         this.firstName = new SimpleStringProperty(name);
         this.lastName = new SimpleStringProperty(value);
     }
 
     public Configuration(ObservableList<Turtle> turtles) {
+        rowForSize= new HBox();
+        CoordForSize= new HBox();
         variableHist = new VBox();
         variablesTable = new ListView<>();
-        PropertyName=new Label("Number of Active Turtles ");
+        PropertyName=new Label("Number of Turtles ");
         number= new Label();
-        makeRow(turtles);
-        turtles.addListener((ListChangeListener<? super Turtle>) e-> makeRow(turtles));
+        addRowListener(turtles);
+
     }
 
-    public void makeRow(ObservableList<Turtle> turtles) {
-        HBox rowForSize= new HBox();
-        int count=0;
-        for(Turtle t: turtles){
-            if(t.isActivatedProperty().getValue()) {
-                count++;
+    public void addRowListener(ObservableList<Turtle> turtles) {
+        turtles.addListener((ListChangeListener<? super Turtle>) e-> {  int count=0;
+            for(Turtle t: turtles){
+                    count++;
             }
-            System.out.println("hello"+t);
-        }
-        number.setText(String.valueOf(count));
-        rowForSize.getChildren().addAll(PropertyName,number);
-        variablesTable.getItems().clear();
-        variablesTable.getItems().add(rowForSize);
+            number.setText(String.valueOf(count));
+            rowForSize.getChildren().addAll(PropertyName,number);
+            variablesTable.getItems().add(rowForSize);});
     }
-////        varMap = new HashMap<>();
-////        variablesHolder= new ListView();
-////        variablesHolder.setPrefHeight(VAR_BOX_HEIGHT);
-////        variablesHolder.setPrefWidth(VAR_BOX_WIDTH);
-//
-//        variablesTable = new TableView();
-//
-//
-//        TableColumn<Map.Entry<String, String>, String> column1 = new TableColumn<>("Property");
-//        column1.setPrefWidth(100);
-//        column1.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
-//
-//            @Override
-//            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
-//                // this callback returns property for just one cell, you can't use a loop here
-//                // for first column we use key
-//                return new SimpleStringProperty(p.getValue().getKey());
-//            }
-//        });
-//
-//        TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>("Value");
-//        column2.setEditable(true);
-//        column2.setOnEditCommit(e-> System.out.println(e.getTableView().getItems().get(e.getTablePosition().getRow())));
-//        column2.setPrefWidth(100);
-//        column2.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
-//
-//            @Override
-//            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
-//                // for second column we use value
-//                return new SimpleStringProperty(p.getValue().getValue());
-//            }
-//        });
-//
-//        ObservableList<Map.Entry<String, String>> items =  FXCollections.observableArrayList(VariableHashMap.getAllVariables());
-//        VariableHashMap.addToMap("hi", "5");
-//
-//        final TableView<Map.Entry<String,String>> table = new TableView<>(VariableHashMap.getAllVariables());
-//        table.getColumns().setAll(column1, column2);
-//        System.out.println("table made");
-//
-//
-////        variablesHolder.setPrefHeight(VAR_BOX_HEIGHT);
-////        variablesHolder.setPrefWidth(VAR_BOX_WIDTH);
-//
-//        // TODO: make these strings read from properties files
-////        nameCol= new TableColumn("Name");
-////        valCol= new TableColumn("Value");
-////        varHistLabel = new Label("varMap History");
-////        varHistLabel.setTextFill(TEXT_COLOR);
-////        varHistLabel.setMaxHeight(VAR_LABEL_HEIGHT);
-////        varHistLabel.setMaxWidth(VAR_LABEL_HEIGHT);
-////        variablesHolder.setBackground(Background.EMPTY);
-////        variablesHolder.setStyle(LISTVIEW_STYLE);
-//        variableHist.getChildren().addAll(table);
-//    }
-//    public void addVariable(String name, String value){
-////        Label newNameBar= new Label(name);
-////        Label newValueBar= new Label(value);
-////        HBox vari= new HBox();
-////        vari.getChildren().addAll(newNameBar,newValueBar);
-////        variablesHolder.getItems().add(vari);
-//        VariableHashMap.addToMap(name, value);
-//    }
-
-
-
-//    public String getVariable(String name){
-//             if(varMap.containsKey(name)){
-//                return varMap.get(name);
-//            }
-//             return null;
-//    }
 
     protected Node getScene(){
         return variablesTable;
