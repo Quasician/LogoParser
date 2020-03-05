@@ -3,10 +3,13 @@
     <author>Sanna</author>
     <Commands>
         <Command>
-            <Text>vor 50</Text>
+            <Text>fd 40</Text>
         </Command>
         <Command>
-            <Text>vor 50</Text>
+            <Text>fd 40</Text>
+        </Command>
+        <Command>
+            <Text>fd 40</Text>
         </Command>
     </Commands>
 </Title>
