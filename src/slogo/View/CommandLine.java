@@ -34,8 +34,15 @@ public class CommandLine{
   private static final int BUTTON_WIDTH = 100;
   private static final int COMMAND_LINE_TEXTAREA_HEIGHT = BUTTON_HEIGHT * 2 + 10;
   private static final int SPACING_VALUE = 10;
+  private static final int MOVEMENT = 50;
+  private static final int DEGREE_CHANGE = 30;
   private static final int TEXTAREA_FONTSIZE = 20;
   private StringProperty commandLineText;
+  private static final String Empty="";
+  private static final String Run="Run";
+  private static final String Clear="Clear";
+  private static final String FONT_NAME="Avenir";
+  private static final String PROMPT="EnterCommandPrompt";
   private BooleanProperty textUpdate;
   private TurtleGrid turtle;
 
@@ -65,71 +72,46 @@ public class CommandLine{
               if ((e.getCode() == KeyCode.UP)) {
                 for (Turtle t : TurtleList.getActiveTurtleList()) {
                   if(t.isActivatedProperty().getValue()) {
-                    t.setCoordinate(t.getX(), t.getY() + 50);
+                    t.setCoordinate(t.getX(), t.getY() + MOVEMENT);
                   }
                 }
               }
               if ((e.getCode() == KeyCode.DOWN)) {
                 for (Turtle t : TurtleList.getActiveTurtleList()) {
                   if(t.isActivatedProperty().getValue()) {
-                    t.setCoordinate(t.getX(), t.getY() - 50);
+                    t.setCoordinate(t.getX(), t.getY() - MOVEMENT);
                   }
                 }
               }
               if ((e.getCode() == KeyCode.RIGHT)) {
                 for (Turtle t : TurtleList.getActiveTurtleList()) {
                   if(t.isActivatedProperty().getValue()) {
-                    t.setDegree(t.getDegree() + 30);
+                    t.setDegree(t.getDegree() + DEGREE_CHANGE);
                   }
                 }
               }
               if ((e.getCode() == KeyCode.LEFT)) {
                 for (Turtle t : TurtleList.getActiveTurtleList()) {
                   if(t.isActivatedProperty().getValue()) {
-                    t.setDegree(t.getDegree() - 30);
+                    t.setDegree(t.getDegree() - DEGREE_CHANGE);
                   }
                 }
               }});
-//
-//        for (ImageView eachTurtle: turtle.getTurtleImage()){
-//          eachTurtle.setY(eachTurtle.getY()-50);
-//        }
-              // }
-//      if((e.getCode()== KeyCode.DOWN)){
-//        System.out.println("NHHHhhhhhh");
-//        for (ImageView eachTurtle: turtle.getTurtleImage()){
-//          eachTurtle.setY(eachTurtle.getY()+50);
-//        }
-//      }
-//      if((e.getCode()== KeyCode.LEFT)){
-//        System.out.println("NHHHhhhhhh");
-//        for (ImageView eachTurtle: turtle.getTurtleImage()){
-//          eachTurtle.setX(eachTurtle.getX()-50);
-//        }
-//      }
-//      if((e.getCode()== KeyCode.RIGHT)){
-//        System.out.println("NHHHhhhhhh");
-//        for (ImageView eachTurtle: turtle.getTurtleImage()){
-//          eachTurtle.setX(eachTurtle.getX()+50);
-//        }
-//      }
-//    });
-
     inputArea.setMaxHeight(COMMAND_LINE_TEXTAREA_HEIGHT);
-    inputArea.setFont(Font.font("Avenir", FontWeight.NORMAL, TEXTAREA_FONTSIZE));
-    inputArea.setPromptText(myResources.getString("EnterCommandPrompt"));
+    inputArea.setFont(Font.font(FONT_NAME, FontWeight.NORMAL, TEXTAREA_FONTSIZE));
+    inputArea.setPromptText(myResources.getString(PROMPT));
   }
 
   private void setButtons(){
-    runButton = new ViewButton(myResources.getString("Run"), BUTTON_HEIGHT, BUTTON_WIDTH);
+    runButton = new ViewButton(myResources.getString(Run), BUTTON_HEIGHT, BUTTON_WIDTH);
     runButton.setOnAction(e -> {
-      commandLineText.set(inputArea.getText()+"");
+      commandLineText.set(inputArea.getText()+Empty);
       textUpdate.set(!textUpdate.getValue());
       //System.out.println("FROM VIEW: " + commandLineText);
     });
-    clearButton = new ViewButton(myResources.getString("Clear"), BUTTON_HEIGHT, BUTTON_WIDTH);
+    clearButton = new ViewButton(myResources.getString(Clear), BUTTON_HEIGHT, BUTTON_WIDTH);
     clearButton.setOnAction(e -> {
-      inputArea.setText("");
+      inputArea.setText(Empty);
     });
   }
 

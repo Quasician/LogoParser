@@ -54,7 +54,20 @@ public class Visualizer {
   private CommandParser comParser;
   private Map<String, String> VarMap;
   private javafx.scene.image.Image img;
-  private static final String style = "-fx-background-color: rgba(0, 0, 0, 0.7);";
+  private static final String nameofImage= "SlogoLogo";
+  private static final String delimiter= "\n";
+  private static final String Command = "Command";
+  private static final String Variable = "Variable";
+  private static final String Custom = "Custom";
+  private static final String Properties = "Properties";
+  private static final String Save = "Save";
+  private static final String Upload = "Upload";
+  private static final String style = "Style";
+  private static final String title= "Title";
+  private static final String space =" ";
+  private static final int colorRed=10;
+  private static final int colorGreen=10;
+  private static final int colorBlue=20;
   private ObservableMap myMap;
   private DisplayOption displayOption;
   private Toolbar tool;
@@ -78,7 +91,7 @@ public class Visualizer {
     myVariableHistory = new VariableHistory();
     myConfig = new Configuration(viewTurtles);
     this.viewTurtles = viewTurtles;
-    img = new Image(myResources.getString("SlogoLogo"));
+    img = new Image(myResources.getString(nameofImage));
     buttonImage = new ImageView(img);
     buttonImage.setFitHeight(BUTTON_HEIGHT);
     buttonImage.setFitWidth(BUTTON_WIDTH);
@@ -110,14 +123,14 @@ public class Visualizer {
     parser.setUp();
     List<String> commands = parser.getCommands();
     String[] array = commands.toArray(new String[0]);
-    String str = String.join("\n", array);
+    String str = String.join(delimiter, array);
     System.out.println(str);
     comParser.parseText(str);
   }
 
   private void saveXML() {
     XMLCreator creator = new XMLCreator(myCommandHistory.getCommandListCopy());
-    creator.createFile("Title");
+    creator.createFile(myResources.getString(title));
   }
 
 
@@ -141,9 +154,9 @@ public class Visualizer {
       public void onChanged(Change<? extends Turtle> c) {
         c.next();
         List<Turtle> newTurtles = (List<Turtle>) c.getAddedSubList();
-        System.out.println("View turtles changed in turtle grid");
+//        System.out.println("View turtles changed in turtle grid");
         for (Turtle changedTurtle : newTurtles) {
-          System.out.println("NEW VIEW turtle: " + changedTurtle.isActivatedProperty().getValue());
+//          System.out.println("NEW VIEW turtle: " + changedTurtle.isActivatedProperty().getValue());
           //setUpTurtle(changedTurtle);
         }
       }
@@ -154,7 +167,7 @@ public class Visualizer {
     myMap.addListener(new MapChangeListener<String, String>() {
                         @Override
                         public void onChanged(Change<? extends String, ? extends String> change) {
-                          System.out.println(change.getKey() + " " + change.getValueAdded());
+                          System.out.println(change.getKey() + space + change.getValueAdded());
                           VariableHashMap.addToMap(change.getKey(), change.getValueAdded());
                         }
                       }
@@ -164,7 +177,7 @@ public class Visualizer {
   private void setUpBorderPane(TurtleGrid grid, CommandLine commandLine, Toolbar tool) {
     bp = new BorderPane();
     bp.setBackground(Background.EMPTY);
-    bp.setStyle(style);
+    bp.setStyle(myResources.getString(style));
     bp.setBottom(commandLine.getCommandLineGroup());
     bp.setLeft(grid.getTurtleGrid());
     bp.setTop(tool.getToolBar());
@@ -173,16 +186,16 @@ public class Visualizer {
   private void makeHistory() {
     VBox historyVBox = new VBox();
     historyVBox.setAlignment(Pos.CENTER);
-    Button showCommand= new ViewButton("Command",45,65,10);
+    Button showCommand= new ViewButton(myResources.getString(Command));
     Node toDisplay= myCommandHistory.returnScene();
     Node outputView= myOutputView.returnScene();
-    Button showVariable= new ViewButton("Variable",45,65,10);
-    Button showCustomCommands= new ViewButton("Custom",45,65,10);
-    Button showProperties= new ViewButton("Properties",45,65,10);
-    Button saveConfig= new ViewButton("Save", 45, 65, 10);
-    Button uploadConfig= new ViewButton("Upload",45,65,10);
+    Button showVariable= new ViewButton(myResources.getString(Variable));
+    Button showCustomCommands= new ViewButton(myResources.getString(Custom));
+    Button showProperties= new ViewButton(myResources.getString(Properties));
+    Button saveConfig= new ViewButton(myResources.getString(Save));
+    Button uploadConfig= new ViewButton(myResources.getString(Upload));
     HBox buttonsForPanes= new HBox();
-    buttonsForPanes.setBackground(new Background(new BackgroundFill(Color.rgb(10, 10, 20), CornerRadii.EMPTY, Insets.EMPTY)));
+    buttonsForPanes.setBackground(new Background(new BackgroundFill(Color.rgb(colorRed, colorGreen, colorBlue), CornerRadii.EMPTY, Insets.EMPTY)));
     buttonsForPanes.getChildren().addAll(showCommand,showVariable,showCustomCommands,showProperties,saveConfig,uploadConfig);
     historyVBox.getChildren()
         .addAll(buttonImage, buttonsForPanes, toDisplay, outputView);
