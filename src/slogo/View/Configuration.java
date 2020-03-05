@@ -1,25 +1,19 @@
 package slogo.View;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.util.Callback;
 import slogo.model.Turtle;
-import slogo.model.VariableHashMap;
 
-import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Configuration {
     private ListView variablesHolder;
@@ -45,14 +39,10 @@ public class Configuration {
     }
 
     public Configuration(ObservableList<Turtle> turtles) {
-        rowForSize= new HBox();
-        CoordForSize= new HBox();
-        variableHist = new VBox();
         variablesTable = new ListView<>();
         PropertyName=new Label("Number of Turtles ");
         number= new Label();
         addRowListener(turtles);
-
     }
 
     public void addRowListener(ObservableList<Turtle> turtles) {
@@ -60,9 +50,11 @@ public class Configuration {
             for(Turtle t: turtles){
                     count++;
             }
-            number.setText(String.valueOf(count));
-            rowForSize.getChildren().addAll(PropertyName,number);
-            variablesTable.getItems().add(rowForSize);});
+            if(variablesTable.getItems().contains(number)){
+                variablesTable.getItems().remove(number);
+            }
+            number.setText("Number of Turtles: "+ String.valueOf(count));
+            variablesTable.getItems().add(number);});
     }
 
     protected Node getScene(){
