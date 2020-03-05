@@ -16,9 +16,9 @@ import org.xml.sax.SAXException;
 
 public class XMLParser {
 
-  private static final String NAME = "Name";
   private static final String COMMANDS = "Commands";
   private static final String COMMAND = "Command";
+  private static final String TEXT = "Text";
   private static final String RESOURCES_ERROR_MESSAGES = "resources.ErrorMessages";
   private static final String STYLING = "Styling";
   private static final String STYLE_INSTEAD_OF_SIM = "StyleInsteadOfSim";
@@ -72,13 +72,12 @@ public class XMLParser {
    */
   public List<String> getCommands() {
     ArrayList<String> specificCommand = new ArrayList<>();
-    NodeList nodeList1 = root.getElementsByTagName("Command");
-    for (int x = 0; x < nodeList1.getLength(); x++) {
-      System.out.println(nodeList1.getLength());
-      Node node = nodeList1.item(x);
+    NodeList nodeList = root.getElementsByTagName(COMMAND);
+    for (int x = 0; x < nodeList.getLength(); x++) {
+      Node node = nodeList.item(x);
       if (node.getNodeType() == Node.ELEMENT_NODE) {
         commandElement = (Element) (node);
-        String command = getTextByTag("Text", 0);
+        String command = getTextByTag(TEXT, 0);
         specificCommand.add(command);
       }
     }

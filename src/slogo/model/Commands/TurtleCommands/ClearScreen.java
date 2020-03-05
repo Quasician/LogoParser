@@ -13,7 +13,7 @@ public class ClearScreen extends TurtleCommand {
   public void doCommand(TreeNode commandNode) {
     //have to erase the turtle lines
 
-    for(Turtle turtle: turtles) {
+    for(Turtle turtle: activatedTurtles) {
       double distanceTravelled = distanceFormula(turtle.getX(), turtle.getY(), 0, 0);
       moveTurtleTo(turtle.getId(),0, 0);
       commandNode.setResult("" + distanceTravelled);
