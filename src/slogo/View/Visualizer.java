@@ -74,7 +74,7 @@ public class Visualizer {
     comParser = parser;
     myCommandHistory = new CommandHistory(comParser);
     myOutputView= new OutputView();
-    myUserDefined = new UserDefinedCommands(comParser);
+    myUserDefined = new UserDefinedCommands();
     myVariableHistory = new VariableHistory();
     myConfig = new Configuration(viewTurtles);
     this.viewTurtles = viewTurtles;
