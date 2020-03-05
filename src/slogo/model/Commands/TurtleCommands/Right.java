@@ -19,4 +19,6 @@ public class Right extends TurtleCommand {
       commandNode.setResult("" + degrees);
     }
   }
+
 }
+

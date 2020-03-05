@@ -1,63 +1,64 @@
 package slogo.View;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
+import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import slogo.Main;
 import slogo.model.CommandParser;
+import slogo.model.Commands.Command;
 import slogo.model.DisplayOption;
 import slogo.model.Turtle;
 import slogo.model.TurtleList;
 import slogo.model.VariableHashMap;
-import slogo.model.xml.XMLCreator;
-import slogo.model.xml.XMLParser;
 
 public class Visualizer {
 
-  public static final int BUTTON_HEIGHT = 80;
-  public static final double BUTTON_WIDTH = 200.0;
-  private ResourceBundle myResources = Main.myResources;
   private static int WINDOW_WIDTH = 1500;
   private static int WINDOW_HEIGHT = 1000;
-  private Stage myWindow;
-  private CommandHistory myCommandHistory;
-  private UserDefinedCommands myUserDefined;
-  private VariableHistory myVariableHistory;
-  private Configuration myConfig;
   private BorderPane bp;
   private ObservableList<Turtle> viewTurtles;
-  private ImageView buttonImage;
-  private CommandParser comParser;
   private Map<String, String> VarMap;
   private javafx.scene.image.Image img;
-  private static final String style = "-fx-background-color: rgba(0, 0, 0, 0.7);";
+  private static final String nameofImage= "SlogoLogo";
+  private static final String delimiter= "\n";
+  private static final String Command = "Command";
+  private static final String Variable = "Variable";
+  private static final String Custom = "Custom";
+  private static final String Properties = "Properties";
+  private static final String Save = "Save";
+  private static final String Upload = "Upload";
+  private static final String style = "Style";
+  private static final String title= "Title";
+  private static final String UndoCommand= "Undo";
+  private static final String Error="No Commands Found to Undo";
+  private static final String space =" ";
+  private static final int colorRed=10;
+  private static final int colorGreen=10;
+  private static final int colorBlue=20;
   private ObservableMap myMap;
   private DisplayOption displayOption;
   private Toolbar tool;
+  private TurtleGrid grid;
+  private HistoryPanel myHistoryPanel;
+  public static final int SLOGO_IMAGE_HEIGHT = 80;
+  public static final double SLOGO_IMAGE_WIDTH = 200.0;
+  private ResourceBundle myResources = Main.myResources;
+  private ImageView slogoImage;
+
 
   /**
    * Constructor for the visualizer class
@@ -69,80 +70,30 @@ public class Visualizer {
       StringProperty commandLineText,
       BooleanProperty textUpdate, Language language, CommandParser parser,
       ObservableMap myMap) {
-    myWindow = window;
-    comParser = parser;
-    myCommandHistory = new CommandHistory(comParser);
-    myUserDefined = new UserDefinedCommands(comParser);
-    myVariableHistory = new VariableHistory();
-    myConfig = new Configuration();
+//    myWindow = window;
+    myHistoryPanel = new HistoryPanel(window, viewTurtles, parser);
     this.viewTurtles = viewTurtles;
-    img = new Image(myResources.getString("SlogoLogo"));
-    buttonImage = new ImageView(img);
-    buttonImage.setFitHeight(BUTTON_HEIGHT);
-    buttonImage.setFitWidth(BUTTON_WIDTH);
-    TurtleGrid grid = new TurtleGrid(this.viewTurtles);
+    grid = new TurtleGrid(this.viewTurtles);
     tool = new Toolbar(grid, language);
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate, grid);
-    setUpBorderPane(grid, cmdline, tool);
-    makeHistory();
+
     this.myMap = myMap;
     setUpMapListener();
+    img = new Image(myResources.getString("SlogoLogo"));
+    slogoImage = new ImageView(img);
+    slogoImage.setFitHeight(SLOGO_IMAGE_HEIGHT);
+    slogoImage.setFitWidth(SLOGO_IMAGE_WIDTH);
+    slogoImage.isFocused();
+    setUpBorderPane(grid, cmdline, tool);
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
-    buttonImage.isFocused();
-//    addKeyHandler(scene,grid);
     window.setScene(scene);
     window.show();
     addSizeListener();
-    addKeyHandler(scene, grid);
+//    addKeyHandler(scene, grid);
   }
 
   public void setDisplayOption(DisplayOption d) {
     tool.bindWithDisplayOption(d);
-  }
-
-  //TODO: CHANGE THIS
-  private void getXML() {
-    FileChooser fileChooser = new FileChooser();
-    File xml = fileChooser.showOpenDialog(myWindow);
-    XMLParser parser = new XMLParser(xml);
-    parser.setUp();
-    List<String> commands = parser.getCommands();
-    String[] array = commands.toArray(new String[0]);
-    String str = String.join("\n", array);
-    System.out.println(str);
-    comParser.parseText(str);
-  }
-
-  private void saveXML() {
-    XMLCreator creator = new XMLCreator(myCommandHistory.getCommandListCopy());
-    creator.createFile("Title");
-  }
-
-
-
-  private void addKeyHandler(Scene scene, TurtleGrid grid) {
-    scene.setOnKeyPressed(ke -> {
-      KeyCode keyCode = ke.getCode();
-//      if (keyCode== KeyCode.RIGHT) {
-//        grid.getTurtleImage().get(0).setX(100);
-//      }
-//      if(keyCode==KeyCode.LEFT){
-//        grid.getTurtleImage().get(0).setX(50);
-//      }
-//      if(keyCode== KeyCode.J){
-//        grid.getTurtleImage().get(0).setY(50);
-//      }
-//      if(keyCode== KeyCode.N){
-//        grid.getTurtleImage().get(0).setY(30);
-//      }
-      if (keyCode == KeyCode.ENTER) {
-        getXML(); //TODO: CHANGE THIS LATER
-      }
-      if (keyCode == KeyCode.Q) {
-        saveXML();
-      }
-    });
-
   }
 
   private void addSizeListener() {
@@ -151,98 +102,46 @@ public class Visualizer {
       public void onChanged(Change<? extends Turtle> c) {
         c.next();
         List<Turtle> newTurtles = (List<Turtle>) c.getAddedSubList();
-        System.out.println("View turtles changed in turtle grid");
+//        System.out.println("View turtles changed in turtle grid");
         for (Turtle changedTurtle : newTurtles) {
-          System.out.println("NEW VIEW turtle: " + changedTurtle.isActivatedProperty().getValue());
+//          System.out.println("NEW VIEW turtle: " + changedTurtle.isActivatedProperty().getValue());
           //setUpTurtle(changedTurtle);
         }
       }
     });
   }
 
+  // TODO need to change since this isnt used anywhere
   private void setUpMapListener() {
     myMap.addListener(new MapChangeListener<String, String>() {
-                        @Override
-                        public void onChanged(Change<? extends String, ? extends String> change) {
-                          System.out.println(change.getKey() + " " + change.getValueAdded());
-                          VariableHashMap.addToMap(change.getKey(), change.getValueAdded());
-                        }
-                      }
+        @Override
+        public void onChanged(Change<? extends String, ? extends String> change) {
+          System.out.println(change.getKey() + " " + change.getValueAdded());
+          VariableHashMap.addToMap(change.getKey(), change.getValueAdded());
+        }
+      }
     );
   }
 
   private void setUpBorderPane(TurtleGrid grid, CommandLine commandLine, Toolbar tool) {
     bp = new BorderPane();
     bp.setBackground(Background.EMPTY);
-    bp.setStyle(style);
+    bp.setStyle(myResources.getString(style));
     bp.setBottom(commandLine.getCommandLineGroup());
     bp.setLeft(grid.getTurtleGrid());
     bp.setTop(tool.getToolBar());
+    VBox rightSide = new VBox(10);
+    rightSide.setAlignment(Pos.CENTER);
+    rightSide.getChildren().addAll(slogoImage, myHistoryPanel.returnScene());
+    bp.setRight(rightSide);
+  }
+  //i know this isnt good design since its being passed into "2 levels," but im gonna leave it until i find a better way to refactor
+  public void makeNewBox(String value) {
+    myHistoryPanel.makeNewBox(value);
   }
 
-  private void makeHistory() {
-    VBox historyVBox = new VBox();
-    historyVBox.setAlignment(Pos.CENTER);
-    Button showCommand= new ViewButton("Command",45,65,10);
-    Node toDisplay= myCommandHistory.returnScene();
-    Button showVariable= new ViewButton("Variable",45,65,10);
-    Button showCustomCommands= new ViewButton("Custom",45,65,10);
-    Button showProperties= new ViewButton("Properties",45,65,10);
-    Button saveConfig= new ViewButton("Save", 45, 65, 10);
-    Button uploadConfig= new ViewButton("Upload",45,65,10);
-    HBox buttonsForPanes= new HBox();
-    buttonsForPanes.setBackground(new Background(new BackgroundFill(Color.rgb(10, 10, 20), CornerRadii.EMPTY, Insets.EMPTY)));
-    buttonsForPanes.getChildren().addAll(showCommand,showVariable,showCustomCommands,showProperties,saveConfig,uploadConfig);
-    historyVBox.getChildren()
-        .addAll(buttonImage, buttonsForPanes, toDisplay);
-    saveConfig.setOnAction(e -> saveXML());
-    uploadConfig.setOnAction(e -> getXML());
-    showCommand.setOnAction(e -> setShowCommand(historyVBox));
-    showVariable.setOnAction(e -> setShowVariable(historyVBox));
-    showCustomCommands.setOnAction(e -> setShowCustom(historyVBox));
-    showProperties.setOnAction(e -> setShowProperties(historyVBox));
-    bp.setRight(historyVBox);
+  //i know this isnt good design since its being passed into "2 levels," but im gonna leave it until i find a better way to refactor
+  public void makeNewTerminalBox(String parseText) {
+    myHistoryPanel.makeNewTerminalBox(parseText);
   }
-
-  private void setShowProperties(VBox historyVBox) {
-    historyVBox.getChildren()
-        .removeAll(myCommandHistory.returnScene(), myVariableHistory.getScene(),
-            myUserDefined.returnScene());
-    if (!historyVBox.getChildren().contains(myConfig.getScene())) {
-      historyVBox.getChildren().add(myConfig.getScene());
-    }
-  }
-
-  private void setShowCustom(VBox historyVBox) {
-    historyVBox.getChildren()
-        .removeAll(myCommandHistory.returnScene(), myVariableHistory.getScene(),
-            myConfig.getScene());
-    if (!historyVBox.getChildren().contains(myUserDefined.returnScene())) {
-      historyVBox.getChildren().add(myUserDefined.returnScene());
-    }
-  }
-
-  private void setShowVariable(VBox historyVBox) {
-    historyVBox.getChildren().removeAll(myCommandHistory.returnScene(), myUserDefined.returnScene(),
-        myConfig.getScene());
-    if (!historyVBox.getChildren().contains(myVariableHistory.getScene())) {
-      historyVBox.getChildren().add(myVariableHistory.getScene());
-    }
-  }
-
-  private void setShowCommand(VBox historyVBox) {
-    historyVBox.getChildren()
-        .removeAll(myVariableHistory.getScene(), myUserDefined.returnScene(), myConfig.getScene());
-    if (!historyVBox.getChildren().contains(myCommandHistory.returnScene())) {
-      historyVBox.getChildren().add(myCommandHistory.returnScene());
-    }
-  }
-
-
-  public void makeNewBox(String newCommand) {
-    myCommandHistory.makeBox(newCommand);
-    Button trial = myCommandHistory.returnButton();
-    trial.setOnAction(e -> comParser.parseText(newCommand));
-  }
-
 }

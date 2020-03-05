@@ -7,7 +7,7 @@ public class Cosine extends MathCommand {
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        commandNode.setResult(Math.toDegrees(Math.cos(Double.parseDouble(getParamList().get(0))))+"");
+        commandNode.setResult(Math.cos(Math.toRadians(Double.parseDouble(getParamList().get(0))))+"");
         System.out.println("Result of Cosine: "+ commandNode.getResult());
     }
 }

@@ -1,5 +1,10 @@
 package slogo.model.Commands.TurtleCommands;
 
+import javafx.animation.AnimationTimer;
+import javafx.animation.Interpolator;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import slogo.model.Commands.Command;
 
 public abstract class TurtleCommand extends Command {
@@ -21,9 +26,7 @@ public abstract class TurtleCommand extends Command {
   }
 
   protected void moveTurtleTo(int id, double x, double y) {
-//    turtle.setX(x);
-//    turtle.setY(y);
-    turtles.get(id).setCoordinate(x, y);
+    turtles.get(id-1).setCoordinate(x, y);
   }
 
   protected boolean facingTopRight(double angle) {
@@ -80,6 +83,8 @@ public abstract class TurtleCommand extends Command {
 
     double newX = turtles.get(id).getX() + xMultiplier * (distance * Math.sin(angleToRadians));
     double newY = turtles.get(id).getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
+
+    System.out.println("OLD Y: " + turtles.get(id).getY());
 
     System.out.println("NEW COORDS: " + newX + " " + newY);
 

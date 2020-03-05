@@ -75,6 +75,7 @@ public class TurtleList {
     for (Turtle turtle : viewTurtleList) {
       if (turtle.isActivatedProperty().getValue()) {
         activeTurtles.add(turtle);
+        System.out.println("TURTLE Y" + turtle.getY());
         //System.out.println("Turtle "+ turtle.getId()+ " is activated");
       }
     }

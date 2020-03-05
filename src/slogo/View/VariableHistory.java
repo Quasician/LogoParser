@@ -8,7 +8,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import slogo.model.VariableHashMap;
 
-public class VariableHistory {
+public class VariableHistory implements HistoryView{
     private ListView variablesHolder;
     private static final double VAR_BOX_HEIGHT = 310.0;
     private static final double VAR_BOX_WIDTH = 300.0;
@@ -48,7 +48,7 @@ public class VariableHistory {
         variableHist.getChildren().addAll(variablesHolder);
     }
 
-    protected Node getScene(){
+    public Node returnScene(){
       return variableHist;
     }
 
