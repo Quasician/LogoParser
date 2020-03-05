@@ -1,10 +1,7 @@
 package slogo.View;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
@@ -29,6 +26,7 @@ import javafx.stage.Stage;
 
 import slogo.Main;
 import slogo.model.CommandParser;
+import slogo.model.Commands.Command;
 import slogo.model.DisplayOption;
 import slogo.model.Turtle;
 import slogo.model.VariableHashMap;
@@ -64,6 +62,7 @@ public class Visualizer {
   private static final String Upload = "Upload";
   private static final String style = "Style";
   private static final String title= "Title";
+  private static final String UndoCommand= "Undo";
   private static final String space =" ";
   private static final int colorRed=10;
   private static final int colorGreen=10;
@@ -194,18 +193,29 @@ public class Visualizer {
     Button showProperties= new ViewButton(myResources.getString(Properties));
     Button saveConfig= new ViewButton(myResources.getString(Save));
     Button uploadConfig= new ViewButton(myResources.getString(Upload));
+    Button Undo= new ViewButton(myResources.getString(UndoCommand));
     HBox buttonsForPanes= new HBox();
     buttonsForPanes.setBackground(new Background(new BackgroundFill(Color.rgb(colorRed, colorGreen, colorBlue), CornerRadii.EMPTY, Insets.EMPTY)));
-    buttonsForPanes.getChildren().addAll(showCommand,showVariable,showCustomCommands,showProperties,saveConfig,uploadConfig);
+    buttonsForPanes.getChildren().addAll(showCommand,showVariable,showCustomCommands,showProperties,Undo,saveConfig,uploadConfig);
     historyVBox.getChildren()
         .addAll(buttonImage, buttonsForPanes, toDisplay, outputView);
     saveConfig.setOnAction(e -> saveXML());
     uploadConfig.setOnAction(e -> getXML());
+    Undo.setOnAction(e->undoCommand());
     showCommand.setOnAction(e -> setShowCommand(historyVBox));
     showVariable.setOnAction(e -> setShowVariable(historyVBox));
     showCustomCommands.setOnAction(e -> setShowCustom(historyVBox));
     showProperties.setOnAction(e -> setShowProperties(historyVBox));
     bp.setRight(historyVBox);
+  }
+
+  private void undoCommand() {
+    comParser.parseText("clearscreen");
+    List<String> copy = myCommandHistory.getCommandListCopy();
+    copy.remove(myCommandHistory.getCommandListCopy().get(myCommandHistory.getCommandListCopy().size()-1));
+    for(String command:copy){
+      comParser.parseText(command);
+    }
   }
 
   private void setShowProperties(VBox historyVBox) {
