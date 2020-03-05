@@ -23,22 +23,26 @@ public class CommandHistory {
     private HBox newCommand;
     private ViewButton runButton;
     private Label commandEntered;
-    private static final int SPACING = 300;
-    private static final int BOX_SPACING = 300;
+    private static final int HEIGHT = 310;
+    private static final int NEW_HEIGHT = 200;
+    private static final int WIDTH = 300;
     private static final int PLAY_IMAGE_SIZE = 10;
+    private static final int PLAY_IMAGE_SIZE_IN_HBOX = 20;
     private CommandParser pars;
-
+    private static final int FONT_SIZE=0;
+    private static final int SPACING=5;
     private ArrayList<String> commandValues;
-    private static final String STYLE = "-fx-background-color: rgba(0, 0,0, 0.5);";
-
+    private static final String STYLE = "Style";
+    private static final String RUN_BUTTON= "PlayImage";
+    private static final String empty="";
 
     public CommandHistory(CommandParser parser){
         commandValues = new ArrayList<>();
         historyWindow=new ListView();
         historyWindow.setBackground(Background.EMPTY);
-        historyWindow.setStyle(STYLE);
-        historyWindow.setPrefHeight(310.0);
-        historyWindow.setPrefWidth(300.0);
+        historyWindow.setStyle(myResources.getString(STYLE));
+        historyWindow.setPrefHeight(HEIGHT);
+        historyWindow.setPrefWidth(WIDTH);
         // historyWindow.setMargin(historyWindow,new Insets(10,5,10,0));
         pars=parser;
     }
@@ -48,12 +52,17 @@ public class CommandHistory {
         return copy;
     }
 
+    protected void removeCommand(){
+        commandValues.remove(commandValues.size() - 1);
+        }
+
+
     protected void makeBox(String StringRepresentation){
-        runButton=new ViewButton("", 2* PLAY_IMAGE_SIZE, 2* PLAY_IMAGE_SIZE, 0);
-        setImage(runButton, myResources.getString("PlayImage"));
+        runButton=new ViewButton(empty,  PLAY_IMAGE_SIZE_IN_HBOX, PLAY_IMAGE_SIZE_IN_HBOX,FONT_SIZE);
+        setImage(runButton, myResources.getString(RUN_BUTTON));
         commandValues.add(StringRepresentation);
-        newCommand= new HBox(5);
-        newCommand.setMaxSize(300,200);
+        newCommand= new HBox(SPACING);
+        newCommand.setMaxSize(WIDTH,NEW_HEIGHT);
         commandEntered=new Label(StringRepresentation);
         commandEntered.setTextFill(TEXT_COLOR);
         newCommand.getChildren().addAll(runButton,commandEntered);
