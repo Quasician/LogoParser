@@ -197,7 +197,7 @@ public class Visualizer {
 
   private void setShowProperties(VBox historyVBox) {
     historyVBox.getChildren()
-        .removeAll(myCommandHistory.returnScene(), myVariableHistory.getScene(),
+        .removeAll(myCommandHistory.returnScene(), myVariableHistory.returnScene(),
             myUserDefined.returnScene(), myOutputView.returnScene());
     if (!historyVBox.getChildren().contains(myConfig.getScene())) {
       historyVBox.getChildren().addAll(myConfig.getScene(),myOutputView.returnScene());
@@ -206,7 +206,7 @@ public class Visualizer {
 
   private void setShowCustom(VBox historyVBox) {
     historyVBox.getChildren()
-        .removeAll(myCommandHistory.returnScene(), myVariableHistory.getScene(),
+        .removeAll(myCommandHistory.returnScene(), myVariableHistory.returnScene(),
             myConfig.getScene(),myOutputView.returnScene());
     if (!historyVBox.getChildren().contains(myUserDefined.returnScene())) {
       historyVBox.getChildren().addAll(myUserDefined.returnScene(),myOutputView.returnScene());
@@ -216,14 +216,14 @@ public class Visualizer {
   private void setShowVariable(VBox historyVBox) {
     historyVBox.getChildren().removeAll(myCommandHistory.returnScene(), myUserDefined.returnScene(),
         myConfig.getScene(),myOutputView.returnScene());
-    if (!historyVBox.getChildren().contains(myVariableHistory.getScene())) {
-      historyVBox.getChildren().addAll(myVariableHistory.getScene(),myOutputView.returnScene());
+    if (!historyVBox.getChildren().contains(myVariableHistory.returnScene())) {
+      historyVBox.getChildren().addAll(myVariableHistory.returnScene(),myOutputView.returnScene());
     }
   }
 
   private void setShowCommand(VBox historyVBox) {
     historyVBox.getChildren()
-        .removeAll(myVariableHistory.getScene(), myUserDefined.returnScene(), myConfig.getScene(),myOutputView.returnScene());
+        .removeAll(myVariableHistory.returnScene(), myUserDefined.returnScene(), myConfig.getScene(),myOutputView.returnScene());
     if (!historyVBox.getChildren().contains(myCommandHistory.returnScene())) {
       historyVBox.getChildren().addAll(myCommandHistory.returnScene(),myOutputView.returnScene());
     }
