@@ -126,20 +126,37 @@ public class TurtleGrid {
     addShowingListener(viewTurtle);
   }
 
-  //NOTE: need to make each turtle have a center x
+
+  private double keepInBounds(double coordinate, int bound) {
+    if (coordinate > bound) {
+      return bound;
+    } else if (coordinate < 0) {
+      return 0;
+    }
+    return coordinate;
+  }
+
+  //TODO: need to make each turtle have a center x
   private void addCoordinatesListener(Turtle viewTurtle) {
     viewTurtle.coordinatesProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         int id = viewTurtle.getId()-1;
         ImageView thisView = turtleImageViews.get(id);
-        thisView.setX(viewTurtle.getX() + centerX);
-        thisView.setY(-(viewTurtle.getY()) + centerY);
+        double newX = viewTurtle.getX() + centerX;
+        double newY = -(viewTurtle.getY()) + centerY;
+        newX = keepInBounds(newX, myCanvasWidth);
+        newY = keepInBounds(newY, myCanvasHeight);
+        thisView.setX(newX);
+        thisView.setY(newY);
 
-        double oldX = viewTurtle.getPastX() + centerX + turtleCenterX;
-        double oldY = - viewTurtle.getPastY() + centerY + turtleCenterY;
-        double currentX = viewTurtle.getX() + centerX + turtleCenterX;
-        double currentY = -viewTurtle.getY() + centerY + turtleCenterY;
+        double pastX = keepInBounds(viewTurtle.getPastX() + centerX, myCanvasWidth);
+        double pastY = keepInBounds( - viewTurtle.getPastY() + centerY, myCanvasHeight);
+
+        double oldX = pastX + turtleCenterX;
+        double oldY = pastY + turtleCenterY;
+        double currentX = newX + turtleCenterX;
+        double currentY = newY + turtleCenterY;
 
         if (isPenDown) {
           makeLine(oldX, oldY, currentX, currentY);

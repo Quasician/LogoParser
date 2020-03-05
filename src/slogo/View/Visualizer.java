@@ -31,6 +31,7 @@ import slogo.Main;
 import slogo.model.CommandParser;
 import slogo.model.DisplayOption;
 import slogo.model.Turtle;
+import slogo.model.TurtleList;
 import slogo.model.VariableHashMap;
 import slogo.model.xml.XMLCreator;
 import slogo.model.xml.XMLParser;
