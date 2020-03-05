@@ -92,6 +92,10 @@ public class CommandTreeExecutor {
         executeSubTree(child);
         parameters.add(child.getResult());
       }
+
+      for (Turtle t : turtles) {
+        System.out.println("TURTLE Y , before creating the command " + t.getY());
+      }
       Command commandObject = createCommand(element, parameters);
       commandObject.setParams(parameters);
       commandObject.setTurtles(turtles, activatedTurtles);

@@ -109,7 +109,7 @@ public class CommandLine{
     runButton.setOnAction(e -> {
       commandLineText.set(inputArea.getText()+Empty);
       textUpdate.set(!textUpdate.getValue());
-      //System.out.println("FROM VIEW: " + commandLineText);
+      System.out.println("FROM VIEW: " + commandLineText);
     });
     clearButton = new ViewButton(myResources.getString(Clear), BUTTON_HEIGHT, BUTTON_WIDTH);
     clearButton.setOnAction(e -> {

@@ -9,8 +9,6 @@ public class SetPalette extends DisplayCommand {
   private static final int MAX_RGB = 255;
   private static final int MIN_RGB = 0;
 
-
-
   public SetPalette(String name) {
     super(name);
   }
@@ -20,7 +18,7 @@ public class SetPalette extends DisplayCommand {
     int index = Integer.parseInt(getParamList().get(0));
 
     if (index < 0) {
-      throw new CommandException(String.format(errors.getString("Index"),  displayOption.getLargestIndex()));
+      throw new CommandException(String.format(errors.getString(INDEX_ERROR),  displayOption.getLargestIndex()));
     }
     if (index > displayOption.getLargestIndex())
       index = displayOption.getLargestIndex() + 1;
@@ -29,7 +27,7 @@ public class SetPalette extends DisplayCommand {
     for (int i = 0; i < RGB_SIZE; i++) {
       rgb[i] = Integer.parseInt(getParamList().get(i+1));
       if (rgb[i] > MAX_RGB || rgb[i] < MIN_RGB)
-        throw new CommandException(errors.getString("RGB"));
+        throw new CommandException(errors.getString(RGB_ERROR));
     }
 
     displayOption.setColorAt(index, rgb);
