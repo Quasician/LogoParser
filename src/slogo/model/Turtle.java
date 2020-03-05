@@ -6,7 +6,6 @@ public class Turtle {
 
   private static final double DEGREE_LOWER_BOUND = 0;
   private static final double DEGREE_UPPER_BOUND = 360;
-
   private ObjectProperty coordinates;
   private Coordinate pastCoordinates;
   private DoubleProperty distance = new SimpleDoubleProperty();
@@ -117,7 +116,7 @@ public class Turtle {
     }
 
     if (degree < DEGREE_LOWER_BOUND || degree >= DEGREE_UPPER_BOUND)
-      throw new ArithmeticException("Degree not in valid range"); //TODO: Fix this
+      throw new ArithmeticException("Degree not in valid range");
     angleFacing.set(degree);
   }
 

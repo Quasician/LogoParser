@@ -80,8 +80,6 @@ public abstract class TurtleCommand extends Command {
     double newX = turtles.get(id).getX() + xMultiplier * (distance * Math.sin(angleToRadians));
     double newY = turtles.get(id).getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
 
-    System.out.println("NEW COORDS: " + newX + " " + newY);
-
     turtles.get(id).setCoordinate(newX, newY);
   }
 
