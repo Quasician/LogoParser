@@ -85,7 +85,7 @@ public class Turtle {
   }
 
   public int getId() {
-    return id.get();
+    return id.get()-1;
   }
 
   // returns an int from 0 to 359
@@ -114,7 +114,7 @@ public class Turtle {
    */
   public void setDegree(double degree) {
     if (degree < DEGREE_LOWER_BOUND || degree >= DEGREE_UPPER_BOUND)
-      throw new ArithmeticException("Degree not in valid range");
+      throw new ArithmeticException("Degree not in valid range"); //TODO: Fix this
     angleFacing.set(degree);
   }
 
