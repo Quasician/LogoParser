@@ -52,6 +52,11 @@ public class CommandHistory {
         return copy;
     }
 
+    protected void removeCommand(){
+        commandValues.remove(commandValues.size() - 1);
+        }
+
+
     protected void makeBox(String StringRepresentation){
         runButton=new ViewButton(empty,  PLAY_IMAGE_SIZE_IN_HBOX, PLAY_IMAGE_SIZE_IN_HBOX,FONT_SIZE);
         setImage(runButton, myResources.getString(RUN_BUTTON));

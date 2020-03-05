@@ -134,6 +134,7 @@ public class Visualizer {
 
 
 
+
   private void addKeyHandler(Scene scene, TurtleGrid grid) {
     scene.setOnKeyPressed(ke -> {
       KeyCode keyCode = ke.getCode();
@@ -211,9 +212,13 @@ public class Visualizer {
 
   private void undoCommand() {
     comParser.parseText("clearscreen");
-    List<String> copy = myCommandHistory.getCommandListCopy();
-    copy.remove(myCommandHistory.getCommandListCopy().get(myCommandHistory.getCommandListCopy().size()-1));
-    for(String command:copy){
+    try {
+      myCommandHistory.removeCommand();
+    } catch (IndexOutOfBoundsException e){
+      String error= e.getMessage();
+      makeNewTerminalBox(error);
+    }
+    for(String command:myCommandHistory.getCommandListCopy()){
       comParser.parseText(command);
     }
   }
@@ -256,7 +261,7 @@ public class Visualizer {
   public void makeNewBox(String newCommand) {
     myCommandHistory.makeBox(newCommand);
     Button trial = myCommandHistory.returnButton();
-    trial.setOnAction(e -> comParser.parseText(newCommand));
+    trial.setOnAction(e -> {comParser.parseText(newCommand); makeNewBox(newCommand);});
   }
 
   public void makeNewTerminalBox(String parseText) {

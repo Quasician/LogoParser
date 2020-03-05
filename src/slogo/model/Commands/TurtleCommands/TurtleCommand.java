@@ -23,7 +23,7 @@ public abstract class TurtleCommand extends Command {
   protected void moveTurtleTo(int id, double x, double y) {
 //    turtle.setX(x);
 //    turtle.setY(y);
-    turtles.get(id).setCoordinate(x, y);
+    turtles.get(id-1).setCoordinate(x, y);
   }
 
   protected boolean facingTopRight(double angle) {
