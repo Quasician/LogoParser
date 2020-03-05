@@ -6,7 +6,6 @@ public class Turtle {
 
   private static final double DEGREE_LOWER_BOUND = 0;
   private static final double DEGREE_UPPER_BOUND = 360;
-
   private ObjectProperty coordinates;
   private Coordinate pastCoordinates;
   private DoubleProperty distance = new SimpleDoubleProperty();
@@ -65,27 +64,23 @@ public class Turtle {
   }
 
   public double getX() {
-    //return x.get();
     return ((Coordinate)coordinates.get()).getX();
   }
 
   public double getY() {
-   // return y.get();
     return ((Coordinate)coordinates.get()).getY();
   }
 
   public double getPastX() {
-    //return x.get();
     return pastCoordinates.getX();
   }
 
   public double getPastY() {
-    // return y.get();
     return pastCoordinates.getY();
   }
 
   public int getId() {
-    return id.get();
+    return id.get()-1;
   }
 
   // returns an int from 0 to 359
@@ -113,6 +108,13 @@ public class Turtle {
    * @param degree must be between 0 and 359, inclusive
    */
   public void setDegree(double degree) {
+    while (degree >= DEGREE_UPPER_BOUND) {
+      degree -= DEGREE_UPPER_BOUND;
+    }
+    while (degree < DEGREE_LOWER_BOUND) {
+      degree = DEGREE_UPPER_BOUND + degree;
+    }
+
     if (degree < DEGREE_LOWER_BOUND || degree >= DEGREE_UPPER_BOUND)
       throw new ArithmeticException("Degree not in valid range");
     angleFacing.set(degree);

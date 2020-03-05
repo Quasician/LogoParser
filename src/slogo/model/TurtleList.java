@@ -47,10 +47,10 @@ public class TurtleList {
       @Override
       public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
           Boolean newValue) {
-        viewTurtleList.get(turtle.getId()-1).setActivated(newValue);
+        viewTurtleList.get(turtle.getId()).setActivated(newValue);
         System.out.println(
             "New value of turtle " + turtle.getId() + " : + " + turtle.isActivatedProperty()
-                .getValue() + " VIEW: + " + viewTurtleList.get(turtle.getId()-1).isActivatedProperty()
+                .getValue() + " VIEW: + " + viewTurtleList.get(turtle.getId()).isActivatedProperty()
                 .getValue());
       }
     });
@@ -92,12 +92,13 @@ public class TurtleList {
   }
 
   private static void changeActivation(int id, boolean activate) {
-    try {
-      modelTurtleList.get(id - 1).setActivated(activate);
-    } catch (IndexOutOfBoundsException e) {
-      //TODO: fix the error message later
-      throw new CommandException("Please enter an integer greater than 0 for turtle index.");
-    }
+   // try {
+    System.out.println(id);
+      modelTurtleList.get(id-1).setActivated(activate);
+//    } catch (IndexOutOfBoundsException e) {
+//      //TODO: fix the error message later
+//      throw new CommandException("Please enter an integer greater than 0 for turtle index.");
+//    }
   }
 
   public int getTurtles() {

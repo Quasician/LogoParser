@@ -200,7 +200,6 @@ public class Toolbar {
     changedIndex.addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        System.out.println("CHANGED INDEX");
         int index = changedIndex.get();
         if (index >= colorOptions.size()) {
           colorOptions.add(newColor.get());
@@ -234,11 +233,7 @@ public class Toolbar {
 
   private void setUpPenColorDropdown(TurtleGrid grid) {
     changePenColor.itemsProperty().bind(new SimpleObjectProperty<>(colorOptions));
-    //colorOptions.set(0, "0 0 0, 0");
     changePenColor.setPrefWidth(BUTTON_WIDTH);
-//    for (String color : colorOptions) {
-//      changePenColor.getItems().add("Pen, " + color);
-//    }
     setupCellBackgrounds(changePenColor);
     changePenColor.getSelectionModel().selectFirst();
     changePenColor.setOnAction(e -> {
@@ -285,9 +280,6 @@ public class Toolbar {
   private void setUpBackgroundColorDropdown(TurtleGrid grid) {
     changeBackgroundColor.itemsProperty().bind(new SimpleObjectProperty<>(colorOptions));
     changeBackgroundColor.setPrefWidth(BUTTON_WIDTH);
-//    for (String color : colorOptions) {
-//      changeBackgroundColor.getItems().add("Background, " + color);
-//    }
     setupCellBackgrounds(changeBackgroundColor);
     changeBackgroundColor.getSelectionModel().selectFirst();
     changeBackgroundColor.setOnAction(e -> {
@@ -298,7 +290,7 @@ public class Toolbar {
   private void changeBackground() {
     String[] color = changeBackgroundColor.getValue().split(", ");
     Color c = getColorRGB(color[0].split(" "));
-    //check to make sure this is an actual color
+    //TODO: check to make sure this is an actual color
     turtleGrid.setBackground(c);
     changeBackgroundColor
         .setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));

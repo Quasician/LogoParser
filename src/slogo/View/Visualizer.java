@@ -22,6 +22,7 @@ import slogo.model.CommandParser;
 import slogo.model.Commands.Command;
 import slogo.model.DisplayOption;
 import slogo.model.Turtle;
+import slogo.model.TurtleList;
 import slogo.model.VariableHashMap;
 
 public class Visualizer {

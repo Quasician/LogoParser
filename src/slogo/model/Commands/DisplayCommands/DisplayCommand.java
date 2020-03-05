@@ -5,7 +5,8 @@ import slogo.model.Commands.Command;
 
 public abstract class DisplayCommand extends Command {
 
-  private static final String INDEX_ERROR = "Index";
+  protected static final String INDEX_ERROR = "Index";
+  protected static final String RGB_ERROR = "RGB";
 
   public DisplayCommand(String name) {
     super(name);
