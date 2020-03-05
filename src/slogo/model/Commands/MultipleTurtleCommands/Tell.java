@@ -17,7 +17,7 @@ public class Tell extends MultipleTurtleCommand{
         System.out.println("LIST: " + Arrays.toString(turtlesToActivate));
         for(Turtle turtle:turtles)
         {
-            turtles.get(turtle.getId()-1).setActivated(false);
+            turtles.get(turtle.getId()).setActivated(false);
         }
         for(String activatedTurtle:turtlesToActivate)
         {

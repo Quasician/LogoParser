@@ -42,7 +42,7 @@ public abstract class Command {
 
   public void setTurtles(ObservableList<Turtle> turtles, ObservableList<Turtle> activatedTurtles) {
     this.turtles = turtles;
-    this.activatedTurtles = getActivatedTurtles();
+    this.activatedTurtles = activatedTurtles;
   }
 
   private ObservableList<Turtle> getActivatedTurtles()
