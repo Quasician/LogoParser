@@ -38,6 +38,7 @@ public class TurtleGrid {
   private static final double DEFAULT_PEN_WIDTH = 1;
   private int myCanvasWidth, myCanvasHeight;
   private ObservableList<Turtle> viewTurtles;
+    private ObservableList<Turtle> activeTurtles;
   private Configuration properties;
   private ArrayList<ImageView> turtleImageViews = new ArrayList<>();
   private Pane myPane; //to change background of grid, change the background of the pane
@@ -84,8 +85,9 @@ public class TurtleGrid {
     addSizeListener();
   }
 
-  public TurtleGrid(ObservableList<Turtle> turtles) {
+  public TurtleGrid(ObservableList<Turtle> turtles, ObservableList<Turtle> activatedTurtles) {
     this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, turtles);
+    activeTurtles = activatedTurtles;
   }
 
   private void setUpGrid() {
@@ -194,7 +196,13 @@ public class TurtleGrid {
     viewTurtle.isActivatedProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        changeOpacity(viewTurtle);
+          changeOpacity(viewTurtle);
+          if (!viewTurtle.isActivatedProperty().getValue()) {
+              activeTurtles.remove(viewTurtle);
+          }else
+          {
+              activeTurtles.add(viewTurtle);
+          }
       }
     });
   }
