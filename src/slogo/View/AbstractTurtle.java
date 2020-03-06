@@ -96,7 +96,7 @@ public abstract class AbstractTurtle {
   }
 
   public int getId() {
-    return id.get() - 1;
+    return id.get();
   }
 
   // returns an int from 0 to 359
