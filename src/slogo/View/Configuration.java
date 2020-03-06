@@ -1,5 +1,6 @@
 package slogo.View;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -11,9 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import slogo.model.DisplayOption;
 import slogo.model.Turtle;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Configuration {
     private ListView variablesHolder;
@@ -31,6 +31,13 @@ public class Configuration {
     private SimpleStringProperty lastName;
     private Label PropertyName;
     private Label number= new Label();
+    private Label color= new Label();
+    private Label size= new Label();
+    private Label penDown= new Label();
+    private Label penColor= new Label();
+    private Label turtleStatus= new Label();
+    private Label turtleCoord= new Label();
+    private Label imageIndex= new Label();
     private HBox rowForSize;
     private HBox CoordForSize;
     public Configuration(String name, String value){
@@ -38,11 +45,39 @@ public class Configuration {
         this.lastName = new SimpleStringProperty(value);
     }
 
-    public Configuration(ObservableList<Turtle> turtles) {
+    public Configuration(ObservableList<Turtle> turtles, DisplayOption displayOption) {
         variablesTable = new ListView<>();
         PropertyName=new Label("Number of Turtles ");
         number= new Label();
+        color= new Label();
+        size= new Label();
+        penColor= new Label();
+        imageIndex= new Label();
+        penDown= new Label();
+        turtleStatus= new Label();
+        turtleCoord= new Label();
         addRowListener(turtles);
+        sendDisplay(displayOption);
+        initialDisplay(displayOption,turtles);
+    }
+
+    public void initialDisplay(DisplayOption displayOption,ObservableList<Turtle> turtles){
+        color.setText(String.valueOf("Pen Thickness is: "+displayOption.getPenWidthProperty().getValue()));
+        size.setText(String.valueOf("Background Color Index is: "+displayOption.getBgIndex()));
+        penColor.setText("Pen Color Index is: "+ String.valueOf(displayOption.getPenIndex()));
+        imageIndex.setText("Image Index is: "+ String.valueOf(displayOption.getImageIndex()));
+        int count=0;
+        for(Turtle t: turtles){
+            count++;
+        }
+        if(variablesTable.getItems().contains(number)){
+            variablesTable.getItems().remove(number);
+        }
+        number.setText("Number of Turtles: "+ String.valueOf(count));
+        penDown.setText("Pen Down Property: "+ true);
+        variablesTable.getItems().addAll(number,color,size,penColor,imageIndex,penDown, turtleStatus, turtleCoord);
+
+
     }
 
     public void addRowListener(ObservableList<Turtle> turtles) {
@@ -50,17 +85,60 @@ public class Configuration {
             for(Turtle t: turtles){
                     count++;
             }
-            if(variablesTable.getItems().contains(number)){
-                variablesTable.getItems().remove(number);
-            }
             number.setText("Number of Turtles: "+ String.valueOf(count));
-            variablesTable.getItems().add(number);});
+            });
     }
 
     protected Node getScene(){
         return variablesTable;
     }
+
+    public void sendDisplay(DisplayOption displayOption) {
+        displayOption.getPenWidthProperty().addListener(e->{
+            System.out.println("GOT TO HERE SEND DISPLAY");
+            color.setText(String.valueOf("Pen Thickness is: "+displayOption.getPenWidthProperty().getValue()));
+        });
+
+        displayOption.getBgIndex().addListener(e->{
+            size.setText(String.valueOf("Background Color Index is: "+displayOption.getBgIndex()));
+
+        });
+
+        displayOption.getPenIndex().addListener(e->{
+            penColor.setText("Pen Color Index is: "+ String.valueOf(displayOption.getPenIndex()));
+        });
+
+        displayOption.getImageIndex().addListener(e->{
+            imageIndex.setText("Image Index is: "+ String.valueOf(displayOption.getImageIndex()));
+        });
+    }
+
+
+    public void sendPenColor(Paint penColorIndex) {
+        penColor.setText("Pen Color Index is: "+ String.valueOf(penColorIndex));
+    }
+
+    public void setTurtleIndex(Object value) {
+       imageIndex.setText("Image of Turtles is: "+ String.valueOf(value));
+    }
+
+    public void changeBackground(Color color) {
+        size.setText(String.valueOf("Background Color Index is: "+ color));
+    }
+
+    public void changePenDown(Boolean isPenDown) {
+        penDown.setText("Pen Down Property: "+ String.valueOf(isPenDown));
+    }
+
+    public void changeActive(Turtle viewTurtle) {
+        turtleStatus.setText("The Turtle with id "+viewTurtle.getId()+ " is "+ viewTurtle.isActivatedProperty().getValue());
+    }
+
+    public void makeCoord(Turtle viewTurtle) {
+        turtleCoord.setText("The Turtle's Coordinates are "+ viewTurtle.getX()+ ","+ viewTurtle.getY());
+    }
 }
+
 
 
 

@@ -75,8 +75,7 @@ public class TurtleList {
     for (Turtle turtle : viewTurtleList) {
       if (turtle.isActivatedProperty().getValue()) {
         activeTurtles.add(turtle);
-        System.out.println("TURTLE Y" + turtle.getY());
-        //System.out.println("Turtle "+ turtle.getId()+ " is activated");
+        System.out.println("Turtle "+ turtle.getId()+ " is activated");
       }
     }
     System.out.println("ACTIVE SIZE: " + activeTurtles.size());
@@ -92,9 +91,10 @@ public class TurtleList {
   }
 
   private void changeActivation(int id, boolean activate) {
-    try {
-      modelTurtleList.get(id - 1).setActivated(activate);
-    } catch (IndexOutOfBoundsException | NumberFormatException e) {
+   try {
+    System.out.println(id);
+      modelTurtleList.get(id-1).setActivated(activate);
+   } catch (IndexOutOfBoundsException | NumberFormatException e) {
       //TODO: fix the error message later
       throw new CommandException("Please enter an integer greater than 0 for turtle index.");
     }

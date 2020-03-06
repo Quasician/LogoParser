@@ -19,10 +19,12 @@ public class Tell extends MultipleTurtleCommand{
         for(Turtle turtle:turtles)
         {
             turtles.get(turtle.getId()-1).setActivated(false);
+            System.out.println("DEACTIVATING");
         }
         for(String activatedTurtle:turtlesToActivate)
         {
             int currentTurtleNum = Integer.parseInt(activatedTurtle);
+            System.out.println("CCURENT NUM " + currentTurtleNum + " " + turtles.size());
 
             if(currentTurtleNum<=turtles.size())
             {

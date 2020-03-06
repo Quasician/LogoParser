@@ -17,6 +17,8 @@ import slogo.model.*;
 
 import slogo.View.AbstractTurtle;
 import slogo.View.Visualizer;
+import slogo.model.xml.XMLException;
+
 import java.util.Iterator;
 import java.util.Map;
 
@@ -31,7 +33,7 @@ public class Main extends Application {
   private static final String TURTLE_PNG = "turtle.png";
   private ObservableMap myMap = FXCollections.observableMap(new HashMap<String, String>());
   private ObservableMap myCustomMap = FXCollections.observableMap(new HashMap<String, String>());
-  //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
+  private TurtleList turtleList;
   public static ResourceBundle myResources = ResourceBundle
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
 
@@ -60,76 +62,47 @@ public class Main extends Application {
     parseString.bind(commandLineText);
     BooleanProperty textUpdate = new SimpleBooleanProperty();
 
-    Visualizer vis = new Visualizer(primaryStage, turtleList.getViewTurtleList(), turtleList.getActiveTurtleList(), variableStorage.getViewObservableMap(), commandLineText,
-        textUpdate, language, commandParser, myMap);
+    VariableHashMap.createMap(myMap);
+    Visualizer vis = new Visualizer(primaryStage, turtleList.getViewTurtleList(), turtleList.getActiveTurtleList(), commandLineText,
+        textUpdate, language, commandParser, myMap, displayOption);
     vis.setDisplayOption(displayOption);
 
     parseTextOnInput(textUpdate, parseString, commandParser, vis);
 
     turtleList.makeModelTurtleActivated(1);
     turtleList.makeModelTurtleDeactivated(2);
-    //commandParser.parseText("fd 100");
     turtleList.makeModelTurtleActivated(1);
     turtleList.makeModelTurtleActivated(2);
     commandParser.parseText("tell [ 3 ]");
     commandParser.parseText("fd 100");
     commandParser.parseText("tell [ 2 ]");
     commandParser.parseText("fd 50");
-    commandParser.parseText("make :c 5");
-    commandParser.parseText("repeat :c [ rt :repcount ]");
-    printVariables();
-//    commandParser.parseText("tell [ 1 ]");
-//    commandParser.parseText("turtles");
-//
-//    commandParser.parseText("tell [ 4 ] turtles id ");
-//    commandParser.parseText("tell [ 2 ]");
-//    commandParser.parseText("left 90 fd 100 ");
-    //commandParser.parseText("ask [ 2 4 ] [ fd 50 rt 45 ]");
-    //commandParser.parseText("askwith [ less? xcor 75 ] [ rt 270 ]");
-    //commandParser.parseText("fd 100");
-    //commandParser.parseText("fd 50");
     for (Turtle turtle : turtleList.getModelTurtleList()) {
       System.out.println(
           "MODELTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
               + " Angle: " + turtle.getDegree() + " Activated: "+ turtle.isActivatedProperty().getValue());
     }
-
-//        varList = FXCollections.observableList(Arrays.asList(myMap.keySet()));
-   // parseTextOnInput(textUpdate, parseString, commandParser, vis);
   }
-//
-  private void printVariables() {
-    for(Map.Entry entry: variableStorage.getViewObservableMap().entrySet())
-    {
-      System.out.println(entry.getKey() + " = " + entry.getValue());
-    }
-  }
-
-  private void printCustomCommands() {
-    Iterator it = CustomCommandMap.getAllCustomCommands().iterator();
-    System.out.println("\nTHESE ARE THE CURRENT CUSTOM COMMANDS: ");
-    while (it.hasNext()) {
-      Map.Entry entry = (Map.Entry) it.next(); //current entry in a loop
-      System.out.println("CUSTOM COMMAND " + entry.getKey() + " = " + entry.getValue());
-    }
+  private void bindTurtles(Turtle model, Turtle view) {
+    view.distanceProperty().bind(model.distanceProperty());
+    view.angleProperty().bind(model.angleProperty());
+    view.isPenDownProperty().bind(model.isPenDownProperty());
+    view.isShowingProperty().bind(model.isShowingProperty());
+    view.coordinatesProperty().bind(model.coordinatesProperty());
+    view.clearScreenProperty().bind(model.clearScreenProperty());
   }
 
 
-  //Sanna changed this method to do error checking
   private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText,
       CommandParser commandParser, Visualizer vis) {
     textUpdate.addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         System.out.println(parseText.getValue());
-        //commandParser.parseText(parseText.getValue());
-        //vis.makeNewBox(parseText.getValue());
-
         try {
           String finalValue = commandParser.parseText(parseText.getValue());
           vis.makeNewBox(parseText.getValue());
           vis.makeNewTerminalBox(finalValue);
-//                    vis.makeNewVariableBox(myMap);
         } catch (CommandException | UserException e) {
           showError(e.getMessage());
         }
@@ -143,46 +116,4 @@ public class Main extends Application {
     alert.setContentText(message);
     alert.showAndWait();
   }
-
 }
-
-
-//        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
-//        printCustomCommands();
-//        System.out.println("done printing");
-//        commandParser.parseText(" c 1 ");
-// commandParser.parseText("rt 45 fd 50");
-
- // Turtle modelTurtle = new Turtle();
-//    Turtle viewTurtle = new Turtle();
-//    bindTurtles(modelTurtle, viewTurtle);
-
-
-// TurtleList.makeModelTurtleActivated(1);
-//commandParser.parseText("fd 50");
-
-
-// for (Turtle turtle : TurtleList.getModelTurtleList()) {
-//     System.out.println(
-//     "MODELTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
-//     + " Activated: " + turtle.isActivatedProperty().getValue());
-//     }
-//
-//     for (Turtle turtle : TurtleList.getViewTurtleList()) {
-//     System.out.println(
-//     "VIEWTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
-//     + " Activated: " + turtle.isActivatedProperty().getValue());
-//     }
-
-
-//ObjectProperty<Turtle> modelTurtleProp = new SimpleObjectProperty<>(modelTurtle, "modelTurtle");
-//ObjectProperty<Turtle> viewTurtleProp = new SimpleObjectProperty<>(viewTurtle, "viewTurtle");
-// viewTurtleProp.bind(modelTurtleProp);
-
-//        commandParser.parseText("to c [ :f ] [ repeat 5 [ rt 25 ]  ]");
-//        printCustomCommands();
-//        System.out.println("done printing");
-//        commandParser.parseText(" c 1 ");
-// commandParser.parseText("rt 45 fd 50");
-//commandParser.parseText("fd 50");
-//commandParser.parseText("rt 50 fd 50 ");

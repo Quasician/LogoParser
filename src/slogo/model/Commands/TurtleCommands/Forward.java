@@ -23,11 +23,8 @@ public class Forward extends TurtleCommand {
   @Override
   public void doCommand(TreeNode commandNode) {
     distance = Double.parseDouble(getParamList().get(0));
-    System.out.println(activatedTurtles.size());
-    for(Turtle activeTurtle: activatedTurtles) {
-      commandNode.setResult(distance + "");
-      moveTurtle(activeTurtle.getId()-1, forward, distance);
-    }
+    commandNode.setResult(distance + "");
+    moveTurtles(forward, distance);
   }
 }
 

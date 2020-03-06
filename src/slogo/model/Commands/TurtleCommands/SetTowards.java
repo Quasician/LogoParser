@@ -20,15 +20,7 @@ public class SetTowards extends TurtleCommand {
     x = Double.parseDouble(getParamList().get(0));
     y = Double.parseDouble(getParamList().get(1));
 
-    for(Turtle activeTurtle: activatedTurtles) {
-      double angle = Math.toDegrees(Math.atan2(x - activeTurtle.getX(), y - activeTurtle.getY()));
-
-      if (angle < 0)
-        angle += 360;
-
-      activeTurtle.setDegree(angle);
-      double returnValue = Math.abs(activeTurtle.getDegree() - angle);
-      commandNode.setResult("" + returnValue);
-    }
+    double returnValue = setTowards(x, y);
+    commandNode.setResult("" + returnValue);
   }
 }

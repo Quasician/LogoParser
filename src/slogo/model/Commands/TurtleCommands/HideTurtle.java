@@ -13,9 +13,7 @@ public class HideTurtle extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    for(Turtle activeTurtle: activatedTurtles) {
-      activeTurtle.hide();
-      commandNode.setResult(RETURN);
-    }
+    changeIsShowing(false);
+    commandNode.setResult(RETURN);
   }
 }

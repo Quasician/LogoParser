@@ -1,7 +1,9 @@
 package slogo.View;
 
+import java.io.ObjectInputFilter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -38,7 +40,7 @@ public class TurtleGrid {
   private static final double DEFAULT_PEN_WIDTH = 1;
   private int myCanvasWidth, myCanvasHeight;
   private ObservableList<Turtle> viewTurtles;
-    private ObservableList<Turtle> activeTurtles;
+  private ObservableList<Turtle> activeTurtles;
   private Configuration properties;
   private ArrayList<ImageView> turtleImageViews = new ArrayList<>();
   private Pane myPane; //to change background of grid, change the background of the pane
@@ -65,8 +67,8 @@ public class TurtleGrid {
    *                     shapes are drawn
    * @param canvasHeight is the height of the canvas
    */
-  public TurtleGrid(int canvasWidth, int canvasHeight, ObservableList<Turtle> viewTurtles) {
-    PropertiesView= new Configuration(viewTurtles);
+  public TurtleGrid(int canvasWidth, int canvasHeight, ObservableList<Turtle> viewTurtles, Configuration config) {
+    PropertiesView= config;
     myCanvasWidth = canvasWidth;
     myCanvasHeight = canvasHeight;
     centerX = canvasWidth / 2.0;
@@ -85,8 +87,11 @@ public class TurtleGrid {
     addSizeListener();
   }
 
-  public TurtleGrid(ObservableList<Turtle> turtles, ObservableList<Turtle> activatedTurtles) {
-    this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, turtles);
+public Configuration getConfig(){
+      return PropertiesView;
+}
+  public TurtleGrid(ObservableList<Turtle> turtles, Configuration config,ObservableList<Turtle> activatedTurtles) {
+    this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, turtles, config);
     activeTurtles = activatedTurtles;
   }
 
@@ -111,6 +116,7 @@ public class TurtleGrid {
     ImageView turtleImageView = new ImageView(turtleImage);
     turtleImageView.setOpacity(0.7);
     int idIndex = turtle.getId() - 1;
+    System.out.println("ID INDEX = " + idIndex);
     turtleImageViews.add(turtle.getId()-1, turtleImageView);
     ImageView imageView = turtleImageViews.get(turtle.getId() - 1);
     imageView.setX(centerX);
@@ -119,11 +125,11 @@ public class TurtleGrid {
     imageView.setFitWidth(TURTLE_IMAGE_WIDTH);
     imageView.rotateProperty();
     imageView.requestFocus();
+    addListeners(turtle);
     imageView.setOnMouseClicked(e-> {
       turtle.setActivated(!turtle.isActivatedProperty().getValue());
       changeOpacity(turtle);
     });
-    addListeners(turtle);
     myPane.getChildren().add(turtleImageViews.get(turtle.getId()-1));
 
     turtleCenterX = turtleImageViews.get(turtle.getId()-1).getFitWidth() / 2;
@@ -186,7 +192,7 @@ public class TurtleGrid {
         if (isPenDown) {
           makeLine(oldX, oldY, currentX, currentY);
         }
-
+        PropertiesView.makeCoord(viewTurtle);
         drawAllLines();
       }
     });
@@ -196,7 +202,9 @@ public class TurtleGrid {
     viewTurtle.isActivatedProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        System.out.println(viewTurtle.getId());
           changeOpacity(viewTurtle);
+          PropertiesView.changeActive(viewTurtle);
           if (!viewTurtle.isActivatedProperty().getValue()) {
               activeTurtles.remove(viewTurtle);
           }else
@@ -222,6 +230,7 @@ public class TurtleGrid {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         isPenDown = viewTurtle.isPenDown();
+        PropertiesView.changePenDown(isPenDown);
       }
     });
   }
@@ -262,6 +271,9 @@ public class TurtleGrid {
         for (Turtle changedTurtle : newTurtles) {
           setUpTurtle(changedTurtle);
         }
+        for (Turtle changedTurtle : viewTurtles) {
+          System.out.println(changedTurtle.getId());
+        }
         PropertiesView.addRowListener(viewTurtles);
       }
     });
@@ -269,6 +281,7 @@ public class TurtleGrid {
 
   protected void setPenColor(Paint color) {
     penColor = color;
+      PropertiesView.sendPenColor(color);
   }
 
   protected void setPenWidth(double width) {
@@ -305,6 +318,7 @@ public class TurtleGrid {
   }
 
   protected void setBackground(Color color) {
+      PropertiesView.changeBackground(color);
     myPane.setBackground(new Background(new BackgroundFill(color, null, null)));
   }
 
