@@ -22,9 +22,7 @@ public abstract class TurtleCommand extends Command {
   }
 
   protected void moveTurtleTo(int id, double x, double y) {
-//    turtle.setX(x);
-//    turtle.setY(y);
-    turtles.get(id-1).setCoordinate(x, y);
+    turtles.get(id).setCoordinate(x, y);
   }
 
   protected boolean facingTopRight(double angle) {
@@ -72,7 +70,6 @@ public abstract class TurtleCommand extends Command {
   }
 
   protected void moveTurtle(int id, int directionMultiplier, double distance) {
-
     double angle = getAdjustedAngle(turtles.get(id).getDegree());
     int xMultiplier = directionMultiplier * getXMultiplier(turtles.get(id).getDegree());
     int yMultiplier = directionMultiplier * getYMultiplier(turtles.get(id).getDegree());
@@ -82,6 +79,8 @@ public abstract class TurtleCommand extends Command {
 
     double newX = turtles.get(id).getX() + xMultiplier * (distance * Math.sin(angleToRadians));
     double newY = turtles.get(id).getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
+    
+    System.out.println("OLD Y: " + turtles.get(id).getY());
 
     System.out.println("NEW COORDS: " + newX + " " + newY);
 

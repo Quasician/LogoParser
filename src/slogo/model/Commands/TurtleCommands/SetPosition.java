@@ -18,7 +18,7 @@ public class SetPosition extends TurtleCommand {
 
     for(Turtle activeTurtle: activatedTurtles) {
       double distance = distanceFormula(activeTurtle.getX(), activeTurtle.getY(), x, y);
-      moveTurtleTo(activeTurtle.getId(),x, y);
+      moveTurtleTo(activeTurtle.getId()-1 ,x, y);
       commandNode.setResult("" + distance);
     }
   }
