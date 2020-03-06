@@ -24,6 +24,7 @@ public class CommandHistory implements HistoryView{
     private ViewButton runButton;
     private Label commandEntered;
     private static final int HEIGHT = 310;
+    private static final int oneConstant = 1;
     private static final int NEW_HEIGHT = 200;
     private static final int WIDTH = 300;
     private static final int PLAY_IMAGE_SIZE = 10;
@@ -53,7 +54,7 @@ public class CommandHistory implements HistoryView{
     }
 
     protected void removeCommand(){
-        commandValues.remove(commandValues.size() - 1);
+        commandValues.remove(commandValues.size() - oneConstant);
         }
 
 
