@@ -21,6 +21,7 @@ public class CommandTreeExecutor {
   private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
   private CommandFactoryInterface commandFactory;
   private ObservableList<Turtle> turtles;
+  private ObservableList<Turtle> activatedTurtles;
   private List<Map.Entry<String, Pattern>> mySymbols;
   private Language language;
   private HashMap<Pattern, String> translations;
@@ -39,10 +40,11 @@ public class CommandTreeExecutor {
   private static final String ERRORS = RESOURCES_PACKAGE + "ErrorMessages";
   private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
 
-  public CommandTreeExecutor(CommandFactoryInterface factory, ObservableList<Turtle> turtles,
+  public CommandTreeExecutor(CommandFactoryInterface factory, ObservableList<Turtle> turtles, ObservableList<Turtle> activeTurtles,
                              HashMap<Pattern, String> translations, Language language) {
     this.language = language;
     this.turtles = turtles;
+    this.activatedTurtles  = activeTurtles;
     commandFactory = factory;
     this.translations = translations;
   }
@@ -96,7 +98,7 @@ public class CommandTreeExecutor {
       }
       Command commandObject = createCommand(element, parameters);
       commandObject.setParams(parameters);
-      commandObject.setTurtles(turtles);
+      commandObject.setTurtles(turtles, activatedTurtles);
       commandObject.setMiniParserLanguage(language);
       commandObject.setDisplayOption(displayOption);
       commandObject.doCommand(element);//nd.setData(replacementValue);

@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Title Name="Title">
     <author>Sanna</author>
-    <Commands/>
+    <Commands>
+        <Command>
+            <Text>tell [ 1 ]</Text>
+        </Command>
+        <Command>
+            <Text>fd 50</Text>
+        </Command>
+    </Commands>
 </Title>

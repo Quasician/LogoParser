@@ -109,6 +109,7 @@ public class TurtleGrid {
     ImageView turtleImageView = new ImageView(turtleImage);
     turtleImageView.setOpacity(0.7);
     int idIndex = turtle.getId() - 1;
+    System.out.println("ID INDEX = " + idIndex);
     turtleImageViews.add(turtle.getId()-1, turtleImageView);
     ImageView imageView = turtleImageViews.get(turtle.getId() - 1);
     imageView.setX(centerX);

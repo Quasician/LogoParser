@@ -19,7 +19,7 @@ public class Repeat extends VCUCommand {
         for(double i = 1; i<=Double.parseDouble(getParamList().get(0).trim());i++) {
             System.out.println("COUNT FOR REPEAT" + allCommands);
             VariableHashMap.addToMap(":repcount", "" + i);
-            CommandParser miniparser = new CommandParser(activatedTurtles, language);
+            CommandParser miniparser = new CommandParser(activatedTurtles,activatedTurtles, language);
             System.out.println("Repeated Commands: " + getParamList().get(1));
             finalValue = miniparser.miniParse(allCommands);
         }
