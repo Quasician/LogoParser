@@ -27,7 +27,7 @@ public class Visualizer {
   private static int WINDOW_HEIGHT = 1000;
   private BorderPane bp;
   private ObservableList<Turtle> viewTurtles;
-  private Map<String, String> VarMap;
+  private ObservableMap<String,String> variables;
   private javafx.scene.image.Image img;
   private static final String nameofImage= "SlogoLogo";
   private static final String delimiter= "\n";
@@ -60,19 +60,20 @@ public class Visualizer {
    * Constructor for the visualizer class
    *
    */
-  public Visualizer(Stage window, ObservableList viewTurtles, ObservableList activatedTurtles,
+  public Visualizer(Stage window, ObservableList viewTurtles, ObservableList activatedTurtles, ObservableMap<String,String> variables,
       StringProperty commandLineText,
       BooleanProperty textUpdate, Language language, CommandParser parser,
       ObservableMap myMap) {
 //    myWindow = window;
     this.viewTurtles = viewTurtles;
-    myHistoryPanel = new HistoryPanel(window, viewTurtles, parser);
+    this.variables = variables;
+    myHistoryPanel = new HistoryPanel(window, viewTurtles, parser, variables);
     grid = new TurtleGrid(viewTurtles, activatedTurtles);
     tool = new Toolbar(grid, language, activatedTurtles);
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate, grid, activatedTurtles);
 
     this.myMap = myMap;
-    setUpMapListener();
+    //setUpMapListener();
     img = new Image(myResources.getString("SlogoLogo"));
     slogoImage = new ImageView(img);
     slogoImage.setFitHeight(SLOGO_IMAGE_HEIGHT);
@@ -105,17 +106,18 @@ public class Visualizer {
     });
   }
 
-  // TODO need to change since this isnt used anywhere
-  private void setUpMapListener() {
-    myMap.addListener(new MapChangeListener<String, String>() {
-        @Override
-        public void onChanged(Change<? extends String, ? extends String> change) {
-          System.out.println(change.getKey() + " " + change.getValueAdded());
-          VariableHashMap.addToMap(change.getKey(), change.getValueAdded());
-        }
-      }
-    );
-  }
+//  // TODO need to change since this isnt used anywhere
+//  private void setUpMapListener() {
+//    myMap.addListener(new MapChangeListener<String, String>() {
+//        @Override
+//        public void onChanged(Change<? extends String, ? extends String> change) {
+//          System.out.println(change.getKey() + " " + change.getValueAdded());
+//          variables.putIfAbsent(change.getKey(), "");
+//          variables.put(change.getKey(), "change.getValueAdded()");
+//        }
+//      }
+//    );
+//  }
 
   private void setUpBorderPane(TurtleGrid grid, CommandLine commandLine, Toolbar tool) {
     bp = new BorderPane();

@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import slogo.View.Language;
 import slogo.model.DisplayOption;
 import slogo.model.TreeNode;
@@ -18,6 +19,7 @@ import java.util.List;
 public abstract class Command {
 
   protected ObservableList<Turtle> turtles;
+  protected ObservableMap<String,String> variables;
   protected ObservableList<Turtle> activatedTurtles;
   protected String name;
   protected Language language;
@@ -43,6 +45,10 @@ public abstract class Command {
   public void setTurtles(ObservableList<Turtle> turtles) {
     this.turtles = turtles;
     this.activatedTurtles = getActivatedTurtles();
+  }
+
+  public void setVariables(ObservableMap<String, String> variables) {
+    this.variables = variables;
   }
 
   private ObservableList<Turtle> getActivatedTurtles()
