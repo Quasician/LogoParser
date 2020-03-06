@@ -2,6 +2,7 @@ package slogo.model.Commands.TurtleCommands;
 
 import javafx.animation.AnimationTimer;
 import slogo.model.Commands.Command;
+import slogo.model.Turtle;
 
 public abstract class TurtleCommand extends Command {
 
@@ -37,10 +38,6 @@ public abstract class TurtleCommand extends Command {
     return angle >= FACING_RIGHT && angle < FACING_DOWN;
   }
 
-  protected boolean facingBottomLeft(double angle) {
-    return angle >= FACING_DOWN && angle < FACING_LEFT;
-  }
-
   protected double getAdjustedAngle(double angle) {
     if (facingTopRight(angle)) {
       return angle;
@@ -69,6 +66,63 @@ public abstract class TurtleCommand extends Command {
     }
   }
 
+  protected void changeIsShowing(boolean showing) {
+    for (Turtle active : activatedTurtles) {
+      active.changeShowing(showing);
+    }
+  }
+
+  protected void changePen(boolean down) {
+    for (Turtle active : activatedTurtles) {
+      if (down)
+        active.penDown();
+      else
+        active.penUp();
+    }
+  }
+
+  protected double setTowards(double x, double y) {
+    double returnValue = 0;
+    for(Turtle activeTurtle: activatedTurtles) {
+      double angle = Math.toDegrees(Math.atan2(x - activeTurtle.getX(), y - activeTurtle.getY()));
+      if (angle < 0)
+        angle += 360;
+      returnValue = Math.abs(activeTurtle.getDegree() - angle);
+      activeTurtle.setDegree(angle);
+    }
+    return returnValue;
+  }
+
+  protected double moveTurtlesTo(double x, double y) {
+    double distance = 0;
+    for (Turtle active : activatedTurtles) {
+      distance = distanceFormula(active.getX(), active.getY(), x, y);
+      moveTurtleTo(active.getId() - 1, x, y);
+    }
+    return distance;
+  }
+
+  protected void moveTurtles(int directionMultiplier, double distance) {
+    for (Turtle active : activatedTurtles) {
+      moveTurtle(active.getId() - 1, directionMultiplier, distance);
+    }
+  }
+
+  protected void rotate(int direction, double degrees) {
+    for (Turtle active : activatedTurtles) {
+      rotateTurtle(active.getId() - 1, direction, degrees);
+    }
+  }
+
+  protected double setHeading(double degrees) {
+    double heading = 0;
+    for (Turtle active : activatedTurtles) {
+      heading = degrees - active.getDegree();
+      active.setDegree(degrees % FACING_UP);
+    }
+    return heading;
+  }
+
   protected void moveTurtle(int id, int directionMultiplier, double distance) {
     double angle = getAdjustedAngle(turtles.get(id).getDegree());
     int xMultiplier = directionMultiplier * getXMultiplier(turtles.get(id).getDegree());
@@ -79,34 +133,13 @@ public abstract class TurtleCommand extends Command {
 
     double newX = turtles.get(id).getX() + xMultiplier * (distance * Math.sin(angleToRadians));
     double newY = turtles.get(id).getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
-    
-    System.out.println("OLD Y: " + turtles.get(id).getY());
-
-    System.out.println("NEW COORDS: " + newX + " " + newY);
 
     turtles.get(id).setCoordinate(newX, newY);
   }
 
   protected void rotateTurtle(int id, int direction, double degrees) {
     double currentDegrees = turtles.get(id).getDegree();
-
-    double newDegrees = 0;
-    if (direction == RIGHT) {
-      newDegrees = (currentDegrees + degrees) % FACING_UP;
-    } else { //rotating to the left
-      newDegrees = currentDegrees - degrees;
-      if (newDegrees < 0) {
-        newDegrees = -newDegrees;
-        newDegrees = newDegrees % FACING_UP;
-        newDegrees = FACING_UP - newDegrees;
-      }
-    }
-
-    if (newDegrees == FACING_UP) {
-      newDegrees = 0;
-    }
-
-    turtles.get(id).setDegree(newDegrees);
+    turtles.get(id).setDegree(currentDegrees + direction * degrees);
   }
 
   protected double distanceFormula(double x1, double y1, double x2, double y2) {

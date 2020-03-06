@@ -16,20 +16,14 @@ import org.xml.sax.SAXException;
 
 public class XMLParser {
 
-  private static final String COMMANDS = "Commands";
   private static final String COMMAND = "Command";
   private static final String TEXT = "Text";
   private static final String RESOURCES_ERROR_MESSAGES = "resources.ErrorMessages";
-  private static final String STYLING = "Styling";
-  private static final String STYLE_INSTEAD_OF_SIM = "StyleInsteadOfSim";
 
   private File configFile;
   private DocumentBuilder DOCUMENT_BUILDER;
-  private Element root;
-  private Element commandElement;
+  private Element root, commandElement;
   private Document doc;
-  private String name;
-  private ArrayList<String> setUpVals = new ArrayList<>();
 
   private ResourceBundle errors = ResourceBundle.getBundle(RESOURCES_ERROR_MESSAGES);
 
@@ -48,19 +42,6 @@ public class XMLParser {
       root = doc.getDocumentElement();
     } catch (SAXException | IOException | IllegalArgumentException e) {
       throw new XMLException(e);
-    }
-  }
-
-  private void readGeneralParameters() {
-    NodeList nodeList = root.getElementsByTagName(COMMANDS);
-    if(nodeList.equals(null)){
-      throw new XMLException("The file does not have commands to read");
-    }
-    for (int x = 0; x < nodeList.getLength(); x++) {
-      Node node = nodeList.item(x);
-      if (node.getNodeType() == Node.ELEMENT_NODE) {
-        commandElement = (Element) (node);
-      }
     }
   }
 

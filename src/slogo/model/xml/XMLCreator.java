@@ -15,11 +15,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class XMLCreator {
-
-  //TODO: make a resource file that has the name of the save address
-  // or could have the user choose a file to save the xml in
-  protected static final String SAVE_FILE_ADDRESS = "src/resources/saveState.xml";
-  protected static final String SPECIFIC_STATES = "SpecificStates";
   protected static final String COMMAND = "Command";
   protected static final String COMMANDS = "Commands";
   protected static final String TEXT = "Text";
@@ -34,21 +29,21 @@ public class XMLCreator {
   private Document document;
   private ResourceBundle errors = ResourceBundle.getBundle(RESOURCES_ERROR_MESSAGES);
   protected Element element;
-  private Element author;
   private List<String> myCommands;
+  private File mySaveFile;
 
   /**
    * Creates an XML file creator
    */
-  public XMLCreator(List<String> commands) {
+  public XMLCreator(List<String> commands, File saveFile) {
     myCommands = commands;
+    mySaveFile = saveFile;
   }
 
   /**
    * Creates an XML file that saves current state of simulation
    */
   public void createFile(String simTitle) {
-    System.out.println("CREATING FILE");
     setUpInitialFileParameters(simTitle);
     inputCommands();
     outputFile();
@@ -59,12 +54,11 @@ public class XMLCreator {
       TransformerFactory transformerFactory = TransformerFactory.newInstance();
       Transformer transformer = transformerFactory.newTransformer();
       DOMSource source = new DOMSource(document);
-      StreamResult result = new StreamResult(new File(SAVE_FILE_ADDRESS));
+      StreamResult result = new StreamResult(mySaveFile);
       StreamResult console = new StreamResult(System.out);
       transformer.setOutputProperty(OutputKeys.INDENT, "yes");
       transformer.transform(source, result);
       transformer.transform(source, console);
-      System.out.println("reached here");
     } catch (Exception e) {
       throw new XMLException(e);
       //throw new XMLException(e, "some error"); //TODO
