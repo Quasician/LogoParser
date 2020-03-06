@@ -69,8 +69,13 @@ public class Main extends Application {
     //commandParser.parseText("fd 100");
     turtleList.makeModelTurtleActivated(1);
     turtleList.makeModelTurtleActivated(2);
-    commandParser.parseText("tell [ 1 ]");
+    commandParser.parseText("tell [ 3 ]");
+    commandParser.parseText("fd 100");
+    commandParser.parseText("tell [ 2 ]");
     commandParser.parseText("fd 50");
+//    commandParser.parseText("tell [ 1 ]");
+//    commandParser.parseText("turtles");
+//
 //    commandParser.parseText("tell [ 4 ] turtles id ");
 //    commandParser.parseText("tell [ 2 ]");
 //    commandParser.parseText("left 90 fd 100 ");
@@ -104,15 +109,6 @@ public class Main extends Application {
       Map.Entry entry = (Map.Entry) it.next(); //current entry in a loop
       System.out.println("CUSTOM COMMAND " + entry.getKey() + " = " + entry.getValue());
     }
-  }
-
-  private void bindTurtles(Turtle model, Turtle view) {
-    view.distanceProperty().bind(model.distanceProperty());
-    view.angleProperty().bind(model.angleProperty());
-    view.isPenDownProperty().bind(model.isPenDownProperty());
-    view.isShowingProperty().bind(model.isShowingProperty());
-    view.coordinatesProperty().bind(model.coordinatesProperty());
-    view.clearScreenProperty().bind(model.clearScreenProperty());
   }
 
 

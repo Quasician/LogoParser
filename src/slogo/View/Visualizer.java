@@ -67,7 +67,7 @@ public class Visualizer {
 //    myWindow = window;
     this.viewTurtles = viewTurtles;
     myHistoryPanel = new HistoryPanel(window, viewTurtles, parser);
-    grid = new TurtleGrid(viewTurtles);
+    grid = new TurtleGrid(viewTurtles, activatedTurtles);
     tool = new Toolbar(grid, language, activatedTurtles);
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate, grid, activatedTurtles);
 
@@ -97,10 +97,10 @@ public class Visualizer {
         c.next();
         List<Turtle> newTurtles = (List<Turtle>) c.getAddedSubList();
 //        System.out.println("View turtles changed in turtle grid");
-        for (Turtle changedTurtle : newTurtles) {
-//          System.out.println("NEW VIEW turtle: " + changedTurtle.isActivatedProperty().getValue());
-          //setUpTurtle(changedTurtle);
-        }
+//        for (Turtle changedTurtle : newTurtles) {
+////          System.out.println("NEW VIEW turtle: " + changedTurtle.isActivatedProperty().getValue());
+//          //setUpTurtle(changedTurtle);
+//        }
       }
     });
   }
