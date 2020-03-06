@@ -2,7 +2,6 @@ package slogo.model.Commands.VCUCommands;
 
 import slogo.model.CommandParser;
 import slogo.model.TreeNode;
-import slogo.model.VariableHashMap;
 
 public class Repeat extends VCUCommand {
     public Repeat(String name)
@@ -18,8 +17,9 @@ public class Repeat extends VCUCommand {
         String allCommands = getParamList().get(1).replaceFirst("\\[(.*?)\\]", "$1");
         for(double i = 1; i<=Double.parseDouble(getParamList().get(0).trim());i++) {
             System.out.println("COUNT FOR REPEAT" + allCommands);
-            VariableHashMap.addToMap(":repcount", "" + i);
-            CommandParser miniparser = new CommandParser(activatedTurtles,activatedTurtles, language);
+            variables.putIfAbsent(":repcount", "");
+            variables.put(":repcount", "" + i);
+            CommandParser miniparser = new CommandParser(activatedTurtles,variables, language);
             System.out.println("Repeated Commands: " + getParamList().get(1));
             finalValue = miniparser.miniParse(allCommands);
         }
@@ -31,5 +31,6 @@ public class Repeat extends VCUCommand {
         {
             commandNode.setResult(finalValue);
         }
+        variables.remove(":repcount");
     }
 }

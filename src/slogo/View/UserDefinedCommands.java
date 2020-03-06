@@ -21,7 +21,7 @@ import slogo.model.CommandParser;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import slogo.model.CustomCommandMap;
-import slogo.model.VariableHashMap;
+
 
 public class UserDefinedCommands implements HistoryView{
     private ResourceBundle myResources = Main.myResources;

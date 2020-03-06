@@ -4,6 +4,7 @@ package slogo.model;
 import java.util.ResourceBundle;
 
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import slogo.View.Language;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactoryInterface;
@@ -21,6 +22,7 @@ public class CommandTreeExecutor {
   private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
   private CommandFactoryInterface commandFactory;
   private ObservableList<Turtle> turtles;
+  private ObservableMap<String,String> variables;
  // private ObservableList<Turtle> activatedTurtles;
   private List<Map.Entry<String, Pattern>> mySymbols;
   private Language language;
@@ -40,12 +42,13 @@ public class CommandTreeExecutor {
   private static final String ERRORS = RESOURCES_PACKAGE + "ErrorMessages";
   private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
 
-  public CommandTreeExecutor(CommandFactoryInterface factory, ObservableList<Turtle> turtles, HashMap<Pattern, String> translations, Language language) {
+  public CommandTreeExecutor(CommandFactoryInterface factory, ObservableList<Turtle> turtles, ObservableMap<String,String> variables, HashMap<Pattern, String> translations, Language language) {
     this.language = language;
     this.turtles = turtles;
    // this.activatedTurtles  = activeTurtles;
     commandFactory = factory;
     this.translations = translations;
+    this.variables = variables;
   }
 
   public String executeTrees(List<TreeNode> elementNodes) {
@@ -98,12 +101,13 @@ public class CommandTreeExecutor {
       Command commandObject = createCommand(element, parameters);
       commandObject.setParams(parameters);
       commandObject.setTurtles(turtles);
+      commandObject.setVariables(variables);
       commandObject.setMiniParserLanguage(language);
       commandObject.setDisplayOption(displayOption);
       commandObject.doCommand(element);//nd.setData(replacementValue);
       System.out.println("RESULT = " + element.getResult());
     } else if (match(element.getName(), variablePattern)) {
-      element.setResult(VariableHashMap.getVarValue(element.getName()));
+      element.setResult(variables.get(element.getName()));
     }
   }
 

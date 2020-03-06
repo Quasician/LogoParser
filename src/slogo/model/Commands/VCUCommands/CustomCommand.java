@@ -10,7 +10,7 @@ public class CustomCommand extends VCUCommand {
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        CommandParser miniParser = new CommandParser(activatedTurtles,activatedTurtles, language);
+        CommandParser miniParser = new CommandParser(activatedTurtles,variables, language);
         String[] variables = CustomCommandMap.getVariables(commandNode.getName());
         String commands = CustomCommandMap.getCommands(commandNode.getName());
         //System.out.println("VARIABLE LENGTH: "  +variables[0]);
