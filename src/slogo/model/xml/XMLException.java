@@ -1,5 +1,7 @@
 package slogo.model.xml;
 
+import javafx.scene.control.Alert;
+
 /**
  * This class represents what might go wrong when using XML files.
  *
@@ -30,7 +32,16 @@ public class XMLException extends RuntimeException {
    * Create an exception based on a caught exception, with no additional message.
    */
   public XMLException(Throwable cause) {
-    super(cause);
+    showMessage(Alert.AlertType.ERROR, cause.getMessage());
   }
-}
+
+  public XMLException(String error) {
+    showMessage(Alert.AlertType.ERROR, error);
+  }
+
+  private void showMessage (Alert.AlertType type, String message) {
+    new Alert(type, message).showAndWait();
+  }
+  }
+
 

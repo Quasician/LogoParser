@@ -60,15 +60,17 @@ public class HistoryPanel implements HistoryView{
    * @param parser is the command parser object that is used in the program
    */
 
-  public HistoryPanel(Stage myWindow, ObservableList<Turtle> viewTurtles, CommandParser parser, ObservableMap<String,String> variables) {
+  public HistoryPanel(Stage myWindow, ObservableList<Turtle> viewTurtles, CommandParser parser, Configuration configuration,ObservableMap<String,String> variables) {
     buttonNames = Arrays.asList("Command", "Variable", "Custom", "Properties","Undo", "Save", "Upload");
     this.myWindow = myWindow;
     this.comParser = parser;
     myCommandHistory = new CommandHistory(comParser);
     myOutputView= new OutputView();
     myUserDefined = new UserDefinedCommands();
+    
     myVariableHistory = new VariableHistory(variables);
-    myConfig = new Configuration(viewTurtles);
+    myConfig = configuration;
+
     historyVBox = new VBox();
     historyVBox.setAlignment(Pos.CENTER);
 
@@ -124,8 +126,7 @@ public class HistoryPanel implements HistoryView{
           Method method = HistoryPanel.class.getDeclaredMethod(methodName);
           method.invoke(HistoryPanel.this);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
-          //TODO throw an excpetion that is good
-          ex.printStackTrace();
+          return;
         }
       });
       buttonsForPanes.getChildren().add(btn);
@@ -135,7 +136,7 @@ public class HistoryPanel implements HistoryView{
   }
 
   private void undoCommands(){
-    comParser.parseText("clearscreen");
+    comParser.miniParse("ClearScreen");
     try{
       myCommandHistory.removeCommand();
       for(String commandsUndo: myCommandHistory.getCommandListCopy() ){

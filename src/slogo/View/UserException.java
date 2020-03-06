@@ -1,5 +1,9 @@
 package slogo.View;
 
+import javafx.scene.control.Alert;
+
+import javax.sound.midi.SysexMessage;
+
 public class UserException extends RuntimeException {
 
   // for serialization
@@ -23,8 +27,11 @@ public class UserException extends RuntimeException {
    * Create an exception based on a caught exception, with no additional message.
    */
   public UserException(Throwable cause) {
-    super(cause);
+    showMessage(Alert.AlertType.ERROR, cause.getMessage());
   }
 
+  public void showMessage (Alert.AlertType type, String message) {
+    new Alert(type, message).showAndWait();
+  }
 
 }
