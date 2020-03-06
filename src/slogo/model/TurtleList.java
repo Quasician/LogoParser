@@ -91,7 +91,7 @@ public class TurtleList {
   private void changeActivation(int id, boolean activate) {
     try {
       modelTurtleList.get(id - 1).setActivated(activate);
-    } catch (IndexOutOfBoundsException e) {
+    } catch (IndexOutOfBoundsException | NumberFormatException e) {
       //TODO: fix the error message later
       throw new CommandException("Please enter an integer greater than 0 for turtle index.");
     }
