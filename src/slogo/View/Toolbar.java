@@ -81,6 +81,9 @@ public class Toolbar {
   private static final String DEFAULT_RESOURCE_PACKAGE = "resources.";
   private static ResourceBundle myColors2 = ResourceBundle
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "Colors2");
+  private static ResourceBundle buttonNames = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "buttonNames");
+  private static ResourceBundle buttonMethods = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "buttonMethodNames");
+  private static ResourceBundle possibleLanguages = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "Languages");
   private IntegerProperty penColorIndex = new SimpleIntegerProperty();
   private IntegerProperty bgColorIndex = new SimpleIntegerProperty();
   private DoubleProperty penWidth = new SimpleDoubleProperty();
