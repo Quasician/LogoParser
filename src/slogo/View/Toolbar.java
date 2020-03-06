@@ -78,7 +78,7 @@ public class Toolbar {
   private Language language;
   private Button makeNew;
   private ObservableList<Turtle> activatedTurtles;
-
+  private Configuration myConfig;
   private ObservableList<String> colorOptions;
   private static final String DEFAULT_RESOURCE_PACKAGE = "resources.";
   private static ResourceBundle myColors2 = ResourceBundle
@@ -102,6 +102,7 @@ public class Toolbar {
     setTurtleImage = new ComboBox<>();
     forHelp = Desktop.getDesktop();
     turtleGrid = grid;
+    myConfig= grid.getConfig();
     setUpColorChoosers();
     helpButton = new ViewButton(Main.myResources.getString(BUTTON_HELP), BUTTON_HEIGHT,
         BUTTON_WIDTH, BUTTON_FONT_SIZE);
@@ -287,6 +288,7 @@ public class Toolbar {
     turtleGrid.setBackground(c);
     changeBackgroundColor
         .setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
+    myConfig.changeBackground(c);
   }
 
   private void uploadSim() {
@@ -345,6 +347,7 @@ public class Toolbar {
   private void setImage() {
     turtleGrid
         .updateTurtlesImage((String) setTurtleImage.getValue(), activatedTurtles);
+    myConfig.setTurtleIndex(setTurtleImage.getValue());
   }
 
   private void setUpHelpButton() {

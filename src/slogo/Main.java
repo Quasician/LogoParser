@@ -60,7 +60,7 @@ public class Main extends Application {
 
     VariableHashMap.createMap(myMap);
     Visualizer vis = new Visualizer(primaryStage, turtleList.getViewTurtleList(), turtleList.getActiveTurtleList(), commandLineText,
-        textUpdate, language, commandParser, myMap);
+        textUpdate, language, commandParser, myMap, displayOption);
     vis.setDisplayOption(displayOption);
 
     parseTextOnInput(textUpdate, parseString, commandParser, vis);

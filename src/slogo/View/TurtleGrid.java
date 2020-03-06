@@ -1,7 +1,9 @@
 package slogo.View;
 
+import java.io.ObjectInputFilter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -38,7 +40,6 @@ public class TurtleGrid {
   private static final double DEFAULT_PEN_WIDTH = 1;
   private int myCanvasWidth, myCanvasHeight;
   private ObservableList<Turtle> viewTurtles;
-  private Configuration properties;
   private ArrayList<ImageView> turtleImageViews = new ArrayList<>();
   private Pane myPane; //to change background of grid, change the background of the pane
   private Canvas myCanvas;
@@ -64,8 +65,8 @@ public class TurtleGrid {
    *                     shapes are drawn
    * @param canvasHeight is the height of the canvas
    */
-  public TurtleGrid(int canvasWidth, int canvasHeight, ObservableList<Turtle> viewTurtles) {
-    PropertiesView= new Configuration(viewTurtles);
+  public TurtleGrid(int canvasWidth, int canvasHeight, ObservableList<Turtle> viewTurtles, Configuration config) {
+    PropertiesView= config;
     myCanvasWidth = canvasWidth;
     myCanvasHeight = canvasHeight;
     centerX = canvasWidth / 2.0;
@@ -83,9 +84,11 @@ public class TurtleGrid {
     }
     addSizeListener();
   }
-
-  public TurtleGrid(ObservableList<Turtle> turtles) {
-    this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, turtles);
+public Configuration getConfig(){
+      return PropertiesView;
+}
+  public TurtleGrid(ObservableList<Turtle> turtles, Configuration config) {
+    this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, turtles, config);
   }
 
   private void setUpGrid() {
@@ -261,6 +264,7 @@ public class TurtleGrid {
 
   protected void setPenColor(Paint color) {
     penColor = color;
+      PropertiesView.sendPenColor(color);
   }
 
   protected void setPenWidth(double width) {
@@ -297,6 +301,7 @@ public class TurtleGrid {
   }
 
   protected void setBackground(Color color) {
+      PropertiesView.changeBackground(color);
     myPane.setBackground(new Background(new BackgroundFill(color, null, null)));
   }
 

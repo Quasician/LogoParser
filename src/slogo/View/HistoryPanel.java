@@ -59,7 +59,7 @@ public class HistoryPanel implements HistoryView{
    * @param parser is the command parser object that is used in the program
    */
 
-  public HistoryPanel(Stage myWindow, ObservableList<Turtle> viewTurtles, CommandParser parser) {
+  public HistoryPanel(Stage myWindow, ObservableList<Turtle> viewTurtles, CommandParser parser, Configuration configuration) {
     buttonNames = Arrays.asList("Command", "Variable", "Custom", "Properties","Undo", "Save", "Upload");
     this.myWindow = myWindow;
     this.comParser = parser;
@@ -67,7 +67,7 @@ public class HistoryPanel implements HistoryView{
     myOutputView= new OutputView();
     myUserDefined = new UserDefinedCommands();
     myVariableHistory = new VariableHistory();
-    myConfig = new Configuration(viewTurtles);
+    myConfig = configuration;
     historyVBox = new VBox();
     historyVBox.setAlignment(Pos.CENTER);
 

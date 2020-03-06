@@ -49,6 +49,7 @@ public class Visualizer {
   private DisplayOption displayOption;
   private Toolbar tool;
   private TurtleGrid grid;
+  private Configuration config;
   private HistoryPanel myHistoryPanel;
   public static final int SLOGO_IMAGE_HEIGHT = 80;
   public static final double SLOGO_IMAGE_WIDTH = 200.0;
@@ -63,14 +64,14 @@ public class Visualizer {
   public Visualizer(Stage window, ObservableList viewTurtles, ObservableList activatedTurtles,
       StringProperty commandLineText,
       BooleanProperty textUpdate, Language language, CommandParser parser,
-      ObservableMap myMap) {
+      ObservableMap myMap, DisplayOption d) {
 //    myWindow = window;
     this.viewTurtles = viewTurtles;
-    myHistoryPanel = new HistoryPanel(window, viewTurtles, parser);
-    grid = new TurtleGrid(viewTurtles);
+    config= new Configuration(viewTurtles, d);
+    myHistoryPanel = new HistoryPanel(window, viewTurtles, parser, config);
+    grid = new TurtleGrid(viewTurtles, config);
     tool = new Toolbar(grid, language, activatedTurtles);
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate, grid, activatedTurtles);
-
     this.myMap = myMap;
     setUpMapListener();
     img = new Image(myResources.getString("SlogoLogo"));
