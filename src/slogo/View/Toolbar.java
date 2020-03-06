@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import java.util.Set;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -41,51 +42,47 @@ import javafx.util.Callback;
 import slogo.Main;
 import slogo.model.DisplayOption;
 import slogo.model.Turtle;
-import slogo.model.TurtleList;
 
 public class Toolbar {
-  private ColorPicker backgroundColor;
-  private ColorPicker penColor;
-  private Button helpButton;
+  private ColorPicker backgroundColor, penColor;
   private ResourceBundle myResources = Main.myResources;
   private ComboBox setTurtleImage;
-  private ComboBox<String> changeLanguageBox;
-  private ComboBox<String> changePenColor;
-  private ComboBox<String> changeBackgroundColor;
-  private static final List<String> LANGUAGES = Arrays
-      .asList("English", "Chinese", "French", "German", "Italian", "Portuguese", "Russian",
-          "Spanish", "Urdu");
-  private static final List<String> TURTLES = Arrays
-      .asList("TurtleImage", "BlackTurtle", "BlueTurtle", "CuteTurtle", "Duvall");
-  private StringProperty currentLanguage = new SimpleStringProperty();
-  private HBox toolBar;
-  private static final Paint BUTTON_FONT_COLOR = Color.BLACK;
-  private static final int BUTTON_FONT_SIZE = 13;
-  private static final String HELP_URI = "https://www2.cs.duke.edu/courses/compsci308/spring20/assign/03_parser/commands.php";
+  private ComboBox<String> changeLanguageBox, changePenColor, changeBackgroundColor;
+
   private static final String CHANGE_BACKGROUND = "ChangeBackgroundColor";
   private static final String CHANGE_PEN = "ChangePenColor";
   private static final String BUTTON_HELP = "Help";
-  private static final String CHANGE_TURTLE = "ChangeTurtleImage";
-  private static final String STYLE_COLOR = "lightgray";
-  private static final int PADDING = 10;
-  private static final int BUTTON_WIDTH = 200;
-  private static final int BUTTON_HEIGHT = 25;
-  private static final int COLOR_PICKER_WIDTH = 50;
-  private HBox backgroundColorChooser, penColorChoosers;
-  private Button backgroundColorPicker, penColorPicker;
+
+  private HBox toolBar, backgroundColorChooser, penColorChoosers;
+  private Button backgroundColorPicker, penColorPicker, makeNew, helpButton;
   private TurtleGrid turtleGrid;
   private Desktop forHelp;
   private Language language;
-  private Button makeNew;
   private ObservableList<Turtle> activatedTurtles;
   private Configuration myConfig;
   private ObservableList<String> colorOptions;
-  private static final String DEFAULT_RESOURCE_PACKAGE = "resources.";
-  private static ResourceBundle myColors2 = ResourceBundle
-      .getBundle(DEFAULT_RESOURCE_PACKAGE + "Colors2");
-  private static ResourceBundle buttonNames = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "buttonNames");
-  private static ResourceBundle buttonMethods = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "buttonMethodNames");
-  private static ResourceBundle possibleLanguages = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "Languages");
+
+  private static final String THIS_PACKAGE = Toolbar.class.getPackageName();
+  private static final String MY_RESOURCE_FOLDER = THIS_PACKAGE + ".visualProperty.";
+  private static ResourceBundle turtleImages = ResourceBundle.getBundle(MY_RESOURCE_FOLDER + "CurrentTurtleImages");
+  private static final Set<String> TURTLES = turtleImages.keySet();
+  private static ResourceBundle myColors = ResourceBundle
+      .getBundle(MY_RESOURCE_FOLDER + "Colors");
+  private static ResourceBundle possibleLanguages = ResourceBundle.getBundle(MY_RESOURCE_FOLDER + "Languages");
+  private static final Set<String> LANGUAGES = possibleLanguages.keySet();
+  private static ResourceBundle setupProperties = ResourceBundle.getBundle(MY_RESOURCE_FOLDER + "Toolbar");
+  private static final int PADDING = Integer.parseInt(setupProperties.getString("Padding"));
+  private static final int BUTTON_WIDTH = Integer.parseInt(setupProperties.getString("ButtonWidth"));
+  private static final int BUTTON_HEIGHT = Integer.parseInt(setupProperties.getString("ButtonHeight"));
+  private static final int COLOR_PICKER_WIDTH = Integer.parseInt(setupProperties.getString("ColorPickerWidth"));;
+  private static final String HELP_URI = setupProperties.getString("HelpURL");
+  private static final Paint BUTTON_FONT_COLOR = Color.web(setupProperties.getString("ButtonFontColor"));
+  private static final int BUTTON_FONT_SIZE = Integer.parseInt(setupProperties.getString("ButtonFontSize"));
+  private static final String STYLE_COLOR = setupProperties.getString("StyleColor");
+  private static final String BUTTON_FONT = setupProperties.getString("ButtonFont");
+  private static final int ALERT_WIDTH = Integer.parseInt(setupProperties.getString("AlertWidth"));
+  private static final int ALERT_HEIGHT = Integer.parseInt(setupProperties.getString("AlertHeight"));
+
   private IntegerProperty penColorIndex = new SimpleIntegerProperty();
   private IntegerProperty bgColorIndex = new SimpleIntegerProperty();
   private DoubleProperty penWidth = new SimpleDoubleProperty();
@@ -97,31 +94,35 @@ public class Toolbar {
     this.activatedTurtles = activatedTurtles;
     initializeColors();
     makeComboBoxes();
-    makeNew = new ViewButton("New Workspace", BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
+    turtleGrid = grid;
+    myConfig= grid.getConfig();
+    setupButtons();
+    setupListeners();
+    this.language = language;
+  }
+
+  private void setupButtons() {
+    makeNew = new ViewButton(Main.myResources.getString("New"), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
     uploadSim();
     setTurtleImage = new ComboBox<>();
     forHelp = Desktop.getDesktop();
-    turtleGrid = grid;
-    myConfig= grid.getConfig();
+
     setUpColorChoosers();
-    helpButton = new ViewButton(Main.myResources.getString(BUTTON_HELP), BUTTON_HEIGHT,
+    helpButton = new ViewButton(Main.myResources.getString("Help"), BUTTON_HEIGHT,
         BUTTON_WIDTH, BUTTON_FONT_SIZE);
     setUpChangeLanguageChooser();
     setUpTurtleChooser();
     setUpHelpButton();
-    setUpPenColorDropdown(grid);
-    setUpBackgroundColorDropdown(grid);
+    setUpPenColorDropdown(turtleGrid);
+    setUpBackgroundColorDropdown(turtleGrid);
+  }
+
+  private void setupListeners() {
     addBgIndexListener();
     addPenIndexListener();
     addPenWidthListener();
     addImageListener();
     addChangedIndexListener();
-    this.language = language;
-    currentLanguage.set("English");
-  }
-
-  private void setupLanguages() {
-    //TODO: do this method later
   }
 
   public void bindWithDisplayOption(DisplayOption displayOption) {
@@ -153,8 +154,8 @@ public class Toolbar {
   private void initializeColors() {
     colorOptions = FXCollections.observableArrayList();
     int index = 0;
-    for (String color : myColors2.keySet()) {
-      String rgb = myColors2.getString(color);
+    for (String color : myColors.keySet()) {
+      String rgb = myColors.getString(color);
       colorOptions.add(rgb + ", " + index);
       index++;
     }
@@ -271,7 +272,6 @@ public class Toolbar {
     });
   }
 
-
   private void setUpBackgroundColorDropdown(TurtleGrid grid) {
     changeBackgroundColor.itemsProperty().bind(new SimpleObjectProperty<>(colorOptions));
     changeBackgroundColor.setPrefWidth(BUTTON_WIDTH);
@@ -373,9 +373,9 @@ public class Toolbar {
 
   public HBox getToolBar() {
     toolBar = new HBox(PADDING);
-    toolBar.setPrefHeight(40);
+    toolBar.setPrefHeight(BUTTON_HEIGHT + PADDING);
     toolBar.setBackground(
-        new Background(new BackgroundFill(Color.rgb(88, 77, 20), CornerRadii.EMPTY, Insets.EMPTY)));
+        new Background(new BackgroundFill(Color.web(STYLE_COLOR), CornerRadii.EMPTY, Insets.EMPTY)));
     toolBar.getChildren()
         .addAll(makeNew, backgroundColorChooser, penColorChoosers, setTurtleImage, changeLanguageBox,
             changePenColor, changeBackgroundColor,
@@ -423,19 +423,18 @@ public class Toolbar {
   private Button fakeButton(String text, String styleColor, Paint fontColor, int fontSize) {
     Button button = new Button(text);
     button.setTextFill(fontColor);
-    button.setFont(Font.font("Calibri"));
+    button.setFont(Font.font(BUTTON_FONT));
     button.setStyle("-fx-background-color:" + styleColor + ";-fx-font-size:" + fontSize + " px;");
-    button.setPrefWidth(200);
+    button.setPrefWidth(BUTTON_WIDTH);
     return button;
   }
 
-  // display given message to user using the given type of Alert dialog box
   private void showMessage(Alert.AlertType type, String message) {
     Alert alert = new Alert(type);
     javafx.scene.image.Image img = new javafx.scene.image.Image(myResources.getString("Dinosaur"));
     ImageView imageView = new ImageView(img);
-    imageView.setFitWidth(500);
-    imageView.setFitHeight(400);
+    imageView.setFitWidth(ALERT_WIDTH);
+    imageView.setFitHeight(ALERT_HEIGHT);
     alert.setGraphic(imageView);
     alert.showAndWait();
   }

@@ -116,6 +116,7 @@ public Configuration getConfig(){
     ImageView turtleImageView = new ImageView(turtleImage);
     turtleImageView.setOpacity(0.7);
     int idIndex = turtle.getId() - 1;
+    System.out.println("ID INDEX = " + idIndex);
     turtleImageViews.add(turtle.getId()-1, turtleImageView);
     ImageView imageView = turtleImageViews.get(turtle.getId() - 1);
     imageView.setX(centerX);
@@ -124,11 +125,11 @@ public Configuration getConfig(){
     imageView.setFitWidth(TURTLE_IMAGE_WIDTH);
     imageView.rotateProperty();
     imageView.requestFocus();
+    addListeners(turtle);
     imageView.setOnMouseClicked(e-> {
       turtle.setActivated(!turtle.isActivatedProperty().getValue());
       changeOpacity(turtle);
     });
-    addListeners(turtle);
     myPane.getChildren().add(turtleImageViews.get(turtle.getId()-1));
 
     turtleCenterX = turtleImageViews.get(turtle.getId()-1).getFitWidth() / 2;
@@ -201,6 +202,7 @@ public Configuration getConfig(){
     viewTurtle.isActivatedProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        System.out.println(viewTurtle.getId());
           changeOpacity(viewTurtle);
           PropertiesView.changeActive(viewTurtle);
           if (!viewTurtle.isActivatedProperty().getValue()) {
@@ -268,6 +270,9 @@ public Configuration getConfig(){
         List<Turtle> newTurtles = (List<Turtle>) c.getAddedSubList();
         for (Turtle changedTurtle : newTurtles) {
           setUpTurtle(changedTurtle);
+        }
+        for (Turtle changedTurtle : viewTurtles) {
+          System.out.println(changedTurtle.getId());
         }
         PropertiesView.addRowListener(viewTurtles);
       }

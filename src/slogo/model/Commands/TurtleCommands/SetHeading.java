@@ -15,10 +15,7 @@ public class SetHeading extends TurtleCommand {
   @Override
   public void doCommand(TreeNode commandNode) {
     degrees = Double.parseDouble(getParamList().get(0));
-    for(Turtle activeTurtle: activatedTurtles) {
-      double returnDegrees = degrees - activeTurtle.getDegree(); //value that needs to be sent back
-      activeTurtle.setDegree(degrees % 360);
-      commandNode.setResult("" + returnDegrees);
-    }
+    double returnDegrees = setHeading(degrees);
+    commandNode.setResult("" + returnDegrees);
   }
 }

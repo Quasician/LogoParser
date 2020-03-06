@@ -11,11 +11,8 @@ public class Home extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    for(Turtle activeTurtle: activatedTurtles) {
-      double distanceTravelled = distanceFormula(activeTurtle.getX(), activeTurtle.getY(), 0, 0);
-      moveTurtleTo(activeTurtle.getId()-1,0, 0);
-      activeTurtle.setDegree(0);
-      commandNode.setResult("" + distanceTravelled);
-    }
+    double distance = moveTurtlesTo(0,0);
+    setTowards(0, 0);
+    commandNode.setResult("" + distance);
   }
 }

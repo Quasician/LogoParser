@@ -13,9 +13,7 @@ public class PenDown extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    for(Turtle activeTurtle: activatedTurtles) {
-      activeTurtle.penDown();
-      commandNode.setResult(RETURN);
-    }
+    changePen(true);
+    commandNode.setResult(RETURN);
   }
 }

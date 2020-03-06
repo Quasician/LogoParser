@@ -13,9 +13,7 @@ public class ShowTurtle extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    for (Turtle activeTurtle : activatedTurtles) {
-      activeTurtle.show();
-      commandNode.setResult(RETURN);
-    }
+    changeIsShowing(true);
+    commandNode.setResult(RETURN);
   }
 }

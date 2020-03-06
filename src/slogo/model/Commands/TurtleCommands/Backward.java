@@ -22,9 +22,7 @@ public class Backward extends TurtleCommand {
   @Override
   public void doCommand(TreeNode commandNode) {
     distance = Double.parseDouble(getParamList().get(0));
-    for(Turtle activeTurtle: activatedTurtles) {
-      commandNode.setResult(distance + "");
-      moveTurtle(activeTurtle.getId()-1,backward, distance);
-    }
+    commandNode.setResult(distance + "");
+    moveTurtles(backward, distance);
   }
 }
