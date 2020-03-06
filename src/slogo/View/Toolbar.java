@@ -95,6 +95,7 @@ public class Toolbar {
     initializeColors();
     makeComboBoxes();
     turtleGrid = grid;
+    myConfig= grid.getConfig();
     setupButtons();
     setupListeners();
     this.language = language;
@@ -105,8 +106,7 @@ public class Toolbar {
     uploadSim();
     setTurtleImage = new ComboBox<>();
     forHelp = Desktop.getDesktop();
-    turtleGrid = grid;
-    myConfig= grid.getConfig();
+
     setUpColorChoosers();
     helpButton = new ViewButton(Main.myResources.getString("Help"), BUTTON_HEIGHT,
         BUTTON_WIDTH, BUTTON_FONT_SIZE);
