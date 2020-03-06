@@ -44,18 +44,21 @@ public class HistoryPanel implements HistoryView{
   private VariableHistory myVariableHistory;
   private Configuration myConfig;
   private CommandParser comParser;
-  private final String buttonNameStr = "resources/HistoryView/HistoryButtonNames";
-  private final String buttonMethodStr = "resources/HistoryView/HistoryButtonMethods";
+  private final String myResourceFolder = "resources/HistoryView/";
   private final String xmlError = "resources/XMLErrors";
-  private ResourceBundle buttonNamesResources = ResourceBundle.getBundle(buttonNameStr);
-  private ResourceBundle buttonMethodsResources = ResourceBundle.getBundle(buttonMethodStr);
+  private final String error = "resources/ErrorMessages";
+  private ResourceBundle buttonNamesResources = ResourceBundle.getBundle(myResourceFolder + "HistoryButtonNames");
+  private ResourceBundle buttonMethodsResources = ResourceBundle.getBundle(myResourceFolder + "HistoryButtonMethods");
   private ResourceBundle xmlErrors = ResourceBundle.getBundle(xmlError);
+  private ResourceBundle errors = ResourceBundle.getBundle(error);
+  private ResourceBundle myProperties = ResourceBundle.getBundle(myResourceFolder + "HistoryButtonProperties");
   private List<String> buttonNames;
   private HBox buttonsForPanes;
 
-  private final int BUTTON_WIDTH = 65;
-  private final int BUTTON_HEIGHT = 45;
-  private final int BUTTON_FONT_SIZE = 10;
+  private final int BUTTON_WIDTH = Integer.parseInt(myProperties.getString("ButtonWidth"));
+  private final int BUTTON_HEIGHT = Integer.parseInt(myProperties.getString("ButtonHeight"));
+  private final int BUTTON_FONT_SIZE = Integer.parseInt(myProperties.getString("ButtonFontSize"));
+  private final String BUTTON_COLOR = myProperties.getString("Color");
 
   private Stage myWindow;
 
@@ -79,7 +82,7 @@ public class HistoryPanel implements HistoryView{
     historyVBox.setAlignment(Pos.CENTER);
 
     buttonsForPanes= new HBox();
-    buttonsForPanes.setBackground(new Background(new BackgroundFill(Color.rgb(10, 10, 20), CornerRadii.EMPTY, Insets.EMPTY)));
+    buttonsForPanes.setBackground(new Background(new BackgroundFill(Color.web(BUTTON_COLOR), CornerRadii.EMPTY, Insets.EMPTY)));
 
     makeAndSetButtons();
 
@@ -126,18 +129,14 @@ public class HistoryPanel implements HistoryView{
       Button btn = new ViewButton(label, BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
       btn.setOnAction(e -> {
         try {
-          // System.out.println("Method name = " + methodName);
           Method method = HistoryPanel.class.getDeclaredMethod(methodName);
           method.invoke(HistoryPanel.this);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
-          //TODO throw an excpetion that is good
-          ex.printStackTrace();
+          throw new UserException(errors.getString("Button"));
         }
       });
       buttonsForPanes.getChildren().add(btn);
-
     }
-
   }
 
   private void undoCommands(){
@@ -212,20 +211,6 @@ public class HistoryPanel implements HistoryView{
     } catch (NullPointerException e) {
       throw new XMLException(xmlErrors.getString("Null"));
     }
-  }
-
-
-  private void addKeyHandler(Scene scene, TurtleGrid grid) {
-    scene.setOnKeyPressed(ke -> {
-      KeyCode keyCode = ke.getCode();
-      if (keyCode == KeyCode.ENTER) {
-        uploadXML(); //TODO: CHANGE THIS LATER
-      }
-      if (keyCode == KeyCode.Q) {
-        saveXML();
-      }
-    });
-
   }
 
 }
