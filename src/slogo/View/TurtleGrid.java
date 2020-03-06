@@ -30,7 +30,7 @@ import slogo.model.Turtle;
  * @author Michelle Tai, Sanna Symer
  */
 public class TurtleGrid {
-
+ //trying to push
   private static final int TURTLE_IMAGE_HEIGHT = 40;
   private static final int TURTLE_IMAGE_WIDTH = 40;
   private static final Color DEFAULT_PEN_COLOR = Color.RED;
@@ -118,11 +118,11 @@ public class TurtleGrid {
     imageView.setFitWidth(TURTLE_IMAGE_WIDTH);
     imageView.rotateProperty();
     imageView.requestFocus();
+    addListeners(turtle);
     imageView.setOnMouseClicked(e-> {
       turtle.setActivated(!turtle.isActivatedProperty().getValue());
       changeOpacity(turtle);
     });
-    addListeners(turtle);
     myPane.getChildren().add(turtleImageViews.get(turtle.getId()-1));
 
     turtleCenterX = turtleImageViews.get(turtle.getId()-1).getFitWidth() / 2;
@@ -195,6 +195,7 @@ public class TurtleGrid {
     viewTurtle.isActivatedProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        System.out.println(viewTurtle.getId());
         changeOpacity(viewTurtle);
       }
     });
@@ -254,6 +255,9 @@ public class TurtleGrid {
         List<Turtle> newTurtles = (List<Turtle>) c.getAddedSubList();
         for (Turtle changedTurtle : newTurtles) {
           setUpTurtle(changedTurtle);
+        }
+        for (Turtle changedTurtle : viewTurtles) {
+          System.out.println(changedTurtle.getId());
         }
         PropertiesView.addRowListener(viewTurtles);
       }

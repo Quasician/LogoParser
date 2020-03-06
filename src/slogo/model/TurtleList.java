@@ -87,7 +87,7 @@ public class TurtleList {
     changeActivation(id, false);
   }
 
-  private static void changeActivation(int id, boolean activate) {
+  private void changeActivation(int id, boolean activate) {
    try {
     System.out.println(id);
       modelTurtleList.get(id-1).setActivated(activate);

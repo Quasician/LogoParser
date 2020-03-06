@@ -24,7 +24,7 @@ public class Tell extends MultipleTurtleCommand{
         for(String activatedTurtle:turtlesToActivate)
         {
             int currentTurtleNum = Integer.parseInt(activatedTurtle);
-            System.out.println("CCURENT NUM " + currentTurtleNum);
+            System.out.println("CCURENT NUM " + currentTurtleNum + " " + turtles.size());
 
             if(currentTurtleNum<=turtles.size())
             {
@@ -36,7 +36,7 @@ public class Tell extends MultipleTurtleCommand{
                 for(int i = turtles.size();i<currentTurtleNum;i++)
                 {
                     Turtle newTurtle = new Turtle();
-                    newTurtle.setId(turtles.size());
+                    newTurtle.setId(turtles.size()+1);
                     if(i!=currentTurtleNum-1)
                     {
                         newTurtle.setActivated(false);
