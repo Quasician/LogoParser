@@ -21,10 +21,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import slogo.model.CommandParser;
 import slogo.model.Turtle;
 import slogo.model.xml.XMLCreator;
+import slogo.model.xml.XMLException;
 import slogo.model.xml.XMLParser;
 
 /**
@@ -42,8 +46,10 @@ public class HistoryPanel implements HistoryView{
   private CommandParser comParser;
   private final String buttonNameStr = "resources/HistoryView/HistoryButtonNames";
   private final String buttonMethodStr = "resources/HistoryView/HistoryButtonMethods";
+  private final String xmlError = "resources/XMLErrors";
   private ResourceBundle buttonNamesResources = ResourceBundle.getBundle(buttonNameStr);
   private ResourceBundle buttonMethodsResources = ResourceBundle.getBundle(buttonMethodStr);
+  private ResourceBundle xmlErrors = ResourceBundle.getBundle(xmlError);
   private List<String> buttonNames;
   private HBox buttonsForPanes;
 
@@ -180,23 +186,32 @@ public class HistoryPanel implements HistoryView{
     }
   }
 
-
-  //TODO: CHANGE THIS
-  private void getXML() {
+  private void uploadXML() {
     FileChooser fileChooser = new FileChooser();
-    File xml = fileChooser.showOpenDialog(myWindow);
-    XMLParser parser = new XMLParser(xml);
-    parser.setUp();
-    List<String> commands = parser.getCommands();
-    String[] array = commands.toArray(new String[0]);
-    String str = String.join("\n", array);
-    System.out.println(str);
-    comParser.parseText(str);
+    fileChooser.getExtensionFilters().add(new ExtensionFilter("XML files", "*.xml"));
+    try {
+      File xml = fileChooser.showOpenDialog(myWindow);
+      XMLParser parser = new XMLParser(xml);
+      parser.setUp();
+      List<String> commands = parser.getCommands();
+      String[] array = commands.toArray(new String[0]);
+      String str = String.join("\n", array);
+      comParser.parseText(str);
+    } catch (Exception e) {
+      //Do nothing: File was not chosen, throwing error is unnecessary.
+    }
   }
 
   private void saveXML() {
-    XMLCreator creator = new XMLCreator(myCommandHistory.getCommandListCopy());
-    creator.createFile("Title");
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.getExtensionFilters().add(new ExtensionFilter("XML files", "*.xml"));
+    try {
+      File xmlToSave = fileChooser.showOpenDialog(myWindow);
+      XMLCreator creator = new XMLCreator(myCommandHistory.getCommandListCopy(), xmlToSave);
+      creator.createFile("Title");
+    } catch (NullPointerException e) {
+      throw new XMLException(xmlErrors.getString("Null"));
+    }
   }
 
 
@@ -204,7 +219,7 @@ public class HistoryPanel implements HistoryView{
     scene.setOnKeyPressed(ke -> {
       KeyCode keyCode = ke.getCode();
       if (keyCode == KeyCode.ENTER) {
-        getXML(); //TODO: CHANGE THIS LATER
+        uploadXML(); //TODO: CHANGE THIS LATER
       }
       if (keyCode == KeyCode.Q) {
         saveXML();
