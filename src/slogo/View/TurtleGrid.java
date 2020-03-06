@@ -324,7 +324,8 @@ public Configuration getConfig(){
 
   protected void updateTurtlesImage(String string, ObservableList<Turtle> updateTurtles) {
     for (Turtle viewTurtle : updateTurtles) {
-      String imageName = string.split(", ")[0];
+      System.out.println("IMAGE NAME " + string);
+      String imageName = string.split(",")[0];
       turtleImageViews.get(viewTurtle.getId()-1)
           .setImage(new Image(Main.myResources.getString(imageName)));
     }
