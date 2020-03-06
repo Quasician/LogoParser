@@ -13,9 +13,10 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import slogo.View.Language;
 import slogo.View.UserException;
-import slogo.View.Visualizer;
 import slogo.model.*;
 
+import slogo.View.AbstractTurtle;
+import slogo.View.Visualizer;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -68,7 +69,8 @@ public class Main extends Application {
     //commandParser.parseText("fd 100");
     turtleList.makeModelTurtleActivated(1);
     turtleList.makeModelTurtleActivated(2);
-    commandParser.parseText("tell [ 2 3 5]");
+    commandParser.parseText("tell [ 1 ]");
+    commandParser.parseText("fd 50");
 //    commandParser.parseText("tell [ 4 ] turtles id ");
 //    commandParser.parseText("tell [ 2 ]");
 //    commandParser.parseText("left 90 fd 100 ");
