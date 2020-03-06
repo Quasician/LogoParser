@@ -34,7 +34,7 @@ public class Tell extends MultipleTurtleCommand{
                 for(int i = turtles.size();i<currentTurtleNum;i++)
                 {
                     Turtle newTurtle = new Turtle();
-                    newTurtle.setId(turtles.size());
+                    newTurtle.setId(turtles.size()+1);
                     if(i!=currentTurtleNum-1)
                     {
                         newTurtle.setActivated(false);

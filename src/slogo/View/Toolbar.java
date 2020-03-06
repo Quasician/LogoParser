@@ -343,8 +343,7 @@ public class Toolbar {
   }
 
   private void setImage() {
-    turtleGrid
-        .updateTurtlesImage((String) setTurtleImage.getValue(), activatedTurtles);
+    turtleGrid.updateTurtlesImage((String) setTurtleImage.getValue(), activatedTurtles);
   }
 
   private void setUpHelpButton() {
