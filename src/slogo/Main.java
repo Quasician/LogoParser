@@ -62,8 +62,7 @@ public class Main extends Application {
     parseString.bind(commandLineText);
     BooleanProperty textUpdate = new SimpleBooleanProperty();
 
-    VariableHashMap.createMap(myMap);
-    Visualizer vis = new Visualizer(primaryStage, turtleList.getViewTurtleList(), turtleList.getActiveTurtleList(), commandLineText,
+    Visualizer vis = new Visualizer(primaryStage, turtleList.getViewTurtleList(), turtleList.getActiveTurtleList(), variableStorage.getViewObservableMap(), commandLineText,
         textUpdate, language, commandParser, myMap, displayOption);
     vis.setDisplayOption(displayOption);
 
