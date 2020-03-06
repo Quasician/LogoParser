@@ -123,8 +123,7 @@ public class HistoryPanel implements HistoryView{
           Method method = HistoryPanel.class.getDeclaredMethod(methodName);
           method.invoke(HistoryPanel.this);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
-          //TODO throw an excpetion that is good
-          ex.printStackTrace();
+          return;
         }
       });
       buttonsForPanes.getChildren().add(btn);
@@ -134,7 +133,7 @@ public class HistoryPanel implements HistoryView{
   }
 
   private void undoCommands(){
-    comParser.parseText("clearscreen");
+    comParser.miniParse("ClearScreen");
     try{
       myCommandHistory.removeCommand();
       for(String commandsUndo: myCommandHistory.getCommandListCopy() ){

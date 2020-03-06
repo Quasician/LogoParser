@@ -46,13 +46,16 @@ public class XMLParser {
       doc = DOCUMENT_BUILDER.parse(configFile);
       doc.getDocumentElement().normalize();
       root = doc.getDocumentElement();
-    } catch (SAXException | IOException e) {
+    } catch (SAXException | IOException | IllegalArgumentException e) {
       throw new XMLException(e);
     }
   }
 
   private void readGeneralParameters() {
     NodeList nodeList = root.getElementsByTagName(COMMANDS);
+    if(nodeList.equals(null)){
+      throw new XMLException("The file does not have commands to read");
+    }
     for (int x = 0; x < nodeList.getLength(); x++) {
       Node node = nodeList.item(x);
       if (node.getNodeType() == Node.ELEMENT_NODE) {
