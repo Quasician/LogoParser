@@ -78,6 +78,9 @@ public class Toolbar {
   private static final Paint BUTTON_FONT_COLOR = Color.web(setupProperties.getString("ButtonFontColor"));
   private static final int BUTTON_FONT_SIZE = Integer.parseInt(setupProperties.getString("ButtonFontSize"));
   private static final String STYLE_COLOR = setupProperties.getString("StyleColor");
+  private static final String BUTTON_FONT = setupProperties.getString("ButtonFont");
+  private static final int ALERT_WIDTH = Integer.parseInt(setupProperties.getString("AlertWidth"));
+  private static final int ALERT_HEIGHT = Integer.parseInt(setupProperties.getString("AlertHeight"));
 
   private IntegerProperty penColorIndex = new SimpleIntegerProperty();
   private IntegerProperty bgColorIndex = new SimpleIntegerProperty();
@@ -97,12 +100,12 @@ public class Toolbar {
   }
 
   private void setupButtons() {
-    makeNew = new ViewButton("New Workspace", BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
+    makeNew = new ViewButton(Main.myResources.getString("New"), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
     uploadSim();
     setTurtleImage = new ComboBox<>();
     forHelp = Desktop.getDesktop();
     setUpColorChoosers();
-    helpButton = new ViewButton(Main.myResources.getString(BUTTON_HELP), BUTTON_HEIGHT,
+    helpButton = new ViewButton(Main.myResources.getString("Help"), BUTTON_HEIGHT,
         BUTTON_WIDTH, BUTTON_FONT_SIZE);
     setUpChangeLanguageChooser();
     setUpTurtleChooser();
@@ -117,10 +120,6 @@ public class Toolbar {
     addPenWidthListener();
     addImageListener();
     addChangedIndexListener();
-  }
-
-  private void setupLanguages() {
-    //TODO: do this method later
   }
 
   public void bindWithDisplayOption(DisplayOption displayOption) {
@@ -368,9 +367,9 @@ public class Toolbar {
 
   public HBox getToolBar() {
     toolBar = new HBox(PADDING);
-    toolBar.setPrefHeight(40);
+    toolBar.setPrefHeight(BUTTON_HEIGHT + PADDING);
     toolBar.setBackground(
-        new Background(new BackgroundFill(Color.rgb(88, 77, 20), CornerRadii.EMPTY, Insets.EMPTY)));
+        new Background(new BackgroundFill(Color.web(STYLE_COLOR), CornerRadii.EMPTY, Insets.EMPTY)));
     toolBar.getChildren()
         .addAll(makeNew, backgroundColorChooser, penColorChoosers, setTurtleImage, changeLanguageBox,
             changePenColor, changeBackgroundColor,
@@ -418,19 +417,18 @@ public class Toolbar {
   private Button fakeButton(String text, String styleColor, Paint fontColor, int fontSize) {
     Button button = new Button(text);
     button.setTextFill(fontColor);
-    button.setFont(Font.font("Calibri"));
+    button.setFont(Font.font(BUTTON_FONT));
     button.setStyle("-fx-background-color:" + styleColor + ";-fx-font-size:" + fontSize + " px;");
-    button.setPrefWidth(200);
+    button.setPrefWidth(BUTTON_WIDTH);
     return button;
   }
 
-  // display given message to user using the given type of Alert dialog box
   private void showMessage(Alert.AlertType type, String message) {
     Alert alert = new Alert(type);
     javafx.scene.image.Image img = new javafx.scene.image.Image(myResources.getString("Dinosaur"));
     ImageView imageView = new ImageView(img);
-    imageView.setFitWidth(500);
-    imageView.setFitHeight(400);
+    imageView.setFitWidth(ALERT_WIDTH);
+    imageView.setFitHeight(ALERT_HEIGHT);
     alert.setGraphic(imageView);
     alert.showAndWait();
   }
