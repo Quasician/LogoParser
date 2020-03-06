@@ -13,9 +13,10 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import slogo.View.Language;
 import slogo.View.UserException;
-import slogo.View.Visualizer;
 import slogo.model.*;
 
+import slogo.View.AbstractTurtle;
+import slogo.View.Visualizer;
 import java.util.Iterator;
 import java.util.Map;
 

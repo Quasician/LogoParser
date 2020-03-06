@@ -39,7 +39,6 @@ public class XMLParser {
 
   /**
    * Gets set-up parameters from XML config file and puts them in a list
-   * @return arraylist with set up parameters for simulation
    */
   public void setUp() {
     DOCUMENT_BUILDER = getDocumentBuilder();

@@ -2,7 +2,6 @@ package slogo.View;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -10,7 +9,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
@@ -22,8 +20,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import slogo.Main;
 import slogo.model.Turtle;
-
-import javax.sound.midi.SysexMessage;
 
 /**
  * This class holds the grid where the commands are executed on; for example, if the turtle moves
@@ -150,9 +146,10 @@ public class TurtleGrid {
     addActiveListener(viewTurtle);
   }
 
-  private double keepInBounds(double coordinate, int bound) {
-    if (coordinate > bound) {
-      return bound;
+
+  private double keepInBoundsX(double coordinate, int bound) {
+    if (coordinate > bound - TURTLE_IMAGE_HEIGHT) {
+      return bound - TURTLE_IMAGE_HEIGHT;
     } else if (coordinate < 0) {
       return 0;
     }
@@ -170,13 +167,13 @@ public class TurtleGrid {
 
         double newX = viewTurtle.getX() + centerX;
         double newY = -(viewTurtle.getY()) + centerY;
-        newX = keepInBounds(newX, myCanvasWidth);
-        newY = keepInBounds(newY, myCanvasHeight);
+        newX = keepInBoundsX(newX, myCanvasWidth);
+        newY = keepInBoundsX(newY, myCanvasHeight);
         thisView.setX(newX);
         thisView.setY(newY);
 
-        double pastX = keepInBounds(viewTurtle.getPastX() + centerX, myCanvasWidth);
-        double pastY = keepInBounds( - viewTurtle.getPastY() + centerY, myCanvasHeight);
+        double pastX = keepInBoundsX(viewTurtle.getPastX() + centerX, myCanvasWidth);
+        double pastY = keepInBoundsX( - viewTurtle.getPastY() + centerY, myCanvasHeight);
 
         double oldX = pastX + turtleCenterX;
         double oldY = pastY + turtleCenterY;
@@ -215,7 +212,6 @@ public class TurtleGrid {
     viewTurtle.isPenDownProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        System.out.println("Pen has been changed to: " + viewTurtle.isPenDown());
         isPenDown = viewTurtle.isPenDown();
       }
     });
@@ -238,10 +234,11 @@ public class TurtleGrid {
       @Override
       public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
           Boolean newValue) {
+        ImageView thisView = turtleImageViews.get(viewTurtle.getId() - 1);
         if (viewTurtle.isShowingProperty().get()) { //make turtle visible
-          turtleImageViews.get(viewTurtle.getId()-1).setVisible(true);
+          thisView.setVisible(true);
         } else { //make turtle invisible
-          turtleImageViews.get(viewTurtle.getId()-1).setVisible(false);
+          thisView.setVisible(false);
         }
       }
     });
@@ -253,9 +250,7 @@ public class TurtleGrid {
       public void onChanged(Change<? extends Turtle> c) {
         c.next();
         List<Turtle> newTurtles = (List<Turtle>) c.getAddedSubList();
-        System.out.println("View turtles changed in turtle grid");
         for (Turtle changedTurtle : newTurtles) {
-          System.out.println("NEW VIEW turtle: " + changedTurtle.isActivatedProperty().getValue());
           setUpTurtle(changedTurtle);
         }
         PropertiesView.addRowListener(viewTurtles);
