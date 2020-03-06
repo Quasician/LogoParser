@@ -145,12 +145,8 @@ public class Turtle {
     isPenDown.set(true);
   }
 
-  public void show() {
-    isShowing.set(true);
-  }
-
-  public void hide() {
-    isShowing.set(false);
+  public void changeShowing(boolean showing) {
+    isShowing.set(showing);
   }
 
   public void setId(int id) {

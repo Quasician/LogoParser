@@ -13,9 +13,7 @@ public class PenUp extends TurtleCommand {
 
   @Override
   public void doCommand(TreeNode commandNode) {
-    for(Turtle activeTurtle: activatedTurtles) {
-      activeTurtle.penUp();
-      commandNode.setResult(RETURN);
-    }
+    changePen(false);
+    commandNode.setResult(RETURN);
   }
 }
