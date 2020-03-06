@@ -217,6 +217,7 @@ public Configuration getConfig(){
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         isPenDown = viewTurtle.isPenDown();
+        PropertiesView.changePenDown(isPenDown);
       }
     });
   }

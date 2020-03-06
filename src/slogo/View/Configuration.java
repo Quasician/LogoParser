@@ -35,6 +35,7 @@ public class Configuration {
     private Label number= new Label();
     private Label color= new Label();
     private Label size= new Label();
+    private Label penDown= new Label();
     private Label penColor= new Label();
     private Label imageIndex= new Label();
     private HBox rowForSize;
@@ -52,6 +53,7 @@ public class Configuration {
         size= new Label();
         penColor= new Label();
         imageIndex= new Label();
+        penDown= new Label();
         addRowListener(turtles);
         sendDisplay(displayOption);
         initialDisplay(displayOption,turtles);
@@ -70,7 +72,8 @@ public class Configuration {
             variablesTable.getItems().remove(number);
         }
         number.setText("Number of Turtles: "+ String.valueOf(count));
-        variablesTable.getItems().addAll(number,color,size,penColor,imageIndex);
+        penDown.setText("Pen Down Property: "+ true);
+        variablesTable.getItems().addAll(number,color,size,penColor,imageIndex,penDown);
 
 
     }
@@ -119,6 +122,10 @@ public class Configuration {
 
     public void changeBackground(Color color) {
         size.setText(String.valueOf("Background Color Index is: "+ color));
+    }
+
+    public void changePenDown(Boolean isPenDown) {
+        penDown.setText("Pen Down Property: "+ String.valueOf(isPenDown));
     }
 }
 
