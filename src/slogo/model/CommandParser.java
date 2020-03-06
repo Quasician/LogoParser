@@ -1,14 +1,8 @@
 package slogo.model;
 
-
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 import javafx.collections.ObservableMap;
 import slogo.View.Language;
-import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactory;
 import slogo.model.Commands.CommandFactoryInterface;
 
@@ -30,14 +24,14 @@ public class CommandParser {
   private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
   private Language language;
   private DisplayOption displayOption;
-  private static final Pattern CONSTANT_PATTERN = Pattern.compile("-?[0-9]+\\.?[0-9]*");
-  private static final Pattern COMMAND_PATTERN = Pattern.compile("[a-zA-Z_]+(\\?)?");
-
+  private static final Pattern COMMAND_PATTERN = Pattern.compile("(\\+)|(\\-)|(\\*)|(\\~)|(\\/)|(\\%)|[a-zA-Z_]+(\\?)?");
+  private GeneralParserBehavior parserBehavior;
 
   /**
    * Create an empty parser
    */
   public CommandParser(ObservableList<Turtle> turtles, ObservableMap<String, String> variables, Language language) {
+    parserBehavior = new GeneralParserBehavior();
     this.language = language;
     mySymbols = new ArrayList<>();
     addPatterns(this.language.getCurrentLanguage());
@@ -111,7 +105,9 @@ public class CommandParser {
         }
 
         System.out.println("ELEMENT:" + lineValues[i]);
-        if (string.equals("to")) // TODO: have to generalize this to other languages
+//        if (string.equals("to")) // TODO: have to generalize this to other languages
+//          toCommand = true;
+        if (getSymbol(string).equals("MakeUserInstruction")) // TODO: have to generalize this to other languages
           toCommand = true;
       }
 

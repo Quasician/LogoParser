@@ -98,17 +98,21 @@ public class CommandTreeExecutor {
       for (Turtle t : turtles) {
         System.out.println("TURTLE Y , before creating the command " + t.getY());
       }
-      Command commandObject = createCommand(element, parameters);
-      commandObject.setParams(parameters);
-      commandObject.setTurtles(turtles);
-      commandObject.setVariables(variables);
-      commandObject.setMiniParserLanguage(language);
-      commandObject.setDisplayOption(displayOption);
-      commandObject.doCommand(element);//nd.setData(replacementValue);
+      setupCommand(element, parameters);
       System.out.println("RESULT = " + element.getResult());
     } else if (match(element.getName(), variablePattern)) {
       element.setResult(variables.get(element.getName()));
     }
+  }
+
+  private void setupCommand(TreeNode element, List<String> parameters) {
+    Command commandObject = createCommand(element, parameters);
+    commandObject.setParams(parameters);
+    commandObject.setTurtles(turtles);
+    commandObject.setVariables(variables);
+    commandObject.setMiniParserLanguage(language);
+    commandObject.setDisplayOption(displayOption);
+    commandObject.doCommand(element);
   }
 
   private String getPackageName(String commandName) {
