@@ -111,14 +111,16 @@ public class TurtleGrid {
     Image turtleImage = new Image(Main.myResources.getString(TURTLE_IMAGE));
     ImageView turtleImageView = new ImageView(turtleImage);
     turtleImageView.setOpacity(0.7);
+    int idIndex = turtle.getId() - 1;
     turtleImageViews.add(turtle.getId()-1, turtleImageView);
-    turtleImageViews.get(turtle.getId()-1).setX(centerX);
-    turtleImageViews.get(turtle.getId()-1).setY(centerY);
-    turtleImageViews.get(turtle.getId()-1).setFitHeight(TURTLE_IMAGE_HEIGHT);
-    turtleImageViews.get(turtle.getId()-1).setFitWidth(TURTLE_IMAGE_WIDTH);
-    turtleImageViews.get(turtle.getId()-1).rotateProperty();
-    turtleImageViews.get(turtle.getId()-1).requestFocus();
-    turtleImageViews.get(turtle.getId()-1).setOnMouseClicked(e-> {
+    ImageView imageView = turtleImageViews.get(turtle.getId() - 1);
+    imageView.setX(centerX);
+    imageView.setY(centerY);
+    imageView.setFitHeight(TURTLE_IMAGE_HEIGHT);
+    imageView.setFitWidth(TURTLE_IMAGE_WIDTH);
+    imageView.rotateProperty();
+    imageView.requestFocus();
+    imageView.setOnMouseClicked(e-> {
       turtle.setActivated(!turtle.isActivatedProperty().getValue());
       changeOpacity(turtle);
     });
@@ -132,14 +134,9 @@ public class TurtleGrid {
   private void changeOpacity(Turtle turtle) {
     ImageView opaquePics = turtleImageViews.get(turtle.getId()-1);
     if(!turtle.isActivatedProperty().getValue()){
-      opaquePics = turtleImageViews.get(turtle.getId()-1);
       opaquePics.setOpacity(0.2);
-      System.out.println("inactive");
-    }
-    else{
-      opaquePics = turtleImageViews.get(turtle.getId()-1);
+    } else{
       opaquePics.setOpacity(0.7);
-      System.out.println("active");
     }
     turtleImageViews.set(turtle.getId()-1, opaquePics);
   }
