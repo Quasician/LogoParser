@@ -17,7 +17,6 @@ public class Repeat extends VCUCommand {
         String allCommands = getParamList().get(1).replaceFirst("\\[(.*?)\\]", "$1");
         for(double i = 1; i<=Double.parseDouble(getParamList().get(0).trim());i++) {
             System.out.println("COUNT FOR REPEAT" + allCommands);
-            variables.putIfAbsent(":repcount", "");
             variables.put(":repcount", "" + i);
             CommandParser miniparser = new CommandParser(turtles,variables, language);
             System.out.println("Repeated Commands: " + getParamList().get(1));
