@@ -1,6 +1,5 @@
 package slogo.model.Commands.VCUCommands;
 import slogo.model.TreeNode;
-import slogo.model.VariableHashMap;
 
 public class MakeVariable extends VCUCommand {
     public MakeVariable(String name)
@@ -11,7 +10,8 @@ public class MakeVariable extends VCUCommand {
     @Override
     public void doCommand(TreeNode commandNode) {
         System.out.println("Stored the variable " + getParamList().get(0)+ " as " + getParamList().get(1));
-        VariableHashMap.addToMap(getParamList().get(0),getParamList().get(1));
+        //variables.putIfAbsent(getParamList().get(0),"");
+        variables.put(getParamList().get(0),getParamList().get(1));
         commandNode.setResult(getParamList().get(1));
     }
 }

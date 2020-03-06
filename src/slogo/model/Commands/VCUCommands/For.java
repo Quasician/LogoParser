@@ -2,7 +2,6 @@ package slogo.model.Commands.VCUCommands;
 import slogo.model.CommandParser;
 import slogo.model.Commands.Command;
 import slogo.model.TreeNode;
-import slogo.model.VariableHashMap;
 
 public class For extends VCUCommand {
     public For(String name)
@@ -18,8 +17,8 @@ public class For extends VCUCommand {
         String[] commands = getParamList().get(1).trim().split("\\s+");
         String finalValue = "";
         for(double i = Double.parseDouble(loopGuard[2]); i<=Double.parseDouble(loopGuard[3]);i+=Double.parseDouble(loopGuard[4])) {
-            VariableHashMap.addToMap(loopGuard[1], "" + i);
-            CommandParser miniparser = new CommandParser(activatedTurtles, activatedTurtles, language);
+            variables.put(loopGuard[1], "" + i);
+            CommandParser miniparser = new CommandParser(turtles, variables, language);
             System.out.println("Repeated Commands: " + getParamList().get(1));
             finalValue = miniparser.miniParse(getParamList().get(1).trim().replaceFirst("\\[", ""));
         }
@@ -31,5 +30,6 @@ public class For extends VCUCommand {
         {
             commandNode.setResult(finalValue);
         }
+        variables.remove(loopGuard[1]);
     }
 }

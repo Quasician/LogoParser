@@ -7,7 +7,7 @@ public class Turtle {
   private static final double DEGREE_LOWER_BOUND = 0;
   private static final double DEGREE_UPPER_BOUND = 360;
   private ObjectProperty coordinates;
-  private Coordinate pastCoordinates;
+  private ObjectProperty pastCoordinates;
   private DoubleProperty distance = new SimpleDoubleProperty();
   private IntegerProperty id = new SimpleIntegerProperty();
   private DoubleProperty angleFacing = new SimpleDoubleProperty();
@@ -21,7 +21,9 @@ public class Turtle {
     isPenDown.set(true);
     clearScreenCalled.set(false);
     Coordinate coordinate = new Coordinate(0,0);
-    pastCoordinates = new Coordinate(0,0);
+    Coordinate past = new Coordinate(0,0);
+    pastCoordinates = new SimpleObjectProperty(past, "past");
+    pastCoordinates.set(past);
     coordinates = new SimpleObjectProperty(coordinate, "coordinate");
     coordinates.set(coordinate);
     setActivated(true);
@@ -29,6 +31,14 @@ public class Turtle {
 
   public ObjectProperty coordinatesProperty() {
     return coordinates;
+  }
+
+  public ObjectProperty pastCoordinatesProperty() {
+    return pastCoordinates;
+  }
+
+  public IntegerProperty idProperty() {
+    return id;
   }
 
   public DoubleProperty distanceProperty() {
@@ -72,11 +82,11 @@ public class Turtle {
   }
 
   public double getPastX() {
-    return pastCoordinates.getX();
+    return ((Coordinate)pastCoordinates.get()).getX();
   }
 
   public double getPastY() {
-    return pastCoordinates.getY();
+    return ((Coordinate)pastCoordinates.get()).getY();
   }
 
   public int getId() {
@@ -90,8 +100,9 @@ public class Turtle {
 
   public void updateCoordinates() {
     Coordinate coords = ((Coordinate)coordinates.get());
-    pastCoordinates.setX(coords.getX());
-    pastCoordinates.setY(coords.getY());
+    pastCoordinates.set(new Coordinate(coords.getX(), coords.getY()));
+//    pastCoordinates.setX(coords.getX());
+//    pastCoordinates.setY(coords.getY());
   }
 
   protected double getDistance() {

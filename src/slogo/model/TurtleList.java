@@ -1,5 +1,6 @@
 package slogo.model;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,7 +17,8 @@ public class TurtleList {
   public TurtleList(ObservableList<Turtle> modelList, ObservableList<Turtle> viewList) {
     modelTurtleList = modelList;
     viewTurtleList = viewList;
-    addSizeListener();
+    Bindings.bindContentBidirectional(modelTurtleList,viewTurtleList);
+    //addSizeListener();
     for (Turtle turtle : modelTurtleList) {
       addActivatedPropertyListener(turtle);
     }
@@ -29,7 +31,8 @@ public class TurtleList {
         c.next();
         List<Turtle> newTurtles = (List<Turtle>) c.getAddedSubList();
         for (Turtle changedTurtle : newTurtles) {
-          Turtle vturtle = changedTurtle;
+          Turtle vturtle = new Turtle();
+          bindTurtles(changedTurtle, vturtle);
           System.out.println(
               "MODEL: + " + changedTurtle.isActivatedProperty().getValue() + " VIEW: + " + vturtle
                   .isActivatedProperty().getValue());
@@ -95,6 +98,18 @@ public class TurtleList {
       //TODO: fix the error message later
       throw new CommandException("Please enter an integer greater than 0 for turtle index.");
     }
+  }
+
+  private void bindTurtles(Turtle model, Turtle view) {
+    view.idProperty().bindBidirectional(model.idProperty());
+    view.distanceProperty().bindBidirectional(model.distanceProperty());
+    view.angleProperty().bindBidirectional(model.angleProperty());
+    view.isPenDownProperty().bindBidirectional(model.isPenDownProperty());
+    view.isShowingProperty().bindBidirectional(model.isShowingProperty());
+    view.coordinatesProperty().bindBidirectional(model.coordinatesProperty());
+    view.clearScreenProperty().bindBidirectional(model.clearScreenProperty());
+    view.isActivatedProperty().bindBidirectional(model.isActivatedProperty());
+    view.pastCoordinatesProperty().bindBidirectional(model.pastCoordinatesProperty());
   }
 
   public int getTurtles() {

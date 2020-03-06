@@ -37,13 +37,15 @@ public class Main extends Application {
   public static ResourceBundle myResources = ResourceBundle
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
 
+  public VariableStorage variableStorage;
+
   public static void main(String[] args) {
     launch(args);
   }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    turtleList = new TurtleList(FXCollections.observableArrayList(), FXCollections.observableArrayList());
+    TurtleList turtleList = new TurtleList(FXCollections.observableArrayList(), FXCollections.observableArrayList());
     Turtle modelTurtle1 = new Turtle();
     Turtle modelTurtle2 = new Turtle();
     turtleList.addTurtleToModelList(modelTurtle1);
@@ -51,7 +53,9 @@ public class Main extends Application {
 
     Language language = new Language();
     DisplayOption displayOption = new DisplayOption();
-    CommandParser commandParser = new CommandParser(turtleList.getModelTurtleList(), turtleList.getActiveTurtleList(),language);
+    VariableStorage variableStorage = new VariableStorage(myMap);
+    this.variableStorage = variableStorage;
+    CommandParser commandParser = new CommandParser(turtleList.getModelTurtleList(), variableStorage.getModelObservableMap(), language);
     commandParser.setDisplayOption(displayOption);
     StringProperty commandLineText = new SimpleStringProperty();
     StringProperty parseString = new SimpleStringProperty();
@@ -69,7 +73,9 @@ public class Main extends Application {
     turtleList.makeModelTurtleDeactivated(2);
     turtleList.makeModelTurtleActivated(1);
     turtleList.makeModelTurtleActivated(2);
-    commandParser.parseText("tell [ 1 ]");
+    commandParser.parseText("tell [ 3 ]");
+    commandParser.parseText("fd 100");
+    commandParser.parseText("tell [ 2 ]");
     commandParser.parseText("fd 50");
     for (Turtle turtle : turtleList.getModelTurtleList()) {
       System.out.println(

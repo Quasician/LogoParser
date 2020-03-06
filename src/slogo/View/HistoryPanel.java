@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -59,15 +60,17 @@ public class HistoryPanel implements HistoryView{
    * @param parser is the command parser object that is used in the program
    */
 
-  public HistoryPanel(Stage myWindow, ObservableList<Turtle> viewTurtles, CommandParser parser, Configuration configuration) {
+  public HistoryPanel(Stage myWindow, ObservableList<Turtle> viewTurtles, CommandParser parser, Configuration configuration,ObservableMap<String,String> variables) {
     buttonNames = Arrays.asList("Command", "Variable", "Custom", "Properties","Undo", "Save", "Upload");
     this.myWindow = myWindow;
     this.comParser = parser;
     myCommandHistory = new CommandHistory(comParser);
     myOutputView= new OutputView();
     myUserDefined = new UserDefinedCommands();
-    myVariableHistory = new VariableHistory();
+    
+    myVariableHistory = new VariableHistory(variables);
     myConfig = configuration;
+
     historyVBox = new VBox();
     historyVBox.setAlignment(Pos.CENTER);
 
