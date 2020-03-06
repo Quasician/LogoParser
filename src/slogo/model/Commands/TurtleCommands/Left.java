@@ -18,6 +18,5 @@ public class Left extends TurtleCommand {
       rotateTurtle(activeTurtle.getId()-1,-1, degrees);
       commandNode.setResult("" + degrees);
     }
-
   }
 }

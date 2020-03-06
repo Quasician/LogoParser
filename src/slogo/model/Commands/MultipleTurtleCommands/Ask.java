@@ -1,10 +1,8 @@
 package slogo.model.Commands.MultipleTurtleCommands;
 
-import javafx.collections.ObservableList;
 import slogo.model.CommandParser;
 import slogo.model.TreeNode;
 import slogo.model.Turtle;
-import slogo.model.VariableHashMap;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +29,7 @@ public class Ask extends MultipleTurtleCommand{
             currentTurtleStates.add(turtle.isActivatedProperty().getValue());
         }
         for(String activatedTurtle:turtlesToRun) {
-            CommandParser miniparser = new CommandParser(activatedTurtles, language);
+            CommandParser miniparser = new CommandParser(turtles, activatedTurtles, language);
             miniparser.setTurtles(generate1ActiveTurtleList(Integer.parseInt(activatedTurtle)));
             finalValue = miniparser.miniParse(allCommands);
         }

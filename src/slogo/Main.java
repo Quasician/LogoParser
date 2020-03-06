@@ -13,9 +13,10 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import slogo.View.Language;
 import slogo.View.UserException;
-import slogo.View.Visualizer;
 import slogo.model.*;
 
+import slogo.View.AbstractTurtle;
+import slogo.View.Visualizer;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class Main extends Application {
   private static final String TURTLE_PNG = "turtle.png";
   private ObservableMap myMap = FXCollections.observableMap(new HashMap<String, String>());
   private ObservableMap myCustomMap = FXCollections.observableMap(new HashMap<String, String>());
-  private ObservableList varList;
+  private TurtleList turtleList;
   //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
   public static ResourceBundle myResources = ResourceBundle
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
@@ -41,16 +42,15 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    TurtleList.createTurtleLists(FXCollections.observableArrayList(),
-        FXCollections.observableArrayList());
+    turtleList = new TurtleList(FXCollections.observableArrayList(), FXCollections.observableArrayList());
     Turtle modelTurtle1 = new Turtle();
     Turtle modelTurtle2 = new Turtle();
-    TurtleList.addTurtleToModelList(modelTurtle1);
-    TurtleList.addTurtleToModelList(modelTurtle2);
+    turtleList.addTurtleToModelList(modelTurtle1);
+    turtleList.addTurtleToModelList(modelTurtle2);
 
     Language language = new Language();
     DisplayOption displayOption = new DisplayOption();
-    CommandParser commandParser = new CommandParser(TurtleList.getModelTurtleList(), language);
+    CommandParser commandParser = new CommandParser(turtleList.getModelTurtleList(), turtleList.getActiveTurtleList(),language);
     commandParser.setDisplayOption(displayOption);
     StringProperty commandLineText = new SimpleStringProperty();
     StringProperty parseString = new SimpleStringProperty();
@@ -58,18 +58,19 @@ public class Main extends Application {
     BooleanProperty textUpdate = new SimpleBooleanProperty();
 
     VariableHashMap.createMap(myMap);
-    Visualizer vis = new Visualizer(primaryStage, TurtleList.getViewTurtleList(), commandLineText,
+    Visualizer vis = new Visualizer(primaryStage, turtleList.getViewTurtleList(), turtleList.getActiveTurtleList(), commandLineText,
         textUpdate, language, commandParser, myMap);
     vis.setDisplayOption(displayOption);
 
     parseTextOnInput(textUpdate, parseString, commandParser, vis);
 
-    TurtleList.makeModelTurtleActivated(1);
-    TurtleList.makeModelTurtleDeactivated(2);
+    turtleList.makeModelTurtleActivated(1);
+    turtleList.makeModelTurtleDeactivated(2);
     //commandParser.parseText("fd 100");
-    TurtleList.makeModelTurtleActivated(1);
-    TurtleList.makeModelTurtleActivated(2);
-    commandParser.parseText("atan 1");
+    turtleList.makeModelTurtleActivated(1);
+    turtleList.makeModelTurtleActivated(2);
+    commandParser.parseText("tell [ 1 ]");
+    commandParser.parseText("fd 50");
 //    commandParser.parseText("tell [ 4 ] turtles id ");
 //    commandParser.parseText("tell [ 2 ]");
 //    commandParser.parseText("left 90 fd 100 ");
@@ -77,7 +78,7 @@ public class Main extends Application {
     //commandParser.parseText("askwith [ less? xcor 75 ] [ rt 270 ]");
     //commandParser.parseText("fd 100");
     //commandParser.parseText("fd 50");
-    for (Turtle turtle : TurtleList.getModelTurtleList()) {
+    for (Turtle turtle : turtleList.getModelTurtleList()) {
       System.out.println(
           "MODELTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
               + " Angle: " + turtle.getDegree() + " Activated: "+ turtle.isActivatedProperty().getValue());
@@ -126,9 +127,9 @@ public class Main extends Application {
         //vis.makeNewBox(parseText.getValue());
 
         try {
-         commandParser.parseText(parseText.getValue());
+          String finalValue = commandParser.parseText(parseText.getValue());
           vis.makeNewBox(parseText.getValue());
-          vis.makeNewTerminalBox(commandParser.parseText(parseText.getValue()));
+          vis.makeNewTerminalBox(finalValue);
 //                    vis.makeNewVariableBox(myMap);
         } catch (CommandException | UserException e) {
           showError(e.getMessage());

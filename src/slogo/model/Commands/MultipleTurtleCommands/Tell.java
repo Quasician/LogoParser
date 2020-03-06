@@ -1,8 +1,8 @@
 package slogo.model.Commands.MultipleTurtleCommands;
 
+import slogo.model.CommandException;
 import slogo.model.TreeNode;
 import slogo.model.Turtle;
-import slogo.model.TurtleList;
 
 import java.util.Arrays;
 
@@ -18,14 +18,15 @@ public class Tell extends MultipleTurtleCommand{
         System.out.println("LIST: " + Arrays.toString(turtlesToActivate));
         for(Turtle turtle:turtles)
         {
-            TurtleList.makeModelTurtleDeactivated(turtle.getId());
+            turtles.get(turtle.getId()-1).setActivated(false);
         }
         for(String activatedTurtle:turtlesToActivate)
         {
             int currentTurtleNum = Integer.parseInt(activatedTurtle);
+
             if(currentTurtleNum<=turtles.size())
             {
-                TurtleList.makeModelTurtleActivated(currentTurtleNum);
+                turtles.get(currentTurtleNum-1).setActivated(true);
             }
             else
             {
@@ -33,11 +34,12 @@ public class Tell extends MultipleTurtleCommand{
                 for(int i = turtles.size();i<currentTurtleNum;i++)
                 {
                     Turtle newTurtle = new Turtle();
+                    newTurtle.setId(turtles.size());
                     if(i!=currentTurtleNum-1)
                     {
                         newTurtle.setActivated(false);
                     }
-                    TurtleList.addTurtleToModelList(newTurtle);
+                    turtles.add(newTurtle);
                 }
             }
             commandNode.setResult(currentTurtleNum+"");

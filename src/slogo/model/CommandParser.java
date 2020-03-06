@@ -22,9 +22,10 @@ public class CommandParser {
 
   // "types" and the regular expression patterns that recognize those types
   private List<Entry<String, Pattern>> mySymbols;
-  private Turtle turtle;
-  private Map<String, Command> stringToCommand;
+//  private Turtle turtle;
+//  private Map<String, Command> stringToCommand;
   private ObservableList<Turtle> turtles;
+  //private ObservableList<Turtle> activatedTurtles;
   private ObjectProperty<Turtle> turtleProperty = new SimpleObjectProperty<Turtle>(this, "turtle");
   private CommandFactoryInterface commandFactory;
   private CommandTreeExecutor treeExec;
@@ -39,7 +40,7 @@ public class CommandParser {
   /**
    * Create an empty parser
    */
-  public CommandParser(ObservableList<Turtle> turtles, Language language) {
+  public CommandParser(ObservableList<Turtle> turtles, ObservableList<Turtle>activatedTurtles, Language language) {
     this.language = language;
     mySymbols = new ArrayList<>();
     addPatterns(this.language.getCurrentLanguage());

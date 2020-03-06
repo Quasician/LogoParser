@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
@@ -44,14 +45,15 @@ public class CommandLine{
   private static final String FONT_NAME="Avenir";
   private static final String PROMPT="EnterCommandPrompt";
   private BooleanProperty textUpdate;
-  private TurtleGrid turtle;
+  private ObservableList<Turtle> activatedTurtles;
 
 
   /**
    * Constructor for the command line group, which includes the run and clear button, as well as an area
    * where the user can type in commands to control the turtle.
    */
-  public CommandLine(StringProperty commandLineText, BooleanProperty textUpdate, TurtleGrid turt){
+  public CommandLine(StringProperty commandLineText, BooleanProperty textUpdate, TurtleGrid turt, ObservableList<Turtle> activatedTurtles){
+    this.activatedTurtles = activatedTurtles;
     this.textUpdate = textUpdate;
     this.commandLineText = commandLineText;
     setInputArea(turt);
@@ -70,28 +72,28 @@ public class CommandLine{
     inputArea = new TextArea();
     inputArea.setOnKeyPressed(e-> {
               if ((e.getCode() == KeyCode.UP)) {
-                for (Turtle t : TurtleList.getActiveTurtleList()) {
+                for (Turtle t : activatedTurtles) {
                   if(t.isActivatedProperty().getValue()) {
                     t.setCoordinate(t.getX(), t.getY() + MOVEMENT);
                   }
                 }
               }
               if ((e.getCode() == KeyCode.DOWN)) {
-                for (Turtle t : TurtleList.getActiveTurtleList()) {
+                for (Turtle t : activatedTurtles) {
                   if(t.isActivatedProperty().getValue()) {
                     t.setCoordinate(t.getX(), t.getY() - MOVEMENT);
                   }
                 }
               }
               if ((e.getCode() == KeyCode.RIGHT)) {
-                for (Turtle t : TurtleList.getActiveTurtleList()) {
+                for (Turtle t : activatedTurtles) {
                   if(t.isActivatedProperty().getValue()) {
                     t.setDegree(t.getDegree() + DEGREE_CHANGE);
                   }
                 }
               }
               if ((e.getCode() == KeyCode.LEFT)) {
-                for (Turtle t : TurtleList.getActiveTurtleList()) {
+                for (Turtle t : activatedTurtles) {
                   if(t.isActivatedProperty().getValue()) {
                     t.setDegree(t.getDegree() - DEGREE_CHANGE);
                   }
@@ -107,7 +109,7 @@ public class CommandLine{
     runButton.setOnAction(e -> {
       commandLineText.set(inputArea.getText()+Empty);
       textUpdate.set(!textUpdate.getValue());
-      //System.out.println("FROM VIEW: " + commandLineText);
+      System.out.println("FROM VIEW: " + commandLineText);
     });
     clearButton = new ViewButton(myResources.getString(Clear), BUTTON_HEIGHT, BUTTON_WIDTH);
     clearButton.setOnAction(e -> {

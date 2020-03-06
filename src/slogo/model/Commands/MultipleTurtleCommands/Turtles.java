@@ -11,6 +11,6 @@ public class Turtles extends MultipleTurtleCommand{
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        commandNode.setResult(TurtleList.getModelTurtleList().size()+"");
+        commandNode.setResult(turtles.size()+"");
     }
 }
