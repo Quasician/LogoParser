@@ -25,7 +25,7 @@ public class CommandParser {
 //  private Turtle turtle;
 //  private Map<String, Command> stringToCommand;
   private ObservableList<Turtle> turtles;
-  private ObservableList<Turtle> activatedTurtles;
+  //private ObservableList<Turtle> activatedTurtles;
   private ObjectProperty<Turtle> turtleProperty = new SimpleObjectProperty<Turtle>(this, "turtle");
   private CommandFactoryInterface commandFactory;
   private CommandTreeExecutor treeExec;
@@ -47,7 +47,6 @@ public class CommandParser {
     createReverseHashMap(mySymbols);
     commandFactory = new CommandFactory();
     this.turtles = turtles;
-    this.activatedTurtles = activatedTurtles;
     System.out.println(RESOURCES_PACKAGE + language);
   }
 
@@ -161,7 +160,7 @@ public class CommandParser {
   private String makeCommandTree(String commands) {
     treeMaker = new CommandTreeConstructor(translations);
     ArrayList<TreeNode> head = (ArrayList) treeMaker.buildTrees(commands);
-    treeExec = new CommandTreeExecutor(commandFactory, turtles, activatedTurtles, translations, language);
+    treeExec = new CommandTreeExecutor(commandFactory, turtles, translations, language);
     treeExec.setDisplayOption(displayOption);
     return treeExec.executeTrees(head);
   }

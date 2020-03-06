@@ -40,14 +40,22 @@ public abstract class Command {
     return values;
   }
 
-  public void setTurtles(ObservableList<Turtle> turtles, ObservableList<Turtle> activatedTurtles) {
+  public void setTurtles(ObservableList<Turtle> turtles) {
     this.turtles = turtles;
-    this.activatedTurtles = activatedTurtles;
+    this.activatedTurtles = getActivatedTurtles();
   }
 
   private ObservableList<Turtle> getActivatedTurtles()
   {
-    return activatedTurtles;
+    ObservableList<Turtle> activeTurtles = FXCollections.observableArrayList();
+    for(Turtle turtle : turtles)
+    {
+      if(turtle.isActivatedProperty().getValue())
+      {
+        activeTurtles.add(turtle);
+      }
+    }
+    return activeTurtles;
   }
 
   public void setMiniParserLanguage(Language language){ this.language = language;}
