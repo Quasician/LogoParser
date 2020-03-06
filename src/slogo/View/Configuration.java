@@ -15,8 +15,6 @@ import javafx.scene.paint.Paint;
 import slogo.model.DisplayOption;
 import slogo.model.Turtle;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 public class Configuration {
     private ListView variablesHolder;
     private ListView variablesTable;
@@ -37,6 +35,8 @@ public class Configuration {
     private Label size= new Label();
     private Label penDown= new Label();
     private Label penColor= new Label();
+    private Label turtleStatus= new Label();
+    private Label turtleCoord= new Label();
     private Label imageIndex= new Label();
     private HBox rowForSize;
     private HBox CoordForSize;
@@ -54,6 +54,8 @@ public class Configuration {
         penColor= new Label();
         imageIndex= new Label();
         penDown= new Label();
+        turtleStatus= new Label();
+        turtleCoord= new Label();
         addRowListener(turtles);
         sendDisplay(displayOption);
         initialDisplay(displayOption,turtles);
@@ -73,7 +75,7 @@ public class Configuration {
         }
         number.setText("Number of Turtles: "+ String.valueOf(count));
         penDown.setText("Pen Down Property: "+ true);
-        variablesTable.getItems().addAll(number,color,size,penColor,imageIndex,penDown);
+        variablesTable.getItems().addAll(number,color,size,penColor,imageIndex,penDown, turtleStatus, turtleCoord);
 
 
     }
@@ -126,6 +128,14 @@ public class Configuration {
 
     public void changePenDown(Boolean isPenDown) {
         penDown.setText("Pen Down Property: "+ String.valueOf(isPenDown));
+    }
+
+    public void changeActive(Turtle viewTurtle) {
+        turtleStatus.setText("The Turtle with id "+viewTurtle.getId()+ " is "+ viewTurtle.isActivatedProperty().getValue());
+    }
+
+    public void makeCoord(Turtle viewTurtle) {
+        turtleCoord.setText("The Turtle's Coordinates are "+ viewTurtle.getX()+ ","+ viewTurtle.getY());
     }
 }
 

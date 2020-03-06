@@ -187,7 +187,7 @@ public Configuration getConfig(){
         if (isPenDown) {
           makeLine(oldX, oldY, currentX, currentY);
         }
-
+        PropertiesView.makeCoord(viewTurtle);
         drawAllLines();
       }
     });
@@ -198,6 +198,7 @@ public Configuration getConfig(){
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         changeOpacity(viewTurtle);
+       PropertiesView.changeActive(viewTurtle);
       }
     });
   }
