@@ -59,6 +59,7 @@ public class Toolbar {
   private Desktop forHelp;
   private Language language;
   private ObservableList<Turtle> activatedTurtles;
+  private Configuration myConfig;
   private ObservableList<String> colorOptions;
 
   private static final String THIS_PACKAGE = Toolbar.class.getPackageName();
@@ -104,6 +105,8 @@ public class Toolbar {
     uploadSim();
     setTurtleImage = new ComboBox<>();
     forHelp = Desktop.getDesktop();
+    turtleGrid = grid;
+    myConfig= grid.getConfig();
     setUpColorChoosers();
     helpButton = new ViewButton(Main.myResources.getString("Help"), BUTTON_HEIGHT,
         BUTTON_WIDTH, BUTTON_FONT_SIZE);
@@ -285,6 +288,7 @@ public class Toolbar {
     turtleGrid.setBackground(c);
     changeBackgroundColor
         .setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
+    myConfig.changeBackground(c);
   }
 
   private void uploadSim() {
@@ -341,7 +345,9 @@ public class Toolbar {
   }
 
   private void setImage() {
-    turtleGrid.updateTurtlesImage((String) setTurtleImage.getValue(), activatedTurtles);
+    turtleGrid
+        .updateTurtlesImage((String) setTurtleImage.getValue(), activatedTurtles);
+    myConfig.setTurtleIndex(setTurtleImage.getValue());
   }
 
   private void setUpHelpButton() {

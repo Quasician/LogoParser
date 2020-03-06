@@ -65,7 +65,7 @@ public class ViewTurtle {
     try {
       myImageView = new ImageView(new Image(imageString));
     } catch (Exception e) {
-      throw new UserException("Make this a real error message later");
+      throw new UserException(e);
     }
   }
 

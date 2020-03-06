@@ -60,12 +60,15 @@ public class XMLCreator {
       transformer.transform(source, result);
       transformer.transform(source, console);
     } catch (Exception e) {
+      throw new XMLException(e);
       //throw new XMLException(e, "some error"); //TODO
     }
   }
 
   protected void inputCommands() {
-    System.out.println(myCommands.size());
+    if(myCommands.size()==0){
+      throw new XMLException("No Commands to Save");
+    }
     for (int i = 0; i < myCommands.size(); i++) {
       String command = myCommands.get(i);
       System.out.println(command);

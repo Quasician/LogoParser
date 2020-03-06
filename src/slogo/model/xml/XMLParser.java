@@ -40,7 +40,7 @@ public class XMLParser {
       doc = DOCUMENT_BUILDER.parse(configFile);
       doc.getDocumentElement().normalize();
       root = doc.getDocumentElement();
-    } catch (SAXException | IOException e) {
+    } catch (SAXException | IOException | IllegalArgumentException e) {
       throw new XMLException(e);
     }
   }
