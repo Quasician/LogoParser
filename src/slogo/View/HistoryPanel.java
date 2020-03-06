@@ -92,7 +92,7 @@ public class HistoryPanel implements HistoryView{
   public void makeNewBox(String newCommand) {
     myCommandHistory.makeBox(newCommand);
     Button trial = myCommandHistory.returnButton();
-    trial.setOnAction(e -> {comParser.parseText(newCommand); myCommandHistory.makeBox(newCommand);});
+    trial.setOnAction(e -> {comParser.parseText(newCommand); makeNewBox(newCommand);});
   }
 
   /**
