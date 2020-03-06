@@ -44,7 +44,6 @@ import slogo.model.Turtle;
 import slogo.model.TurtleList;
 
 public class Toolbar {
-
   private ColorPicker backgroundColor;
   private ColorPicker penColor;
   private Button helpButton;
@@ -86,7 +85,6 @@ public class Toolbar {
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "Colors2");
   private static ResourceBundle buttonNames = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "buttonNames");
   private static ResourceBundle buttonMethods = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "buttonMethodNames");
-
   private static ResourceBundle possibleLanguages = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "Languages");
   private IntegerProperty penColorIndex = new SimpleIntegerProperty();
   private IntegerProperty bgColorIndex = new SimpleIntegerProperty();
@@ -107,7 +105,6 @@ public class Toolbar {
     setUpColorChoosers();
     helpButton = new ViewButton(Main.myResources.getString(BUTTON_HELP), BUTTON_HEIGHT,
         BUTTON_WIDTH, BUTTON_FONT_SIZE);
-//    setTurtleImage = new ViewButton(Main.myResources.getString(CHANGE_TURTLE), SLOGO_IMAGE_HEIGHT, SLOGO_IMAGE_WIDTH, BUTTON_FONT_SIZE);
     setUpChangeLanguageChooser();
     setUpTurtleChooser();
     setUpHelpButton();
@@ -152,16 +149,11 @@ public class Toolbar {
     changeBackgroundColor = new ComboBox<>();
   }
 
-  private void makeButton() {
-
-  }
-
   private void initializeColors() {
     colorOptions = FXCollections.observableArrayList();
     int index = 0;
     for (String color : myColors2.keySet()) {
       String rgb = myColors2.getString(color);
-      System.out.println(rgb);
       colorOptions.add(rgb + ", " + index);
       index++;
     }
@@ -261,7 +253,6 @@ public class Toolbar {
           protected void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
             setText(item);
-            System.out.println(item);
             if (item == null || empty) {
               // do nothing
             } else {
@@ -293,7 +284,6 @@ public class Toolbar {
   private void changeBackground() {
     String[] color = changeBackgroundColor.getValue().split(", ");
     Color c = getColorRGB(color[0].split(" "));
-    //TODO: check to make sure this is an actual color
     turtleGrid.setBackground(c);
     changeBackgroundColor
         .setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -347,10 +337,6 @@ public class Toolbar {
       }
     });
     setTurtleImage.getSelectionModel().selectFirst();
-    // setTurtleImage.setOnAction(e -> language.setLanguage(changeLanguageBox.getValue()));
-    //when clicked set turtle image to what ever was clicked
-    // setTurtleImage.setOnAction(e -> System.out.println(setTurtleImage.getValue()));
-
     setTurtleImage.setOnAction(e -> {
       setImage();
     });
@@ -450,5 +436,4 @@ public class Toolbar {
     alert.setGraphic(imageView);
     alert.showAndWait();
   }
-
 }
