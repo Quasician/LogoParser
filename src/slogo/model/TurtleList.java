@@ -1,5 +1,6 @@
 package slogo.model;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,7 +17,8 @@ public class TurtleList {
   public TurtleList(ObservableList<Turtle> modelList, ObservableList<Turtle> viewList) {
     modelTurtleList = modelList;
     viewTurtleList = viewList;
-    addSizeListener();
+    Bindings.bindContentBidirectional(modelTurtleList,viewTurtleList);
+    //addSizeListener();
     for (Turtle turtle : modelTurtleList) {
       addActivatedPropertyListener(turtle);
     }
@@ -107,6 +109,7 @@ public class TurtleList {
     view.coordinatesProperty().bindBidirectional(model.coordinatesProperty());
     view.clearScreenProperty().bindBidirectional(model.clearScreenProperty());
     view.isActivatedProperty().bindBidirectional(model.isActivatedProperty());
+    view.pastCoordinatesProperty().bindBidirectional(model.pastCoordinatesProperty());
   }
 
   public int getTurtles() {

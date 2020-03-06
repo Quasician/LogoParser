@@ -29,7 +29,7 @@ public class Ask extends MultipleTurtleCommand{
             currentTurtleStates.add(turtle.isActivatedProperty().getValue());
         }
         for(String activatedTurtle:turtlesToRun) {
-            CommandParser miniparser = new CommandParser(turtles, activatedTurtles, language);
+            CommandParser miniparser = new CommandParser(turtles, variables, language);
             miniparser.setTurtles(generate1ActiveTurtleList(Integer.parseInt(activatedTurtle)));
             finalValue = miniparser.miniParse(allCommands);
         }

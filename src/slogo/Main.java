@@ -31,10 +31,11 @@ public class Main extends Application {
   private static final String TURTLE_PNG = "turtle.png";
   private ObservableMap myMap = FXCollections.observableMap(new HashMap<String, String>());
   private ObservableMap myCustomMap = FXCollections.observableMap(new HashMap<String, String>());
-  private TurtleList turtleList;
   //  public static ResourceBundle SIMULATION_RESOURCE = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + LANGUAGE);
   public static ResourceBundle myResources = ResourceBundle
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
+
+  public VariableStorage variableStorage;
 
   public static void main(String[] args) {
     launch(args);
@@ -42,7 +43,7 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    turtleList = new TurtleList(FXCollections.observableArrayList(), FXCollections.observableArrayList());
+    TurtleList turtleList = new TurtleList(FXCollections.observableArrayList(), FXCollections.observableArrayList());
     Turtle modelTurtle1 = new Turtle();
     Turtle modelTurtle2 = new Turtle();
     turtleList.addTurtleToModelList(modelTurtle1);
@@ -50,15 +51,16 @@ public class Main extends Application {
 
     Language language = new Language();
     DisplayOption displayOption = new DisplayOption();
-    CommandParser commandParser = new CommandParser(turtleList.getModelTurtleList(), turtleList.getActiveTurtleList(),language);
+    VariableStorage variableStorage = new VariableStorage(myMap);
+    this.variableStorage = variableStorage;
+    CommandParser commandParser = new CommandParser(turtleList.getModelTurtleList(), variableStorage.getModelObservableMap(), language);
     commandParser.setDisplayOption(displayOption);
     StringProperty commandLineText = new SimpleStringProperty();
     StringProperty parseString = new SimpleStringProperty();
     parseString.bind(commandLineText);
     BooleanProperty textUpdate = new SimpleBooleanProperty();
 
-    VariableHashMap.createMap(myMap);
-    Visualizer vis = new Visualizer(primaryStage, turtleList.getViewTurtleList(), turtleList.getActiveTurtleList(), commandLineText,
+    Visualizer vis = new Visualizer(primaryStage, turtleList.getViewTurtleList(), turtleList.getActiveTurtleList(), variableStorage.getViewObservableMap(), commandLineText,
         textUpdate, language, commandParser, myMap);
     vis.setDisplayOption(displayOption);
 
@@ -73,6 +75,8 @@ public class Main extends Application {
     commandParser.parseText("fd 100");
     commandParser.parseText("tell [ 2 ]");
     commandParser.parseText("fd 50");
+    commandParser.parseText("make :c 5");
+    printVariables();
 //    commandParser.parseText("tell [ 1 ]");
 //    commandParser.parseText("turtles");
 //
@@ -92,12 +96,10 @@ public class Main extends Application {
 //        varList = FXCollections.observableList(Arrays.asList(myMap.keySet()));
    // parseTextOnInput(textUpdate, parseString, commandParser, vis);
   }
-
+//
   private void printVariables() {
-    Iterator it = VariableHashMap.getAllVariables().iterator();
-    System.out.println("\nTHESE ARE THE CURRENT VARIABLES: ");
-    while (it.hasNext()) {
-      Map.Entry entry = (Map.Entry) it.next(); //current entry in a loop
+    for(Map.Entry entry: variableStorage.getViewObservableMap().entrySet())
+    {
       System.out.println(entry.getKey() + " = " + entry.getValue());
     }
   }
