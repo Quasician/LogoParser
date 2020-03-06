@@ -119,20 +119,8 @@ public class TurtleGrid {
     turtleImageViews.get(turtle.getId()-1).rotateProperty();
     turtleImageViews.get(turtle.getId()-1).requestFocus();
     turtleImageViews.get(turtle.getId()-1).setOnMouseClicked(e-> {
-      System.out.println("I am turtle: " + (turtle.getId()));
       turtle.setActivated(!turtle.isActivatedProperty().getValue());
-      ImageView opaquePics = turtleImageViews.get(turtle.getId()-1);
-      if(!turtle.isActivatedProperty().getValue()){
-        opaquePics = turtleImageViews.get(turtle.getId()-1);
-        opaquePics.setOpacity(0.2);
-        System.out.println("inactive");
-      }
-      else{
-        opaquePics = turtleImageViews.get(turtle.getId()-1);
-        opaquePics.setOpacity(0.7);
-        System.out.println("active");
-      }
-      turtleImageViews.set(turtle.getId()-1, opaquePics);
+      changeOpacity(turtle);
     });
     addListeners(turtle);
     myPane.getChildren().add(turtleImageViews.get(turtle.getId()-1));
@@ -141,14 +129,29 @@ public class TurtleGrid {
     turtleCenterY = turtleImageViews.get(turtle.getId()-1).getFitHeight() / 2;
   }
 
+  private void changeOpacity(Turtle turtle) {
+    ImageView opaquePics = turtleImageViews.get(turtle.getId()-1);
+    if(!turtle.isActivatedProperty().getValue()){
+      opaquePics = turtleImageViews.get(turtle.getId()-1);
+      opaquePics.setOpacity(0.2);
+      System.out.println("inactive");
+    }
+    else{
+      opaquePics = turtleImageViews.get(turtle.getId()-1);
+      opaquePics.setOpacity(0.7);
+      System.out.println("active");
+    }
+    turtleImageViews.set(turtle.getId()-1, opaquePics);
+  }
+
   private void addListeners(Turtle viewTurtle) {
     addCoordinatesListener(viewTurtle);
     addAnglePropertyListener(viewTurtle);
     addPenDownListener(viewTurtle);
     addClearScreenListener(viewTurtle);
     addShowingListener(viewTurtle);
+    addActiveListener(viewTurtle);
   }
-
 
   private double keepInBounds(double coordinate, int bound) {
     if (coordinate > bound) {
@@ -182,14 +185,6 @@ public class TurtleGrid {
         double oldY = pastY + turtleCenterY;
         double currentX = newX + turtleCenterX;
         double currentY = newY + turtleCenterY;
-//
-//        thisView.setX(viewTurtle.getX() + centerX);
-//        thisView.setY(-(viewTurtle.getY()) + centerY);
-//
-//        double oldX = viewTurtle.getPastX() + centerX + turtleCenterX;
-//        double oldY = - viewTurtle.getPastY() + centerY + turtleCenterY;
-//        double currentX = viewTurtle.getX() + centerX + turtleCenterX;
-//        double currentY = -viewTurtle.getY() + centerY + turtleCenterY;
 
         if (isPenDown) {
           makeLine(oldX, oldY, currentX, currentY);
@@ -200,11 +195,20 @@ public class TurtleGrid {
     });
   }
 
+  private void addActiveListener(Turtle viewTurtle) {
+    viewTurtle.isActivatedProperty().addListener(new ChangeListener() {
+      @Override
+      public void changed(ObservableValue o, Object oldVal, Object newVal) {
+        changeOpacity(viewTurtle);
+      }
+    });
+  }
+
+
   private void addAnglePropertyListener(Turtle viewTurtle) {
     viewTurtle.angleProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        //System.out.println("Angle changed to: " + viewTurtle.getDegree());
         turtleImageViews.get(viewTurtle.getId()-1).setRotate(viewTurtle.getDegree());
       }
     });
