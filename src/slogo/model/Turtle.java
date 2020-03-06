@@ -31,6 +31,10 @@ public class Turtle {
     return coordinates;
   }
 
+  public IntegerProperty idProperty() {
+    return id;
+  }
+
   public DoubleProperty distanceProperty() {
     return distance;
   }

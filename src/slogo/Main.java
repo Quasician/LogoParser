@@ -111,15 +111,6 @@ public class Main extends Application {
     }
   }
 
-  private void bindTurtles(Turtle model, Turtle view) {
-    view.distanceProperty().bind(model.distanceProperty());
-    view.angleProperty().bind(model.angleProperty());
-    view.isPenDownProperty().bind(model.isPenDownProperty());
-    view.isShowingProperty().bind(model.isShowingProperty());
-    view.coordinatesProperty().bind(model.coordinatesProperty());
-    view.clearScreenProperty().bind(model.clearScreenProperty());
-  }
-
 
   //Sanna changed this method to do error checking
   private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText,
