@@ -37,10 +37,6 @@ public abstract class TurtleCommand extends Command {
     return angle >= FACING_RIGHT && angle < FACING_DOWN;
   }
 
-  protected boolean facingBottomLeft(double angle) {
-    return angle >= FACING_DOWN && angle < FACING_LEFT;
-  }
-
   protected double getAdjustedAngle(double angle) {
     if (facingTopRight(angle)) {
       return angle;
@@ -79,10 +75,6 @@ public abstract class TurtleCommand extends Command {
 
     double newX = turtles.get(id).getX() + xMultiplier * (distance * Math.sin(angleToRadians));
     double newY = turtles.get(id).getY() + yMultiplier * (distance * Math.sin(rightAngle - angleToRadians));
-    
-    System.out.println("OLD Y: " + turtles.get(id).getY());
-
-    System.out.println("NEW COORDS: " + newX + " " + newY);
 
     turtles.get(id).setCoordinate(newX, newY);
   }
