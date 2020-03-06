@@ -76,6 +76,7 @@ public class Main extends Application {
     commandParser.parseText("tell [ 2 ]");
     commandParser.parseText("fd 50");
     commandParser.parseText("make :c 5");
+    commandParser.parseText("repeat :c [ rt :repcount ]");
     printVariables();
 //    commandParser.parseText("tell [ 1 ]");
 //    commandParser.parseText("turtles");
