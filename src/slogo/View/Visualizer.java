@@ -59,8 +59,6 @@ public class Visualizer {
   /**
    * Constructor for the visualizer class
    *
-   * @param window '
-   * @param myMap
    */
   public Visualizer(Stage window, ObservableList viewTurtles, ObservableList activatedTurtles,
       StringProperty commandLineText,

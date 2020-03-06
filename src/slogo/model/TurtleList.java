@@ -44,10 +44,10 @@ public class TurtleList {
       @Override
       public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
           Boolean newValue) {
-        viewTurtleList.get(turtle.getId()).setActivated(newValue);
+        viewTurtleList.get(turtle.getId()-1).setActivated(newValue);
         System.out.println(
             "New value of turtle " + turtle.getId() + " : + " + turtle.isActivatedProperty()
-                .getValue() + " VIEW: + " + viewTurtleList.get(turtle.getId()).isActivatedProperty()
+                .getValue() + " VIEW: + " + viewTurtleList.get(turtle.getId()-1).isActivatedProperty()
                 .getValue());
       }
     });

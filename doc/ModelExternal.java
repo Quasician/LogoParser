@@ -7,7 +7,7 @@ import java.util.*;
 public interface ModelExternal {
 
     /**
-     * @param List commands
+     * @param commands
      */
     public void parseText(List<String> commands);
 

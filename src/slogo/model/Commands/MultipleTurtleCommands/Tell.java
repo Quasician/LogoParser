@@ -1,5 +1,6 @@
 package slogo.model.Commands.MultipleTurtleCommands;
 
+import slogo.model.CommandException;
 import slogo.model.TreeNode;
 import slogo.model.Turtle;
 
@@ -22,6 +23,7 @@ public class Tell extends MultipleTurtleCommand{
         for(String activatedTurtle:turtlesToActivate)
         {
             int currentTurtleNum = Integer.parseInt(activatedTurtle);
+
             if(currentTurtleNum<=turtles.size())
             {
                 turtles.get(currentTurtleNum-1).setActivated(true);

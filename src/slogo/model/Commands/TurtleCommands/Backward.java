@@ -24,7 +24,7 @@ public class Backward extends TurtleCommand {
     distance = Double.parseDouble(getParamList().get(0));
     for(Turtle activeTurtle: activatedTurtles) {
       commandNode.setResult(distance + "");
-      moveTurtle(activeTurtle.getId(),backward, distance);
+      moveTurtle(activeTurtle.getId()-1,backward, distance);
     }
   }
 }

@@ -7,12 +7,12 @@ import java.util.*;
 public interface ModelInternal {
 
     /**
-     * @param int x
+     * @param  x
      */
     public void setTurtleX(int x);
 
     /**
-     * @param int y
+     * @param  y
      */
     public void setTurtleY(int y);
 
@@ -32,7 +32,7 @@ public interface ModelInternal {
     public void getDegree();
 
     /**
-     * @param int degree
+     * @param degree
      */
     public void setDegree(int degree);
 
@@ -57,7 +57,7 @@ public interface ModelInternal {
     public void isPenDown();
 
     /**
-     * @param int distance
+     * @param distance
      */
     public void setDistance(int distance);
 
