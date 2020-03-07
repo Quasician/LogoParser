@@ -11,23 +11,13 @@ import javafx.stage.Stage;
 import slogo.View.*;
 import slogo.model.*;
 
-/**
- * Feel free to completely change this code or delete it entirely.
- */
 public class Main extends Application {
-
   private static final String RESOURCES = "resources";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
-  private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
-  private static final String TURTLE_PNG = "turtle.png";
   private static final String ERROR_TITLE ="Alert test - error";
-  private static final String DEBUGGING_T ="fd 100";
   private ObservableMap myMap = FXCollections.observableMap(new HashMap<String, String>());
-  private ObservableMap myCustomMap = FXCollections.observableMap(new HashMap<String, String>());
-  private TurtleList turtleList;
   public static final ResourceBundle MY_RESOURCES = ResourceBundle
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
-
   public VariableStorage variableStorage;
 
   public static void main(String[] args) {
@@ -66,7 +56,6 @@ public class Main extends Application {
       CommandParser commandParser, Visualizer vis, BooleanProperty checkB) {
     textUpdate.addListener(e->{
         try {
-          System.out.println(parseText.getValue());
           String finalValue = commandParser.parseText(parseText.getValue());
           if(checkB.getValue()) {
             vis.makeNewBox(parseText.getValue());

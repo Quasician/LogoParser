@@ -3,10 +3,8 @@ package slogo.model;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import slogo.View.Language;
-import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactory;
 import slogo.model.Commands.CommandFactoryInterface;
-
 import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;

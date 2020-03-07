@@ -82,7 +82,6 @@ public class CommandTreeConstructor {
         next = next.getChildren().get(0);
       }
     }
-    TreeNode node = head.getChildren().get(0);
     return head.getChildren().get(0);
   }
 

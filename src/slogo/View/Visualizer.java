@@ -31,7 +31,6 @@ public class Visualizer {
   private ObservableMap<String,String> variables;
   private javafx.scene.image.Image img;
   private static final String STYLE = "Style";
-  private DisplayOption displayOption;
   private Toolbar tool;
   private TurtleGrid grid;
   private PropertiesHolder config;
@@ -40,7 +39,6 @@ public class Visualizer {
   private static final ResourceBundle MY_RESOURCES = Main.MY_RESOURCES;
   private static final String IMAGE_STRING= MY_RESOURCES.getString("SlogoLogo");
   private ImageView slogoImage;
-  private BooleanProperty checkMin;
   private ObservableList<Triplet<String, String, String>> customCommandList;
 
   /**
@@ -65,21 +63,10 @@ public class Visualizer {
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
     display.getUserStage().setScene(scene);
     display.getUserStage().show();
-    addSizeListener();
   }
 
   public void setDisplayOption(DisplayOption d) {
     tool.bindWithDisplayOption(d);
-  }
-
-  private void addSizeListener() {
-    viewTurtles.addListener(new ListChangeListener<Turtle>() {
-      @Override
-      public void onChanged(Change<? extends Turtle> c) {
-        c.next();
-        List<Turtle> newTurtles = (List<Turtle>) c.getAddedSubList();
-      }
-    });
   }
 
   private void setUpBorderPane(TurtleGrid grid, CommandLine commandLine, Toolbar tool) {
@@ -97,6 +84,7 @@ public class Visualizer {
   public void makeNewBox(String value) {
     myHistoryPanel.makeNewBox(value);
   }
+
   public void makeNewTerminalBox(String parseText) {
     myHistoryPanel.makeNewTerminalBox(parseText);
   }

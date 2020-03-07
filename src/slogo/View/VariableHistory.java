@@ -10,39 +10,39 @@ import javafx.scene.layout.VBox;
 import java.util.Map;
 
 
-public class VariableHistory implements HistoryView{
-    private ListView variablesHolder;
-    private static final double VAR_BOX_HEIGHT = 310.0;
-    private static final double VAR_BOX_WIDTH = 300.0;
-    private VBox variableHist;
-    private ObservableMap<String, String> variables;
+public class VariableHistory implements HistoryView {
 
-    public VariableHistory(ObservableMap<String,String> variables){
-        variableHist = new VBox();
-        variableHist.setPrefWidth(VAR_BOX_WIDTH);
-        variableHist.setPrefHeight(VAR_BOX_HEIGHT);
-        this.variables = variables;
-        variablesHolder = new ListView();
-        variablesHolder.setPrefHeight(VAR_BOX_HEIGHT);
-        variablesHolder.setPrefWidth(VAR_BOX_WIDTH);
+  private ListView variablesHolder;
+  private static final double VAR_BOX_HEIGHT = 310.0;
+  private static final double VAR_BOX_WIDTH = 300.0;
+  private VBox variableHist;
+  private ObservableMap<String, String> variables;
 
-        variables.addListener(new MapChangeListener() {
-            @Override
-            public void onChanged(MapChangeListener.Change change) {
-                variablesHolder.getItems().clear();
-                for(Map.Entry entry : variables.entrySet())
-                {
-                    VariableHistoryRow row = new VariableHistoryRow(entry, variables);
-                    variablesHolder.getItems().add(row);
-                }
-            }
-        });
+  public VariableHistory(ObservableMap<String, String> variables) {
+    variableHist = new VBox();
+    variableHist.setPrefWidth(VAR_BOX_WIDTH);
+    variableHist.setPrefHeight(VAR_BOX_HEIGHT);
+    this.variables = variables;
+    variablesHolder = new ListView();
+    variablesHolder.setPrefHeight(VAR_BOX_HEIGHT);
+    variablesHolder.setPrefWidth(VAR_BOX_WIDTH);
 
-        variableHist.getChildren().addAll(variablesHolder);
-    }
+    variables.addListener(new MapChangeListener() {
+      @Override
+      public void onChanged(MapChangeListener.Change change) {
+        variablesHolder.getItems().clear();
+        for (Map.Entry entry : variables.entrySet()) {
+          VariableHistoryRow row = new VariableHistoryRow(entry, variables);
+          variablesHolder.getItems().add(row);
+        }
+      }
+    });
 
-    public Node returnScene(){
-      return variableHist;
-    }
+    variableHist.getChildren().addAll(variablesHolder);
+  }
+
+  public Node returnScene() {
+    return variableHist;
+  }
 
 }
