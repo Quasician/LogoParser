@@ -48,20 +48,23 @@ public class Toolbar {
   private ResourceBundle myResources = Main.myResources;
   private ComboBox setTurtleImage;
   private ComboBox<String> changeLanguageBox, changePenColor, changeBackgroundColor;
-
   private static final String CHANGE_BACKGROUND = "ChangeBackgroundColor";
   private static final String CHANGE_PEN = "ChangePenColor";
   private static final String BUTTON_HELP = "Help";
-
   private HBox toolBar, backgroundColorChooser, penColorChoosers;
   private Button backgroundColorPicker, penColorPicker, makeNew, helpButton;
   private TurtleGrid turtleGrid;
   private Desktop forHelp;
   private Language language;
+  private static final int imageSize=30;
   private ObservableList<Turtle> activatedTurtles;
   private Configuration myConfig;
+  private static final String dinosaurKey= "Dinosaur";
+  private static final int zeroIndex= 0;
   private ObservableList<String> colorOptions;
-
+  private static final String backgroundColorString="-fx-background-color:";
+  private static final String fontSizeString=";-fx-font-size:";
+  private static final String pixelsString=" px;";
   private static final String THIS_PACKAGE = Toolbar.class.getPackageName();
   private static final String MY_RESOURCE_FOLDER = THIS_PACKAGE + ".visualProperty.";
   private static ResourceBundle turtleImages = ResourceBundle.getBundle(MY_RESOURCE_FOLDER + "CurrentTurtleImages");
@@ -82,7 +85,11 @@ public class Toolbar {
   private static final String BUTTON_FONT = setupProperties.getString("ButtonFont");
   private static final int ALERT_WIDTH = Integer.parseInt(setupProperties.getString("AlertWidth"));
   private static final int ALERT_HEIGHT = Integer.parseInt(setupProperties.getString("AlertHeight"));
-
+  private static final String commaString=",";
+  private static final String space=" ";
+  private static final String makeNewString= "New";
+  private static final String makeHelpString="Help";
+  private static final Boolean ratioBool=true;
   private IntegerProperty penColorIndex = new SimpleIntegerProperty();
   private IntegerProperty bgColorIndex = new SimpleIntegerProperty();
   private DoubleProperty penWidth = new SimpleDoubleProperty();
@@ -102,13 +109,13 @@ public class Toolbar {
   }
 
   private void setupButtons() {
-    makeNew = new ViewButton(Main.myResources.getString("New"), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
+    makeNew = new ViewButton(Main.myResources.getString(makeNewString), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
     uploadSim();
     setTurtleImage = new ComboBox<>();
     forHelp = Desktop.getDesktop();
 
     setUpColorChoosers();
-    helpButton = new ViewButton(Main.myResources.getString("Help"), BUTTON_HEIGHT,
+    helpButton = new ViewButton(Main.myResources.getString(makeHelpString), BUTTON_HEIGHT,
         BUTTON_WIDTH, BUTTON_FONT_SIZE);
     setUpChangeLanguageChooser();
     setUpTurtleChooser();
@@ -153,10 +160,10 @@ public class Toolbar {
 
   private void initializeColors() {
     colorOptions = FXCollections.observableArrayList();
-    int index = 0;
+    int index = zeroIndex;
     for (String color : myColors.keySet()) {
       String rgb = myColors.getString(color);
-      colorOptions.add(rgb + ", " + index);
+      colorOptions.add(rgb + commaString + index);
       index++;
     }
   }
@@ -179,8 +186,8 @@ public class Toolbar {
 
   private Color getNewColor(IntegerProperty property) {
     int index = property.get();
-    String[] color = colorOptions.get(index).split(", ");
-    String[] rgb = color[0].split(" ");
+    String[] color = colorOptions.get(index).split(commaString);
+    String[] rgb = color[0].split(space);
     return getColorRGB(rgb);
   }
 
@@ -222,7 +229,7 @@ public class Toolbar {
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         int index = imageIndex.get();
         String image = (String)setTurtleImage.getItems().get(index);
-        String imageName = image.split(", ")[0];
+        String imageName = image.split(commaString)[zeroIndex];
         turtleGrid.updateTurtlesImage(imageName, activatedTurtles);
       }
     });
@@ -239,8 +246,8 @@ public class Toolbar {
   }
 
   private void changePenColor() {
-    String[] color = changePenColor.getValue().split(", ");
-    Color c = getColorRGB(color[0].split(" "));
+    String[] color = changePenColor.getValue().split(commaString);
+    Color c = getColorRGB(color[zeroIndex].split(space));
     turtleGrid.setPenColor(c);
     changePenColor
         .setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -258,8 +265,8 @@ public class Toolbar {
             if (item == null || empty) {
               // do nothing
             } else {
-              String[] color = item.split(", ");
-              String[] rgb = color[0].split(" ");
+              String[] color = item.split(commaString);
+              String[] rgb = color[zeroIndex].split(space);
               Color c = getColorRGB(rgb);
               Background background = new Background(
                   new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY));
@@ -283,8 +290,8 @@ public class Toolbar {
   }
 
   private void changeBackground() {
-    String[] color = changeBackgroundColor.getValue().split(", ");
-    Color c = getColorRGB(color[0].split(" "));
+    String[] color = changeBackgroundColor.getValue().split(commaString);
+    Color c = getColorRGB(color[zeroIndex].split(space));
     turtleGrid.setBackground(c);
     changeBackgroundColor
         .setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -312,7 +319,7 @@ public class Toolbar {
 
     int index = 0;
     for (String turtle : TURTLES) {
-      setTurtleImage.getItems().add(turtle + ", " + index);
+      setTurtleImage.getItems().add(turtle + commaString + index);
       index++;
     }
     setTurtleImage.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
@@ -326,11 +333,11 @@ public class Toolbar {
             if (item == null || empty) {
               setGraphic(null);
             } else {
-              String turtleName = item.split(", ")[0];
+              String turtleName = item.split(commaString)[zeroIndex];
               Image icon = new Image(myResources.getString(turtleName));
               ImageView iconImageView = new ImageView(icon);
-              iconImageView.setFitHeight(30);
-              iconImageView.setPreserveRatio(true);
+              iconImageView.setFitHeight(imageSize);
+              iconImageView.setPreserveRatio(ratioBool);
               setGraphic(iconImageView);
             }
           }
@@ -424,14 +431,14 @@ public class Toolbar {
     Button button = new Button(text);
     button.setTextFill(fontColor);
     button.setFont(Font.font(BUTTON_FONT));
-    button.setStyle("-fx-background-color:" + styleColor + ";-fx-font-size:" + fontSize + " px;");
+    button.setStyle(backgroundColorString + styleColor + fontSizeString + fontSize + pixelsString);
     button.setPrefWidth(BUTTON_WIDTH);
     return button;
   }
 
   private void showMessage(Alert.AlertType type, String message) {
     Alert alert = new Alert(type);
-    javafx.scene.image.Image img = new javafx.scene.image.Image(myResources.getString("Dinosaur"));
+    javafx.scene.image.Image img = new javafx.scene.image.Image(myResources.getString(dinosaurKey));
     ImageView imageView = new ImageView(img);
     imageView.setFitWidth(ALERT_WIDTH);
     imageView.setFitHeight(ALERT_HEIGHT);

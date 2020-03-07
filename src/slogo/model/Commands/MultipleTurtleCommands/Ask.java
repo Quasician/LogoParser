@@ -3,10 +3,6 @@ package slogo.model.Commands.MultipleTurtleCommands;
 import java.util.List;
 import slogo.model.CommandParser;
 import slogo.model.TreeNode;
-import slogo.model.Turtle;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Ask extends MultipleTurtleCommand {
 
@@ -25,7 +21,7 @@ public class Ask extends MultipleTurtleCommand {
 
     List<Boolean> currentTurtleStates = getCurrentTurtleStates();
     for (String activatedTurtle : turtlesToRun) {
-      CommandParser miniparser = new CommandParser(activatedTurtles, variables, language);
+      CommandParser miniparser = new CommandParser(activatedTurtles, variables, language, customCommandStorage);
       miniparser.setTurtles(generate1ActiveTurtleList(Integer.parseInt(activatedTurtle)));
       finalValue = miniparser.miniParse(allCommands);
     }

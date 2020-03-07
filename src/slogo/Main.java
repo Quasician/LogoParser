@@ -31,10 +31,14 @@ public class Main extends Application {
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
   private static final String TURTLE_PNG = "turtle.png";
+  private static final String errorTitle="Alert test - error";
+  private static final String debuggingT="fd 100";
+  private static final int activated=1;
+  private static final int deactivated =2;
   private ObservableMap myMap = FXCollections.observableMap(new HashMap<String, String>());
   private ObservableMap myCustomMap = FXCollections.observableMap(new HashMap<String, String>());
   private TurtleList turtleList;
-  public static ResourceBundle myResources = ResourceBundle
+  public static final ResourceBundle myResources = ResourceBundle
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
 
   public VariableStorage variableStorage;
@@ -54,8 +58,9 @@ public class Main extends Application {
     Language language = new Language();
     DisplayOption displayOption = new DisplayOption();
     VariableStorage variableStorage = new VariableStorage(myMap);
+    CustomCommandStorage customCommandStorage = new CustomCommandStorage();
     this.variableStorage = variableStorage;
-    CommandParser commandParser = new CommandParser(turtleList.getModelTurtleList(), variableStorage.getModelObservableMap(), language);
+    CommandParser commandParser = new CommandParser(turtleList.getModelTurtleList(), variableStorage.getModelObservableMap(), language, customCommandStorage);
     commandParser.setDisplayOption(displayOption);
     StringProperty commandLineText = new SimpleStringProperty();
     StringProperty parseString = new SimpleStringProperty();
@@ -63,7 +68,7 @@ public class Main extends Application {
     BooleanProperty textUpdate = new SimpleBooleanProperty();
 
     Visualizer vis = new Visualizer(primaryStage, turtleList.getViewTurtleList(), turtleList.getActiveTurtleList(), variableStorage.getViewObservableMap(), commandLineText,
-        textUpdate, language, commandParser, myMap, displayOption);
+        textUpdate, language, commandParser, myMap, displayOption, customCommandStorage.getCommandTriplets());
     vis.setDisplayOption(displayOption);
 
     parseTextOnInput(textUpdate, parseString, commandParser, vis);
@@ -74,14 +79,22 @@ public class Main extends Application {
     turtleList.makeModelTurtleActivated(2);
     commandParser.parseText("tell [ 3 ]");
     commandParser.parseText("fd 100");
-    commandParser.parseText("tell [ 2 ]");
-    commandParser.parseText("fd 50");
+    //commandParser.parseText("repeat 100 [ ask [ 2 ] [ fd 50 rt 50 ] ]");
+    //commandParser.parseText("fd 50");
+//    commandParser.parseText("to c [ :f ] [ rt :f fd :f ]");
+//    commandParser.parseText("c 70 ");
     for (Turtle turtle : turtleList.getModelTurtleList()) {
       System.out.println(
           "MODELTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
               + " Angle: " + turtle.getDegree() + " Activated: "+ turtle.isActivatedProperty().getValue());
     }
+    turtleList.makeModelTurtleActivated(activated);
+    turtleList.makeModelTurtleDeactivated(deactivated);
+    turtleList.makeModelTurtleActivated(activated);
+    turtleList.makeModelTurtleActivated(deactivated);
+    commandParser.parseText(debuggingT);
   }
+
   private void bindTurtles(Turtle model, Turtle view) {
     view.distanceProperty().bind(model.distanceProperty());
     view.angleProperty().bind(model.angleProperty());
@@ -111,7 +124,7 @@ public class Main extends Application {
 
   private void showError(String message) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Alert test - error");
+    alert.setTitle(errorTitle);
     alert.setContentText(message);
     alert.showAndWait();
   }

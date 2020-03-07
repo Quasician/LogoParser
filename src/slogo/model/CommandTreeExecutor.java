@@ -9,6 +9,8 @@ import javafx.collections.ObservableMap;
 import slogo.View.Language;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactoryInterface;
+import slogo.model.Commands.VCUCommands.CustomCommand;
+
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -28,6 +30,7 @@ public class CommandTreeExecutor {
   private HashMap<Pattern, String> translations;
   private String finalValue = "";
   private DisplayOption displayOption;
+  private CustomCommandStorage customCommandStorage;
 
   private static final String RESOURCES_PACKAGE =
       "resources.";
@@ -38,12 +41,13 @@ public class CommandTreeExecutor {
   private static final String ERRORS = RESOURCES_PACKAGE + "ErrorMessages";
   private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
 
-  public CommandTreeExecutor(CommandFactoryInterface factory, ObservableList<Turtle> turtles, ObservableMap<String,String> variables, HashMap<Pattern, String> translations, Language language) {
+  public CommandTreeExecutor(CommandFactoryInterface factory, ObservableList<Turtle> turtles, ObservableMap<String,String> variables, HashMap<Pattern, String> translations, Language language, CustomCommandStorage customCommandStorage) {
     this.language = language;
     this.turtles = turtles;
     commandFactory = factory;
     this.translations = translations;
     this.variables = variables;
+    this.customCommandStorage = customCommandStorage;
   }
 
   public String executeTrees(List<TreeNode> elementNodes) {
@@ -68,7 +72,7 @@ public class CommandTreeExecutor {
 
   private Command createCommand(TreeNode element, List<String> parameters) {
     String commandClass = "";
-    if (CustomCommandMap.isACustomCommand(element.getName())) {
+    if (customCommandStorage.isACustomCommand(element.getName())) {
       commandClass = VCU_COMMAND;
     } else { //not a custom command
       commandClass = getCommandClass(element, parameters);
@@ -114,6 +118,7 @@ public class CommandTreeExecutor {
     commandObject.setVariables(variables);
     commandObject.setMiniParserLanguage(language);
     commandObject.setDisplayOption(displayOption);
+    commandObject.setCustomCommandStorage(customCommandStorage);
     commandObject.doCommand(element);
   }
 

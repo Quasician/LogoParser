@@ -54,6 +54,7 @@ public class HistoryPanel implements HistoryView{
   private ResourceBundle myProperties = ResourceBundle.getBundle(myResourceFolder + "HistoryButtonProperties");
   private List<String> buttonNames;
   private HBox buttonsForPanes;
+  private  ObservableList<Triplet<String, String, String>> customCommandList;
 
   private final int BUTTON_WIDTH = Integer.parseInt(myProperties.getString("ButtonWidth"));
   private final int BUTTON_HEIGHT = Integer.parseInt(myProperties.getString("ButtonHeight"));
@@ -69,13 +70,15 @@ public class HistoryPanel implements HistoryView{
    * @param parser is the command parser object that is used in the program
    */
 
-  public HistoryPanel(Stage myWindow, ObservableList<Turtle> viewTurtles, CommandParser parser, Configuration configuration,ObservableMap<String,String> variables) {
+  public HistoryPanel(Stage myWindow, ObservableList<Turtle> viewTurtles, CommandParser parser, Configuration configuration,ObservableMap<String,String> variables, ObservableList<Triplet<String, String, String>> customCommandList) {
     buttonNames = Arrays.asList("Command", "Variable", "Custom", "Properties","Undo", "Save", "Upload");
     this.myWindow = myWindow;
     this.comParser = parser;
+    this.customCommandList = customCommandList;
+
     myCommandHistory = new CommandHistory(comParser);
     myOutputView= new OutputView();
-    myUserDefined = new UserDefinedCommands();
+    myUserDefined = new UserDefinedCommands(customCommandList);
     
     myVariableHistory = new VariableHistory(variables);
     myConfig = configuration;

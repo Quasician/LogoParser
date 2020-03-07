@@ -17,6 +17,8 @@ public class ViewTurtle {
   private static final Image DEFAULT_IMAGE =  new Image(Main.myResources.getString(DEFAULT_TURTLE));
   private static final double HEIGHT = 40;
   private static final double WIDTH = 40;
+  private static final int coordInitial = 0;
+  private static final int screenCenter = 2;
   private double height;
   private double width;
 
@@ -30,8 +32,8 @@ public class ViewTurtle {
 
   public ViewTurtle(double height, double width) {
     myImageView = new ImageView(DEFAULT_IMAGE);
-    coordinateProperty = new SimpleObjectProperty(new Coordinate(0,0));
-    angleProperty = new SimpleDoubleProperty(0);
+    coordinateProperty = new SimpleObjectProperty(new Coordinate(coordInitial,coordInitial));
+    angleProperty = new SimpleDoubleProperty(coordInitial);
     this.height = height;
     this.width = width;
   }
@@ -70,11 +72,11 @@ public class ViewTurtle {
   }
 
   protected double getCenterX() {
-    return width / 2;
+    return width / screenCenter;
   }
 
   protected double getCenterY() {
-    return height / 2;
+    return height / screenCenter;
   }
 
 }

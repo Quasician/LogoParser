@@ -56,15 +56,17 @@ public class AskWith extends MultipleTurtleCommand {
 
     List<Boolean> currentTurtleStates = getCurrentTurtleStates();
 
-    CommandParser miniparser = new CommandParser(activatedTurtles, variables, language);
-    for (Turtle turtle : turtles) {
-      miniparser.setTurtles(generate1ActiveTurtleList(turtle.getId() - 1));
-      conditionResult = miniparser.miniParse(condition);
-      if (conditionResult.equals("1")) {
-        finalValue = miniparser.miniParse(allCommands);
-      }
+    CommandParser miniparser = new CommandParser(activatedTurtles,variables, language, customCommandStorage);
+    for(Turtle turtle:turtles) {
+        miniparser.setTurtles(generate1ActiveTurtleList(turtle.getId()-1));
+        conditionResult = miniparser.miniParse(condition);
+        System.out.println("CONDITION RESULT: "+ conditionResult);
+        if(conditionResult.equals("1")) {
+            finalValue = miniparser.miniParse(allCommands);
+        }
     }
 
     setResult(currentTurtleStates, commandNode, commands, finalValue);
+    }
   }
-}
+

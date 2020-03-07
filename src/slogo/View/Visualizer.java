@@ -55,6 +55,7 @@ public class Visualizer {
   public static final double SLOGO_IMAGE_WIDTH = 200.0;
   private ResourceBundle myResources = Main.myResources;
   private ImageView slogoImage;
+  private ObservableList<Triplet<String, String, String>> customCommandList;
 
 
   /**
@@ -64,17 +65,17 @@ public class Visualizer {
   public Visualizer(Stage window, ObservableList viewTurtles, ObservableList activatedTurtles, ObservableMap<String,String> variables,
       StringProperty commandLineText,
       BooleanProperty textUpdate, Language language, CommandParser parser,
-      ObservableMap myMap, DisplayOption d) {
+      ObservableMap myMap, DisplayOption d, ObservableList<Triplet<String, String, String>> customCommandList) {
 //    myWindow = window;
     this.viewTurtles = viewTurtles;
-
-this.variables = variables;
+    this.customCommandList = customCommandList;
+    this.variables = variables;
     config= new Configuration(viewTurtles, d);
-    myHistoryPanel = new HistoryPanel(window, viewTurtles, parser, config,variables);
+    myHistoryPanel = new HistoryPanel(window, viewTurtles, parser, config,variables, customCommandList);
     grid = new TurtleGrid(viewTurtles, config,activatedTurtles);
 
     tool = new Toolbar(grid, language, activatedTurtles);
-    CommandLine cmdline = new CommandLine(commandLineText, textUpdate, grid, activatedTurtles);
+    CommandLine cmdline = new CommandLine(commandLineText, textUpdate, activatedTurtles,parser);
     this.myMap = myMap;
     //setUpMapListener();
     img = new Image(myResources.getString("SlogoLogo"));
