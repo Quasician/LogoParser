@@ -44,7 +44,7 @@ import slogo.model.Turtle;
 
 public class Toolbar {
   private ColorPicker backgroundColor, penColor;
-  private static final ResourceBundle MY_RESOURCES = Main.myResources;
+  private static final ResourceBundle MY_RESOURCES = Main.MY_RESOURCES;
   private ComboBox setTurtleImage;
   private ComboBox<String> changeLanguageBox, changePenColor, changeBackgroundColor;
   private static final String CHANGE_BACKGROUND = "ChangeBackgroundColor";
@@ -107,13 +107,13 @@ public class Toolbar {
   }
 
   private void setupButtons() {
-    makeNew = new ViewButton(Main.myResources.getString(MAKE_NEW_STRING), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
+    makeNew = new ViewButton(Main.MY_RESOURCES.getString(MAKE_NEW_STRING), BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
     uploadSim();
     setTurtleImage = new ComboBox<>();
     forHelp = Desktop.getDesktop();
 
     setUpColorChoosers();
-    helpButton = new ViewButton(Main.myResources.getString(MAKE_HELP_STRING), BUTTON_HEIGHT,
+    helpButton = new ViewButton(Main.MY_RESOURCES.getString(MAKE_HELP_STRING), BUTTON_HEIGHT,
         BUTTON_WIDTH, BUTTON_FONT_SIZE);
     setUpChangeLanguageChooser();
     setUpTurtleChooser();
@@ -402,7 +402,7 @@ public class Toolbar {
   }
 
   private void setUpPenColorChooser(TurtleGrid grid) {
-    penColorPicker = fakeButton(Main.myResources.getString(CHANGE_PEN), STYLE_COLOR,
+    penColorPicker = fakeButton(Main.MY_RESOURCES.getString(CHANGE_PEN), STYLE_COLOR,
         BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
     penColor = makeColorPicker();
     penColor.setOnAction(e -> setPenColor());
@@ -413,7 +413,7 @@ public class Toolbar {
   }
 
   private void setUpBackgroundColorChooser(TurtleGrid grid) {
-    backgroundColorPicker = fakeButton(Main.myResources.getString(CHANGE_BACKGROUND), STYLE_COLOR,
+    backgroundColorPicker = fakeButton(Main.MY_RESOURCES.getString(CHANGE_BACKGROUND), STYLE_COLOR,
         BUTTON_FONT_COLOR, BUTTON_FONT_SIZE);
     backgroundColor = makeColorPicker();
     backgroundColor.setOnAction(e -> grid.setBackground(backgroundColor.getValue()));

@@ -24,7 +24,7 @@ import slogo.model.Turtle;
  * @author Michelle Tai
  */
 public class CommandLine{
-  public static ResourceBundle myResources = Main.myResources;
+  public static ResourceBundle myResources = Main.MY_RESOURCES;
   private TextArea inputArea;
   private ViewButton runButton;
   private ViewButton clearButton;

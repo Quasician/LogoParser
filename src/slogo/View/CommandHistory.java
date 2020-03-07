@@ -15,7 +15,7 @@ import slogo.Main;
 import slogo.model.CommandParser;
 
 public class CommandHistory implements HistoryView{
-    private ResourceBundle myResources = Main.myResources;
+    private ResourceBundle myResources = Main.MY_RESOURCES;
     private ListView historyWindow;
     private static final Color TEXT_COLOR = Color.BLACK;
     private HBox newCommand;

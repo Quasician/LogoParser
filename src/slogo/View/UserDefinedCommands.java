@@ -10,11 +10,10 @@ import slogo.Main;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import slogo.model.CustomCommandStorage;
 
 
 public class UserDefinedCommands implements HistoryView{
-    private ResourceBundle myResources = Main.myResources;
+    private ResourceBundle myResources = Main.MY_RESOURCES;
     private TableView ucdTable;
     private VBox udcVBox;
     private ObservableList<Triplet<String, String, String>> customCommandObsList;

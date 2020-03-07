@@ -115,7 +115,7 @@ public Configuration getConfig(){
   }
 
   private void setUpTurtle(Turtle turtle) {
-    Image turtleImage = new Image(Main.myResources.getString(TURTLE_IMAGE));
+    Image turtleImage = new Image(Main.MY_RESOURCES.getString(TURTLE_IMAGE));
     ImageView turtleImageView = new ImageView(turtleImage);
     turtleImageView.setOpacity(OPACITY);
     int idIndex = turtle.getId() - CONSTANT_ONE;
@@ -326,7 +326,7 @@ public Configuration getConfig(){
     for (Turtle viewTurtle : updateTurtles) {
       String imageName = string.split(COMMA_STRING)[ZERO_INDEX];
       turtleImageViews.get(viewTurtle.getId()- CONSTANT_ONE)
-          .setImage(new Image(Main.myResources.getString(imageName)));
+          .setImage(new Image(Main.MY_RESOURCES.getString(imageName)));
     }
   }
 

@@ -1,13 +1,11 @@
 package slogo.View;
 
 import java.util.List;
-import java.util.Map;
 
 import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
-import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.geometry.Pos;
@@ -19,7 +17,6 @@ import javafx.stage.Stage;
 
 import slogo.Main;
 import slogo.model.*;
-import slogo.model.Commands.Command;
 
 public class Visualizer {
   private static int WINDOW_WIDTH = 1500;
@@ -37,7 +34,7 @@ public class Visualizer {
   private HistoryPanel myHistoryPanel;
   public static final int SLOGO_IMAGE_HEIGHT = 80;
   public static final double SLOGO_IMAGE_WIDTH = 200.0;
-  private ResourceBundle myResources = Main.myResources;
+  private ResourceBundle myResources = Main.MY_RESOURCES;
   private ImageView slogoImage;
   private ObservableList<Triplet<String, String, String>> customCommandList;
 

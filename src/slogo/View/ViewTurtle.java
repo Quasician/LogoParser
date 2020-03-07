@@ -12,7 +12,7 @@ import slogo.model.Coordinate;
 public class ViewTurtle {
 
   private static final String DEFAULT_TURTLE = "TurtleImage";
-  private static final Image DEFAULT_IMAGE =  new Image(Main.myResources.getString(DEFAULT_TURTLE));
+  private static final Image DEFAULT_IMAGE =  new Image(Main.MY_RESOURCES.getString(DEFAULT_TURTLE));
   private static final double HEIGHT = 40;
   private static final double WIDTH = 40;
   private static final int COORD_INITIAL = 0;
@@ -61,7 +61,7 @@ public class ViewTurtle {
   }
 
   protected void setImage(String imageName) {
-    String imageString = Main.myResources.getString(imageName);
+    String imageString = Main.MY_RESOURCES.getString(imageName);
     try {
       myImageView = new ImageView(new Image(imageString));
     } catch (Exception e) {
