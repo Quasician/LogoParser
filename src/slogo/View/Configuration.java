@@ -10,6 +10,7 @@ import javafx.scene.paint.Paint;
 import slogo.model.DisplayOption;
 import slogo.model.Turtle;
 import java.util.ResourceBundle;
+
 public class Configuration {
     private ListView variablesTable;
     private static final String THIS_PACKAGE = Configuration.class.getPackageName();
