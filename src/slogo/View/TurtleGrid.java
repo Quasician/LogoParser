@@ -193,7 +193,7 @@ public class TurtleGrid {
         if (isPenDown) {
           makeLine(oldX, oldY, currentX, currentY);
         }
-        PropertiesView.makeCoord(viewTurtle);
+        PropertiesView.makeCoord(viewTurtles);
         drawAllLines();
       }
     });
