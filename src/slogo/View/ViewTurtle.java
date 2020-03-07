@@ -19,7 +19,6 @@ public class ViewTurtle {
   private static final int SCREEN_CENTER = 2;
   private double height;
   private double width;
-
   private ImageView myImageView;
   private ObjectProperty<Coordinate> coordinateProperty;
   private DoubleProperty angleProperty;

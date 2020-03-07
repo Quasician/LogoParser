@@ -16,7 +16,6 @@ public class VariableHistory implements HistoryView{
     private static final double VAR_BOX_WIDTH = 300.0;
     private VBox variableHist;
     private ObservableMap<String, String> variables;
-    private ObservableList<String> variableRows;
 
     public VariableHistory(ObservableMap<String,String> variables){
         variableHist = new VBox();
@@ -30,35 +29,7 @@ public class VariableHistory implements HistoryView{
         variables.addListener(new MapChangeListener() {
             @Override
             public void onChanged(MapChangeListener.Change change) {
-                //System.out.println("NUM OF VARIABLES");
                 variablesHolder.getItems().clear();
-                //VariableHistoryRow row = new VariableHistoryRow(change, variables);
-//                if(change.wasAdded()){
-//                    variableRows.add(change.getKey().toString());
-//                    System.out.println("Adding " + change.getKey() + " , "+ change.getValueRemoved());
-////                    ObservableList<VariableHistoryRow> listOfRows2 = variablesHolder.getItems();
-////                    System.out.println("NUM OF VARIABLES: "+variablesHolder.getItems().size());
-////                    for(int i = 0; i < listOfRows2.size(); i++) {
-////                        String key = change.getKey().toString();
-////                        String rowVar = listOfRows2.get(i).getVar().toString();
-////                        if (key.equals(rowVar)) {
-////                            listOfRows2.set(i, new VariableHistoryRow(change, variables));
-////                            break;
-////                        }
-////                    }
-//                }
-////                else if(change.wasAdded() && !change.wasRemoved()){
-////                    System.out.println("NUM OF VARIABLES ###");
-////                    VariableHistoryRow row = new VariableHistoryRow(change, variables);
-////                    variablesHolder.getItems().add(row);
-////                }
-//                else if(change.wasRemoved()){
-//                    variableRows.remove(change.getKey().toString());
-//                    System.out.println("Removing " + change.getKey() + " , "+ change.getValueRemoved());
-////                    VariableHistoryRow row = new VariableHistoryRow(change, variables);
-////                    variablesHolder.getItems().remove(row);
-////                    variableRows.remove(row);
-//                }
                 for(Map.Entry entry : variables.entrySet())
                 {
                     VariableHistoryRow row = new VariableHistoryRow(entry, variables);

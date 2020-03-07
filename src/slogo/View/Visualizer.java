@@ -19,22 +19,24 @@ import slogo.Main;
 import slogo.model.*;
 
 public class Visualizer {
-  private static int WINDOW_WIDTH = 1500;
-  private static int WINDOW_HEIGHT = 1000;
+  private static final int WINDOW_WIDTH = 1500;
+  private static final int WINDOW_HEIGHT = 1000;
   private BorderPane bp;
   private ObservableList<Turtle> viewTurtles;
   private ObservableMap<String,String> variables;
   private javafx.scene.image.Image img;
-  private static final String style = "Style";
+  private static final String STYLE = "Style";
   private ObservableMap myMap;
   private DisplayOption displayOption;
   private Toolbar tool;
   private TurtleGrid grid;
   private Configuration config;
   private HistoryPanel myHistoryPanel;
+  private static final int SPACING =10;
   public static final int SLOGO_IMAGE_HEIGHT = 80;
   public static final double SLOGO_IMAGE_WIDTH = 200.0;
-  private ResourceBundle myResources = Main.MY_RESOURCES;
+  private static final ResourceBundle MY_RESOURCES = Main.MY_RESOURCES;
+  private static final String IMAGE_STRING= MY_RESOURCES.getString("SlogoLogo");
   private ImageView slogoImage;
   private ObservableList<Triplet<String, String, String>> customCommandList;
 
@@ -55,7 +57,7 @@ public class Visualizer {
     tool = new Toolbar(grid, language, activatedTurtles);
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate, activatedTurtles,parser);
     this.myMap = myMap;
-    img = new Image(myResources.getString("SlogoLogo"));
+    img = new Image(IMAGE_STRING);
     slogoImage = new ImageView(img);
     slogoImage.setFitHeight(SLOGO_IMAGE_HEIGHT);
     slogoImage.setFitWidth(SLOGO_IMAGE_WIDTH);
@@ -84,11 +86,11 @@ public class Visualizer {
   private void setUpBorderPane(TurtleGrid grid, CommandLine commandLine, Toolbar tool) {
     bp = new BorderPane();
     bp.setBackground(Background.EMPTY);
-    bp.setStyle(myResources.getString(style));
+    bp.setStyle(MY_RESOURCES.getString(STYLE));
     bp.setBottom(commandLine.getCommandLineGroup());
     bp.setLeft(grid.getTurtleGrid());
     bp.setTop(tool.getToolBar());
-    VBox rightSide = new VBox(10);
+    VBox rightSide = new VBox(SPACING);
     rightSide.setAlignment(Pos.CENTER);
     rightSide.getChildren().addAll(slogoImage, myHistoryPanel.returnScene());
     bp.setRight(rightSide);
