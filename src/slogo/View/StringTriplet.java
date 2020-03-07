@@ -17,10 +17,4 @@ public class StringTriplet extends Triplet {
     this.third = third;
   }
 
-
-
-//  public StringProperty getFirstStringProperty{
-//    return new SimpleStringProperty().setValue(first.toString());
-//  }
-
 }
