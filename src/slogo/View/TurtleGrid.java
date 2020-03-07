@@ -1,9 +1,7 @@
 package slogo.View;
 
-import java.io.ObjectInputFilter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -38,7 +36,7 @@ public class TurtleGrid {
   private static final Color DEFAULT_PEN_COLOR = Color.RED;
   private static final Color DEFAULT_BACKGROUND = Color.LINEN;
   private static final double DEFAULT_PEN_WIDTH = 1;
-  private static final int constantOne = 1;
+  private static final int CONSTANT_ONE = 1;
   private int myCanvasWidth, myCanvasHeight;
   private ObservableList<Turtle> viewTurtles;
   private ObservableList<Turtle> activeTurtles;
@@ -49,16 +47,16 @@ public class TurtleGrid {
   private static final int DEFAULT_CANVAS_WIDTH = 600;
   private static final int DEFAULT_CANVAS_HEIGHT = 600;
   private static final String TURTLE_IMAGE = "TurtleImage";
-  private static final Double middleOfTheScreen = 2.0;
-  private static final int zeroIndex=0;
-  private static final double Opacity=0.7;
+  private static final Double MIDDLE_OF_THE_SCREEN = 2.0;
+  private static final int ZERO_INDEX =0;
+  private static final double OPACITY =0.7;
   private StackPane retGrid;
   private double centerX, centerY;
   private double turtleCenterX, turtleCenterY;
   private Boolean isPenDown = true;
   private ArrayList<Line> linesDrawn;
   private Paint penColor;
-  private static final String commaString=",";
+  private static final String COMMA_STRING =",";
   private double penWidth;
   private Configuration PropertiesView;
   private BooleanProperty clearScreen = new SimpleBooleanProperty();
@@ -76,8 +74,8 @@ public class TurtleGrid {
     PropertiesView= config;
     myCanvasWidth = canvasWidth;
     myCanvasHeight = canvasHeight;
-    centerX = canvasWidth / middleOfTheScreen;
-    centerY = canvasHeight / middleOfTheScreen;
+    centerX = canvasWidth / MIDDLE_OF_THE_SCREEN;
+    centerY = canvasHeight / MIDDLE_OF_THE_SCREEN;
     setUpPane();
     setBackground(DEFAULT_BACKGROUND);
     myCanvas = new Canvas(myCanvasWidth, myCanvasHeight);
@@ -102,7 +100,7 @@ public Configuration getConfig(){
 
   private void setUpGrid() {
     retGrid = new StackPane();
-    retGrid.setPadding(new Insets(PADDING_INSET, PADDING_INSET, PADDING_INSET, zeroIndex));
+    retGrid.setPadding(new Insets(PADDING_INSET, PADDING_INSET, PADDING_INSET, ZERO_INDEX));
     retGrid.getChildren().addAll(myCanvas, myPane);
   }
 
@@ -117,12 +115,12 @@ public Configuration getConfig(){
   }
 
   private void setUpTurtle(Turtle turtle) {
-    Image turtleImage = new Image(Main.myResources.getString(TURTLE_IMAGE));
+    Image turtleImage = new Image(Main.MY_RESOURCES.getString(TURTLE_IMAGE));
     ImageView turtleImageView = new ImageView(turtleImage);
-    turtleImageView.setOpacity(Opacity);
-    int idIndex = turtle.getId() - constantOne;
-    turtleImageViews.add(turtle.getId()-constantOne, turtleImageView);
-    ImageView imageView = turtleImageViews.get(turtle.getId() - constantOne);
+    turtleImageView.setOpacity(OPACITY);
+    int idIndex = turtle.getId() - CONSTANT_ONE;
+    turtleImageViews.add(turtle.getId()- CONSTANT_ONE, turtleImageView);
+    ImageView imageView = turtleImageViews.get(turtle.getId() - CONSTANT_ONE);
     imageView.setX(centerX);
     imageView.setY(centerY);
     imageView.setFitHeight(TURTLE_IMAGE_HEIGHT);
@@ -134,20 +132,20 @@ public Configuration getConfig(){
       turtle.setActivated(!turtle.isActivatedProperty().getValue());
       changeOpacity(turtle);
     });
-    myPane.getChildren().add(turtleImageViews.get(turtle.getId()-constantOne));
+    myPane.getChildren().add(turtleImageViews.get(turtle.getId()- CONSTANT_ONE));
 
-    turtleCenterX = turtleImageViews.get(turtle.getId()-constantOne).getFitWidth() / 2;
-    turtleCenterY = turtleImageViews.get(turtle.getId()-constantOne).getFitHeight() / 2;
+    turtleCenterX = turtleImageViews.get(turtle.getId()- CONSTANT_ONE).getFitWidth() / 2;
+    turtleCenterY = turtleImageViews.get(turtle.getId()- CONSTANT_ONE).getFitHeight() / 2;
   }
 
   private void changeOpacity(Turtle turtle) {
-    ImageView opaquePics = turtleImageViews.get(turtle.getId()-constantOne);
+    ImageView opaquePics = turtleImageViews.get(turtle.getId()- CONSTANT_ONE);
     if(!turtle.isActivatedProperty().getValue()){
       opaquePics.setOpacity(0.2);
     } else{
-      opaquePics.setOpacity(Opacity);
+      opaquePics.setOpacity(OPACITY);
     }
-    turtleImageViews.set(turtle.getId()-constantOne, opaquePics);
+    turtleImageViews.set(turtle.getId()- CONSTANT_ONE, opaquePics);
   }
 
   private void addListeners(Turtle viewTurtle) {
@@ -163,8 +161,8 @@ public Configuration getConfig(){
   private double keepInBoundsX(double coordinate, int bound) {
     if (coordinate > bound - TURTLE_IMAGE_HEIGHT) {
       return bound - TURTLE_IMAGE_HEIGHT;
-    } else if (coordinate < zeroIndex) {
-      return zeroIndex;
+    } else if (coordinate < ZERO_INDEX) {
+      return ZERO_INDEX;
     }
     return coordinate;
   }
@@ -174,7 +172,7 @@ public Configuration getConfig(){
     viewTurtle.coordinatesProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        int id = viewTurtle.getId()-constantOne;
+        int id = viewTurtle.getId()- CONSTANT_ONE;
         ImageView thisView = turtleImageViews.get(id);
 
         double newX = viewTurtle.getX() + centerX;
@@ -223,7 +221,7 @@ public Configuration getConfig(){
     viewTurtle.angleProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        turtleImageViews.get(viewTurtle.getId()-constantOne).setRotate(viewTurtle.getDegree());
+        turtleImageViews.get(viewTurtle.getId()- CONSTANT_ONE).setRotate(viewTurtle.getDegree());
       }
     });
   }
@@ -255,7 +253,7 @@ public Configuration getConfig(){
       @Override
       public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
           Boolean newValue) {
-        ImageView thisView = turtleImageViews.get(viewTurtle.getId() - constantOne);
+        ImageView thisView = turtleImageViews.get(viewTurtle.getId() - CONSTANT_ONE);
         if (viewTurtle.isShowingProperty().get()) { //make turtle visible
           thisView.setVisible(true);
         } else { //make turtle invisible
@@ -326,9 +324,9 @@ public Configuration getConfig(){
 
   protected void updateTurtlesImage(String string, ObservableList<Turtle> updateTurtles) {
     for (Turtle viewTurtle : updateTurtles) {
-      String imageName = string.split(commaString)[zeroIndex];
-      turtleImageViews.get(viewTurtle.getId()-constantOne)
-          .setImage(new Image(Main.myResources.getString(imageName)));
+      String imageName = string.split(COMMA_STRING)[ZERO_INDEX];
+      turtleImageViews.get(viewTurtle.getId()- CONSTANT_ONE)
+          .setImage(new Image(Main.MY_RESOURCES.getString(imageName)));
     }
   }
 

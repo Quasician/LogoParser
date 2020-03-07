@@ -18,7 +18,7 @@ public class Language {
 
     private final String language;
 
-    private PossibleLanguage(String language) {
+    PossibleLanguage(String language) {
       this.language = language;
     }
 
@@ -32,10 +32,6 @@ public class Language {
   public Language() {
     String currentLanguage = PossibleLanguage.ENGLISH.getLanguage();
     languageProperty.set(currentLanguage);
-  }
-
-  public StringProperty getLanguageProperty() {
-    return languageProperty;
   }
 
   public String getCurrentLanguage() {
@@ -52,7 +48,6 @@ public class Language {
       }
     }
 
-    //make this error better later
     throw new RuntimeException(ERROR);
   }
 }
