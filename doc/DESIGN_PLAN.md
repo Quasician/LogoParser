@@ -154,7 +154,7 @@ The turtle class would be required to move around the turtle image on the screen
 
 #### Internal back end
 
-The internal backend would be made to protect the information that the user might not require to know for running his/her programs. The information would just be required for the updating the IDE or for setting the initial configuration of the IDE. These properties would be passed around in the back-end component only and would not be passed around to the other components. These are mostly setter methods as the user does not need to directly interact with the setter methods as this could be done by the backend itself when the command has been processed. 
+The internal backend would be made to protect the information that the user might not require to know for running his/her programs. The information would just be required for the updating the IDE or for setting the initial propertiesHolder of the IDE. These properties would be passed around in the back-end component only and would not be passed around to the other components. These are mostly setter methods as the user does not need to directly interact with the setter methods as this could be done by the backend itself when the command has been processed. 
 
 The turtle methods that would be a part of this have been listed below as these are methods that set the properties of the turtle and could only be changed by entering a command. 
 

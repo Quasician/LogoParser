@@ -56,7 +56,7 @@ public class Toolbar {
   private Language language;
   private static final int IMAGE_SIZE =30;
   private ObservableList<Turtle> activatedTurtles;
-  private Configuration myConfig;
+  private PropertiesHolder myConfig;
   private static final String DINOSAUR_KEY = "Dinosaur";
   private static final int ZERO_INDEX = 0;
   private ObservableList<String> colorOptions;

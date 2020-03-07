@@ -11,9 +11,9 @@ import slogo.model.DisplayOption;
 import slogo.model.Turtle;
 import java.util.ResourceBundle;
 
-public class Configuration {
+public class PropertiesHolder {
     private ListView variablesTable;
-    private static final String THIS_PACKAGE = Configuration.class.getPackageName();
+    private static final String THIS_PACKAGE = PropertiesHolder.class.getPackageName();
     private static final String MY_RESOURCE_FOLDER = THIS_PACKAGE + ".visualProperty.";
     private static final ResourceBundle TURTLE_IMAGES = ResourceBundle.getBundle(MY_RESOURCE_FOLDER + "PropertiesWindow");
     private static final String TURTLE_NUMBER_TEXT= TURTLE_IMAGES.getString("TurtlesNumber");
@@ -36,7 +36,7 @@ public class Configuration {
     private Label turtleCoord;
     private Label imageIndex;
 
-    public Configuration(ObservableList<Turtle> turtles, DisplayOption displayOption) {
+    public PropertiesHolder(ObservableList<Turtle> turtles, DisplayOption displayOption) {
         variablesTable = new ListView<>();
         PropertyName=new Label();
         number= new Label();
@@ -76,7 +76,7 @@ public class Configuration {
             for(Turtle t: turtles){
                     count++;
             }
-            number.setText(PEN_THICKNESS+ count);
+            number.setText(TURTLE_NUMBER_TEXT+ count);
             });
     }
 
