@@ -22,8 +22,6 @@ public class Main extends Application {
   private static final String TURTLE_PNG = "turtle.png";
   private static final String ERROR_TITLE ="Alert test - error";
   private static final String DEBUGGING_T ="fd 100";
-  private static final int ACTIVATED =1;
-  private static final int DEACTIVATED =2;
   private ObservableMap myMap = FXCollections.observableMap(new HashMap<String, String>());
   private ObservableMap myCustomMap = FXCollections.observableMap(new HashMap<String, String>());
   private TurtleList turtleList;
@@ -40,9 +38,7 @@ public class Main extends Application {
   public void start(Stage primaryStage) throws Exception {
     TurtleList turtleList = new TurtleList(FXCollections.observableArrayList(), FXCollections.observableArrayList());
     Turtle modelTurtle1 = new Turtle();
-    Turtle modelTurtle2 = new Turtle();
     turtleList.addTurtleToModelList(modelTurtle1);
-    turtleList.addTurtleToModelList(modelTurtle2);
     Language language = new Language();
     DisplayOption displayOption = new DisplayOption();
     VariableStorage variableStorage = new VariableStorage(myMap);
@@ -64,32 +60,6 @@ public class Main extends Application {
     vis.setDisplayOption(displayOption);
     parseTextOnInput(textUpdate, parseString, commandParser, vis,checkBox);
     parseTranslatedText(translatedTextUpdate,parseString,commandParser);
-    turtleList.makeModelTurtleActivated(1);
-    turtleList.makeModelTurtleDeactivated(2);
-    turtleList.makeModelTurtleActivated(1);
-    turtleList.makeModelTurtleActivated(2);
-//    commandParser.parseText("tell [ 3 ]");
-//    commandParser.parseText("fd 100");
-//    commandParser.parseText("tell [ 2 ]");
-//    commandParser.parseText("rt 45 fd 100");
-//    commandParser.parseText("tell [ 1 ]");
-//    commandParser.parseText("rt 315 fd 100");
-//    commandParser.parseText("tell [ 1 2 3 ]");
-//    commandParser.parseText("to c [ ] [ repeat 100 [  fd 50 rt 50  ] ]");
-//    commandParser.parseText("c ");
-    //commandParser.parseText("fd 50");
-//    commandParser.parseText("to c [ :f ] [ rt :f fd :f ]");
-//    commandParser.parseText("c 70 ");
-    for (Turtle turtle : turtleList.getModelTurtleList()) {
-      System.out.println(
-          "MODELTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
-              + " Angle: " + turtle.getDegree() + " Activated: "+ turtle.isActivatedProperty().getValue());
-    }
-    turtleList.makeModelTurtleActivated(ACTIVATED);
-    turtleList.makeModelTurtleDeactivated(DEACTIVATED);
-    turtleList.makeModelTurtleActivated(ACTIVATED);
-    turtleList.makeModelTurtleActivated(DEACTIVATED);
-    commandParser.parseText(DEBUGGING_T);
   }
 
   private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText,
