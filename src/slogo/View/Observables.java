@@ -5,25 +5,27 @@ import javafx.collections.ObservableMap;
 import slogo.model.Turtle;
 
 public class Observables {
-    private ObservableList<Turtle> viewTurtleList;
-    private ObservableList<Turtle> activeTurtleList;
-    private ObservableMap<String, String> viewObservableMap;
 
-    public Observables(ObservableList<Turtle> viewTurtleList, ObservableList<Turtle> activeTurtleList, ObservableMap<String, String> viewObservableMap) {
-    this.viewTurtleList=viewTurtleList;
-    this.activeTurtleList=activeTurtleList;
-    this.viewObservableMap= viewObservableMap;
-    }
+  private ObservableList<Turtle> viewTurtleList;
+  private ObservableList<Turtle> activeTurtleList;
+  private ObservableMap<String, String> viewObservableMap;
 
-    public ObservableList<Turtle> getViewTurtleList() {
-        return viewTurtleList;
-    }
+  public Observables(ObservableList<Turtle> viewTurtleList, ObservableList<Turtle> activeTurtleList,
+      ObservableMap<String, String> viewObservableMap) {
+    this.viewTurtleList = viewTurtleList;
+    this.activeTurtleList = activeTurtleList;
+    this.viewObservableMap = viewObservableMap;
+  }
 
-    public ObservableList<Turtle> getActiveTurtleList() {
-        return activeTurtleList;
-    }
+  public ObservableList<Turtle> getViewTurtleList() {
+    return viewTurtleList;
+  }
 
-    public ObservableMap<String, String> getViewObservableMap() {
-        return viewObservableMap;
-    }
+  public ObservableList<Turtle> getActiveTurtleList() {
+    return activeTurtleList;
+  }
+
+  public ObservableMap<String, String> getViewObservableMap() {
+    return viewObservableMap;
+  }
 }

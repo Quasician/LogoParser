@@ -161,7 +161,6 @@ public class TurtleGrid {
     addActiveListener(viewTurtle);
   }
 
-
   private double keepInBoundsX(double coordinate, int bound) {
     if (coordinate > bound - TURTLE_IMAGE_HEIGHT) {
       return bound - TURTLE_IMAGE_HEIGHT;

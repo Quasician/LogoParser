@@ -74,18 +74,6 @@ public class TurtleList {
     }
   }
 
-//  private void bindTurtles(Turtle model, Turtle view) {
-//    view.idProperty().bindBidirectional(model.idProperty());
-//    view.distanceProperty().bindBidirectional(model.distanceProperty());
-//    view.angleProperty().bindBidirectional(model.angleProperty());
-//    view.isPenDownProperty().bindBidirectional(model.isPenDownProperty());
-//    view.isShowingProperty().bindBidirectional(model.isShowingProperty());
-//    view.coordinatesProperty().bindBidirectional(model.coordinatesProperty());
-//    view.clearScreenProperty().bindBidirectional(model.clearScreenProperty());
-//    view.isActivatedProperty().bindBidirectional(model.isActivatedProperty());
-//    view.pastCoordinatesProperty().bindBidirectional(model.pastCoordinatesProperty());
-//  }
-
   public int getTurtles() {
     return modelTurtleList.size();
   }
