@@ -138,7 +138,7 @@ public class CommandTreeConstructor {
     System.out.println("CURRENT ELEMENT: " + currentElement);
     int parameterNumber = 0;
     if (customCommandStorage.isACustomCommand(currentElement)) {
-      parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
+      parameterNumber = customCommandStorage.getCustomCommandParamNumber(currentElement);
     } else {
       try {
         parameterNumber = Integer

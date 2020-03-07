@@ -1,6 +1,4 @@
 package slogo.model.Commands.VCUCommands;
-import slogo.model.CommandParamNumberHashMap;
-import slogo.model.CustomCommandStorage;
 import slogo.model.TreeNode;
 
 public class MakeUserInstruction extends VCUCommand {
@@ -14,7 +12,7 @@ public class MakeUserInstruction extends VCUCommand {
         System.out.println("RAN TO COMMAND");
         String finalValue = "";
         String[] variables = getParamList().get(1).replaceFirst("\\[", "").replaceFirst("\\]", "").split("\\s+");
-        CommandParamNumberHashMap.addCommandParamNumber(getParamList().get(0).trim(),variables.length);
+        customCommandStorage.addCustomCommandParamNumber(getParamList().get(0).trim(),variables.length);
         String allCommands = getParamList().get(2).trim();
         allCommands = allCommands.replaceFirst("\\[","");
         customCommandStorage.addCustomCommand(getParamList().get(0), variables, allCommands);
