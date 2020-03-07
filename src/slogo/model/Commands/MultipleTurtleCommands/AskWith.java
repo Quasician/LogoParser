@@ -1,5 +1,6 @@
 package slogo.model.Commands.MultipleTurtleCommands;
 
+import java.util.List;
 import slogo.model.CommandParser;
 import slogo.model.TreeNode;
 import slogo.model.Turtle;
@@ -7,11 +8,10 @@ import slogo.model.Turtle;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AskWith extends MultipleTurtleCommand{
+public class AskWith extends MultipleTurtleCommand {
 
-
-    //Maybe don't have to do this
-    // use condition to generate new list then essentially run the ask command.
+  //Maybe don't have to do this
+  // use condition to generate new list then essentially run the ask command.
 
         
     /*For the askWith command and all turtle commands
@@ -42,57 +42,29 @@ public class AskWith extends MultipleTurtleCommand{
     */
 
 
+  public AskWith(String name) {
+    super(name);
+  }
 
+  @Override
+  public void doCommand(TreeNode commandNode) {
+    String condition = getCondition();
+    String conditionResult = "";
+    String[] commands = getCommandsArray();
+    String allCommands = getAllCommands();
+    String finalValue = "";
 
-    public AskWith(String name)
-    {
-        super(name);
+    List<Boolean> currentTurtleStates = getCurrentTurtleStates();
+
+    CommandParser miniparser = new CommandParser(activatedTurtles, variables, language);
+    for (Turtle turtle : turtles) {
+      miniparser.setTurtles(generate1ActiveTurtleList(turtle.getId() - 1));
+      conditionResult = miniparser.miniParse(condition);
+      if (conditionResult.equals("1")) {
+        finalValue = miniparser.miniParse(allCommands);
+      }
     }
 
-    @Override
-    public void doCommand(TreeNode commandNode) {
-
-        String condition = getParamList().get(0).replaceFirst("\\[(.*?)\\]", "$1");
-        String conditionResult = "";
-
-        String[] commands = getParamList().get(1).split("\\s+");
-        String allCommands = getParamList().get(1).replaceFirst("\\[(.*?)\\]", "$1");
-        String finalValue = "";
-
-        ArrayList<Boolean> currentTurtleStates = new ArrayList<>();
-        for(Turtle turtle: turtles)
-        {
-            currentTurtleStates.add(turtle.isActivatedProperty().getValue());
-        }
-
-        CommandParser miniparser = new CommandParser(activatedTurtles,variables, language);
-        for(Turtle turtle:turtles) {
-            miniparser.setTurtles(generate1ActiveTurtleList(turtle.getId()-1));
-            conditionResult = miniparser.miniParse(condition);
-            System.out.println("CONDITION RESULT: "+ conditionResult);
-            if(conditionResult.equals("1"))
-            {
-                //what if they input a tell command into the condition since it can return a number
-                //miniparser.setTurtles(generate1ActiveTurtleList(Integer.parseInt(activatedTurtle)));
-                finalValue = miniparser.miniParse(allCommands);
-            }
-        }
-
-        int turtle = 0;
-        for(Boolean bool:currentTurtleStates)
-        {
-            turtles.get(turtle).setActivated(bool);
-            //System.out.println(turtles.get(turtle).getId() + "-> Activated: " + turtles.get(turtle).isActivatedProperty().getValue());
-            turtle++;
-        }
-
-        if(commands.length==0)
-        {
-            commandNode.setResult("0");
-        }
-        else
-        {
-            commandNode.setResult(finalValue);
-        }
-    }
+    setResult(currentTurtleStates, commandNode, commands, finalValue);
+  }
 }
