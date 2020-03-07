@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 public class CommandParser {
+  private static GeneralParserBehavior BEHAVIOR = new GeneralParserBehavior();
   private List<Entry<String, Pattern>> mySymbols;
   private ObservableList<Turtle> turtles;
   private ObservableMap<String,String> variables;
@@ -19,20 +20,16 @@ public class CommandParser {
   private CommandTreeExecutor treeExec;
   private CommandTreeConstructor treeMaker;
   private HashMap<Pattern,String> translations = new HashMap<>();
-  private static final String RESOURCES = "resources.";
-  private static final String ERRORS = RESOURCES + "ErrorMessages";
-  private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
+  private static final String RESOURCES = BEHAVIOR.getResourcesString();
+  private ResourceBundle errors = BEHAVIOR.getErrorBundle();
   private Language language;
   private DisplayOption displayOption;
-  private static final Pattern COMMAND_PATTERN = Pattern.compile("(\\+)|(\\-)|(\\*)|(\\~)|(\\/)|(\\%)|[a-zA-Z_]+(\\?)?");
-  private GeneralParserBehavior parserBehavior;
   private CustomCommandStorage customCommandStorage;
 
   /**
    * Create an empty parser
    */
   public CommandParser(ObservableList<Turtle> turtles, ObservableMap<String, String> variables, Language language, CustomCommandStorage customCommandStorage) {
-    parserBehavior = new GeneralParserBehavior();
     this.language = language;
     mySymbols = new ArrayList<>();
     addPatterns(this.language.getCurrentLanguage());
@@ -43,12 +40,11 @@ public class CommandParser {
     this.customCommandStorage = customCommandStorage;
   }
 
-  public void setDisplayOption(DisplayOption disp) {
-    displayOption = disp;
+  public void setDisplayOption(DisplayOption dispOption) {
+    displayOption = dispOption;
   }
 
-  public void setTurtles(ObservableList<Turtle> turtles)
-  {
+  public void setTurtles(ObservableList<Turtle> turtles) {
     this.turtles = turtles;
   }
 
@@ -81,7 +77,6 @@ public class CommandParser {
     for (Entry<String, Pattern> e : mySymbols) {
       translations.putIfAbsent(e.getValue(), e.getKey());
     }
-    // FIXME: perhaps throw an exception instead
   }
 
   // Returns true if the given text matches the given regular expression pattern
@@ -90,32 +85,23 @@ public class CommandParser {
   }
 
   public String parseText(String commandLine) {
-    System.out.println("The current language is " + language.getCurrentLanguage());
     mySymbols = new ArrayList<>();
     addPatterns(language.getCurrentLanguage());
     String[] lineValues = commandLine.split("\\s+");
     boolean toCommand = false;
 
     for (int i = 0; i < lineValues.length; i++) {
-      if (match(lineValues[i], COMMAND_PATTERN)) {
+      if (match(lineValues[i], BEHAVIOR.getCommandPattern())) {
         String string = lineValues[i];
 
         if (toCommand) {
           toCommand = false;
         } else if (!customCommandStorage.getKeySet().contains(string)) {
           lineValues[i] = getSymbol(lineValues[i]);
-
-          System.out.println("ELEMENT:" + lineValues[i]);
-//        if (string.equals("to")) // TODO: have to generalize this to other languages
-//          toCommand = true;
-          //System.out.println(getSymbol(string));
-          if (getSymbol(string).equals("MakeUserInstruction")) // TODO: have to generalize this to other languages
-          {
-            System.out.println("setting to true");
+          if (getSymbol(string).equals("MakeUserInstruction")) {
             toCommand = true;
           }
         }
-
       }
 
       if (lineValues[i].equals("\n")) {
@@ -145,14 +131,3 @@ public class CommandParser {
   }
 
 }
-
-
-//        if (toCommand) {
-//          toCommand = false;
-//        } else {
-//         if (CustomCommandMap.getKeySet().contains(string)) {
-//
-//         } else {
-//           lineValues[i] = getSymbol(lineValues[i]);
-//         }
-//        }

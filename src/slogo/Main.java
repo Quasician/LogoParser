@@ -73,7 +73,13 @@ public class Main extends Application {
     turtleList.makeModelTurtleActivated(2);
     commandParser.parseText("tell [ 3 ]");
     commandParser.parseText("fd 100");
-    //commandParser.parseText("repeat 100 [ ask [ 2 ] [ fd 50 rt 50 ] ]");
+    commandParser.parseText("tell [ 2 ]");
+    commandParser.parseText("rt 45 fd 100");
+    commandParser.parseText("tell [ 1 ]");
+    commandParser.parseText("rt 315 fd 100");
+    commandParser.parseText("tell [ 1 2 3 ]");
+    commandParser.parseText("to c [ ] [ repeat 100 [  fd 50 rt 50  ] ]");
+    commandParser.parseText("c ");
     //commandParser.parseText("fd 50");
 //    commandParser.parseText("to c [ :f ] [ rt :f fd :f ]");
 //    commandParser.parseText("c 70 ");

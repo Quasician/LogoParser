@@ -13,9 +13,8 @@ import slogo.View.Triplet;
 public class CustomCommandStorage {
     private HashMap<String, String[]> variableMap = new HashMap<>();
     private HashMap<String,String> commandsMap = new HashMap<>();
-//    private ObservableList<List<String>> customCommandObsList = FXCollections.observableArrayList(); //idk if this is bad practice
-    //private List<Triplet<String, String, String>> listOfTriplets = new ArrayList<>();
     private ObservableList<Triplet<String, String, String>> customCommandObsList; //idk if this is bad practice
+    private static HashMap<String, Integer> customCommandParamNumberMap = new HashMap<>();
 
     public CustomCommandStorage()
     {
@@ -67,4 +66,16 @@ public class CustomCommandStorage {
         return customCommandObsList;
     }
 
+    public int getCustomCommandParamNumber(String s) {
+        //commandParamNumberMap = new HashMap<>();
+        //System.out.println("GETTING PARAM NUMBER FOR:" + s);
+        return customCommandParamNumberMap.get(s);
+    }
+
+    public void addCustomCommandParamNumber(String s, int paramNum) {
+        //commandParamNumberMap = new HashMap<>();
+        customCommandParamNumberMap.putIfAbsent(s, paramNum);
+        //System.out.println("Adding custom command: " + s);
+
+    }
 }
