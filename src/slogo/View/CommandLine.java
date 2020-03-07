@@ -42,10 +42,10 @@ public class CommandLine{
   private StringProperty commandLineText;
   private static final String Empty="";
   private static final String Run="Run";
-  private static final String forwardArrow="fd 50";
-  private static final String backwardArrow="bk 50";
-  private static final String rightTurnArrow="rt 45";
-  private static final String leftTurnArrow="lt 45";
+  private static final String forwardArrow="Forward 50";
+  private static final String backwardArrow="Backward 50";
+  private static final String rightTurnArrow="Right 45";
+  private static final String leftTurnArrow="Left 45";
   private static final String Clear="Clear";
   private static final String FONT_NAME="Avenir";
   private static final String PROMPT="EnterCommandPrompt";
@@ -94,7 +94,8 @@ public class CommandLine{
       }
       if ((e.getCode() == KeyCode.LEFT)) {
         parser.miniParse(leftTurnArrow);
-      }}
+      }
+  }
 
   private void setButtons(){
     runButton = new ViewButton(myResources.getString(Run), BUTTON_HEIGHT, BUTTON_WIDTH);
