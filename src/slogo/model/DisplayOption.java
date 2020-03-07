@@ -18,6 +18,7 @@ public class DisplayOption {
   private IntegerProperty imageIndex = new SimpleIntegerProperty();
   private IntegerProperty changedIndex = new SimpleIntegerProperty(-1);
   private StringProperty newColor = new SimpleStringProperty();
+  private int numImages;
 
   public DisplayOption() {
   }
@@ -68,6 +69,14 @@ public class DisplayOption {
 
   public void setPenWidth(double width) {
     penWidth.set(width);
+  }
+
+  public void setNumImages(int number) {
+    numImages = number;
+  }
+
+  public int getNumImages() {
+    return numImages;
   }
 
   public void addToList(String c) {

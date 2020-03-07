@@ -19,25 +19,26 @@ import slogo.Main;
 import slogo.model.*;
 
 public class Visualizer {
-  private static final int WINDOW_WIDTH = 1500;
-  private static final int WINDOW_HEIGHT = 1000;
+  private static final String PROPERTY_PACKAGE = Visualizer.class.getPackageName() + ".visualProperty.";
+  private static final ResourceBundle SETUP = ResourceBundle.getBundle(PROPERTY_PACKAGE + "Visualizer");
+
+  private static final int WINDOW_WIDTH = Integer.parseInt(SETUP.getString("Width"));
+  private static final int WINDOW_HEIGHT = Integer.parseInt(SETUP.getString("Height"));
+  public static final int SLOGO_IMAGE_HEIGHT = Integer.parseInt(SETUP.getString("SlogoHeight"));;
+  public static final double SLOGO_IMAGE_WIDTH = Double.parseDouble(SETUP.getString("SlogoWidth"));
   private BorderPane bp;
   private ObservableList<Turtle> viewTurtles;
   private ObservableMap<String,String> variables;
   private javafx.scene.image.Image img;
   private static final String STYLE = "Style";
-  private DisplayOption displayOption;
   private Toolbar tool;
   private TurtleGrid grid;
   private PropertiesHolder config;
   private HistoryPanel myHistoryPanel;
-  private static final int SPACING =10;
-  public static final int SLOGO_IMAGE_HEIGHT = 80;
-  public static final double SLOGO_IMAGE_WIDTH = 200.0;
+  private static final int SPACING = 10;
   private static final ResourceBundle MY_RESOURCES = Main.MY_RESOURCES;
   private static final String IMAGE_STRING= MY_RESOURCES.getString("SlogoLogo");
   private ImageView slogoImage;
-  private BooleanProperty checkMin;
   private ObservableList<Triplet<String, String, String>> customCommandList;
 
   /**
@@ -62,21 +63,10 @@ public class Visualizer {
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
     display.getUserStage().setScene(scene);
     display.getUserStage().show();
-    addSizeListener();
   }
 
   public void setDisplayOption(DisplayOption d) {
     tool.bindWithDisplayOption(d);
-  }
-
-  private void addSizeListener() {
-    viewTurtles.addListener(new ListChangeListener<Turtle>() {
-      @Override
-      public void onChanged(Change<? extends Turtle> c) {
-        c.next();
-        List<Turtle> newTurtles = (List<Turtle>) c.getAddedSubList();
-      }
-    });
   }
 
   private void setUpBorderPane(TurtleGrid grid, CommandLine commandLine, Toolbar tool) {
@@ -94,6 +84,7 @@ public class Visualizer {
   public void makeNewBox(String value) {
     myHistoryPanel.makeNewBox(value);
   }
+
   public void makeNewTerminalBox(String parseText) {
     myHistoryPanel.makeNewTerminalBox(parseText);
   }

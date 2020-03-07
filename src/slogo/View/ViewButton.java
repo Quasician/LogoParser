@@ -30,20 +30,11 @@ public class ViewButton extends Button {
     setPrefWidth(width);//190
     mouseUpdateListener();
   }
-  public ViewButton(String text) {
-    setFont(Font.font(FONT_FORMAT, DEFAULT_FONT_SIZE_SMALL));
-    setText(text);
-    setPrefHeight(DEFAULT_BUTTON_HEIGHT);//45
-    setPrefWidth(DEFAULT_BUTTON_WIDTH);//190
-    mouseUpdateListener();
-  }
 
-  /**
-   * default constructor
-   */
   public ViewButton(String text, int height, int width){
     this(text, height, width, DEFAULT_FONT_SIZE);
   }
+
   private void mouseUpdateListener() {
     setOnMouseEntered(new EventHandler<MouseEvent>() {
       @Override
@@ -59,6 +50,4 @@ public class ViewButton extends Button {
       }
     });
   }
-
-
 }

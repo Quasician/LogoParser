@@ -2,11 +2,8 @@ package slogo.View;
 
 import javafx.scene.control.Alert;
 
-import javax.sound.midi.SysexMessage;
-
 public class UserException extends RuntimeException {
 
-  // for serialization
   private static final long serialVersionUID = 1L;
 
   /**

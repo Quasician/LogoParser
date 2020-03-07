@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class VariableHistoryRow extends HBox{
   private Text variableText;
-  private static final String ENTER_STRING ="Enter";
+  private static final String ENTER_STRING = "Enter";
   private static final int BUTTON_HEIGHT = 25;
   private static final int BUTTON_WIDTH = 50;
   private Text valText;
