@@ -23,6 +23,10 @@ public class GeneralParserBehavior {
     return RESOURCES;
   }
 
+  protected Pattern getCommentPattern() {
+    return COMMENT_PATTERN;
+  }
+
   protected Pattern getCommandPattern() {
     return COMMAND_PATTERN;
   }

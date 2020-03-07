@@ -3,6 +3,7 @@ package slogo.model;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import slogo.View.Language;
+import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactory;
 import slogo.model.Commands.CommandFactoryInterface;
 
@@ -12,6 +13,8 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 public class CommandParser {
+
+  private static final String MAKE_USER_INSTRUCTION = "MakeUserInstruction";
   private static GeneralParserBehavior BEHAVIOR = new GeneralParserBehavior();
   private List<Entry<String, Pattern>> mySymbols;
   private ObservableList<Turtle> turtles;
@@ -93,24 +96,20 @@ public class CommandParser {
     for (int i = 0; i < lineValues.length; i++) {
       if (match(lineValues[i], BEHAVIOR.getCommandPattern())) {
         String string = lineValues[i];
-
         if (toCommand) {
           toCommand = false;
         } else if (!customCommandStorage.getKeySet().contains(string)) {
           lineValues[i] = getSymbol(lineValues[i]);
-          if (getSymbol(string).equals("MakeUserInstruction")) {
+          if (getSymbol(string).equals(MAKE_USER_INSTRUCTION)) {
             toCommand = true;
           }
         }
       }
-
-      if (lineValues[i].equals("\n")) {
-        lineValues[i] = "|n";
-      }
       System.out.println("GENERAL ELEMENT:" + lineValues[i]);
     }
     String translatedCommands = String.join(" ", lineValues);
-    System.out.println("TRANSLATED: " +translatedCommands);
+    if (translatedCommands.trim().equals(""))
+      throw new CommandException(errors.getString("Empty"));
     return makeCommandTree(translatedCommands);
   }
 
