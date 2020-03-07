@@ -1,28 +1,20 @@
 package slogo.model;
-
-
-import com.sun.source.tree.Tree;
 import java.util.ResourceBundle;
-
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import slogo.View.Language;
 import slogo.model.Commands.Command;
 import slogo.model.Commands.CommandFactoryInterface;
-import slogo.model.Commands.VCUCommands.CustomCommand;
-
 import java.util.*;
 import java.util.regex.Pattern;
 
 public class CommandTreeExecutor {
 
-  private GeneralParserBehavior generalParserBehavior = new GeneralParserBehavior();
+  private static GeneralParserBehavior generalParserBehavior = new GeneralParserBehavior();
   private static final String MAKE_VARIABLE = "MakeVariable";
   private static final String MAKE_USER_INSTRUCTION = "MakeUserInstruction";
   private static final String THIS_PACKAGE = "slogo.model.Commands.";
   private static final String VCU_COMMAND = THIS_PACKAGE + "VCUCommands.CustomCommand";
-  private Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
-  private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
   private CommandFactoryInterface commandFactory;
   private ObservableList<Turtle> turtles;
   private ObservableMap<String,String> variables;
@@ -33,7 +25,7 @@ public class CommandTreeExecutor {
   private CustomCommandStorage customCommandStorage;
 
   private static final String RESOURCES_PACKAGE =
-      "resources.";
+      generalParserBehavior.getResourcesString();
   public static ResourceBundle commandPackageNames = ResourceBundle
       .getBundle(RESOURCES_PACKAGE + "CommandPackages");
   public static ResourceBundle commandParameterNumbers = ResourceBundle
@@ -85,7 +77,7 @@ public class CommandTreeExecutor {
   }
 
   private boolean isVariable(TreeNode element) {
-    return match(element.getName(), variablePattern);
+    return match(element.getName(), generalParserBehavior.getVariablePattern());
   }
 
   private boolean isUserMade(TreeNode element) {

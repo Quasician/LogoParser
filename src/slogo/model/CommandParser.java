@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 public class CommandParser {
-  private GeneralParserBehavior behavior = new GeneralParserBehavior();
+  private static GeneralParserBehavior BEHAVIOR = new GeneralParserBehavior();
   private List<Entry<String, Pattern>> mySymbols;
   private ObservableList<Turtle> turtles;
   private ObservableMap<String,String> variables;
@@ -20,12 +20,10 @@ public class CommandParser {
   private CommandTreeExecutor treeExec;
   private CommandTreeConstructor treeMaker;
   private HashMap<Pattern,String> translations = new HashMap<>();
-  private static final String RESOURCES = "resources.";
-  private ResourceBundle errors = behavior.getErrorBundle();
+  private static final String RESOURCES = BEHAVIOR.getResourcesString();
+  private ResourceBundle errors = BEHAVIOR.getErrorBundle();
   private Language language;
   private DisplayOption displayOption;
-  private static final Pattern COMMAND_PATTERN = Pattern.compile("(\\+)|(\\-)|(\\*)|(\\~)|(\\/)|(\\%)|[a-zA-Z_]+(\\?)?");
-  private GeneralParserBehavior parserBehavior;
   private CustomCommandStorage customCommandStorage;
 
   /**
@@ -42,12 +40,11 @@ public class CommandParser {
     this.customCommandStorage = customCommandStorage;
   }
 
-  public void setDisplayOption(DisplayOption disp) {
-    displayOption = disp;
+  public void setDisplayOption(DisplayOption dispOption) {
+    displayOption = dispOption;
   }
 
-  public void setTurtles(ObservableList<Turtle> turtles)
-  {
+  public void setTurtles(ObservableList<Turtle> turtles) {
     this.turtles = turtles;
   }
 
@@ -80,7 +77,6 @@ public class CommandParser {
     for (Entry<String, Pattern> e : mySymbols) {
       translations.putIfAbsent(e.getValue(), e.getKey());
     }
-    // FIXME: perhaps throw an exception instead
   }
 
   // Returns true if the given text matches the given regular expression pattern
@@ -95,7 +91,7 @@ public class CommandParser {
     boolean toCommand = false;
 
     for (int i = 0; i < lineValues.length; i++) {
-      if (match(lineValues[i], behavior.getCommandPattern())) {
+      if (match(lineValues[i], BEHAVIOR.getCommandPattern())) {
         String string = lineValues[i];
 
         if (toCommand) {

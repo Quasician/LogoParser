@@ -1,5 +1,6 @@
 package slogo.model;
 
+import java.util.ResourceBundle;
 import javafx.beans.property.*;
 
 public class Turtle {
@@ -15,6 +16,7 @@ public class Turtle {
   private BooleanProperty isShowing = new SimpleBooleanProperty();
   private BooleanProperty clearScreenCalled = new SimpleBooleanProperty();
   private BooleanProperty isActivated = new SimpleBooleanProperty();
+  private ResourceBundle errors = ResourceBundle.getBundle("resources.ErrorMessages");
 
   public Turtle() {
     isShowing.set(true);
@@ -101,8 +103,6 @@ public class Turtle {
   public void updateCoordinates() {
     Coordinate coords = ((Coordinate)coordinates.get());
     pastCoordinates.set(new Coordinate(coords.getX(), coords.getY()));
-//    pastCoordinates.setX(coords.getX());
-//    pastCoordinates.setY(coords.getY());
   }
 
   protected double getDistance() {
@@ -127,7 +127,7 @@ public class Turtle {
     }
 
     if (degree < DEGREE_LOWER_BOUND || degree >= DEGREE_UPPER_BOUND)
-      throw new ArithmeticException("Degree not in valid range");
+      throw new CommandException(errors.getString("Degree"));
     angleFacing.set(degree);
   }
 
