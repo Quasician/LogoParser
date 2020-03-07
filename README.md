@@ -19,7 +19,7 @@ Hours Spent: 280 hours (about 70 per person)
 *  Thomas - Backend 
     *  Worked on parsing the commands and binding information 
 *  Sanna - Backend 
-    *  Worked on exception checking, XML files, commands parsing and binding information for the frontend
+    *  Worked on exception checking, XML files, implementing commands, binding information for the frontend
 *  Michelle - Frontend
     *  Worked on setting up different views, Turtlegrid and adding different listeners 
 *  Himanshu - Frontend
