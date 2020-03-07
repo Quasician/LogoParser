@@ -11,9 +11,7 @@ import javafx.collections.ObservableMap;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -23,10 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import slogo.model.CommandParser;
-import slogo.model.Turtle;
 import slogo.model.xml.XMLCreator;
 import slogo.model.xml.XMLException;
 import slogo.model.xml.XMLParser;
@@ -44,53 +39,51 @@ public class HistoryPanel implements HistoryView{
   private VariableHistory myVariableHistory;
   private Configuration myConfig;
   private CommandParser comParser;
-  private final String myResourceFolder = "resources/HistoryView/";
-  private final String xmlError = "resources/XMLErrors";
-  private final String error = "resources/ErrorMessages";
-  private ResourceBundle buttonNamesResources = ResourceBundle.getBundle(myResourceFolder + "HistoryButtonNames");
-  private ResourceBundle buttonMethodsResources = ResourceBundle.getBundle(myResourceFolder + "HistoryButtonMethods");
-  private ResourceBundle xmlErrors = ResourceBundle.getBundle(xmlError);
-  private ResourceBundle errors = ResourceBundle.getBundle(error);
-  private ResourceBundle myProperties = ResourceBundle.getBundle(myResourceFolder + "HistoryButtonProperties");
-  private List<String> buttonNames;
+  private static final int ZERO_INDEX=0;
+  private static final String XML_FILES_TEXT= "XML files";
+  private static final String XML_EXTENSION="*.xml";
+  private static final String CLEAR_SCREEN="ClearScreen";
+  private static final String DELIMITER="\n";
+  private static final String RESOURCES_HISTORY_VIEW = "resources/HistoryView/";
+  private static final String RESOURCES_XMLERRORS = "resources/XMLErrors";
+  private static final String ERROR_MESSAGES = "resources/ErrorMessages";
+  private static final String TITLE = "Title";
+  private static final ResourceBundle BUTTON_NAMES_RESOURCES = ResourceBundle.getBundle(RESOURCES_HISTORY_VIEW + "HistoryButtonNames");
+  private static final ResourceBundle BUTTON_METHODS_RESOURCES = ResourceBundle.getBundle(RESOURCES_HISTORY_VIEW + "HistoryButtonMethods");
+  private static final ResourceBundle XML_ERRORS = ResourceBundle.getBundle(RESOURCES_XMLERRORS);
+  private static final ResourceBundle ERRORS = ResourceBundle.getBundle(ERROR_MESSAGES);
+  private static final String ERRORS_STRING = ERRORS.getString("Button");
+  private static final String XML_ERRORS_STRING = XML_ERRORS.getString("Null");
+  private static final ResourceBundle MY_PROPERTIES = ResourceBundle.getBundle(RESOURCES_HISTORY_VIEW + "HistoryButtonProperties");
+  private static final List<String> BUTTON_NAMES = Arrays.asList("Command", "Variable", "Custom", "Properties","Undo", "Save", "Upload");;
   private HBox buttonsForPanes;
-  private  ObservableList<Triplet<String, String, String>> customCommandList;
-
-  private final int BUTTON_WIDTH = Integer.parseInt(myProperties.getString("ButtonWidth"));
-  private final int BUTTON_HEIGHT = Integer.parseInt(myProperties.getString("ButtonHeight"));
-  private final int BUTTON_FONT_SIZE = Integer.parseInt(myProperties.getString("ButtonFontSize"));
-  private final String BUTTON_COLOR = myProperties.getString("Color");
-
+  private ObservableList<Triplet<String, String, String>> customCommandList;
+  private static final int BUTTON_WIDTH = Integer.parseInt(MY_PROPERTIES.getString("ButtonWidth"));
+  private static final int BUTTON_HEIGHT = Integer.parseInt(MY_PROPERTIES.getString("ButtonHeight"));
+  private static final int BUTTON_FONT_SIZE = Integer.parseInt(MY_PROPERTIES.getString("ButtonFontSize"));
+  private static final String BUTTON_COLOR = MY_PROPERTIES.getString("Color");
   private Stage myWindow;
 
   /**
    * Constructor for the HistoryPanel class
    * @param myWindow is the stage on which the history panel will be shown
-   * @param viewTurtles is the observable list of turtles currently on the scren
    * @param parser is the command parser object that is used in the program
    */
 
-  public HistoryPanel(Stage myWindow, ObservableList<Turtle> viewTurtles, CommandParser parser, Configuration configuration,ObservableMap<String,String> variables, ObservableList<Triplet<String, String, String>> customCommandList) {
-    buttonNames = Arrays.asList("Command", "Variable", "Custom", "Properties","Undo", "Save", "Upload");
+  public HistoryPanel(Stage myWindow,CommandParser parser, Configuration configuration,ObservableMap<String,String> variables, ObservableList<Triplet<String, String, String>> customCommandList) {
     this.myWindow = myWindow;
     this.comParser = parser;
     this.customCommandList = customCommandList;
-
     myCommandHistory = new CommandHistory(comParser);
     myOutputView= new OutputView();
     myUserDefined = new UserDefinedCommands(customCommandList);
-    
     myVariableHistory = new VariableHistory(variables);
     myConfig = configuration;
-
     historyVBox = new VBox();
     historyVBox.setAlignment(Pos.CENTER);
-
     buttonsForPanes= new HBox();
     buttonsForPanes.setBackground(new Background(new BackgroundFill(Color.web(BUTTON_COLOR), CornerRadii.EMPTY, Insets.EMPTY)));
-
     makeAndSetButtons();
-
     //TODO put this back in the visualizer
     //  bp.setRight(historyVBox);
     Node toDisplay= myCommandHistory.returnScene();
@@ -128,16 +121,16 @@ public class HistoryPanel implements HistoryView{
   }
 
   private void makeAndSetButtons(){
-    for(String str : buttonNames){
-      String label = buttonNamesResources.getString(str);
-      String methodName = buttonMethodsResources.getString(str);
+    for(String str : BUTTON_NAMES){
+      String label = BUTTON_NAMES_RESOURCES.getString(str);
+      String methodName = BUTTON_METHODS_RESOURCES.getString(str);
       Button btn = new ViewButton(label, BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_FONT_SIZE);
       btn.setOnAction(e -> {
         try {
           Method method = HistoryPanel.class.getDeclaredMethod(methodName);
           method.invoke(HistoryPanel.this);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
-          throw new UserException(errors.getString("Button"));
+          throw new UserException(ERRORS_STRING);
         }
       });
       buttonsForPanes.getChildren().add(btn);
@@ -145,7 +138,7 @@ public class HistoryPanel implements HistoryView{
   }
 
   private void undoCommands(){
-    comParser.miniParse("ClearScreen");
+    comParser.miniParse(CLEAR_SCREEN);
     try{
       myCommandHistory.removeCommand();
       for(String commandsUndo: myCommandHistory.getCommandListCopy() ){
@@ -192,14 +185,14 @@ public class HistoryPanel implements HistoryView{
 
   private void uploadXML() {
     FileChooser fileChooser = new FileChooser();
-    fileChooser.getExtensionFilters().add(new ExtensionFilter("XML files", "*.xml"));
+    fileChooser.getExtensionFilters().add(new ExtensionFilter(XML_FILES_TEXT, XML_FILES_TEXT));
     try {
       File xml = fileChooser.showOpenDialog(myWindow);
       XMLParser parser = new XMLParser(xml);
       parser.setUp();
       List<String> commands = parser.getCommands();
-      String[] array = commands.toArray(new String[0]);
-      String str = String.join("\n", array);
+      String[] array = commands.toArray(new String[ZERO_INDEX]);
+      String str = String.join(DELIMITER, array);
       comParser.parseText(str);
     } catch (Exception e) {
       //Do nothing: File was not chosen, throwing error is unnecessary.
@@ -208,13 +201,13 @@ public class HistoryPanel implements HistoryView{
 
   private void saveXML() {
     FileChooser fileChooser = new FileChooser();
-    fileChooser.getExtensionFilters().add(new ExtensionFilter("XML files", "*.xml"));
+    fileChooser.getExtensionFilters().add(new ExtensionFilter(XML_FILES_TEXT, XML_EXTENSION));
     try {
       File xmlToSave = fileChooser.showOpenDialog(myWindow);
       XMLCreator creator = new XMLCreator(myCommandHistory.getCommandListCopy(), xmlToSave);
-      creator.createFile("Title");
+      creator.createFile(TITLE);
     } catch (NullPointerException e) {
-      throw new XMLException(xmlErrors.getString("Null"));
+      throw new XMLException(XML_ERRORS_STRING);
     }
   }
 

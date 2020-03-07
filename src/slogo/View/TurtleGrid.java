@@ -1,9 +1,7 @@
 package slogo.View;
 
-import java.io.ObjectInputFilter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
@@ -33,7 +31,6 @@ import slogo.model.Turtle;
  * @author Michelle Tai, Sanna Symer
  */
 public class TurtleGrid {
-
   private static final String VISUAL_PACKAGE = "slogo/View/visualProperty/";
   private static final ResourceBundle GRID_PROPERTIES = ResourceBundle
       .getBundle(VISUAL_PACKAGE + "Grid");
@@ -56,6 +53,8 @@ public class TurtleGrid {
   private static final Double MIDDLE = 2.0;
   private static final int ZERO = 0;
   private static final double OPACITY = 0.7;
+  private static final Double MIDDLE_OF_THE_SCREEN = 2.0;
+  private static final int ZERO_INDEX =0;
   private StackPane retGrid;
   private double centerX, centerY, turtleCenterX, turtleCenterY, penWidth;
   private Boolean isPenDown = true;
@@ -121,7 +120,7 @@ public class TurtleGrid {
   }
 
   private void setUpTurtle(Turtle turtle) {
-    Image turtleImage = new Image(Main.myResources.getString(TURTLE_IMAGE));
+    Image turtleImage = new Image(Main.MY_RESOURCES.getString(TURTLE_IMAGE));
     ImageView turtleImageView = new ImageView(turtleImage);
     turtleImageView.setOpacity(OPACITY);
     int idIndex = turtle.getId() - ONE;
@@ -152,6 +151,10 @@ public class TurtleGrid {
       opaquePics.setOpacity(OPACITY);
     }
     turtleImageViews.set(turtle.getId() - ONE, opaquePics);
+    myPane.getChildren().add(turtleImageViews.get(turtle.getId()- ONE));
+
+    turtleCenterX = turtleImageViews.get(turtle.getId()- ONE).getFitWidth() / 2;
+    turtleCenterY = turtleImageViews.get(turtle.getId()- ONE).getFitHeight() / 2;
   }
 
   private void addListeners(Turtle viewTurtle) {
@@ -209,7 +212,6 @@ public class TurtleGrid {
     viewTurtle.isActivatedProperty().addListener(new ChangeListener() {
       @Override
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        System.out.println(viewTurtle.getId());
         changeOpacity(viewTurtle);
         PropertiesView.changeActive(viewTurtle);
         if (!viewTurtle.isActivatedProperty().getValue()) {
@@ -331,7 +333,7 @@ public class TurtleGrid {
     for (Turtle viewTurtle : updateTurtles) {
       String imageName = string.split(COMMA)[0];
       turtleImageViews.get(viewTurtle.getId() - ONE)
-          .setImage(new Image(Main.myResources.getString(imageName)));
+          .setImage(new Image(Main.MY_RESOURCES.getString(imageName)));
     }
   }
 
