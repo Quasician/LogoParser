@@ -8,10 +8,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import slogo.View.Language;
-import slogo.model.DisplayOption;
-import slogo.model.TreeNode;
-import slogo.model.Turtle;
-import slogo.model.TurtleList;
+import slogo.model.*;
+import slogo.model.Commands.VCUCommands.CustomCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +25,7 @@ public abstract class Command {
   private static final String ERRORS = "resources.ErrorMessages";
   protected ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
   protected DisplayOption displayOption;
+  protected CustomCommandStorage customCommandStorage;
 
   public Command(String name) {
     this.name = name;
@@ -68,6 +67,11 @@ public abstract class Command {
 
   public void setParams(List<String> params) {
     values = (ArrayList)params;
+  }
+
+  public void setCustomCommandStorage(CustomCommandStorage  customCommandStorage) {
+
+    this.customCommandStorage = customCommandStorage;
   }
 
   protected String string(int value) {

@@ -1,6 +1,6 @@
 package slogo.model.Commands.VCUCommands;
 import slogo.model.CommandParser;
-import slogo.model.CustomCommandMap;
+import slogo.model.CustomCommandStorage;
 import slogo.model.TreeNode;
 import java.util.Arrays;
 public class CustomCommand extends VCUCommand {
@@ -10,9 +10,9 @@ public class CustomCommand extends VCUCommand {
     }
     @Override
     public void doCommand(TreeNode commandNode) {
-        CommandParser miniParser = new CommandParser(turtles,variables, language);
-        String[] variables = CustomCommandMap.getVariables(commandNode.getName());
-        String commands = CustomCommandMap.getCommands(commandNode.getName());
+        CommandParser miniParser = new CommandParser(turtles,variables, language, customCommandStorage);
+        String[] variables = customCommandStorage.getVariables(commandNode.getName());
+        String commands = customCommandStorage.getCommands(commandNode.getName());
         //System.out.println("VARIABLE LENGTH: "  +variables[0]);
         for(int i = 1;i<variables.length;i++)
         {

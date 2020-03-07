@@ -5,23 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import slogo.View.Triplet;
 
-public class CustomCommandMapNonstatix {
-    private HashMap<String, String[]> variableMap;
-    private HashMap<String,String> commandsMap;
+public class CustomCommandStorage {
+    private HashMap<String, String[]> variableMap = new HashMap<>();
+    private HashMap<String,String> commandsMap = new HashMap<>();
 //    private ObservableList<List<String>> customCommandObsList = FXCollections.observableArrayList(); //idk if this is bad practice
-//    private List<Triplet<String, String, String>> listOfTriplets = new ArrayList<>();
+    //private List<Triplet<String, String, String>> listOfTriplets = new ArrayList<>();
     private ObservableList<Triplet<String, String, String>> customCommandObsList; //idk if this is bad practice
 
-
-    public CustomCommandMapNonstatix(){
+    public CustomCommandStorage()
+    {
         variableMap = new HashMap<>();
         commandsMap = new HashMap<>();
         customCommandObsList = FXCollections.observableArrayList();
-
     }
 
     public String[] getVariables(String customCommand) {
@@ -34,18 +34,18 @@ public class CustomCommandMapNonstatix {
 
     public void addCustomCommand(String name, String[] variables, String commands)
     {
+        if(!commandsMap.containsKey(name)){
+            String varString = "";
+            for(String var : variables){
+                varString = (varString + " " + var);
+            }
+            Triplet<String, String, String> triplet = new Triplet<>(name, varString, commands);
+            customCommandObsList.add(triplet);
+        }
+
         variableMap.putIfAbsent(name,variables);
         commandsMap.putIfAbsent(name,commands);
         commandsMap.put(name,commands);
-
-
-        String varString = "";
-        for(String var : variables){
-            varString = (varString + " " + var);
-        }
-        Triplet<String, String, String> triplet = new Triplet<>(name, varString, commands);
-        customCommandObsList.add(triplet);
-
     }
 
     public boolean isACustomCommand(String name)
@@ -63,6 +63,8 @@ public class CustomCommandMapNonstatix {
         return commandsMap.keySet();
     }
 
-//    public get
+    public ObservableList getCommandTriplets(){
+        return customCommandObsList;
+    }
 
 }
