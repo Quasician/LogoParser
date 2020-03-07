@@ -10,14 +10,14 @@ Should not be part of the API: private methods
 Should be part of the API:
 
 1. External - helps people in other modules
-- methods in the visualization and configuration
+- methods in the visualization and propertiesHolder
 - reader
 - getSim
 - FileInputException
 - Splash and the getSplashScene() method
 
 2. Internal
-- Many of the methods within configuration
+- Many of the methods within propertiesHolder
 
 ### Our API
 
@@ -31,7 +31,7 @@ External:
 
 Internal:
 - parse the XML file
-- configuration
+- propertiesHolder
 - carrying out rules of simulations
 - updating the grid and cells
 
@@ -53,7 +53,7 @@ Only the internal API should be modified. External should be able to handle any 
 and additions of new simulations.
 
 Methods/classes that will be used:
-- make a new class that extends Configuration (a special configuration class for the new
+- make a new class that extends Configuration (a special propertiesHolder class for the new
 simulation type)
 - make a new type of cell that extends Cell, for the new simulation
 - will need to implement all of the abstract methods in this new cell class

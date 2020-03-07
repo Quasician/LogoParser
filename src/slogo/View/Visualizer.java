@@ -30,7 +30,7 @@ public class Visualizer {
   private DisplayOption displayOption;
   private Toolbar tool;
   private TurtleGrid grid;
-  private Configuration config;
+  private PropertiesHolder config;
   private HistoryPanel myHistoryPanel;
   private static final int SPACING =10;
   public static final int SLOGO_IMAGE_HEIGHT = 80;
@@ -51,7 +51,7 @@ public class Visualizer {
     this.viewTurtles = viewTurtles;
     this.customCommandList = customCommandList;
     this.variables = variables;
-    config= new Configuration(viewTurtles, d);
+    config= new PropertiesHolder(viewTurtles, d);
     myHistoryPanel = new HistoryPanel(window, parser, config,variables, customCommandList);
     grid = new TurtleGrid(viewTurtles, config,activatedTurtles);
     tool = new Toolbar(grid, language, activatedTurtles);
