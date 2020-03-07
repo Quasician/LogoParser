@@ -6,6 +6,9 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.geometry.Insets;
@@ -21,7 +24,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import slogo.model.CommandParser;
 import slogo.model.xml.XMLCreator;
 import slogo.model.xml.XMLException;
 import slogo.model.xml.XMLParser;
@@ -31,14 +33,14 @@ import slogo.model.xml.XMLParser;
  */
 
 public class HistoryPanel implements HistoryView{
-
+  private  StringProperty CommandLineString;
+  private BooleanProperty CommandLineBool;
   private VBox historyVBox;
   private CommandHistory myCommandHistory;
   private OutputView myOutputView;
   private UserDefinedCommands myUserDefined;
   private VariableHistory myVariableHistory;
   private PropertiesHolder myConfig;
-  private CommandParser comParser;
   private static final int ZERO_INDEX=0;
   private static final String XML_FILES_TEXT= "XML files";
   private static final String XML_EXTENSION="*.xml";
@@ -57,24 +59,28 @@ public class HistoryPanel implements HistoryView{
   private static final ResourceBundle MY_PROPERTIES = ResourceBundle.getBundle(RESOURCES_HISTORY_VIEW + "HistoryButtonProperties");
   private static final List<String> BUTTON_NAMES = Arrays.asList("Command", "Variable", "Custom", "Properties","Undo", "Save", "Upload");;
   private HBox buttonsForPanes;
+  private BooleanProperty checkBoxToBeMade;
   private ObservableList<Triplet<String, String, String>> customCommandList;
   private static final int BUTTON_WIDTH = Integer.parseInt(MY_PROPERTIES.getString("ButtonWidth"));
   private static final int BUTTON_HEIGHT = Integer.parseInt(MY_PROPERTIES.getString("ButtonHeight"));
   private static final int BUTTON_FONT_SIZE = Integer.parseInt(MY_PROPERTIES.getString("ButtonFontSize"));
   private static final String BUTTON_COLOR = MY_PROPERTIES.getString("Color");
   private Stage myWindow;
+  private BooleanProperty checkTranslated;
 
   /**
    * Constructor for the HistoryPanel class
    * @param myWindow is the stage on which the history panel will be shown
-   * @param parser is the command parser object that is used in the program
    */
 
-  public HistoryPanel(Stage myWindow, CommandParser parser, PropertiesHolder propertiesHolder, ObservableMap<String,String> variables, ObservableList<Triplet<String, String, String>> customCommandList) {
+  public HistoryPanel(Stage myWindow, PropertiesHolder propertiesHolder, ObservableMap<String,String> variables, ObservableList<Triplet<String, String, String>> customCommandList, StringProperty str,ActivityListeners listeners) {
     this.myWindow = myWindow;
-    this.comParser = parser;
+    this.checkTranslated = listeners.translateTextUpdateProperty();
+    this.CommandLineString = str;
+    this.CommandLineBool =listeners.textUpdateProperty();
+    checkBoxToBeMade=listeners.checkBoxProperty();
     this.customCommandList = customCommandList;
-    myCommandHistory = new CommandHistory(comParser);
+    myCommandHistory = new CommandHistory();
     myOutputView= new OutputView();
     myUserDefined = new UserDefinedCommands(customCommandList);
     myVariableHistory = new VariableHistory(variables);
@@ -100,7 +106,8 @@ public class HistoryPanel implements HistoryView{
   public void makeNewBox(String newCommand) {
     myCommandHistory.makeBox(newCommand);
     Button trial = myCommandHistory.returnButton();
-    trial.setOnAction(e -> {comParser.parseText(newCommand); makeNewBox(newCommand);});
+    trial.setOnAction(e -> {
+      parseCommand(newCommand, true);});
   }
 
   /**
@@ -138,17 +145,22 @@ public class HistoryPanel implements HistoryView{
   }
 
   private void undoCommands(){
-    comParser.miniParse(CLEAR_SCREEN);
+    CommandLineString.set(CLEAR_SCREEN);
+    checkTranslated.setValue(!checkTranslated.getValue());
     try{
       myCommandHistory.removeCommand();
       for(String commandsUndo: myCommandHistory.getCommandListCopy() ){
-         comParser.parseText(commandsUndo);
+         parseCommand(commandsUndo,false);
       }
     } catch (IndexOutOfBoundsException e){
       makeNewTerminalBox(e.getMessage());
     }
   }
-
+  private void parseCommand(String command, Boolean makeBox){
+    CommandLineString.set(command);
+    checkBoxToBeMade.setValue(makeBox);
+    CommandLineBool.setValue(!CommandLineBool.getValue());
+  }
   private void setShowProperties() {
     historyVBox.getChildren()
         .removeAll(myCommandHistory.returnScene(), myVariableHistory.returnScene(),
@@ -185,7 +197,7 @@ public class HistoryPanel implements HistoryView{
 
   private void uploadXML() {
     FileChooser fileChooser = new FileChooser();
-    fileChooser.getExtensionFilters().add(new ExtensionFilter(XML_FILES_TEXT, XML_FILES_TEXT));
+    fileChooser.getExtensionFilters().add(new ExtensionFilter(XML_FILES_TEXT, XML_EXTENSION));
     try {
       File xml = fileChooser.showOpenDialog(myWindow);
       XMLParser parser = new XMLParser(xml);
@@ -193,7 +205,7 @@ public class HistoryPanel implements HistoryView{
       List<String> commands = parser.getCommands();
       String[] array = commands.toArray(new String[ZERO_INDEX]);
       String str = String.join(DELIMITER, array);
-      comParser.parseText(str);
+      parseCommand(str,true);
     } catch (Exception e) {
       //Do nothing: File was not chosen, throwing error is unnecessary.
     }

@@ -12,7 +12,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import slogo.Main;
-import slogo.model.CommandParser;
 
 public class CommandHistory implements HistoryView{
     private ResourceBundle myResources = Main.MY_RESOURCES;
@@ -27,7 +26,6 @@ public class CommandHistory implements HistoryView{
     private static final int WIDTH = 300;
     private static final int PLAY_IMAGE_SIZE = 10;
     private static final int PLAY_IMAGE_SIZE_IN_HBOX = 20;
-    private CommandParser pars;
     private static final int FONT_SIZE=0;
     private static final int SPACING=5;
     private ArrayList<String> commandValues;
@@ -35,14 +33,13 @@ public class CommandHistory implements HistoryView{
     private static final String RUN_BUTTON= "PlayImage";
     private static final String EMPTY ="";
 
-    public CommandHistory(CommandParser parser){
+    public CommandHistory(){
         commandValues = new ArrayList<>();
         historyWindow=new ListView();
         historyWindow.setBackground(Background.EMPTY);
         historyWindow.setStyle(myResources.getString(STYLE));
         historyWindow.setPrefHeight(HEIGHT);
         historyWindow.setPrefWidth(WIDTH);
-        pars=parser;
     }
 
     protected List<String> getCommandListCopy() {

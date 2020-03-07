@@ -4,17 +4,12 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import slogo.View.Language;
-import slogo.View.UserException;
+import slogo.View.*;
 import slogo.model.*;
-
-import slogo.View.Visualizer;
 
 /**
  * Feel free to completely change this code or delete it entirely.
@@ -48,7 +43,6 @@ public class Main extends Application {
     Turtle modelTurtle2 = new Turtle();
     turtleList.addTurtleToModelList(modelTurtle1);
     turtleList.addTurtleToModelList(modelTurtle2);
-
     Language language = new Language();
     DisplayOption displayOption = new DisplayOption();
     VariableStorage variableStorage = new VariableStorage(myMap);
@@ -58,28 +52,31 @@ public class Main extends Application {
     commandParser.setDisplayOption(displayOption);
     StringProperty commandLineText = new SimpleStringProperty();
     StringProperty parseString = new SimpleStringProperty();
+    BooleanProperty checkBox= new SimpleBooleanProperty();
+    BooleanProperty translatedTextUpdate= new SimpleBooleanProperty();
+    checkBox.setValue(true);
     parseString.bind(commandLineText);
     BooleanProperty textUpdate = new SimpleBooleanProperty();
-
-    Visualizer vis = new Visualizer(primaryStage, turtleList.getViewTurtleList(), turtleList.getActiveTurtleList(), variableStorage.getViewObservableMap(), commandLineText,
-        textUpdate, language, commandParser, myMap, displayOption, customCommandStorage.getCommandTriplets());
+    Display userScreen= new Display(primaryStage,commandLineText,language,displayOption);
+    ActivityListeners propertiesFile= new ActivityListeners(textUpdate,checkBox,translatedTextUpdate);
+    Observables lists= new Observables(turtleList.getViewTurtleList(), turtleList.getActiveTurtleList(), variableStorage.getViewObservableMap());
+    Visualizer vis = new Visualizer(userScreen, propertiesFile,lists, customCommandStorage.getCommandTriplets());
     vis.setDisplayOption(displayOption);
-
-    parseTextOnInput(textUpdate, parseString, commandParser, vis);
-
+    parseTextOnInput(textUpdate, parseString, commandParser, vis,checkBox);
+    parseTranslatedText(translatedTextUpdate,parseString,commandParser);
     turtleList.makeModelTurtleActivated(1);
     turtleList.makeModelTurtleDeactivated(2);
     turtleList.makeModelTurtleActivated(1);
     turtleList.makeModelTurtleActivated(2);
-    commandParser.parseText("tell [ 3 ]");
-    commandParser.parseText("fd 100");
-    commandParser.parseText("tell [ 2 ]");
-    commandParser.parseText("rt 45 fd 100");
-    commandParser.parseText("tell [ 1 ]");
-    commandParser.parseText("rt 315 fd 100");
-    commandParser.parseText("tell [ 1 2 3 ]");
-    commandParser.parseText("to c [ ] [ repeat 100 [  fd 50 rt 50  ] ]");
-    commandParser.parseText("c ");
+//    commandParser.parseText("tell [ 3 ]");
+//    commandParser.parseText("fd 100");
+//    commandParser.parseText("tell [ 2 ]");
+//    commandParser.parseText("rt 45 fd 100");
+//    commandParser.parseText("tell [ 1 ]");
+//    commandParser.parseText("rt 315 fd 100");
+//    commandParser.parseText("tell [ 1 2 3 ]");
+//    commandParser.parseText("to c [ ] [ repeat 100 [  fd 50 rt 50  ] ]");
+//    commandParser.parseText("c ");
     //commandParser.parseText("fd 50");
 //    commandParser.parseText("to c [ :f ] [ rt :f fd :f ]");
 //    commandParser.parseText("c 70 ");
@@ -96,20 +93,30 @@ public class Main extends Application {
   }
 
   private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText,
-      CommandParser commandParser, Visualizer vis) {
-    textUpdate.addListener(new ChangeListener() {
-      @Override
-      public void changed(ObservableValue o, Object oldVal, Object newVal) {
-        System.out.println(parseText.getValue());
+      CommandParser commandParser, Visualizer vis, BooleanProperty checkB) {
+    textUpdate.addListener(e->{
         try {
           System.out.println(parseText.getValue());
           String finalValue = commandParser.parseText(parseText.getValue());
-          vis.makeNewBox(parseText.getValue());
-          vis.makeNewTerminalBox(finalValue);
-        } catch (CommandException | UserException e) {
-          showError(e.getMessage());
+          if(checkB.getValue()) {
+            vis.makeNewBox(parseText.getValue());
+            vis.makeNewTerminalBox(finalValue);
+          }
+        } catch (CommandException | UserException ex) {
+          showError(ex.getMessage());
         }
-      }
+    });
+  }
+
+  private void parseTranslatedText(BooleanProperty translatedUpdate, StringProperty parseText,
+                                   CommandParser commandParser) {
+    translatedUpdate.addListener(e-> {
+        System.out.println(parseText.getValue());
+        try {
+            commandParser.miniParse(parseText.getValue());
+        } catch (CommandException | UserException ex) {
+          showError(ex.getMessage());
+        }
     });
   }
 
