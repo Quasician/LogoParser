@@ -22,7 +22,8 @@ public class Ask extends MultipleTurtleCommand {
     List<Boolean> currentTurtleStates = getCurrentTurtleStates();
     for (String activatedTurtle : turtlesToRun) {
       CommandParser miniparser = new CommandParser(activatedTurtles, variables, language, customCommandStorage);
-      miniparser.setTurtles(generate1ActiveTurtleList(Integer.parseInt(activatedTurtle)));
+      String parsed = miniparser.miniParse(activatedTurtle);
+      miniparser.setTurtles(generate1ActiveTurtleList((int)Double.parseDouble(parsed)));
       finalValue = miniparser.miniParse(allCommands);
     }
     setResult(currentTurtleStates, commandNode, commands, finalValue);

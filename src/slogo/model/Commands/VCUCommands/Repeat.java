@@ -17,11 +17,10 @@ public class Repeat extends VCUCommand {
         //String allCommands = getParamList().get(1).replaceFirst("\\[(.*?)\\]", "$1");
         String allCommands = getParamList().get(1).replaceFirst("\\[","").replace("\\]","");
         System.out.println("Repeat resut " + allCommands);
-        for(double i = 1; i<=Double.parseDouble(getParamList().get(0).trim());i++) {
-            System.out.println("COUNT FOR REPEAT" + allCommands);
+        CommandParser miniparser = new CommandParser(turtles,variables, language, customCommandStorage);
+        Double limit = Double.parseDouble(miniparser.miniParse(getParamList().get(0).trim()));
+        for(double i = 1; i<= limit;i++) {
             variables.put(":repcount", "" + i);
-            CommandParser miniparser = new CommandParser(turtles,variables, language, customCommandStorage);
-            System.out.println("Repeated Commands: " + getParamList().get(1));
             finalValue = miniparser.miniParse(allCommands);
         }
         if(commands.length==0)
