@@ -1,9 +1,7 @@
 package slogo.View;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
@@ -17,8 +15,8 @@ public class ViewTurtle {
   private static final Image DEFAULT_IMAGE =  new Image(Main.myResources.getString(DEFAULT_TURTLE));
   private static final double HEIGHT = 40;
   private static final double WIDTH = 40;
-  private static final int coordInitial = 0;
-  private static final int screenCenter = 2;
+  private static final int COORD_INITIAL = 0;
+  private static final int SCREEN_CENTER = 2;
   private double height;
   private double width;
 
@@ -32,8 +30,8 @@ public class ViewTurtle {
 
   public ViewTurtle(double height, double width) {
     myImageView = new ImageView(DEFAULT_IMAGE);
-    coordinateProperty = new SimpleObjectProperty(new Coordinate(coordInitial,coordInitial));
-    angleProperty = new SimpleDoubleProperty(coordInitial);
+    coordinateProperty = new SimpleObjectProperty(new Coordinate(COORD_INITIAL, COORD_INITIAL));
+    angleProperty = new SimpleDoubleProperty(COORD_INITIAL);
     this.height = height;
     this.width = width;
   }
@@ -72,11 +70,11 @@ public class ViewTurtle {
   }
 
   protected double getCenterX() {
-    return width / screenCenter;
+    return width / SCREEN_CENTER;
   }
 
   protected double getCenterY() {
-    return height / screenCenter;
+    return height / SCREEN_CENTER;
   }
 
 }

@@ -22,29 +22,13 @@ import slogo.model.*;
 import slogo.model.Commands.Command;
 
 public class Visualizer {
-
   private static int WINDOW_WIDTH = 1500;
   private static int WINDOW_HEIGHT = 1000;
   private BorderPane bp;
   private ObservableList<Turtle> viewTurtles;
   private ObservableMap<String,String> variables;
   private javafx.scene.image.Image img;
-  private static final String nameofImage= "SlogoLogo";
-  private static final String delimiter= "\n";
-  private static final String Command = "Command";
-  private static final String Variable = "Variable";
-  private static final String Custom = "Custom";
-  private static final String Properties = "Properties";
-  private static final String Save = "Save";
-  private static final String Upload = "Upload";
   private static final String style = "Style";
-  private static final String title= "Title";
-  private static final String UndoCommand= "Undo";
-  private static final String Error="No Commands Found to Undo";
-  private static final String space =" ";
-  private static final int colorRed=10;
-  private static final int colorGreen=10;
-  private static final int colorBlue=20;
   private ObservableMap myMap;
   private DisplayOption displayOption;
   private Toolbar tool;
@@ -57,7 +41,6 @@ public class Visualizer {
   private ImageView slogoImage;
   private ObservableList<Triplet<String, String, String>> customCommandList;
 
-
   /**
    * Constructor for the visualizer class
    *
@@ -66,18 +49,15 @@ public class Visualizer {
       StringProperty commandLineText,
       BooleanProperty textUpdate, Language language, CommandParser parser,
       ObservableMap myMap, DisplayOption d, ObservableList<Triplet<String, String, String>> customCommandList) {
-//    myWindow = window;
     this.viewTurtles = viewTurtles;
     this.customCommandList = customCommandList;
     this.variables = variables;
     config= new Configuration(viewTurtles, d);
-    myHistoryPanel = new HistoryPanel(window, viewTurtles, parser, config,variables, customCommandList);
+    myHistoryPanel = new HistoryPanel(window, parser, config,variables, customCommandList);
     grid = new TurtleGrid(viewTurtles, config,activatedTurtles);
-
     tool = new Toolbar(grid, language, activatedTurtles);
     CommandLine cmdline = new CommandLine(commandLineText, textUpdate, activatedTurtles,parser);
     this.myMap = myMap;
-    //setUpMapListener();
     img = new Image(myResources.getString("SlogoLogo"));
     slogoImage = new ImageView(img);
     slogoImage.setFitHeight(SLOGO_IMAGE_HEIGHT);
@@ -88,7 +68,6 @@ public class Visualizer {
     window.setScene(scene);
     window.show();
     addSizeListener();
-//    addKeyHandler(scene, grid);
   }
 
   public void setDisplayOption(DisplayOption d) {
@@ -101,27 +80,9 @@ public class Visualizer {
       public void onChanged(Change<? extends Turtle> c) {
         c.next();
         List<Turtle> newTurtles = (List<Turtle>) c.getAddedSubList();
-//        System.out.println("View turtles changed in turtle grid");
-//        for (Turtle changedTurtle : newTurtles) {
-////          System.out.println("NEW VIEW turtle: " + changedTurtle.isActivatedProperty().getValue());
-//          //setUpTurtle(changedTurtle);
-//        }
       }
     });
   }
-
-//  // TODO need to change since this isnt used anywhere
-//  private void setUpMapListener() {
-//    myMap.addListener(new MapChangeListener<String, String>() {
-//        @Override
-//        public void onChanged(Change<? extends String, ? extends String> change) {
-//          System.out.println(change.getKey() + " " + change.getValueAdded());
-//          variables.putIfAbsent(change.getKey(), "");
-//          variables.put(change.getKey(), "change.getValueAdded()");
-//        }
-//      }
-//    );
-//  }
 
   private void setUpBorderPane(TurtleGrid grid, CommandLine commandLine, Toolbar tool) {
     bp = new BorderPane();
@@ -135,12 +96,9 @@ public class Visualizer {
     rightSide.getChildren().addAll(slogoImage, myHistoryPanel.returnScene());
     bp.setRight(rightSide);
   }
-  //i know this isnt good design since its being passed into "2 levels," but im gonna leave it until i find a better way to refactor
   public void makeNewBox(String value) {
     myHistoryPanel.makeNewBox(value);
   }
-
-  //i know this isnt good design since its being passed into "2 levels," but im gonna leave it until i find a better way to refactor
   public void makeNewTerminalBox(String parseText) {
     myHistoryPanel.makeNewTerminalBox(parseText);
   }

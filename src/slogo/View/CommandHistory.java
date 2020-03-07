@@ -2,7 +2,6 @@ package slogo.View;
 
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -10,7 +9,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import slogo.Main;
@@ -24,7 +22,7 @@ public class CommandHistory implements HistoryView{
     private ViewButton runButton;
     private Label commandEntered;
     private static final int HEIGHT = 310;
-    private static final int oneConstant = 1;
+    private static final int ONE_CONSTANT = 1;
     private static final int NEW_HEIGHT = 200;
     private static final int WIDTH = 300;
     private static final int PLAY_IMAGE_SIZE = 10;
@@ -35,7 +33,7 @@ public class CommandHistory implements HistoryView{
     private ArrayList<String> commandValues;
     private static final String STYLE = "Style";
     private static final String RUN_BUTTON= "PlayImage";
-    private static final String empty="";
+    private static final String EMPTY ="";
 
     public CommandHistory(CommandParser parser){
         commandValues = new ArrayList<>();
@@ -44,7 +42,6 @@ public class CommandHistory implements HistoryView{
         historyWindow.setStyle(myResources.getString(STYLE));
         historyWindow.setPrefHeight(HEIGHT);
         historyWindow.setPrefWidth(WIDTH);
-        // historyWindow.setMargin(historyWindow,new Insets(10,5,10,0));
         pars=parser;
     }
 
@@ -54,12 +51,12 @@ public class CommandHistory implements HistoryView{
     }
 
     protected void removeCommand(){
-        commandValues.remove(commandValues.size() - oneConstant);
+        commandValues.remove(commandValues.size() - ONE_CONSTANT);
         }
 
 
     protected void makeBox(String StringRepresentation){
-        runButton=new ViewButton(empty,  PLAY_IMAGE_SIZE_IN_HBOX, PLAY_IMAGE_SIZE_IN_HBOX,FONT_SIZE);
+        runButton=new ViewButton(EMPTY,  PLAY_IMAGE_SIZE_IN_HBOX, PLAY_IMAGE_SIZE_IN_HBOX,FONT_SIZE);
         setImage(runButton, myResources.getString(RUN_BUTTON));
         commandValues.add(StringRepresentation);
         newCommand= new HBox(SPACING);

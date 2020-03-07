@@ -8,7 +8,6 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -17,9 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import slogo.Main;
 import slogo.model.CommandParser;
-import slogo.model.Commands.Command;
 import slogo.model.Turtle;
-import slogo.model.TurtleList;
 
 /**
  * consider: what if I wanna add more buttons?
@@ -36,17 +33,15 @@ public class CommandLine{
   private static final int BUTTON_WIDTH = 100;
   private static final int COMMAND_LINE_TEXTAREA_HEIGHT = BUTTON_HEIGHT * 2 + 10;
   private static final int SPACING_VALUE = 10;
-  private static final int MOVEMENT = 50;
-  private static final int DEGREE_CHANGE = 30;
   private static final int TEXTAREA_FONTSIZE = 20;
   private StringProperty commandLineText;
-  private static final String Empty="";
-  private static final String Run="Run";
-  private static final String forwardArrow="Forward 50";
-  private static final String backwardArrow="Backward 50";
-  private static final String rightTurnArrow="Right 45";
-  private static final String leftTurnArrow="Left 45";
-  private static final String Clear="Clear";
+  private static final String EMPTY ="";
+  private static final String RUN ="Run";
+  private static final String FORWARD_50 ="Forward 50";
+  private static final String BACKWARD_50 ="Backward 50";
+  private static final String RIGHT_45 ="Right 45";
+  private static final String LEFT_45 ="Left 45";
+  private static final String CLEAR ="Clear";
   private static final String FONT_NAME="Avenir";
   private static final String PROMPT="EnterCommandPrompt";
   private BooleanProperty textUpdate;
@@ -84,28 +79,28 @@ public class CommandLine{
 
   private void keyMovementHandler(KeyEvent e, CommandParser parser) {
       if ((e.getCode() == KeyCode.UP)) {
-        parser.miniParse(forwardArrow);
+        parser.miniParse(FORWARD_50);
       }
       if ((e.getCode() == KeyCode.DOWN)) {
-        parser.miniParse(backwardArrow);
+        parser.miniParse(BACKWARD_50);
       }
       if ((e.getCode() == KeyCode.RIGHT)) {
-        parser.miniParse(rightTurnArrow);
+        parser.miniParse(RIGHT_45);
       }
       if ((e.getCode() == KeyCode.LEFT)) {
-        parser.miniParse(leftTurnArrow);
+        parser.miniParse(LEFT_45);
       }
   }
 
   private void setButtons(){
-    runButton = new ViewButton(myResources.getString(Run), BUTTON_HEIGHT, BUTTON_WIDTH);
+    runButton = new ViewButton(myResources.getString(RUN), BUTTON_HEIGHT, BUTTON_WIDTH);
     runButton.setOnAction(e -> {
-      commandLineText.set(inputArea.getText()+Empty);
+      commandLineText.set(inputArea.getText()+ EMPTY);
       textUpdate.set(!textUpdate.getValue());
     });
-    clearButton = new ViewButton(myResources.getString(Clear), BUTTON_HEIGHT, BUTTON_WIDTH);
+    clearButton = new ViewButton(myResources.getString(CLEAR), BUTTON_HEIGHT, BUTTON_WIDTH);
     clearButton.setOnAction(e -> {
-      inputArea.setText(Empty);
+      inputArea.setText(EMPTY);
     });
   }
 

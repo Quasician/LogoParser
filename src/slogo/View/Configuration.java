@@ -15,17 +15,17 @@ public class Configuration {
     private ListView variablesTable;
     private static final String THIS_PACKAGE = Configuration.class.getPackageName();
     private static final String MY_RESOURCE_FOLDER = THIS_PACKAGE + ".visualProperty.";
-    private static ResourceBundle turtleImages = ResourceBundle.getBundle(MY_RESOURCE_FOLDER + "PropertiesWindow");
-    private static final String TURTLE_NUMBER_TEXT= turtleImages.getString("TurtlesNumber");
-    private static final String PEN_THICKNESS= turtleImages.getString("PenThicknessText");
-    private static final String PEN_DOWN_PROP= turtleImages.getString("PenDownText");
-    private static final String BACKGROUND_COLOR_TEXT= turtleImages.getString("BackgroundColorText");
-    private static final String PEN_COLOR_TEXT= turtleImages.getString("PenColorText");
-    private static final String IMAGE_INDEX_TEXT= turtleImages.getString("ImageIndexText");
-    private static final String TURT_COORD_TEXT= turtleImages.getString("TurtleCoordText");
-    private static final String TURT_STATUS_TEXT= turtleImages.getString("TurtStatusText");
-    private static final String isString=" is ";
-    private static final String commaString=",";
+    private static final ResourceBundle TURTLE_IMAGES = ResourceBundle.getBundle(MY_RESOURCE_FOLDER + "PropertiesWindow");
+    private static final String TURTLE_NUMBER_TEXT= TURTLE_IMAGES.getString("TurtlesNumber");
+    private static final String PEN_THICKNESS= TURTLE_IMAGES.getString("PenThicknessText");
+    private static final String PEN_DOWN_PROP= TURTLE_IMAGES.getString("PenDownText");
+    private static final String BACKGROUND_COLOR_TEXT= TURTLE_IMAGES.getString("BackgroundColorText");
+    private static final String PEN_COLOR_TEXT= TURTLE_IMAGES.getString("PenColorText");
+    private static final String IMAGE_INDEX_TEXT= TURTLE_IMAGES.getString("ImageIndexText");
+    private static final String TURT_COORD_TEXT= TURTLE_IMAGES.getString("TurtleCoordText");
+    private static final String TURT_STATUS_TEXT= TURTLE_IMAGES.getString("TurtStatusText");
+    private static final String IS_STRING =" is ";
+    private static final String COMMA_STRING =",";
     private Label PropertyName;
     private Label number;
     private Label color;
@@ -121,11 +121,11 @@ public class Configuration {
     }
 
     public void changeActive(Turtle viewTurtle) {
-        turtleStatus.setText(TURT_STATUS_TEXT+viewTurtle.getId()+ isString + viewTurtle.isActivatedProperty().getValue());
+        turtleStatus.setText(TURT_STATUS_TEXT+viewTurtle.getId()+ IS_STRING + viewTurtle.isActivatedProperty().getValue());
     }
 
     public void makeCoord(Turtle viewTurtle) {
-        turtleCoord.setText(TURT_COORD_TEXT+ viewTurtle.getX()+ commaString+ viewTurtle.getY());
+        turtleCoord.setText(TURT_COORD_TEXT+ viewTurtle.getX()+ COMMA_STRING + viewTurtle.getY());
     }
 }
 
