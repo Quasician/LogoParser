@@ -9,11 +9,7 @@ import java.util.regex.Pattern;
 
 public class CommandTreeConstructor {
 
-  private Pattern constantPattern = Pattern.compile("-?[0-9]+\\.?[0-9]*");
-  private Pattern commandPattern = Pattern.compile("[a-zA-Z_]+(\\?)?");
-  private Pattern variablePattern = Pattern.compile(":[a-zA-Z_]+");
-  private Pattern commentPattern = Pattern.compile("^#.*");
-  private Pattern newLinePattern = Pattern.compile("\n");
+  private static final GeneralParserBehavior BEHAVIOR = new GeneralParserBehavior();
   private HashMap<Pattern, String> translations;
   private CustomCommandStorage customCommandStorage;
 
@@ -113,11 +109,11 @@ public class CommandTreeConstructor {
       System.out.println("YABADABADOO");
       System.out.println(commandNode.getChildren().get(0).getName());
       return handleCommands(buildingNode, commandNode, currentCommand);
-    } else if (match(currentCommand, commandPattern)) {
+    } else if (match(currentCommand, BEHAVIOR.getCommandPattern())) {
       return handleCommands(buildingNode, commandNode, currentCommand);
     }
     // needs to also check for variables (use or statement
-    else if (match(currentCommand, variablePattern) || match(currentCommand, constantPattern)) {
+    else if (match(currentCommand, BEHAVIOR.getVariablePattern()) || match(currentCommand, BEHAVIOR.getConstantPattern())) {
       TreeNode node = new TreeNode(currentCommand);
       node.setResult(currentCommand);
       buildingNode.addChild(node);
