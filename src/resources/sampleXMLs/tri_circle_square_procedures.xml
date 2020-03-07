@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Title Name="Title">
+    <author>Sanna</author>
+    <Commands>
+        <Command>
+            <Text>to triangle [ ]
+[ 
+  repeat 3 [
+    fd 50 
+    rt 120
+  ]
+]</Text>
+        </Command>
+        <Command>
+            <Text>to circle [ ]
+[
+  repeat 360 [
+    fd 1 
+    rt 1
+  ]
+]</Text>
+        </Command>
+        <Command>
+            <Text>to square [ ]
+[
+  repeat 4 [
+    fd 100
+    rt 90
+  ]
+  fd 100
+]</Text>
+        </Command>
+        <Command>
+            <Text>triangle</Text>
+        </Command>
+        <Command>
+            <Text>fd 200</Text>
+        </Command>
+        <Command>
+            <Text>circle</Text>
+        </Command>
+        <Command>
+            <Text>circle</Text>
+        </Command>
+        <Command>
+            <Text>left 90</Text>
+        </Command>
+        <Command>
+            <Text>setpc 3</Text>
+        </Command>
+        <Command>
+            <Text>square</Text>
+        </Command>
+    </Commands>
+</Title>
