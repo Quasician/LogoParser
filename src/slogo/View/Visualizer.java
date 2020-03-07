@@ -26,7 +26,6 @@ public class Visualizer {
   private ObservableMap<String,String> variables;
   private javafx.scene.image.Image img;
   private static final String STYLE = "Style";
-  private ObservableMap myMap;
   private DisplayOption displayOption;
   private Toolbar tool;
   private TurtleGrid grid;
@@ -38,25 +37,22 @@ public class Visualizer {
   private static final ResourceBundle MY_RESOURCES = Main.MY_RESOURCES;
   private static final String IMAGE_STRING= MY_RESOURCES.getString("SlogoLogo");
   private ImageView slogoImage;
+  private BooleanProperty checkMin;
   private ObservableList<Triplet<String, String, String>> customCommandList;
 
   /**
    * Constructor for the visualizer class
    *
    */
-  public Visualizer(Stage window, ObservableList viewTurtles, ObservableList activatedTurtles, ObservableMap<String,String> variables,
-      StringProperty commandLineText,
-      BooleanProperty textUpdate, Language language, CommandParser parser,
-      ObservableMap myMap, DisplayOption d, ObservableList<Triplet<String, String, String>> customCommandList) {
-    this.viewTurtles = viewTurtles;
+  public Visualizer(Display display, ActivityListeners activityListeners, Observables lists, ObservableList<Triplet<String, String, String>> customCommandList) {
+    this.viewTurtles =lists.getViewTurtleList();
     this.customCommandList = customCommandList;
-    this.variables = variables;
-    config= new PropertiesHolder(viewTurtles, d);
-    myHistoryPanel = new HistoryPanel(window, parser, config,variables, customCommandList);
-    grid = new TurtleGrid(viewTurtles, config,activatedTurtles);
-    tool = new Toolbar(grid, language, activatedTurtles);
-    CommandLine cmdline = new CommandLine(commandLineText, textUpdate, activatedTurtles,parser);
-    this.myMap = myMap;
+    this.variables = lists.getViewObservableMap();
+    config= new PropertiesHolder(viewTurtles, display.getOptions());
+    myHistoryPanel = new HistoryPanel(display.getUserStage(),config,variables, customCommandList, display.getCommandText(),activityListeners);
+    grid = new TurtleGrid(viewTurtles, config,lists.getActiveTurtleList());
+    tool = new Toolbar(grid, display.getDisplayLang(), lists.getActiveTurtleList());
+    CommandLine cmdline = new CommandLine(display.getCommandText(), activityListeners, lists.getActiveTurtleList());
     img = new Image(IMAGE_STRING);
     slogoImage = new ImageView(img);
     slogoImage.setFitHeight(SLOGO_IMAGE_HEIGHT);
@@ -64,8 +60,8 @@ public class Visualizer {
     slogoImage.isFocused();
     setUpBorderPane(grid, cmdline, tool);
     Scene scene = new Scene(bp, WINDOW_WIDTH, WINDOW_HEIGHT);
-    window.setScene(scene);
-    window.show();
+    display.getUserStage().setScene(scene);
+    display.getUserStage().show();
     addSizeListener();
   }
 
