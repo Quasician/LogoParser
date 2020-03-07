@@ -31,10 +31,14 @@ public class Main extends Application {
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES + ".";
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES + "/";
   private static final String TURTLE_PNG = "turtle.png";
+  private static final String errorTitle="Alert test - error";
+  private static final String debuggingT="fd 100";
+  private static final int activated=1;
+  private static final int deactivated =2;
   private ObservableMap myMap = FXCollections.observableMap(new HashMap<String, String>());
   private ObservableMap myCustomMap = FXCollections.observableMap(new HashMap<String, String>());
   private TurtleList turtleList;
-  public static ResourceBundle myResources = ResourceBundle
+  public static final ResourceBundle myResources = ResourceBundle
       .getBundle(DEFAULT_RESOURCE_PACKAGE + "DisplayEnglish");
 
   public VariableStorage variableStorage;
@@ -84,7 +88,13 @@ public class Main extends Application {
           "MODELTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
               + " Angle: " + turtle.getDegree() + " Activated: "+ turtle.isActivatedProperty().getValue());
     }
+    turtleList.makeModelTurtleActivated(activated);
+    turtleList.makeModelTurtleDeactivated(deactivated);
+    turtleList.makeModelTurtleActivated(activated);
+    turtleList.makeModelTurtleActivated(deactivated);
+    commandParser.parseText(debuggingT);
   }
+
   private void bindTurtles(Turtle model, Turtle view) {
     view.distanceProperty().bind(model.distanceProperty());
     view.angleProperty().bind(model.angleProperty());
@@ -114,7 +124,7 @@ public class Main extends Application {
 
   private void showError(String message) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Alert test - error");
+    alert.setTitle(errorTitle);
     alert.setContentText(message);
     alert.showAndWait();
   }

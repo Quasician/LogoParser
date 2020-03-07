@@ -75,7 +75,7 @@ public class Visualizer {
     grid = new TurtleGrid(viewTurtles, config,activatedTurtles);
 
     tool = new Toolbar(grid, language, activatedTurtles);
-    CommandLine cmdline = new CommandLine(commandLineText, textUpdate, grid, activatedTurtles);
+    CommandLine cmdline = new CommandLine(commandLineText, textUpdate, activatedTurtles,parser);
     this.myMap = myMap;
     //setUpMapListener();
     img = new Image(myResources.getString("SlogoLogo"));

@@ -10,11 +10,14 @@ import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import slogo.Main;
+import slogo.model.CommandParser;
+import slogo.model.Commands.Command;
 import slogo.model.Turtle;
 import slogo.model.TurtleList;
 
@@ -25,12 +28,10 @@ import slogo.model.TurtleList;
  */
 public class CommandLine{
   public static ResourceBundle myResources = Main.myResources;
-
   private TextArea inputArea;
   private ViewButton runButton;
   private ViewButton clearButton;
   private HBox commandLineGroup;
-
   private static final int BUTTON_HEIGHT = 60;
   private static final int BUTTON_WIDTH = 100;
   private static final int COMMAND_LINE_TEXTAREA_HEIGHT = BUTTON_HEIGHT * 2 + 10;
@@ -41,6 +42,10 @@ public class CommandLine{
   private StringProperty commandLineText;
   private static final String Empty="";
   private static final String Run="Run";
+  private static final String forwardArrow="fd 50";
+  private static final String backwardArrow="bk 50";
+  private static final String rightTurnArrow="rt 45";
+  private static final String leftTurnArrow="lt 45";
   private static final String Clear="Clear";
   private static final String FONT_NAME="Avenir";
   private static final String PROMPT="EnterCommandPrompt";
@@ -52,11 +57,12 @@ public class CommandLine{
    * Constructor for the command line group, which includes the run and clear button, as well as an area
    * where the user can type in commands to control the turtle.
    */
-  public CommandLine(StringProperty commandLineText, BooleanProperty textUpdate, TurtleGrid turt, ObservableList<Turtle> activatedTurtles){
+  public CommandLine(StringProperty commandLineText, BooleanProperty textUpdate, ObservableList<Turtle> activatedTurtles
+  , CommandParser parser){
     this.activatedTurtles = activatedTurtles;
     this.textUpdate = textUpdate;
     this.commandLineText = commandLineText;
-    setInputArea(turt);
+    setInputArea(parser);
     setButtons();
     formatCommandLineGroup();
   }
@@ -68,48 +74,33 @@ public class CommandLine{
     return commandLineGroup;
   }
 
-  private void setInputArea(TurtleGrid turtle){
+  private void setInputArea(CommandParser parser){
     inputArea = new TextArea();
-    inputArea.setOnKeyPressed(e-> {
-              if ((e.getCode() == KeyCode.UP)) {
-                for (Turtle t : activatedTurtles) {
-                  if(t.isActivatedProperty().getValue()) {
-                    t.setCoordinate(t.getX(), t.getY() + MOVEMENT);
-                  }
-                }
-              }
-              if ((e.getCode() == KeyCode.DOWN)) {
-                for (Turtle t : activatedTurtles) {
-                  if(t.isActivatedProperty().getValue()) {
-                    t.setCoordinate(t.getX(), t.getY() - MOVEMENT);
-                  }
-                }
-              }
-              if ((e.getCode() == KeyCode.RIGHT)) {
-                for (Turtle t : activatedTurtles) {
-                  if(t.isActivatedProperty().getValue()) {
-                    t.setDegree(t.getDegree() + DEGREE_CHANGE);
-                  }
-                }
-              }
-              if ((e.getCode() == KeyCode.LEFT)) {
-                for (Turtle t : activatedTurtles) {
-                  if(t.isActivatedProperty().getValue()) {
-                    t.setDegree(t.getDegree() - DEGREE_CHANGE);
-                  }
-                }
-              }});
+    inputArea.setOnKeyPressed(e-> keyMovementHandler(e, parser) );
     inputArea.setMaxHeight(COMMAND_LINE_TEXTAREA_HEIGHT);
     inputArea.setFont(Font.font(FONT_NAME, FontWeight.NORMAL, TEXTAREA_FONTSIZE));
     inputArea.setPromptText(myResources.getString(PROMPT));
   }
+
+  private void keyMovementHandler(KeyEvent e, CommandParser parser) {
+      if ((e.getCode() == KeyCode.UP)) {
+        parser.miniParse(forwardArrow);
+      }
+      if ((e.getCode() == KeyCode.DOWN)) {
+        parser.miniParse(backwardArrow);
+      }
+      if ((e.getCode() == KeyCode.RIGHT)) {
+        parser.miniParse(rightTurnArrow);
+      }
+      if ((e.getCode() == KeyCode.LEFT)) {
+        parser.miniParse(leftTurnArrow);
+      }}
 
   private void setButtons(){
     runButton = new ViewButton(myResources.getString(Run), BUTTON_HEIGHT, BUTTON_WIDTH);
     runButton.setOnAction(e -> {
       commandLineText.set(inputArea.getText()+Empty);
       textUpdate.set(!textUpdate.getValue());
-      System.out.println("FROM VIEW: " + commandLineText);
     });
     clearButton = new ViewButton(myResources.getString(Clear), BUTTON_HEIGHT, BUTTON_WIDTH);
     clearButton.setOnAction(e -> {
