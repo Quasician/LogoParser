@@ -130,7 +130,7 @@ public class HistoryPanel implements HistoryView{
           Method method = HistoryPanel.class.getDeclaredMethod(methodName);
           method.invoke(HistoryPanel.this);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
-          throw new UserException(ERRORS_STRING);
+          throw new UserException(ex);
         }
       });
       buttonsForPanes.getChildren().add(btn);
