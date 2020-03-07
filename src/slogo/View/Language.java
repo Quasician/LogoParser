@@ -48,6 +48,6 @@ public class Language {
       }
     }
 
-    throw new RuntimeException(ERROR);
+    throw new UserException(ERROR);
   }
 }

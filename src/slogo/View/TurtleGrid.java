@@ -171,7 +171,6 @@ public class TurtleGrid {
     return coordinate;
   }
 
-  //TODO: need to make each turtle have a center x
   private void addCoordinatesListener(Turtle viewTurtle) {
     viewTurtle.coordinatesProperty().addListener(new ChangeListener() {
       @Override
@@ -185,10 +184,8 @@ public class TurtleGrid {
         newY = keepInBoundsX(newY, myCanvasHeight);
         thisView.setX(newX);
         thisView.setY(newY);
-
         double pastX = keepInBoundsX(viewTurtle.getPastX() + centerX, myCanvasWidth);
         double pastY = keepInBoundsX(-viewTurtle.getPastY() + centerY, myCanvasHeight);
-
         double oldX = pastX + turtleCenterX;
         double oldY = pastY + turtleCenterY;
         double currentX = newX + turtleCenterX;
