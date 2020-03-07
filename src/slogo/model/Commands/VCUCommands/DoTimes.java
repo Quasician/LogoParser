@@ -21,7 +21,7 @@ public class DoTimes extends VCUCommand {
         String finalValue = "";
         for (int i = 1; i <= Double.parseDouble(loopGuard[2]); i++) {
             variables.put(loopGuard[1], "" + i);
-            CommandParser miniparser = new CommandParser(turtles, variables, language);
+            CommandParser miniparser = new CommandParser(turtles, variables, language, customCommandStorage);
             System.out.println("Repeated Commands: " + getParamList().get(1));
             finalValue = miniparser.miniParse(getParamList().get(1).trim().replaceFirst("\\[", ""));
         }

@@ -2,6 +2,8 @@ package slogo.model;
 
 
 import javafx.util.Pair;
+import slogo.model.Commands.VCUCommands.CustomCommand;
+
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -13,6 +15,7 @@ public class CommandTreeConstructor {
   private Pattern commentPattern = Pattern.compile("^#.*");
   private Pattern newLinePattern = Pattern.compile("\n");
   private HashMap<Pattern, String> translations;
+  private CustomCommandStorage customCommandStorage;
 
   private static final String RESOURCES_PACKAGE =
       "resources.";
@@ -23,8 +26,9 @@ public class CommandTreeConstructor {
   private static final String ERRORS = RESOURCES_PACKAGE + "ErrorMessages";
   private ResourceBundle errors = ResourceBundle.getBundle(ERRORS);
 
-  public CommandTreeConstructor(HashMap<Pattern, String> translations) {
+  public CommandTreeConstructor(HashMap<Pattern, String> translations, CustomCommandStorage customCommandStorage) {
     this.translations = translations;
+    this.customCommandStorage = customCommandStorage;
   }
 
   private boolean match(String text, Pattern regex) {
@@ -133,7 +137,7 @@ public class CommandTreeConstructor {
       String currentElement) {
     System.out.println("CURRENT ELEMENT: " + currentElement);
     int parameterNumber = 0;
-    if (CustomCommandMap.isACustomCommand(currentElement)) {
+    if (customCommandStorage.isACustomCommand(currentElement)) {
       parameterNumber = CommandParamNumberHashMap.getCommandParamNumber(currentElement);
     } else {
       try {
