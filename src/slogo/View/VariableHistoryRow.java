@@ -10,8 +10,12 @@ import java.util.Map;
 
 public class VariableHistoryRow extends HBox{
   private Text variableText;
+  private static final String enterString ="Enter";
+  private static final int buttonHeight= 25;
+  private static final int buttonWidth= 50;
   private Text valText;
-  private ViewButton enterBtn = new ViewButton("Enter", 25, 50, 13);
+  private static final int fontSize= 13;
+  private ViewButton enterBtn = new ViewButton(enterString, buttonHeight, buttonWidth, fontSize);
 
 
   public VariableHistoryRow(Map.Entry entry, ObservableMap<String,String> variables) {
@@ -20,7 +24,6 @@ public class VariableHistoryRow extends HBox{
     valText = new Text(variables.get(entry.getKey().toString()));
     TextField textfield = new TextField();
     enterBtn.setOnAction(e->{
-      //variables.putIfAbsent(variableText.getText(), "");
       variables.put(variableText.getText(), textfield.getText());
       valText.setText(textfield.getText());
     });
