@@ -2,6 +2,7 @@ package slogo.model;
 
 
 import javafx.util.Pair;
+import slogo.model.Commands.TurtleCommands.Left;
 import slogo.model.Commands.VCUCommands.CustomCommand;
 
 import java.util.*;
@@ -11,6 +12,10 @@ public class CommandTreeConstructor {
 
   private static final GeneralParserBehavior BEHAVIOR = new GeneralParserBehavior();
   private static final String MAKE_USER_INSTRUCTION = "MakeUserInstruction";
+  private static final String RIGHT_BRACKET = "]";
+  private static final String LEFT_BRACKET = "[";
+  private static final String LEFT_BRACKET_SPACE = "[ ";
+  private static final String NEWLINE = "|n";
   private HashMap<Pattern, String> translations;
   private CustomCommandStorage customCommandStorage;
   private static final String RESOURCES_PACKAGE = BEHAVIOR.getResourcesString();
@@ -56,9 +61,7 @@ public class CommandTreeConstructor {
   public List<TreeNode> buildTrees(String commands) {
     ArrayList<String> commandElements = new ArrayList<>(
         Arrays.asList(commands.split("(\\n|\\s)+|(\\s|\\n)+")));
-    System.out.println("COMMAND LIST: " + commandElements.toString());
     List<TreeNode> answer = buildSubtree(commandElements);
-    System.out.println("SIZE OF FINAL LIST: " + answer.size());
     checkParameters(answer);
     return answer;
   }
@@ -69,9 +72,8 @@ public class CommandTreeConstructor {
     boolean isInComment = false;
 
     for (String element : commandElements) {
-      // needs to be refactored
-      if (element.equals("#")|| element.equals("|n")) {
-        isInComment = checkIfInComment(element);
+      if (match(element, BEHAVIOR.getCommentPattern()) || element.equals(NEWLINE)) {
+        isInComment = match(element, BEHAVIOR.getCommentPattern());
         continue;
       }
       if (!element.equals("") && !isInComment) {
@@ -80,16 +82,9 @@ public class CommandTreeConstructor {
         next = next.getChildren().get(0);
       }
     }
+    TreeNode node = head.getChildren().get(0);
     return head.getChildren().get(0);
   }
-
-  private boolean checkIfInComment(String element) {
-    if(element.equals("#")) {
-      return true;
-    }
-    return false;
-  }
-
 
   private TreeNode createSubTree(TreeNode buildingNode, TreeNode commandNode) {
     if (commandNode == null) {
@@ -97,14 +92,14 @@ public class CommandTreeConstructor {
     }
     String currentCommand = commandNode.getName();
     commandNode = iterateCommandNode(commandNode);
-    if (currentCommand.equals("MakeUserInstruction") || match(currentCommand, BEHAVIOR.getCommandPattern())) {
+    if (currentCommand.equals(MAKE_USER_INSTRUCTION) || match(currentCommand, BEHAVIOR.getCommandPattern())) {
       return handleCommands(buildingNode, commandNode, currentCommand);
     }
     else if (match(currentCommand, BEHAVIOR.getVariablePattern()) || match(currentCommand, BEHAVIOR.getConstantPattern())) {
       addNewTreeNodeToBuildingNode(currentCommand, buildingNode);
       return commandNode;
-    } else if (currentCommand.equals("[")) {
-      Pair<String, TreeNode> result = joinList("[ ", commandNode, 1);
+    } else if (currentCommand.equals(LEFT_BRACKET)) {
+      Pair<String, TreeNode> result = joinList(LEFT_BRACKET_SPACE, commandNode, 1);
       addNewTreeNodeToBuildingNode(result.getKey(), buildingNode);
       return result.getValue();
     }
@@ -134,7 +129,7 @@ public class CommandTreeConstructor {
             .parseInt(commandParameterNumbers.getString(currentElement));
       } catch (MissingResourceException e) {
         String errorMessage = String.format(errors.getString("WrongParameter"), currentElement);
-        //throw new CommandException(errorMessage);
+        throw new CommandException(errorMessage);
       }
     }
     return parameterNumber;
@@ -142,7 +137,6 @@ public class CommandTreeConstructor {
 
   private TreeNode handleCommands(TreeNode buildingNode, TreeNode commandNode,
       String currentElement) {
-    System.out.println("CURRENT ELEMENT: " + currentElement);
     int parameterNumber = getParameterNumber(currentElement);
     TreeNode head = new TreeNode(currentElement);
     head.setResult(currentElement);
@@ -159,18 +153,17 @@ public class CommandTreeConstructor {
   }
 
   private Pair joinList(String currentList, TreeNode commandNode, int numOpen) {
-    System.out.println("NUM OPEN: " + numOpen);
     if (commandNode == null) {
       return new Pair(currentList + " " + commandNode.getName(), null);
     }
     else if (commandNode.getChildren().size() <= 0) {
       return new Pair(currentList + " " + commandNode.getName(), null);
     }
-    else if (commandNode.getName().equals("]") && numOpen == 1 ) {
+    else if (commandNode.getName().equals(RIGHT_BRACKET) && numOpen == 1 ) {
       return new Pair(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0));
-    } else if (commandNode.getName().equals("]") && numOpen != 1) {
+    } else if (commandNode.getName().equals(RIGHT_BRACKET) && numOpen != 1) {
       return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0), numOpen - 1);
-    } else if (commandNode.getName().equals("[")) {
+    } else if (commandNode.getName().equals(LEFT_BRACKET)) {
       return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0), numOpen + 1);
     }
     return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0), numOpen);

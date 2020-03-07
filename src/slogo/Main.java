@@ -95,16 +95,6 @@ public class Main extends Application {
     commandParser.parseText(DEBUGGING_T);
   }
 
-  private void bindTurtles(Turtle model, Turtle view) {
-    view.distanceProperty().bind(model.distanceProperty());
-    view.angleProperty().bind(model.angleProperty());
-    view.isPenDownProperty().bind(model.isPenDownProperty());
-    view.isShowingProperty().bind(model.isShowingProperty());
-    view.coordinatesProperty().bind(model.coordinatesProperty());
-    view.clearScreenProperty().bind(model.clearScreenProperty());
-  }
-
-
   private void parseTextOnInput(BooleanProperty textUpdate, StringProperty parseText,
       CommandParser commandParser, Visualizer vis) {
     textUpdate.addListener(new ChangeListener() {
@@ -112,6 +102,7 @@ public class Main extends Application {
       public void changed(ObservableValue o, Object oldVal, Object newVal) {
         System.out.println(parseText.getValue());
         try {
+          System.out.println(parseText.getValue());
           String finalValue = commandParser.parseText(parseText.getValue());
           vis.makeNewBox(parseText.getValue());
           vis.makeNewTerminalBox(finalValue);
