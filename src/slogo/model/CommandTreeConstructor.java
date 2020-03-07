@@ -14,8 +14,7 @@ public class CommandTreeConstructor {
   private HashMap<Pattern, String> translations;
   private CustomCommandStorage customCommandStorage;
   private static final String RESOURCES_PACKAGE = BEHAVIOR.getResourcesString();
-  private static ResourceBundle commandParameterNumbers = ResourceBundle
-      .getBundle(RESOURCES_PACKAGE + "ParameterNumbers");
+  private static ResourceBundle commandParameterNumbers = ResourceBundle.getBundle(RESOURCES_PACKAGE + "ParameterNumbers");
   private ResourceBundle errors = BEHAVIOR.getErrorBundle();
 
   public CommandTreeConstructor(HashMap<Pattern, String> translations, CustomCommandStorage customCommandStorage) {
@@ -71,23 +70,24 @@ public class CommandTreeConstructor {
 
     for (String element : commandElements) {
       // needs to be refactored
-      if (element.equals("#")) {
-        isInComment = true;
-        continue;
-      }
-      if (element.equals("|n")) {
-        isInComment = false;
+      if (element.equals("#")|| element.equals("|n")) {
+        isInComment = checkIfInComment(element);
         continue;
       }
       if (!element.equals("") && !isInComment) {
         TreeNode node = new TreeNode(element);
         next.addChild(node);
-        System.out.println(next.getName() + " is now a parent of " + node.getName());
         next = next.getChildren().get(0);
       }
     }
-
     return head.getChildren().get(0);
+  }
+
+  private boolean checkIfInComment(String element) {
+    if(element.equals("#")) {
+      return true;
+    }
+    return false;
   }
 
 
@@ -96,32 +96,32 @@ public class CommandTreeConstructor {
       return commandNode;
     }
     String currentCommand = commandNode.getName();
-    if (commandNode.getChildren().size() == 0) {
-      commandNode = null;
-    } else {
-      commandNode = commandNode.getChildren().get(0);
-    }
-    if (currentCommand.equals("MakeUserInstruction")) {
-      System.out.println(commandNode.getChildren().get(0).getName());
-      return handleCommands(buildingNode, commandNode, currentCommand);
-    } else if (match(currentCommand, BEHAVIOR.getCommandPattern())) {
+    commandNode = iterateCommandNode(commandNode);
+    if (currentCommand.equals("MakeUserInstruction") || match(currentCommand, BEHAVIOR.getCommandPattern())) {
       return handleCommands(buildingNode, commandNode, currentCommand);
     }
-    // needs to also check for variables (use or statement
     else if (match(currentCommand, BEHAVIOR.getVariablePattern()) || match(currentCommand, BEHAVIOR.getConstantPattern())) {
-      TreeNode node = new TreeNode(currentCommand);
-      node.setResult(currentCommand);
-      buildingNode.addChild(node);
+      addNewTreeNodeToBuildingNode(currentCommand, buildingNode);
       return commandNode;
     } else if (currentCommand.equals("[")) {
       Pair<String, TreeNode> result = joinList("[ ", commandNode, 1);
-      TreeNode node = new TreeNode(result.getKey());
-      node.setResult(result.getKey());
-      buildingNode.addChild(node);
-      System.out.println(result.getKey());
+      addNewTreeNodeToBuildingNode(result.getKey(), buildingNode);
       return result.getValue();
     }
     return null;
+  }
+
+  private void addNewTreeNodeToBuildingNode(String value, TreeNode buildingNode) {
+    TreeNode node = new TreeNode(value);
+    node.setResult(value);
+    buildingNode.addChild(node);
+  }
+
+  private TreeNode iterateCommandNode(TreeNode commandNode) {
+    if (commandNode.getChildren().size() == 0) {
+      return null;
+    }
+    return commandNode.getChildren().get(0);
   }
 
   private int getParameterNumber(String currentElement) {
@@ -163,42 +163,16 @@ public class CommandTreeConstructor {
     if (commandNode == null) {
       return new Pair(currentList + " " + commandNode.getName(), null);
     }
-//        else if(commandNode.getName().equals("]"))
-//        {
-//            if(commandNode.getChildren().size()==1 && commandNode.getChildren().get(0).getName().equals("["))
-//            {
-//                return new Pair(currentList + " ] ", commandNode.getChildren().get(0));
-//            }
-//            return new Pair(currentList+" ] ", null);
-//        }
-    else if (commandNode.getName().equals("]") && numOpen == 1) {
-      if (commandNode.getChildren().size() > 0) {
-        return new Pair(currentList + " " + commandNode.getName(),
-            commandNode.getChildren().get(0));
-      } else {
-        return new Pair(currentList + " " + commandNode.getName(), null);
-      }
-    } else if (commandNode.getName().equals("]") && numOpen != 1) {
-      if (commandNode.getChildren().size() > 0) {
-        System.out.println("] -> " + numOpen);
-        return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0),
-            numOpen - 1);
-      } else {
-        return new Pair(currentList + " " + commandNode.getName(), null);
-      }
-    } else if (commandNode.getName().equals("[")) {
-      if (commandNode.getChildren().size() > 0) {
-        return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0),
-            numOpen + 1);
-      } else {
-        return new Pair(currentList + " " + commandNode.getName(), null);
-      }
-    }
-    if (commandNode.getChildren().size() > 0) {
-      return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0),
-          numOpen);
-    } else {
+    else if (commandNode.getChildren().size() <= 0) {
       return new Pair(currentList + " " + commandNode.getName(), null);
     }
+    else if (commandNode.getName().equals("]") && numOpen == 1 ) {
+      return new Pair(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0));
+    } else if (commandNode.getName().equals("]") && numOpen != 1) {
+      return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0), numOpen - 1);
+    } else if (commandNode.getName().equals("[")) {
+      return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0), numOpen + 1);
+    }
+    return joinList(currentList + " " + commandNode.getName(), commandNode.getChildren().get(0), numOpen);
   }
 }
