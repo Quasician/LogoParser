@@ -53,7 +53,7 @@ public class TurtleGrid {
   private static final String COMMA = ",";
   private int myCanvasWidth, myCanvasHeight;
   private ObservableList<Turtle> viewTurtles, activeTurtles;
-  private Configuration properties;
+  private PropertiesHolder properties;
   private ArrayList<ImageView> turtleImageViews = new ArrayList<>();
   private Pane myPane; //to change background of grid, change the background of the pane
   private Canvas myCanvas;
@@ -62,7 +62,7 @@ public class TurtleGrid {
   private Boolean isPenDown = true;
   private ArrayList<Line> linesDrawn;
   private Paint penColor;
-  private Configuration PropertiesView;
+  private PropertiesHolder PropertiesView;
   private BooleanProperty clearScreen = new SimpleBooleanProperty();
   /**
    * Constructor for the TurtleGrid class, which initializes everything
@@ -72,7 +72,7 @@ public class TurtleGrid {
    * @param canvasHeight is the height of the canvas
    */
   public TurtleGrid(int canvasWidth, int canvasHeight, ObservableList<Turtle> viewTurtles,
-      Configuration config) {
+      PropertiesHolder config) {
     PropertiesView = config;
     myCanvasWidth = canvasWidth;
     myCanvasHeight = canvasHeight;
@@ -92,11 +92,11 @@ public class TurtleGrid {
     addSizeListener();
   }
 
-  public Configuration getConfig() {
+  public PropertiesHolder getConfig() {
     return PropertiesView;
   }
 
-  public TurtleGrid(ObservableList<Turtle> turtles, Configuration config,
+  public TurtleGrid(ObservableList<Turtle> turtles, PropertiesHolder config,
       ObservableList<Turtle> activatedTurtles) {
     this(DEFAULT_CANVAS_WIDTH, DEFAULT_CANVAS_HEIGHT, turtles, config);
     activeTurtles = activatedTurtles;

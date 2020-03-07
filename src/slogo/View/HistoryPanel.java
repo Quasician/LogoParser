@@ -37,7 +37,7 @@ public class HistoryPanel implements HistoryView{
   private OutputView myOutputView;
   private UserDefinedCommands myUserDefined;
   private VariableHistory myVariableHistory;
-  private Configuration myConfig;
+  private PropertiesHolder myConfig;
   private CommandParser comParser;
   private static final int ZERO_INDEX=0;
   private static final String XML_FILES_TEXT= "XML files";
@@ -70,7 +70,7 @@ public class HistoryPanel implements HistoryView{
    * @param parser is the command parser object that is used in the program
    */
 
-  public HistoryPanel(Stage myWindow,CommandParser parser, Configuration configuration,ObservableMap<String,String> variables, ObservableList<Triplet<String, String, String>> customCommandList) {
+  public HistoryPanel(Stage myWindow, CommandParser parser, PropertiesHolder propertiesHolder, ObservableMap<String,String> variables, ObservableList<Triplet<String, String, String>> customCommandList) {
     this.myWindow = myWindow;
     this.comParser = parser;
     this.customCommandList = customCommandList;
@@ -78,7 +78,7 @@ public class HistoryPanel implements HistoryView{
     myOutputView= new OutputView();
     myUserDefined = new UserDefinedCommands(customCommandList);
     myVariableHistory = new VariableHistory(variables);
-    myConfig = configuration;
+    myConfig = propertiesHolder;
     historyVBox = new VBox();
     historyVBox.setAlignment(Pos.CENTER);
     buttonsForPanes= new HBox();
