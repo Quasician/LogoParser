@@ -46,12 +46,14 @@ Data files needed:
 
 Features implemented: 
 *  Frontend
+
     *  Different Views for viewing the custom commands, variables, commads run, properties of the program, output 
     *  Undo the commands run, ability to select or deselect a turtle, moving the turtle with arrow keys, ability to change the image of turtle and ability to change the language
     *  Changing the colors and the background color
     *  New workspace 
     *  Help button that directs to the course page 
 * Backend 
+
     *  All the commands
     *  Error checking for different exceptions 
     *  XML reading and the ability to write to a new XML file 
