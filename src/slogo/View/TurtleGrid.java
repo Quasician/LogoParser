@@ -31,10 +31,10 @@ import slogo.model.Turtle;
  * @author Michelle Tai, Sanna Symer
  */
 public class TurtleGrid {
+
   private static final String VISUAL_PACKAGE = "slogo/View/visualProperty/";
   private static final ResourceBundle GRID_PROPERTIES = ResourceBundle
       .getBundle(VISUAL_PACKAGE + "Grid");
-
   private static final int TURTLE_IMAGE_HEIGHT = Integer.parseInt(GRID_PROPERTIES.getString("TurtleHeight"));
   private static final int TURTLE_IMAGE_WIDTH = Integer.parseInt(GRID_PROPERTIES.getString("TurtleWidth"));
   private static final Color DEFAULT_PEN_COLOR = Color.web(GRID_PROPERTIES.getString("PenColor"));
@@ -43,28 +43,27 @@ public class TurtleGrid {
   private static final int DEFAULT_CANVAS_WIDTH = Integer.parseInt(GRID_PROPERTIES.getString("Width"));
   private static final int DEFAULT_CANVAS_HEIGHT = Integer.parseInt(GRID_PROPERTIES.getString("Height"));
   private static final String TURTLE_IMAGE = GRID_PROPERTIES.getString("DefaultImage");
+  private static final int PADDING_INSET = Integer.parseInt(GRID_PROPERTIES.getString("Padding"));
+
+  private static final Double MIDDLE = 2.0;
+  private static final int ZERO = 0;
   private static final int ONE = 1;
+  private static final double ACTIVE_OPACITY = 0.7;
+  public static final double INACTIVE_OPACITY = 0.2;
+  private static final String COMMA = ",";
   private int myCanvasWidth, myCanvasHeight;
   private ObservableList<Turtle> viewTurtles, activeTurtles;
   private Configuration properties;
   private ArrayList<ImageView> turtleImageViews = new ArrayList<>();
   private Pane myPane; //to change background of grid, change the background of the pane
   private Canvas myCanvas;
-  private static final Double MIDDLE = 2.0;
-  private static final int ZERO = 0;
-  private static final double OPACITY = 0.7;
-  private static final Double MIDDLE_OF_THE_SCREEN = 2.0;
-  private static final int ZERO_INDEX =0;
   private StackPane retGrid;
   private double centerX, centerY, turtleCenterX, turtleCenterY, penWidth;
   private Boolean isPenDown = true;
   private ArrayList<Line> linesDrawn;
   private Paint penColor;
-  private static final String COMMA = ",";
   private Configuration PropertiesView;
   private BooleanProperty clearScreen = new SimpleBooleanProperty();
-  private static final int PADDING_INSET = 10;
-
   /**
    * Constructor for the TurtleGrid class, which initializes everything
    *
@@ -122,10 +121,10 @@ public class TurtleGrid {
   private void setUpTurtle(Turtle turtle) {
     Image turtleImage = new Image(Main.MY_RESOURCES.getString(TURTLE_IMAGE));
     ImageView turtleImageView = new ImageView(turtleImage);
-    turtleImageView.setOpacity(OPACITY);
+    turtleImageView.setOpacity(ACTIVE_OPACITY);
     int idIndex = turtle.getId() - ONE;
-    turtleImageViews.add(turtle.getId() - ONE, turtleImageView);
-    ImageView imageView = turtleImageViews.get(turtle.getId() - ONE);
+    turtleImageViews.add(idIndex, turtleImageView);
+    ImageView imageView = turtleImageViews.get(idIndex);
     imageView.setX(centerX);
     imageView.setY(centerY);
     imageView.setFitHeight(TURTLE_IMAGE_HEIGHT);
@@ -137,24 +136,20 @@ public class TurtleGrid {
       turtle.setActivated(!turtle.isActivatedProperty().getValue());
       changeOpacity(turtle);
     });
-    myPane.getChildren().add(turtleImageViews.get(turtle.getId() - ONE));
+    myPane.getChildren().add(turtleImageViews.get(idIndex));
 
-    turtleCenterX = turtleImageViews.get(turtle.getId() - ONE).getFitWidth() / 2;
-    turtleCenterY = turtleImageViews.get(turtle.getId() - ONE).getFitHeight() / 2;
+    turtleCenterX = turtleImageViews.get(idIndex).getFitWidth() / 2;
+    turtleCenterY = turtleImageViews.get(idIndex).getFitHeight() / 2;
   }
 
   private void changeOpacity(Turtle turtle) {
     ImageView opaquePics = turtleImageViews.get(turtle.getId() - ONE);
     if (!turtle.isActivatedProperty().getValue()) {
-      opaquePics.setOpacity(0.2);
+      opaquePics.setOpacity(INACTIVE_OPACITY);
     } else {
-      opaquePics.setOpacity(OPACITY);
+      opaquePics.setOpacity(ACTIVE_OPACITY);
     }
     turtleImageViews.set(turtle.getId() - ONE, opaquePics);
-    myPane.getChildren().add(turtleImageViews.get(turtle.getId()- ONE));
-
-    turtleCenterX = turtleImageViews.get(turtle.getId()- ONE).getFitWidth() / 2;
-    turtleCenterY = turtleImageViews.get(turtle.getId()- ONE).getFitHeight() / 2;
   }
 
   private void addListeners(Turtle viewTurtle) {
