@@ -58,8 +58,9 @@ public class Main extends Application {
     Language language = new Language();
     DisplayOption displayOption = new DisplayOption();
     VariableStorage variableStorage = new VariableStorage(myMap);
+    CustomCommandStorage customCommandStorage = new CustomCommandStorage();
     this.variableStorage = variableStorage;
-    CommandParser commandParser = new CommandParser(turtleList.getModelTurtleList(), variableStorage.getModelObservableMap(), language);
+    CommandParser commandParser = new CommandParser(turtleList.getModelTurtleList(), variableStorage.getModelObservableMap(), language, customCommandStorage);
     commandParser.setDisplayOption(displayOption);
     StringProperty commandLineText = new SimpleStringProperty();
     StringProperty parseString = new SimpleStringProperty();
@@ -67,11 +68,26 @@ public class Main extends Application {
     BooleanProperty textUpdate = new SimpleBooleanProperty();
 
     Visualizer vis = new Visualizer(primaryStage, turtleList.getViewTurtleList(), turtleList.getActiveTurtleList(), variableStorage.getViewObservableMap(), commandLineText,
-        textUpdate, language, commandParser, myMap, displayOption);
+        textUpdate, language, commandParser, myMap, displayOption, customCommandStorage.getCommandTriplets());
     vis.setDisplayOption(displayOption);
 
     parseTextOnInput(textUpdate, parseString, commandParser, vis);
 
+    turtleList.makeModelTurtleActivated(1);
+    turtleList.makeModelTurtleDeactivated(2);
+    turtleList.makeModelTurtleActivated(1);
+    turtleList.makeModelTurtleActivated(2);
+    commandParser.parseText("tell [ 3 ]");
+    commandParser.parseText("fd 100");
+    //commandParser.parseText("repeat 100 [ ask [ 2 ] [ fd 50 rt 50 ] ]");
+    //commandParser.parseText("fd 50");
+//    commandParser.parseText("to c [ :f ] [ rt :f fd :f ]");
+//    commandParser.parseText("c 70 ");
+    for (Turtle turtle : turtleList.getModelTurtleList()) {
+      System.out.println(
+          "MODELTurtle " + turtle.getId() + " x: " + turtle.getX() + " y: " + turtle.getY()
+              + " Angle: " + turtle.getDegree() + " Activated: "+ turtle.isActivatedProperty().getValue());
+    }
     turtleList.makeModelTurtleActivated(activated);
     turtleList.makeModelTurtleDeactivated(deactivated);
     turtleList.makeModelTurtleActivated(activated);

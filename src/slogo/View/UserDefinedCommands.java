@@ -1,40 +1,31 @@
 package slogo.View;
 
-import java.util.Map;
-import java.util.Map.Entry;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.util.Callback;
 import slogo.Main;
-import slogo.model.CommandParser;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import slogo.model.CustomCommandMap;
+import slogo.model.CustomCommandStorage;
 
 
 public class UserDefinedCommands implements HistoryView{
     private ResourceBundle myResources = Main.myResources;
     private TableView ucdTable;
     private VBox udcVBox;
-  private ObservableList<Triplet<String, String, String>> customCommandObsList;
+    private ObservableList<Triplet<String, String, String>> customCommandObsList;
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final int SPACING = 300;
     private static final int BOX_SPACING = 300;
 
     private ArrayList<String> commandValues;
     private static final String STYLE = "-fx-background-color: rgba(0, 0,0, 0.5);";
-    public UserDefinedCommands() {
+
+    public UserDefinedCommands(ObservableList<Triplet<String, String, String>> customCommandObsList) {
       commandValues = new ArrayList<>();
       udcVBox = new VBox();
 
@@ -51,7 +42,7 @@ public class UserDefinedCommands implements HistoryView{
 //      column3.setPrefWidth(100);
       column3.setCellValueFactory(e -> e.getValue().getThirdStringProperty());
 
-      final TableView<Triplet<String, String, String>> table = new TableView<>(CustomCommandMap.getCommandTriplets());
+      final TableView<Triplet<String, String, String>> table = new TableView<>(customCommandObsList);
       table.setPrefHeight(310.0);
       table.setPrefWidth(300.0);
       table.getColumns().setAll(column1, column2, column3);

@@ -18,7 +18,7 @@ public class For extends VCUCommand {
         String finalValue = "";
         for(double i = Double.parseDouble(loopGuard[2]); i<=Double.parseDouble(loopGuard[3]);i+=Double.parseDouble(loopGuard[4])) {
             variables.put(loopGuard[1], "" + i);
-            CommandParser miniparser = new CommandParser(turtles, variables, language);
+            CommandParser miniparser = new CommandParser(turtles, variables, language, customCommandStorage);
             System.out.println("Repeated Commands: " + getParamList().get(1));
             finalValue = miniparser.miniParse(getParamList().get(1).trim().replaceFirst("\\[", ""));
         }

@@ -26,11 +26,12 @@ public class CommandParser {
   private DisplayOption displayOption;
   private static final Pattern COMMAND_PATTERN = Pattern.compile("(\\+)|(\\-)|(\\*)|(\\~)|(\\/)|(\\%)|[a-zA-Z_]+(\\?)?");
   private GeneralParserBehavior parserBehavior;
+  private CustomCommandStorage customCommandStorage;
 
   /**
    * Create an empty parser
    */
-  public CommandParser(ObservableList<Turtle> turtles, ObservableMap<String, String> variables, Language language) {
+  public CommandParser(ObservableList<Turtle> turtles, ObservableMap<String, String> variables, Language language, CustomCommandStorage customCommandStorage) {
     parserBehavior = new GeneralParserBehavior();
     this.language = language;
     mySymbols = new ArrayList<>();
@@ -39,6 +40,7 @@ public class CommandParser {
     commandFactory = new CommandFactory();
     this.turtles = turtles;
     this.variables = variables;
+    this.customCommandStorage = customCommandStorage;
   }
 
   public void setDisplayOption(DisplayOption disp) {
@@ -100,15 +102,20 @@ public class CommandParser {
 
         if (toCommand) {
           toCommand = false;
-        } else if (!CustomCommandMap.getKeySet().contains(string)) {
+        } else if (!customCommandStorage.getKeySet().contains(string)) {
           lineValues[i] = getSymbol(lineValues[i]);
-        }
 
-        System.out.println("ELEMENT:" + lineValues[i]);
+          System.out.println("ELEMENT:" + lineValues[i]);
 //        if (string.equals("to")) // TODO: have to generalize this to other languages
 //          toCommand = true;
-        if (getSymbol(string).equals("MakeUserInstruction")) // TODO: have to generalize this to other languages
-          toCommand = true;
+          //System.out.println(getSymbol(string));
+          if (getSymbol(string).equals("MakeUserInstruction")) // TODO: have to generalize this to other languages
+          {
+            System.out.println("setting to true");
+            toCommand = true;
+          }
+        }
+
       }
 
       if (lineValues[i].equals("\n")) {
@@ -130,12 +137,13 @@ public class CommandParser {
   }
 
   private String makeCommandTree(String commands) {
-    treeMaker = new CommandTreeConstructor(translations);
+    treeMaker = new CommandTreeConstructor(translations, customCommandStorage);
     ArrayList<TreeNode> head = (ArrayList) treeMaker.buildTrees(commands);
-    treeExec = new CommandTreeExecutor(commandFactory, turtles, variables, translations, language);
+    treeExec = new CommandTreeExecutor(commandFactory, turtles, variables, translations, language,  customCommandStorage);
     treeExec.setDisplayOption(displayOption);
     return treeExec.executeTrees(head);
   }
+
 }
 
 

@@ -16,6 +16,7 @@ public class Ask extends MultipleTurtleCommand{
     @Override
     public void doCommand(TreeNode commandNode) {
         String list = getParamList().get(0).replaceFirst("\\[","").replaceFirst("\\]","");
+        System.out.println("ASK COMMAND STRIPPED: " + list);
         list = list.trim();
         String[] turtlesToRun = list.split("\\s+");
         System.out.println("TURTLES TO RUN: " +Arrays.toString(turtlesToRun));
@@ -29,7 +30,7 @@ public class Ask extends MultipleTurtleCommand{
             currentTurtleStates.add(turtle.isActivatedProperty().getValue());
         }
         for(String activatedTurtle:turtlesToRun) {
-            CommandParser miniparser = new CommandParser(activatedTurtles, variables, language);
+            CommandParser miniparser = new CommandParser(activatedTurtles, variables, language, customCommandStorage);
             miniparser.setTurtles(generate1ActiveTurtleList(Integer.parseInt(activatedTurtle)));
             finalValue = miniparser.miniParse(allCommands);
         }
