@@ -18,28 +18,9 @@ public class TurtleList {
     modelTurtleList = modelList;
     viewTurtleList = viewList;
     Bindings.bindContentBidirectional(modelTurtleList,viewTurtleList);
-    //addSizeListener();
     for (Turtle turtle : modelTurtleList) {
       addActivatedPropertyListener(turtle);
     }
-  }
-
-  private void addSizeListener() {
-    modelTurtleList.addListener(new ListChangeListener<Turtle>() {
-      @Override
-      public void onChanged(Change<? extends Turtle> c) {
-        c.next();
-        List<Turtle> newTurtles = (List<Turtle>) c.getAddedSubList();
-        for (Turtle changedTurtle : newTurtles) {
-          Turtle vturtle = new Turtle();
-          bindTurtles(changedTurtle, vturtle);
-          System.out.println(
-              "MODEL: + " + changedTurtle.isActivatedProperty().getValue() + " VIEW: + " + vturtle
-                  .isActivatedProperty().getValue());
-          viewTurtleList.add(vturtle);
-        }
-      }
-    });
   }
 
   private void addActivatedPropertyListener(Turtle turtle) {
@@ -48,10 +29,6 @@ public class TurtleList {
       public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
           Boolean newValue) {
         viewTurtleList.get(turtle.getId()-1).setActivated(newValue);
-        System.out.println(
-            "New value of turtle " + turtle.getId() + " : + " + turtle.isActivatedProperty()
-                .getValue() + " VIEW: + " + viewTurtleList.get(turtle.getId()-1).isActivatedProperty()
-                .getValue());
       }
     });
   }
@@ -75,10 +52,8 @@ public class TurtleList {
     for (Turtle turtle : viewTurtleList) {
       if (turtle.isActivatedProperty().getValue()) {
         activeTurtles.add(turtle);
-        System.out.println("Turtle "+ turtle.getId()+ " is activated");
       }
     }
-    System.out.println("ACTIVE SIZE: " + activeTurtles.size());
     return activeTurtles;
   }
 
@@ -95,22 +70,21 @@ public class TurtleList {
     System.out.println(id);
       modelTurtleList.get(id-1).setActivated(activate);
    } catch (IndexOutOfBoundsException | NumberFormatException e) {
-      //TODO: fix the error message later
       throw new CommandException("Please enter an integer greater than 0 for turtle index.");
     }
   }
 
-  private void bindTurtles(Turtle model, Turtle view) {
-    view.idProperty().bindBidirectional(model.idProperty());
-    view.distanceProperty().bindBidirectional(model.distanceProperty());
-    view.angleProperty().bindBidirectional(model.angleProperty());
-    view.isPenDownProperty().bindBidirectional(model.isPenDownProperty());
-    view.isShowingProperty().bindBidirectional(model.isShowingProperty());
-    view.coordinatesProperty().bindBidirectional(model.coordinatesProperty());
-    view.clearScreenProperty().bindBidirectional(model.clearScreenProperty());
-    view.isActivatedProperty().bindBidirectional(model.isActivatedProperty());
-    view.pastCoordinatesProperty().bindBidirectional(model.pastCoordinatesProperty());
-  }
+//  private void bindTurtles(Turtle model, Turtle view) {
+//    view.idProperty().bindBidirectional(model.idProperty());
+//    view.distanceProperty().bindBidirectional(model.distanceProperty());
+//    view.angleProperty().bindBidirectional(model.angleProperty());
+//    view.isPenDownProperty().bindBidirectional(model.isPenDownProperty());
+//    view.isShowingProperty().bindBidirectional(model.isShowingProperty());
+//    view.coordinatesProperty().bindBidirectional(model.coordinatesProperty());
+//    view.clearScreenProperty().bindBidirectional(model.clearScreenProperty());
+//    view.isActivatedProperty().bindBidirectional(model.isActivatedProperty());
+//    view.pastCoordinatesProperty().bindBidirectional(model.pastCoordinatesProperty());
+//  }
 
   public int getTurtles() {
     return modelTurtleList.size();
