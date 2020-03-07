@@ -139,6 +139,7 @@ public class Toolbar {
     changedIndex.bindBidirectional(displayOption.getChangedIndex());
     List<String> colorCopy = new ArrayList<>(colorOptions);
     displayOption.createList(colorCopy);
+    displayOption.setNumImages(setTurtleImage.getItems().size());
   }
 
   private void setUpColorChoosers() {

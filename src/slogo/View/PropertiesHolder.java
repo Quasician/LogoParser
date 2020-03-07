@@ -91,7 +91,6 @@ public class PropertiesHolder {
 
         displayOption.getBgIndex().addListener(e->{
             size.setText(BACKGROUND_COLOR_TEXT+displayOption.getBgIndex());
-
         });
 
         displayOption.getPenIndex().addListener(e->{
