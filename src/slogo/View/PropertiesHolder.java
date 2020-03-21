@@ -5,10 +5,15 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import slogo.model.DisplayOption;
 import slogo.model.Turtle;
+import slogo.model.TurtleList;
+
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class PropertiesHolder {
@@ -29,6 +34,10 @@ public class PropertiesHolder {
   private static final String TURT_STATUS_TEXT = TURTLE_IMAGES.getString("TurtStatusText");
   private static final String IS_STRING = " is ";
   private static final String COMMA_STRING = ",";
+  private static final String ID_STRING="Turtle ID: ";
+  private static final String X_STRING= " X coordinate: ";
+  private static final String Y_STRING=" Y coordinate of : ";
+  private static final String SPACE=" ";
   private Label PropertyName;
   private Label number;
   private Label color;
@@ -36,11 +45,14 @@ public class PropertiesHolder {
   private Label penDown;
   private Label penColor;
   private Label turtleStatus;
-  private Label turtleCoord;
+  private VBox turtleCoord;
+  private Label turtleCooord;
   private Label imageIndex;
+  private HashMap<Integer, HBoxFactory> MapForCoord;
 
   public PropertiesHolder(ObservableList<Turtle> turtles, DisplayOption displayOption) {
     variablesTable = new ListView<>();
+    MapForCoord= new HashMap<>();
     PropertyName = new Label();
     number = new Label();
     color = new Label();
@@ -49,7 +61,8 @@ public class PropertiesHolder {
     imageIndex = new Label();
     penDown = new Label();
     turtleStatus = new Label();
-    turtleCoord = new Label();
+    turtleCoord = new VBox();
+    turtleCooord = new Label();
     addRowListener(turtles);
     sendDisplay(displayOption);
     initialDisplay(displayOption, turtles);
@@ -130,9 +143,28 @@ public class PropertiesHolder {
             .getValue());
   }
 
-  public void makeCoord(Turtle viewTurtle) {
-    turtleCoord.setText(TURT_COORD_TEXT + viewTurtle.getX() + COMMA_STRING + viewTurtle.getY());
+  public void makeCoord(ObservableList<Turtle> viewTurtles) {
+    for(Turtle i:viewTurtles){
+      if(i.isActivatedProperty().getValue()) {
+        if(MapForCoord.containsKey(i.getId())){
+            HBoxFactory updateValues= MapForCoord.get(i.getId());
+            updateValues.SetXCord(i.getId(),i.getX());
+            updateValues.SetYCord(i.getId(),i.getY());
+        }else{
+          turtleCoord.getChildren().add(makeLabel(i.getX(), i.getY(), i));
+        }
+
+      }
+    }
+    }
+
+  private HBox  makeLabel(double x, double y, Turtle i) {
+    String name= ID_STRING+i.getId();
+    HBoxFactory makeHb= new HBoxFactory(x,y,name);
+    MapForCoord.put(i.getId(),makeHb);
+    return makeHb.newBox;
   }
+
 }
 
 
