@@ -11,7 +11,22 @@ import slogo.Main;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-
+/**
+ * This is the panel that holds all the user defined commands. Each time a new command is made, a new cell is made in each
+ * column corresponding to the command name, the variables needed, and the Turtle commands that make it up.
+ *
+ * Purpose: To create a view for the user to keep track what commands he/she has made so far.
+ *
+ * Assumptions: That the command will never be redefined. If it is, the command may be saved as the redefined command, but
+ * that able will not update to reflect that.
+ *
+ * Dependencies: ObservableList of Triplets, HistoryView interface
+ *
+ * Example: You create an observable list of Triple objects, and when you add a new Triplet object, the first object within the Triplet is added
+ * to the name column, the second object in the Triplet is added to the variables column, and the third object is added to the commands column.
+ *
+ * @author Michelle Tai
+ */
 public class UserDefinedCommands implements HistoryView{
     private VBox udcVBox;
     private ObservableList<Triplet<String, String, String>> customCommandObsList;
@@ -24,7 +39,15 @@ public class UserDefinedCommands implements HistoryView{
     private static final String COMMANDS= "Commands";
     private ArrayList<String> commandValues;
 
-    public UserDefinedCommands(ObservableList<Triplet<String, String, String>> customCommandObsList) {
+  /**
+   * Constructor for the UserDefinedCommands class that sets up the TableView that will hold all the custom commands
+   * and the appropriate information.
+   * @param customCommandObsList is an observable list of triplets that the TableView uses to update the table and add
+   *        a new row when a new Triplet is added to the list
+   * Note: Combed through a lot of different stack overflow posts to figure out how to use the cell factory, which may not be
+   * written in a standard way
+   */
+  public UserDefinedCommands(ObservableList<Triplet<String, String, String>> customCommandObsList) {
       commandValues = new ArrayList<>();
       udcVBox = new VBox();
       TableColumn<Triplet<String, String, String>, String> column1 = new TableColumn<>(USER_DEFINED_TEXT);
@@ -42,7 +65,10 @@ public class UserDefinedCommands implements HistoryView{
       udcVBox.getChildren().add(table);
     }
 
-    public Node returnScene(){
+  /**
+   * @return the Node, which is the VBox names udcVBox, which holds the TableView
+   */
+  public Node returnScene(){
         return udcVBox;
     }
 

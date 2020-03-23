@@ -29,7 +29,37 @@ import slogo.model.xml.XMLException;
 import slogo.model.xml.XMLParser;
 
 /**
- * This class holds all the possible history views and their button tabs so that the user can switch between views
+ * This class holds all the possible "history views" and their button tabs so that the user can switch between views to see the
+ * variable history, the command history, the custom commands, the properties of the turtle(s), as well as buttons like Undo, Save (as XML),
+ * and Upload (an XML). This object also has a panel below the "history-viewing" part to show the return values of all commands, but mainly to show the
+ * values of Math commands and commands that don't actually involve the turtle.
+ *
+ * Purpose: To hold all the different "history" views in one section and allow the panels in this view to be changed based on tab/button clicks. Also
+ *          to hold the "terminal," which shows all the return values for each command.
+ *
+ * Assumptions: That we have written our reflection code and property files correctly so that the buttons have the correct onAction methods.
+ *              Also, that there will not be added functionalities other than what is written, unless someone wants to add in proper private methods in this
+ *              class and information in the properties files in the HistoryView folder. However, I think that the order can be changed based on the order of
+ *              the names in the HistoryButtonNames.properties files
+ *
+ * Dependencies: Stage class, PropertiesHolder object, ObservableMap<String,String> object, ObservableList<Triplet<String, String, String>> object,
+ *               StringProperty object, ActivityListeners object, Method class (for reflection)
+ *
+ * Example: Create the HistoryPanel object and then add it in a VBox to see a row of buttons at the top of the box, with the names "Command,"
+ *          "Variable," "Custom," "Properties," "Undo," "Save," and "Upload." When you click the "Command" tab/button, the panel below
+ *          the row of buttons will change to show the command history. When you click the "Variable" tab/button, the panel below the
+ *          buttons changes to show the defined variables. When you click "Custom" tab/button, the panel changes to show all the user-defined commands.
+ *          When you click "Properties," the panel changes to show the properties of each active turtle. When you click "Undo," it undoes the last
+ *          command entered.
+ *          "Save" and "Upload" are the only ones that don't visibly change the panel. When you click "Save," an XML file will be created, and it will hold
+ *          all the commands that have been run up to that point. When you click "Upload," you can choose an XML file to upload, and all the commands
+ *          within that file will be run.
+ *          Whenever a command is entered, a new row will be made in the command history view, and the return value of that command will be displayed
+ *          in the "terminal" below the "history-view" panel area.
+ *
+ * @author Michelle Tai
+ * @author Himanshu Jain
+ * @author Sanna Symer
  */
 
 public class HistoryPanel implements HistoryView{
@@ -69,8 +99,13 @@ public class HistoryPanel implements HistoryView{
   private BooleanProperty checkTranslated;
 
   /**
-   * Constructor for the HistoryPanel class
-   * @param myWindow is the stage on which the history panel will be shown
+   * Constructor for the HistoryPanel class that sets up everything for this part of the display.
+   * @param myWindow is the Stage on which the history panel will be shown
+   * @param propertiesHolder is a PropertiesHolder object that will holds the properties of the turtles
+   * @param variables is an ObservableMap object of key and value type String that will keep track of the variables
+   * @param customCommandList is an ObservableList of Triplets to keep track of when a new user-defined command is created
+   * @param str is a StringProperty object that will hold that text that is currently in the text box of the command line
+   * @param listeners is an ActivityListeners object that will initialize and keep track of all the listeners needed
    */
 
   public HistoryPanel(Stage myWindow, PropertiesHolder propertiesHolder, ObservableMap<String,String> variables, ObservableList<Triplet<String, String, String>> customCommandList, StringProperty str,ActivityListeners listeners) {
@@ -99,7 +134,7 @@ public class HistoryPanel implements HistoryView{
   }
 
   /**
-   * Makes a new row purely for command history
+   * Makes a new row purely for command history panel
    * @param newCommand is the command string that will be shown in the command history row
    */
   //TODO refactor this somehow
@@ -111,7 +146,7 @@ public class HistoryPanel implements HistoryView{
   }
 
   /**
-   * Makes a new box in terminal
+   * Makes a new row in the "terminal" that holds the return value of the command that has been run
    * @param parseText is the string that was run from the commandline
    */
   public void makeNewTerminalBox(String parseText) {
@@ -127,6 +162,11 @@ public class HistoryPanel implements HistoryView{
     return historyVBox;
   }
 
+  /**
+   * The private methods below use reflection to create the button bar and assign the onAction methods for each button.
+   * @author Sanna Symer
+   * @author Michelle Tai
+   */
   private void makeAndSetButtons(){
     for(String str : BUTTON_NAMES){
       String label = BUTTON_NAMES_RESOURCES.getString(str);
