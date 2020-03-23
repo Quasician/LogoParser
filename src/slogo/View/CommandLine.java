@@ -18,9 +18,22 @@ import slogo.Main;
 import slogo.model.Turtle;
 
 /**
- * consider: what if I wanna add more buttons?
  * This class encapsulates the command line object, which is where the user enters the commands to control the turtle.
+ *
+ * Purpose: Give the user an interactive way to enter turtle commands
+ *
+ * Assumptions: Pressing "enter" is not the same as pressing the "go" button, so multi-line commands can be run. Also,
+ * sometimes, when copying in some of the example commands that we were given (that were relatively long and had multiple
+ * parts), the parser wouldn't be able to parser to commands. Unsure if this is due to the commandline or parsing or both.
+ * An interesting assumption is that the user can only use the arrow keys to move the turtle around if the command line is in focus.
+ *
+ * Dependencies: Main (for the static resource bundle), the Turtle class, StringProperty class, ActivityListeners class, and ObservableList<Turtle>
+ *
+ * Example: Only need to declare an instance of this class, and the user can type in "fd 100," and when the user presses the "Go"
+ * button, the text within in the text area is parsed for the turtle to move forward 100.
+ *
  * @author Michelle Tai
+ * @author Himanshu Jain
  */
 public class CommandLine{
   public static ResourceBundle myResources = Main.MY_RESOURCES;
@@ -52,6 +65,9 @@ public class CommandLine{
   /**
    * Constructor for the command line group, which includes the run and clear button, as well as an area
    * where the user can type in commands to control the turtle.
+   * @param commandLineText is the text current in the textarea
+   * @param listeners is an ActivityListeners object that holds all the listeners needed
+   * @param activatedTurtles is an ObservableList of Turtles
    */
   public CommandLine(StringProperty commandLineText, ActivityListeners listeners, ObservableList<Turtle> activatedTurtles){
     this.activatedTurtles = activatedTurtles;
