@@ -5,7 +5,7 @@ import slogo.model.TreeNode;
 /**
  * @author Sanna
  *
- *
+ * And command
  */
 public class And extends BooleanCommand {
 
@@ -13,6 +13,10 @@ public class And extends BooleanCommand {
     super(name);
   }
 
+  /**
+   * Returns the and of two numbers
+   * @param commandNode
+   */
   @Override
   public void doCommand(TreeNode commandNode) {
     double test1 = Double.parseDouble(getParamList().get(0));
