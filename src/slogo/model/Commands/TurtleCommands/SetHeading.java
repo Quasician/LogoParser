@@ -4,6 +4,11 @@ import slogo.model.CommandException;
 import slogo.model.TreeNode;
 import slogo.model.Turtle;
 
+/**
+ * @author Sanna
+ *
+ * SetHeading command
+ */
 public class SetHeading extends TurtleCommand {
 
   private double degrees;
@@ -12,6 +17,10 @@ public class SetHeading extends TurtleCommand {
     super(name);
   }
 
+  /**
+   * sets the turtle to face the input degrees
+   * @param commandNode
+   */
   @Override
   public void doCommand(TreeNode commandNode) {
     degrees = Double.parseDouble(getParamList().get(0));

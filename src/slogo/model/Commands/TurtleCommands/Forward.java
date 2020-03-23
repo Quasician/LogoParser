@@ -20,6 +20,10 @@ public class Forward extends TurtleCommand {
     super(name);
   }
 
+  /**
+   * Moves the turtle forward by the input distance parameter
+   * @param commandNode
+   */
   @Override
   public void doCommand(TreeNode commandNode) {
     distance = Double.parseDouble(getParamList().get(0));
