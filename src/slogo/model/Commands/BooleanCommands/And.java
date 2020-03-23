@@ -2,6 +2,11 @@ package slogo.model.Commands.BooleanCommands;
 
 import slogo.model.TreeNode;
 
+/**
+ * @author Sanna
+ *
+ *
+ */
 public class And extends BooleanCommand {
 
   public And(String name) {

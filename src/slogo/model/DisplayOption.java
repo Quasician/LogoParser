@@ -8,6 +8,18 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * @author Sanna
+ *
+ * This class was created as a bridge between the front end and back end,
+ * particularly for the purpose of display commands. Display properties, including the pen
+ * color, background color, and turtle image, can all be changed by both buttons and commands,
+ * so they have to be linked to the front end and back end.
+ *
+ * The properties that are instance variables here are bound bidirectionally to properties in the Toolbar
+ * so that they can be modified both by this class and by buttons in the Toolbar.
+ *
+ */
 public class DisplayOption {
   private static final String COMMA = ", ";
   private static final String SPACE = " ";
@@ -20,45 +32,83 @@ public class DisplayOption {
   private StringProperty newColor = new SimpleStringProperty();
   private int numImages;
 
+  /**
+   * Default constructor does nothing
+   */
   public DisplayOption() {
   }
 
+  /**
+   * @return new color as a string
+   */
   public StringProperty getNewColor() {
     return newColor;
   }
 
+  /**
+   * @return the index that was changed
+   */
   public IntegerProperty getChangedIndex() {
     return changedIndex;
   }
 
+  /**
+   * @return the index of the selected image
+   */
   public IntegerProperty getImageIndex() {
     return imageIndex;
   }
 
+  /**
+   * @return the index of the selected pen color
+   */
   public IntegerProperty getPenIndex() {
     return penIndex;
   }
 
+  /**
+   * @return the index of the selected background color
+   */
   public IntegerProperty getBgIndex() {
     return bgIndex;
   }
 
+  /**
+   * @return the current pen width
+   */
   public DoubleProperty getPenWidthProperty() {
     return penWidth;
   }
 
+  /**
+   * Used by toolbar, initializes list of possible color options
+   * @param list
+   */
   public void createList(List list) {
     colorOptions = list;
   }
 
+  /**
+   * Get the largest index of the color options list, for checking if the user command
+   * is in bounds
+   * @return the largest index
+   */
   public int getLargestIndex() {
     return colorOptions.size() - 1;
   }
 
+  /**
+   * Set the current pen color based on the input index
+   * @param index of the pen color
+   */
   public void setCurrentChoicePen(int index) {
     penIndex.set(index);
   }
 
+  /**
+   * Set the current turtle image based on the input index
+   * @param index
+   */
   public void setImageIndex(int index) {
     imageIndex.set(index);
   }
