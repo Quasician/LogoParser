@@ -35,13 +35,16 @@ public class XMLException extends RuntimeException {
     showMessage(Alert.AlertType.ERROR, cause.getMessage());
   }
 
+  /**
+   * Create an exception based on a message only
+   */
   public XMLException(String error) {
     showMessage(Alert.AlertType.ERROR, error);
   }
 
-  private void showMessage (Alert.AlertType type, String message) {
+  private void showMessage(Alert.AlertType type, String message) {
     new Alert(type, message).showAndWait();
   }
-  }
+}
 
 
