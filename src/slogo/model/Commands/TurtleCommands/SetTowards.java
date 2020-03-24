@@ -4,8 +4,10 @@ import slogo.model.TreeNode;
 import slogo.model.Turtle;
 
 /**
+ * @author Sanna
+ *
+ * SetTowards command
  * Assumption: turtle will always move clockwise to the new angle
- * unfinished
  */
 public class SetTowards extends TurtleCommand {
   private double x;
@@ -15,6 +17,10 @@ public class SetTowards extends TurtleCommand {
     super(name);
   }
 
+  /**
+   * Set the heading of the turtle to face the input point
+   * @param commandNode
+   */
   @Override
   public void doCommand(TreeNode commandNode) {
     x = Double.parseDouble(getParamList().get(0));

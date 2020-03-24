@@ -14,6 +14,12 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * @author Sanna
+ *
+ * This class was created using code by Saurav Sanjay from my simulation team as a reference.
+ * This creates and saves an XML file with the current command history.
+ */
 public class XMLCreator {
   protected static final String COMMAND = "Command";
   protected static final String COMMANDS = "Commands";
@@ -41,7 +47,7 @@ public class XMLCreator {
   }
 
   /**
-   * Creates an XML file that saves current state of simulation
+   * Creates an XML file that saves current command history
    */
   public void createFile(String simTitle) {
     setUpInitialFileParameters(simTitle);

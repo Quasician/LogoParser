@@ -3,6 +3,11 @@ package slogo.model.Commands.DisplayCommands;
 import slogo.model.CommandException;
 import slogo.model.TreeNode;
 
+/**
+ * @author Sanna
+ *
+ * SetPalette command
+ */
 public class SetPalette extends DisplayCommand {
 
   private static final int RGB_SIZE = 3;
@@ -13,6 +18,12 @@ public class SetPalette extends DisplayCommand {
     super(name);
   }
 
+  /**
+   * Sets the color of the palette at the input index
+   * If the index is negative, throws exception
+   * If the index is greater than the current largest index, adds a new color to the end
+   * @param commandNode
+   */
   @Override
   public void doCommand(TreeNode commandNode) {
     int index = Integer.parseInt(getParamList().get(0));

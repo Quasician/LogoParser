@@ -3,6 +3,11 @@ package slogo.model.Commands.TurtleCommands;
 import slogo.model.TreeNode;
 import slogo.model.Turtle;
 
+/**
+ * @author Sanna
+ *
+ * PenUp command
+ */
 public class PenUp extends TurtleCommand {
 
   private static final String RETURN = "0";
@@ -11,6 +16,10 @@ public class PenUp extends TurtleCommand {
     super(name);
   }
 
+  /**
+   * puts the pen up
+   * @param commandNode
+   */
   @Override
   public void doCommand(TreeNode commandNode) {
     changePen(false);

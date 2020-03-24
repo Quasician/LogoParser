@@ -4,16 +4,28 @@ import javafx.animation.AnimationTimer;
 import slogo.model.Commands.Command;
 import slogo.model.Turtle;
 
+/**
+ * @author Sanna
+ *
+ * This abstract class has all general behavior that is applicable for
+ * multiple turtle commands, including relevant calculations
+ * and methods that control turtle movement. This makes the individual command
+ * classes very clean and simple, and eliminates duplication across commands.
+ */
 public abstract class TurtleCommand extends Command {
 
   private static final double FACING_RIGHT = 90;
   private static final double FACING_UP = 360;
   private static final double FACING_LEFT = 270;
   private static final double FACING_DOWN = 180;
-  public static final int RIGHT = 1;
+  private static final int RIGHT = 1;
   protected int forward = 1;
   protected int backward = -1;
 
+  /**
+   * Constructor
+   * @param name
+   */
   public TurtleCommand(String name) {
     super(name);
   }

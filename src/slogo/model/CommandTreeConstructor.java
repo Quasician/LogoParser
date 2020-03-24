@@ -47,7 +47,7 @@ public class CommandTreeConstructor {
   //Throws error if there are extra doubles in commands (like fd 50 50).
   private void checkParameters(List<TreeNode> nodes) {
     for (TreeNode node : nodes) {
-      if (node.getChildren().size() == 0) {
+      if (node.getChildren().size() == 0 && nodes.size() != 1) {
         try {
           double value = Double.parseDouble(node.getResult());
           throw new CommandException(errors.getString("WrongParameterNumber"));
